@@ -1949,3 +1949,26 @@
 2026-03-03 02:33:49 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
 2026-03-03 02:33:49 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
 2026-03-03 02:33:49 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
+2026-03-03 02:34:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-03-03 02:34:40 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-03-03 02:34:40 - AgentServer - INFO - Lazy initializing tier1 agent...
+2026-03-03 02:34:47 - AgentServer - INFO - tier1 agent initialized.
+2026-03-03 02:35:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-03-03 02:35:10 - AgentServer - INFO - Lazy initializing tier2 agent...
+2026-03-03 02:35:12 - AgentServer - INFO - tier2 agent initialized.
+2026-03-03 02:35:52 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-03-03 02:35:52 - AgentServer - INFO - Lazy initializing tier3 agent...
+2026-03-03 02:35:53 - AgentServer - INFO - tier3 agent initialized.
+2026-03-03 02:36:11 - AgentServer - INFO - Lazy initializing remediation agent...
+2026-03-03 02:36:11 - AgentServer - INFO - remediation agent initialized.
+2026-03-03 02:36:11 - AgentServer - INFO - Lazy initializing reporter agent...
+2026-03-03 02:36:11 - AgentServer - INFO - reporter agent initialized.
+2026-03-03 02:36:11 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-03-03 02:36:11 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260303_023611_296384.md
+2026-03-03 02:36:11 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Report generated at: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260303_023611_296384.md
+2026-03-03 02:46:57 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052 (Immediate bind enabled)
+2026-03-03 02:46:57 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
+2026-03-03 02:46:57 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
+2026-03-03 02:46:57 - AgentServer - INFO - Starting uvicorn server for warroom on port 6054 (Immediate bind enabled)
+2026-03-03 02:46:58 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
+2026-03-03 02:46:58 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)

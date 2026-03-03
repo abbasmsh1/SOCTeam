@@ -1,5 +1,0 @@
-WARNING: No libpcap provider available ! pcap won't be used
-INFO:     Started server process [35228]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:6050 (Press CTRL+C to quit)

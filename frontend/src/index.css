@@ -1,20 +1,96 @@
-@import "tailwindcss";
-
-@theme {
-  --color-background: #0a0a0c;
-  --color-card: #121216;
-  --color-primary: #3b82f6;
-  --color-malicious: #ef4444;
-  --color-benign: #10b981;
-  --color-warning: #f59e0b;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 0 0% 2%;
+    --foreground: 0 0% 98%;
+    --primary: 24 95% 53%; /* Signal Orange */
+    --accent-green: 142 70% 45%;
+    --accent-red: 0 84% 60%;
+    --border: 0 0% 15%;
+    --malicious: 0 84% 60%;
+    --benign: 142 70% 45%;
+    --warning: 45 93% 47%;
+  }
+
   body {
-    @apply bg-background text-slate-300 antialiased;
+    @apply bg-black text-white antialiased selection:bg-primary/30;
+    margin: 0;
+    background-image:
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(38, 38, 38, 0.5) 0%,
+        transparent 100%
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-size:
+      cover,
+      150px 150px;
+    background-repeat: no-repeat, repeat;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+
+  /* Sharp Geometry Reset */
+  * {
+    border-radius: 0 !important;
   }
 }
 
-.glass {
-  @apply bg-card/60 backdrop-blur-md border border-white/5;
+@layer components {
+  .hud-card {
+    @apply relative border border-white/10 bg-black/40 backdrop-blur-sm p-6 overflow-hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hud-card:hover {
+    @apply border-white/30 bg-black/60;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Mission Control Glass Restored */
+  .glass {
+    @apply border border-white/10 bg-black/40 backdrop-blur-md;
+  }
+
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+  .text-benign {
+    color: hsl(var(--accent-green));
+  }
+  .text-malicious {
+    color: hsl(var(--accent-red));
+  }
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .bg-benign {
+    background-color: hsl(var(--accent-green));
+  }
+  .bg-malicious {
+    background-color: hsl(var(--accent-red));
+  }
+  .bg-warning {
+    background-color: hsl(var(--warning));
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

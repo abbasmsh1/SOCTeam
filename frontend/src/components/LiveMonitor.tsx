@@ -1,91 +1,82 @@
-import { useState, useEffect } from 'react';
-import { Activity, AlertCircle, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Terminal, HardDrive, Wifi, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { LiveFlow } from '../types';
 import { idsApi } from '../utils/api';
 
+interface Flow {
+  id: string;
+  SourceIP: string;
+  DestinationIP: string;
+  Protocol: string;
+  Attack: string;
+  timestamp: string;
+  severity?: string;
+}
+
 export default function LiveMonitor() {
-  const [flows, setFlows] = useState<LiveFlow[]>([]);
+  const [flows, setFlows] = useState<Flow[]>([]);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchFlows = async () => {
       try {
-        const response = await idsApi.getEvents();
-        setFlows(response.data);
+        const res = await idsApi.getFlows();
+        setFlows(res.data.slice(0, 8)); // Top 8 flows
       } catch (error) {
-        console.error('Failed to fetch events:', error);
+        console.error("Failed to fetch flows:", error);
       }
     };
-
-    fetchEvents();
-    const interval = setInterval(fetchEvents, 3000);
+    fetchFlows();
+    const interval = setInterval(fetchFlows, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="glass rounded-2xl overflow-hidden mt-6">
-      <div className="p-6 border-b border-white/5 flex items-center justify-between">
-        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Activity className="text-primary w-5 h-5" />
-          Live Traffic Monitor
+    <div className="hud-card border-white/5 relative bg-black/60">
+      <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+        <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
+            <Activity className="text-primary animate-pulse" size={14} />
+            Live Ingress Telemetry
         </h3>
-        <div className="flex gap-2">
-          <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full">LIVE PREVIEW</span>
+        <div className="flex gap-4">
+             <div className="flex items-center gap-2 opacity-50">
+                <Wifi size={10} className="text-benign" />
+                <span className="text-[8px] font-mono tracking-tighter uppercase">Link 01: UP</span>
+             </div>
+             <div className="flex items-center gap-2 opacity-50 text-slate-500">
+                <HardDrive size={10} />
+                <span className="text-[8px] font-mono tracking-tighter uppercase">Buffer: 4.2%</span>
+             </div>
         </div>
       </div>
+
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left font-mono text-[10px]">
           <thead>
-            <tr className="bg-white/5">
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase">Timestamp</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase">Source</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase">Destination</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase">Attack Type</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase">Confidence</th>
-              <th className="p-4 text-xs font-bold text-slate-500 uppercase text-center">Status</th>
+            <tr className="text-slate-600 border-b border-white/5 uppercase tracking-tighter">
+              <th className="pb-3 px-2">SOURCE_ADDR</th>
+              <th className="pb-3 px-2">DEST_ADDR</th>
+              <th className="pb-3 px-2">PROTO</th>
+              <th className="pb-3 px-2 text-right">VECTOR_MATCH</th>
             </tr>
           </thead>
           <tbody>
-            <AnimatePresence mode='popLayout'>
-              {flows.map((flow, i) => (
-                <motion.tr 
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="border-b border-white/5 hover:bg-white/5 transition-colors group"
+            <AnimatePresence initial={false}>
+              {flows.map((flow) => (
+                <motion.tr
+                  key={flow.id}
+                  initial={{ opacity: 0, backgroundColor: 'rgba(255,255,255,0.05)' }}
+                  animate={{ opacity: 1, backgroundColor: 'rgba(255,255,255,0)' }}
+                  className="group hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                 >
-                  <td className="p-4 text-xs text-slate-400 font-mono">
-                    {new Date(flow.timestamp).toLocaleTimeString()}
-                  </td>
-                  <td className="p-4">
-                    <div className="text-xs font-medium text-white">{flow.SourceIP}</div>
-                    <div className="text-[10px] text-slate-500">Port: {flow.SourcePort}</div>
-                  </td>
-                  <td className="p-4">
-                    <div className="text-xs font-medium text-white">{flow.DestinationIP}</div>
-                    <div className="text-[10px] text-slate-500">Port: {flow.DestinationPort}</div>
-                  </td>
-                  <td className="p-4">
-                    <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${flow.Attack === 'BENIGN' ? 'bg-benign/10 text-benign' : 'bg-malicious/10 text-malicious'}`}>
-                      {flow.Attack}
+                  <td className="py-3 px-2 text-slate-300 group-hover:text-white">{flow.SourceIP}</td>
+                  <td className="py-3 px-2 text-slate-500">{flow.DestinationIP}</td>
+                  <td className="py-3 px-2 font-bold text-slate-400 opacity-50">{flow.Protocol}</td>
+                  <td className="py-3 px-2 text-right">
+                    <span className={`px-1 font-bold ${
+                      flow.Attack === 'Benign' ? 'text-benign/40' : 'text-malicious bg-malicious/10'
+                    }`}>
+                      {flow.Attack.toUpperCase()}
                     </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="w-16 bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full ${flow.confidence > 0.9 ? (flow.Attack === 'BENIGN' ? 'bg-benign' : 'bg-malicious') : 'bg-warning'}`} 
-                        style={{ width: `${flow.confidence * 100}%` }} 
-                      />
-                    </div>
-                    <div className="text-[10px] text-slate-500 mt-1">{(flow.confidence * 100).toFixed(1)}%</div>
-                  </td>
-                  <td className="p-4 text-center">
-                    {flow.Attack === 'BENIGN' ? (
-                      <CheckCircle className="w-4 h-4 text-benign mx-auto" />
-                    ) : (
-                      <AlertCircle className="w-4 h-4 text-malicious mx-auto animate-pulse" />
-                    )}
                   </td>
                 </motion.tr>
               ))}
@@ -93,6 +84,12 @@ export default function LiveMonitor() {
           </tbody>
         </table>
       </div>
+
+      {flows.length === 0 && (
+        <div className="py-20 text-center opacity-10 font-mono text-[9px] uppercase tracking-[0.2em] animate-pulse">
+            Establishing Link to Sensor Array...
+        </div>
+      )}
     </div>
   );
 }
