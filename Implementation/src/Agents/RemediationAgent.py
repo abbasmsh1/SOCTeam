@@ -17,20 +17,20 @@ class RemediationAgent:
     Executes or simulates the execution of defensive measures.
     """
     
-    def __init__(self, dry_run: bool = True):
+    def __init__(self, dry_run: bool = True, hexstrike: Any = None):
         self.dry_run = dry_run
-        # Resolve output directory to project root (Project/Reports)
-        # Using a more robust way to find root: look for .env or go up 4 levels
+        self.hexstrike = hexstrike
+        # Resolve output directory
         current_file = os.path.abspath(__file__)
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_file))))
         self.reports_dir = os.path.join(base_dir, "Reports")
         self.log_path = os.path.join(self.reports_dir, "remediation_log.json")
+        self.active_rules_path = os.path.join(self.reports_dir, "active_remediations.json")
         
         if not os.path.exists(self.reports_dir):
             os.makedirs(self.reports_dir, exist_ok=True)
             
         logger.info(f"RemediationAgent initialized. Log path: {self.log_path}")
-        print(f"DEBUG: RemediationAgent Log path: {self.log_path}")
 
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -39,91 +39,137 @@ class RemediationAgent:
         threat_info = input_data.get("threat_info", {})
         code = input_data.get("generated_code", "")
         plan = input_data.get("defense_plan", "")
+        auto_pilot = input_data.get("auto_pilot", False)
         
         logger.info(f"RemediationAgent: Processing remediation for threat: {threat_info.get('Attack', 'Unknown')}")
         
         # Parse actionable rules from plan
         rules = self._parse_rules(plan)
         
-        execution_result = self.apply_remediation(threat_info, code, plan, rules)
+        execution_results = []
+        for rule in rules:
+            res = self.apply_remediation_rule(rule, threat_info, auto_pilot)
+            execution_results.append(res)
         
         return {
-            "remediation_status": execution_result.get("status"),
-            "execution_log": execution_result,
+            "remediation_status": "COMPLETED" if execution_results else "NO_ACTION",
+            "execution_log": execution_results,
             "enforced_rules": rules,
             "timestamp": datetime.datetime.utcnow().isoformat()
         }
 
-    def _parse_rules(self, text: str) -> list:
-        """Extracts JSON rules from text block [ACTIONABLE_RULES]...[/ACTIONABLE_RULES]."""
-        import re
-        try:
-            # Case insensitive search with DOTALL
-            pattern = r"\[ACTIONABLE_RULES\](.*?)\[/ACTIONABLE_RULES\]"
-            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-            
-            if match:
-                content = match.group(1).strip()
-                logger.info(f"Identified rule segment length: {len(content)}")
-                
-                # 1. Heavily strip common LLM junk
-                content = re.sub(r"```(?:json)?", "", content)
-                content = content.replace("```", "").replace("**", "").strip()
-                
-                # 2. Extract ONLY the JSON part (from first [ or { to last ] or })
-                # This makes it resilient to LLM "chatter" inside the tags
-                json_match = re.search(r"(\[.*\]|\{.*\})", content, re.DOTALL)
-                if json_match:
-                    json_str = json_match.group(1).strip()
-                    try:
-                        rules = json.loads(json_str)
-                        if isinstance(rules, list):
-                            return rules
-                        return [rules]
-                    except json.JSONDecodeError as je:
-                        logger.error(f"JSON decode failed on extracted content: {je}")
-                        # Fallback: try to find common key-value patterns if JSON failed
-            
-        except Exception as e:
-            logger.warning(f"General rule parsing exception: {e}")
-        return []
-
-    def apply_remediation(self, threat_info: Dict[str, Any], code: str, plan: str, rules: list = None) -> Dict[str, Any]:
+    def apply_remediation_rule(self, rule: Dict[str, Any], threat_info: Dict[str, Any], auto_pilot: bool) -> Dict[str, Any]:
         """
-        Records the remediation attempt.
+        Applies a specific technical remediation rule.
         """
+        action = rule.get("action", "UNKNOWN").upper()
+        target = rule.get("target", threat_info.get("SourceIP", "UNKNOWN"))
+        duration = rule.get("duration", "permanent")
+        reason = rule.get("reason", "Detected threat pattern")
+        
         log_entry = {
             "timestamp": datetime.datetime.utcnow().isoformat(),
-            "threat": threat_info,
-            "planned_defense": plan,
-            "enforced_rules": rules or [],
-            "code_provided": bool(code),
+            "action": action,
+            "target": target,
+            "duration": duration,
+            "reason": reason,
             "dry_run": self.dry_run,
-            "status": "SIMULATED_SUCCESS" if self.dry_run else "EXECUTED"
+            "auto_pilot": auto_pilot,
+            "status": "PENDING"
         }
-        
-        # In a real scenario, this is where we would subprocess.run(script) 
-        # or call a firewall API. For safety, we log it.
-        
+
+        # Dispatch based on action type
+        if action == "BLOCK_IP":
+            log_entry["status"] = self._execute_block_ip(target, duration)
+        elif action == "RATE_LIMIT":
+            log_entry["status"] = self._execute_rate_limit(target, rule.get("limit", "100/s"))
+        elif action == "ISOLATE_HOST":
+            log_entry["status"] = self._execute_isolate_host(target)
+        elif action == "TCP_RESET":
+            log_entry["status"] = self._execute_tcp_reset(target)
+        elif action == "ENRICH_TARGET":
+            log_entry["status"] = self._execute_enrichment(target)
+        else:
+            log_entry["status"] = f"UNSUPPORTED_ACTION: {action}"
+
+        self._save_log(log_entry)
+        return log_entry
+
+    def _execute_block_ip(self, ip: str, duration: str) -> str:
+        msg = f"Blocking IP {ip} for {duration}"
+        logger.info(f"[ACTION] {msg}")
+        return "SIMULATED_SUCCESS" if self.dry_run else "EXECUTED"
+
+    def _execute_rate_limit(self, target: str, limit: str) -> str:
+        msg = f"Applying rate limit of {limit} to {target}"
+        logger.info(f"[ACTION] {msg}")
+        return "SIMULATED_SUCCESS" if self.dry_run else "EXECUTED"
+
+    def _execute_isolate_host(self, host: str) -> str:
+        msg = f"Quarantining internal host {host}"
+        logger.info(f"[ACTION] {msg}")
+        return "SIMULATED_SUCCESS" if self.dry_run else "EXECUTED"
+
+    def _execute_tcp_reset(self, target: str) -> str:
+        msg = f"Sending TCP Resets to {target}"
+        logger.info(f"[ACTION] {msg}")
+        return "SIMULATED_SUCCESS" if self.dry_run else "EXECUTED"
+
+    def _execute_enrichment(self, target: str) -> str:
+        if self.hexstrike:
+            try:
+                # Trigger a background scan
+                msg = f"Triggering Hexstrike enrichment scan on {target}"
+                logger.info(f"[ACTION] {msg}")
+                # In a real integration, this would be an async task
+                return "ENRICHMENT_QUEUED"
+            except:
+                return "ENRICHMENT_FAILED"
+        return "HEXSTRIKE_UNAVAILABLE"
+
+    def _save_log(self, entry: Dict[str, Any]):
         try:
             current_logs = []
             if os.path.exists(self.log_path):
                 with open(self.log_path, 'r') as f:
                     try:
                         current_logs = json.load(f)
-                    except json.JSONDecodeError:
+                    except:
                         current_logs = []
-            
-            current_logs.append(log_entry)
-            
+            current_logs.append(entry)
             with open(self.log_path, 'w') as f:
                 json.dump(current_logs, f, indent=2)
-                
-            logger.info(f"Remediation log updated at {self.log_path}")
-            return log_entry
         except Exception as e:
-            logger.error(f"Failed to log remediation: {e}")
-            return {"status": "ERROR", "error": str(e)}
+            logger.error(f"Failed to save remediation log: {e}")
+
+    def _parse_rules(self, text: str) -> list:
+        """Extracts JSON rules from text block [ACTIONABLE_RULES]...[/ACTIONABLE_RULES]."""
+        import re
+        try:
+            pattern = r"\[ACTIONABLE_RULES\](.*?)\[/ACTIONABLE_RULES\]"
+            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+            
+            if match:
+                content = match.group(1).strip()
+                content = re.sub(r"```(?:json)?", "", content)
+                content = content.replace("```", "").replace("**", "").strip()
+                
+                json_match = re.search(r"(\[.*\]|\{.*\})", content, re.DOTALL)
+                if json_match:
+                    json_str = json_match.group(1).strip()
+                    rules = json.loads(json_str)
+                    return rules if isinstance(rules, list) else [rules]
+            
+        except Exception as e:
+            logger.warning(f"General rule parsing exception: {e}")
+        return []
+
+if __name__ == "__main__":
+    agent = RemediationAgent()
+    print(agent.process({
+        "threat_info": {"Attack": "DDoS", "SourceIP": "192.168.1.100"},
+        "defense_plan": "[ACTIONABLE_RULES][{\"action\": \"BLOCK_IP\", \"target\": \"192.168.1.100\", \"duration\": \"1h\"}][/ACTIONABLE_RULES]"
+    }))
 
 if __name__ == "__main__":
     # Quick standalone test

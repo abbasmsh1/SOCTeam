@@ -209,7 +209,7 @@ Provide a remediation strategy and end your response with a JSON block containin
             "incident_classification": metadata.get("incident_classification", "Suspicious"),
             "recommended_actions": metadata.get("recommended_actions", "N/A"),
             "escalate": "Yes" if should_escalate else "No",
-            "confidence": metadata.get("confidence", "N/A"),
+            "confidence": float(metadata.get("confidence", 0.0)),
             "full_report": llm_response
         }
 

@@ -9,104 +9,10 @@ Error: Cannot apply unknown utility class `bg-black`. Are you using CSS modules 
     at async cn (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:631)
     at async Xr (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\node\dist\index.js:10:3417)
     at async I (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:3977)
-[2m2:44:24 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] tailwindcss: E:/IMT/2nd Sem/Project/frontend/src/index.css:1:1: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive[39m
+[2m2:47:06 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: [postcss] tailwindcss: E:/IMT/2nd Sem/Project/frontend/src/index.css:1:1: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
   Plugin: [35mvite:css[39m
   File: [36mE:/IMT/2nd Sem/Project/frontend/src/index.css[39m:1:0
 [33m  1  |  @tailwind base;
      |  ^
   2  |  @tailwind components;
   3  |  @tailwind utilities;[39m
-      at Input.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\input.js:135:16)
-      at Root.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\node.js:146:32)
-      at Object.Once (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)
-      at async LazyResult.runAsync (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\lazy-result.js:293:11)
-      at async runPostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23873:19)
-      at async compilePostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23857:6)
-      at async compileCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23787:26)
-      at async TransformPluginContext.handler (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23312:54)
-      at async EnvironmentPluginContainer.transform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:30468:14)
-      at async loadAndTransform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:21586:26)
-Error: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
-    at onInvalidCandidate (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:1314)
-    at Te (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:16:36652)
-    at E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:355
-    at Rr (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1718)
-    at _ (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1377)
-    at $e (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:172)
-    at un (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:294)
-    at async cn (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:631)
-    at async Xr (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\node\dist\index.js:10:3417)
-    at async I (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:3977)
-[2m2:44:25 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] tailwindcss: E:/IMT/2nd Sem/Project/frontend/src/index.css:1:1: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive[39m
-  Plugin: [35mvite:css[39m
-  File: [36mE:/IMT/2nd Sem/Project/frontend/src/index.css[39m:1:0
-[33m  1  |  @tailwind base;
-     |  ^
-  2  |  @tailwind components;
-  3  |  @tailwind utilities;[39m
-      at Input.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\input.js:135:16)
-      at Root.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\node.js:146:32)
-      at Object.Once (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)
-      at async LazyResult.runAsync (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\lazy-result.js:293:11)
-      at async runPostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23873:19)
-      at async compilePostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23857:6)
-      at async compileCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23787:26)
-      at async TransformPluginContext.handler (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23312:54)
-      at async EnvironmentPluginContainer.transform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:30468:14)
-      at async loadAndTransform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:21586:26)
-Error: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
-    at onInvalidCandidate (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:1314)
-    at Te (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:16:36652)
-    at E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:355
-    at Rr (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1718)
-    at _ (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1377)
-    at $e (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:172)
-    at un (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:294)
-    at async cn (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:631)
-    at async Xr (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\node\dist\index.js:10:3417)
-    at async I (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:3977)
-[2m2:44:44 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] tailwindcss: E:/IMT/2nd Sem/Project/frontend/src/index.css:1:1: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive[39m
-  Plugin: [35mvite:css[39m
-  File: [36mE:/IMT/2nd Sem/Project/frontend/src/index.css[39m:1:0
-[33m  1  |  @tailwind base;
-     |  ^
-  2  |  @tailwind components;
-  3  |  @tailwind utilities;[39m
-      at Input.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\input.js:135:16)
-      at Root.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\node.js:146:32)
-      at Object.Once (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)
-      at async LazyResult.runAsync (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\lazy-result.js:293:11)
-      at async runPostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23873:19)
-      at async compilePostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23857:6)
-      at async compileCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23787:26)
-      at async TransformPluginContext.handler (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23312:54)
-      at async EnvironmentPluginContainer.transform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:30468:14)
-      at async loadAndTransform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:21586:26)
-Error: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
-    at onInvalidCandidate (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:1314)
-    at Te (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:16:36652)
-    at E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:355
-    at Rr (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1718)
-    at _ (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:3:1377)
-    at $e (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:21:172)
-    at un (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:294)
-    at async cn (E:\IMT\2nd Sem\Project\frontend\node_modules\tailwindcss\dist\lib.js:38:631)
-    at async Xr (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\node\dist\index.js:10:3417)
-    at async I (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:3977)
-[2m2:44:45 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] tailwindcss: E:/IMT/2nd Sem/Project/frontend/src/index.css:1:1: Cannot apply unknown utility class `bg-black`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive[39m
-  Plugin: [35mvite:css[39m
-  File: [36mE:/IMT/2nd Sem/Project/frontend/src/index.css[39m:1:0
-[33m  1  |  @tailwind base;
-     |  ^
-  2  |  @tailwind components;
-  3  |  @tailwind utilities;[39m
-      at Input.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\input.js:135:16)
-      at Root.error (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\node.js:146:32)
-      at Object.Once (E:\IMT\2nd Sem\Project\frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)
-      at async LazyResult.runAsync (E:\IMT\2nd Sem\Project\frontend\node_modules\postcss\lib\lazy-result.js:293:11)
-      at async runPostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23873:19)
-      at async compilePostCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23857:6)
-      at async compileCSS (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23787:26)
-      at async TransformPluginContext.handler (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:23312:54)
-      at async EnvironmentPluginContainer.transform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:30468:14)
-      at async loadAndTransform (file:///E:/IMT/2nd%20Sem/Project/frontend/node_modules/vite/dist/node/chunks/node.js:21586:26)

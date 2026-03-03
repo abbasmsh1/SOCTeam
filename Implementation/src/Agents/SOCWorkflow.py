@@ -239,10 +239,17 @@ class SOCWorkflow:
         generated_code = blue_plan.get("generated_defensive_code", {}).get("final_code", "")
         defense_plan = blue_plan.get("defense_plan", tier3_result.get("response_plan", ""))
         
+        # Determine auto-pilot based on confidence
+        # We look for IDS or Analyst confidence > 0.90
+        t1_conf = float(tier1_result.get("ids_prediction", {}).get("confidence", 0.0) or 0.0)
+        t2_conf = float(tier2_result.get("confidence", 0.0) or 0.0)
+        max_confidence = max(t1_conf, t2_conf)
+        
         input_data = {
             "threat_info": alert_data,
             "generated_code": generated_code,
-            "defense_plan": defense_plan
+            "defense_plan": defense_plan,
+            "auto_pilot": max_confidence >= 0.90
         }
         
         remediation_result = self.remediation_executor.process(input_data)
