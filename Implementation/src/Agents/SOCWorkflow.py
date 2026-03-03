@@ -15,7 +15,7 @@ except ImportError:
 from Implementation.src.Agents.LegacyCompat import Tier1Analyst, Tier2Analyst, Tier3Analyst
 from Implementation.src.Agents.WarRoomWorkflow import WarRoomWorkflow
 
-from Implementation.src.Agents.MemoryManager import MemoryManager
+from Implementation.src.Agents.VectorMemoryManager import VectorMemoryManager
 from Implementation.src.Agents.ReportGeneratorAgent import ReportGeneratorAgent
 from Implementation.src.Agents.RemoteAgentClient import RemoteAgentClient
 from Implementation.src.Agents.RemediationAgent import RemediationAgent
@@ -61,7 +61,7 @@ class SOCWorkflow:
         self.tier3_analyst = RemoteAgentClient(agent_urls["tier3"]) if "tier3" in agent_urls else Tier3Analyst(api_key=api_key)
         self.war_room = RemoteAgentClient(agent_urls["warroom"]) if "warroom" in agent_urls else WarRoomWorkflow(api_key=api_key)
         self.memory = MemorySaver() if api_key else None
-        self.kb_memory = MemoryManager() # Initialize long-term knowledge base memory
+        self.kb_memory = VectorMemoryManager() # Initialize persistent Vector DB memory
         self.reporter = RemoteAgentClient(agent_urls["reporter"]) if "reporter" in agent_urls else ReportGeneratorAgent()
         self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent()
         
@@ -171,12 +171,15 @@ class SOCWorkflow:
         tier2_result = self.tier2_analyst.process(input_data)
         
         # Determine if we should escalate to Tier 3
-        # Escalate if Tier 2 confirms incident and severity is High/Critical
+        # Robust check: look for "Yes" flag or "Confirmed" in classification
         escalate_to_tier3 = False
-        if tier2_result.get("incident_classification") == "Confirmed Incident":
-            severity = tier2_result.get("validated_severity", "").upper()
-            if severity in ["HIGH", "CRITICAL"]:
-                escalate_to_tier3 = True
+        t2_escalate = str(tier2_result.get("escalate", "No")).lower().strip()
+        classification = str(tier2_result.get("incident_classification", "")).lower()
+        
+        if t2_escalate == "yes" or "confirmed" in classification:
+            escalate_to_tier3 = True
+            
+        logger.info(f"Tier 2 [Investigation]: Severity={tier2_result.get('validated_severity')}, Escalate={escalate_to_tier3}")
         
         return {
             **state,
@@ -319,10 +322,11 @@ class SOCWorkflow:
 
     def _should_trigger_war_room(self, state: SOCWorkflowState) -> Literal["trigger_war_room", "remediation", "finalize"]:
         """Determine if War Room should be triggered."""
-        if state.get("trigger_war_room", False):
+        if state.get("trigger_war_room"):
             return "trigger_war_room"
         
-        # If not war room, suggest remediation if Tier 3 generated a plan
+        # If Tier 3 ran, we definitely want remediation or war room
+        # Check if Tier 3 confirmed a credible threat or generated a plan
         if state.get("tier3_result"):
             return "remediation"
             

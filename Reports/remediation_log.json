@@ -10,5 +10,30 @@
     "code_provided": true,
     "dry_run": true,
     "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-03T01:29:44.533145",
+    "threat": {
+      "id": "critical-ddos-test",
+      "timestamp": "2026-03-03T02:28:30Z",
+      "Attack": "DDoS",
+      "Label": 1,
+      "SourceIP": "192.168.1.99",
+      "DestinationIP": "10.0.0.5",
+      "SourcePort": 443,
+      "DestinationPort": 443,
+      "Protocol": "UDP",
+      "FlowDuration": 1000.0,
+      "RawFlow": {
+        "Attack": "DDoS",
+        "Flow Duration": 1000.0,
+        "Total Fwd Packets": 10000
+      }
+    },
+    "planned_defense": "### **SOC Incident Summary & Next Steps**\n**Incident ID:** `critical-ddos-test`\n**Status:** **Contained (Pending Investigation)**\n**Severity:** **High**\n\n---\n\n### **Key Findings**\n1. **Confirmed Attack:**\n   - **Type:** UDP Flood (DoS) targeting internal DNS (`10.0.0.5`).\n   - **Source:** `192.168.1.99` (`TEST-LAB-WORKSTATION`), likely compromised via `udp_flood_tool.exe`.\n   - **Impact:** DNS service crash due to **10K PPS** (packets per second).\n\n2. **Attribution:**\n   - **User Account:** `test-admin` (last active at `02:25:00Z`).\n   - **Likely Cause:** Unauthorized testing (but requires confirmation).\n\n3. **Evidence Collected:**\n   - **PCAP:** Empty UDP payloads with randomized source ports.\n   - **EDR Logs:** Malicious process (`udp_flood_tool.exe`) launched via PowerShell scheduled task.\n   - **Windows Logs:** Scheduled task execution details.\n\n---\n\n### **Immediate Actions Taken**\n| **Action**               | **Status**       | **Owner**       |\n|--------------------------|------------------|-----------------|\n| Isolate `192.168.1.99`   | \u2705 Complete      | Tier 1          |\n| Kill malicious process   | \u2705 Complete      | Tier 2          |\n| Restart DNS service      | \u2705 Complete      | IT Ops          |\n| Preserve logs/PCAP       | \u2705 Complete      | SOC             |\n\n---\n\n### **Pending Actions (Tier 2/3)**\n#### **1. Root Cause Investigation**\n- **Interview `test-admin`:**\n  - Was this authorized testing? If not, escalate to HR/management.\n  - How was the tool obtained/deployed?\n- **Check for Lateral Movement:**\n  - Hunt for `udp_flood_tool.exe` on other lab machines.\n  - Review VPN/RDP logs for suspicious access.\n\n#### **2. Network Hardening**\n- **Restrict UDP/443:** Block unless explicitly required.\n- **Rate Limiting:** Apply to DNS and other critical services.\n- **DDoS Protection:** Deploy Cloudflare Magic Transit or similar.\n\n#### **3. Documentation**\n- **Incident Report:** Update ticket with EDR/PCAP findings.\n- **Lessons Learned:** Improve change control for security testing.\n\n---\n\n### **Recommended Tools/Scripts**\n#### **A. PowerShell Hunt for Similar Tools**\n```powershell\n# Search for 'udp_flood_tool.exe' across all lab machines\n$computers = Get-ADComputer -Filter \"Name -like 'TEST-LAB-*'\" | Select-Object -ExpandProperty Name\nInvoke-Command -ComputerName $computers -ScriptBlock {\n    Get-ChildItem -Path C:\\ -Recurse -Filter \"udp_flood_tool.exe\" -ErrorAction SilentlyContinue |\n    Select-Object FullName, LastWriteTime\n}\n```\n\n#### **B. Snort Rule for UDP Flood Detection**\n```plaintext\nalert udp any any -> $HOME_NET 443 (msg:\"Possible UDP Flood (DDoS)\"; flow:to_server; threshold:type threshold, track by_src, count 1000, seconds 1; sid:1000001; rev:1;)\n```\n\n#### **C. Management Report Template**\n```markdown\n### **Incident Report: Internal DDoS Attack**\n**Date:** [YYYY-MM-DD]\n**Incident ID:** `critical-ddos-test`\n\n#### **Summary**\n- **Attack Type:** UDP Flood (DoS)\n- **Source:** `TEST-LAB-WORKSTATION` (`192.168.1.99`)\n- **Target:** Internal DNS (`10.0.0.5`)\n- **Impact:** Service disruption (DNS crash)\n\n#### **Root Cause**\n- Unauthorized tool (`udp_flood_tool.exe`) executed by `test-admin`.\n- Likely unintentional (testing), but requires policy review.\n\n#### **Actions Taken**\n- Contained source host.\n- Restored DNS service.\n- Preserved forensic evidence.\n\n#### **Recommendations**\n1. **User Training:** Enforce change control for security testing.\n2. **Network Hardening:** Rate limiting, DDoS protection.\n3. **Monitoring:** Deploy Snort rule for UDP flood detection.\n```\n\n---\n\n### **Escalation Path**\n1. **If `test-admin` confirms unauthorized testing:**\n   - **Action:** Document policy violation; escalate to HR/management.\n2. **If tool is found on other machines:**\n   - **Action:** Treat as **insider threat**; engage Tier 3 for forensic analysis.\n3. **If attack recurs:**\n   - **Action:** Activate **incident response team** (IRT) for full investigation.\n\n**Next Steps:**\n- [ ] Interview `test-admin`.\n- [ ] Scan lab machines for similar tools.\n- [ ] Implement Snort rule and rate limiting.\n\n**Questions?**\n- Need help drafting an **email to management**?\n- Require **forensic analysis support** for the compromised host?",
+    "enforced_rules": [],
+    "code_provided": false,
+    "dry_run": true,
+    "status": "SIMULATED_SUCCESS"
   }
 ]

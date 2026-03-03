@@ -1,2 +1,0 @@
-2026-03-03 02:13:26 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
-INFO:     127.0.0.1:59038 - "GET /health HTTP/1.1" 200 OK
