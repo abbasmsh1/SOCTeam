@@ -35,5 +35,30 @@
     "code_provided": false,
     "dry_run": true,
     "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-03T01:36:11.600928",
+    "threat": {
+      "id": "critical-ddos-test",
+      "timestamp": "2026-03-03T02:34:37Z",
+      "Attack": "DDoS",
+      "Label": 1,
+      "SourceIP": "192.168.1.99",
+      "DestinationIP": "10.0.0.5",
+      "SourcePort": 443,
+      "DestinationPort": 443,
+      "Protocol": "UDP",
+      "FlowDuration": 1000.0,
+      "RawFlow": {
+        "Attack": "DDoS",
+        "Flow Duration": 1000.0,
+        "Total Fwd Packets": 10000
+      }
+    },
+    "planned_defense": "### **SOC Analyst Summary & Action Plan**\n**Incident:** **Critical Internal DDoS Attack (UDP Flood)**\n**Alert ID:** `critical-ddos-test`\n**Timestamp:** `2026-03-03T02:34:37Z` *(Note: Future date\u2014likely a test or misconfiguration)*\n**Severity:** **High** *(Validated by Tier 2)*\n\n---\n\n### **Key Findings**\n1. **Attack Characteristics**\n   - **Source:** `192.168.1.99` (Internal)\n   - **Destination:** `10.0.0.5` (Internal)\n   - **Protocol:** **UDP/443** *(Unusual\u2014HTTPS typically uses TCP/443)*\n   - **Packet Rate:** **10,000 packets in 1 second** *(Extremely high\u2014indicative of DDoS)*\n   - **Flow Duration:** **1 second**\n\n2. **Anomalies**\n   - **IDS Misclassification:** Flagged as \"Infiltration\" with **27% confidence** (likely a false positive).\n   - **Internal Source/Destination:** Suggests either:\n     - A **compromised internal host** (e.g., botnet-infected machine).\n     - A **misconfigured service** (e.g., testing tool, monitoring agent).\n     - An **insider threat** (intentional or accidental).\n\n3. **Missing Context**\n   - No geolocation/reputation data (expected for internal IPs).\n   - No hostname resolution for `192.168.1.99` or `10.0.0.5`.\n\n---\n\n### **Immediate Actions (Triage)**\n#### **1. Containment**\n- **Isolate `192.168.1.99`:**\n  - **Network-level:** Block all traffic via firewall/NAC.\n  - **Endpoint-level:** Quarantine via EDR (e.g., CrowdStrike, SentinelOne).\n- **Protect `10.0.0.5`:**\n  - **Rate limiting:** Throttle traffic to the destination.\n  - **Failover:** Redirect traffic to a backup service if available.\n\n#### **2. Investigation**\n- **Check `192.168.1.99` for:**\n  - Unauthorized software (e.g., LOIC, HOIC, stress-testing tools).\n  - Signs of compromise (e.g., malware, unusual processes, open ports).\n  - User activity (e.g., intentional misuse, accidental misconfiguration).\n- **Verify `10.0.0.5`:**\n  - Is the service operational? (Check logs, uptime, user reports.)\n  - Are there other affected systems? (Lateral movement risk.)\n\n#### **3. Network Analysis**\n- **PCAP Capture:** Confirm UDP flood characteristics.\n- **NetFlow/sFlow:** Hunt for similar patterns from other internal IPs.\n\n---\n\n### **Next Steps (Tier 2 Recommendations)**\n#### **1. Eradication**\n- **Forensic Analysis on `192.168.1.99`:**\n  - Memory dump (Volatility) for malware.\n  - Disk imaging (FTK) for persistence mechanisms.\n  - Log review (authentication, process logs).\n- **Root Cause Analysis:**\n  - Compromised credentials? (Brute-force, phishing.)\n  - Vulnerable software? (Unpatched services, zero-days.)\n  - Misconfigured tools? (e.g., Nagios, Zabbix, custom scripts.)\n\n#### **2. Recovery**\n- **Restore `10.0.0.5`:**\n  - Verify service stability (load testing, synthetic monitoring).\n  - Restore from backups if data corruption occurred.\n- **Reintegrate `192.168.1.99`:**\n  - Rebuild the host if compromise is confirmed.\n  - Monitor for recurrence (SIEM alerts, EDR telemetry).\n\n#### **3. Long-Term Mitigation**\n- **Network Protections:**\n  - Rate limiting for UDP/TCP ports.\n  - Firewall rules to block unnecessary UDP/443 traffic.\n- **Endpoint Protections:**\n  - EDR/XDR deployment to detect DDoS tools.\n  - Application whitelisting to prevent unauthorized software.\n- **IDS/IPS Tuning:**\n  - Adjust DDoS detection rules (e.g., packet rate thresholds).\n  - Improve false positive handling (e.g., better confidence scoring).\n- **User Awareness:**\n  - Educate employees on DDoS risks (e.g., unauthorized stress testing).\n  - Enforce change control for network testing.\n\n---\n\n### **Playbook Integration**\n- **Use the provided [DDoS Incident Response Playbook](#tier2_output)** for standardized response.\n- **Automate containment** via SOAR (e.g., auto-quarantine for high-confidence alerts).\n- **Update detection rules** based on this incident (e.g., adjust IDS thresholds).\n\n---\n\n### **Escalation**\n- **Tier 3 (Threat Hunting):** If signs of compromise are found (e.g., malware, C2 traffic).\n- **Management:** If the attack was intentional (insider threat) or caused significant disruption.\n\n---\n\n### **Questions for Further Clarification**\n1. **Is `192.168.1.99` a known testing host?** (e.g., authorized stress testing.)\n2. **What service runs on `10.0.0.5`?** (e.g., web server, DNS, VoIP.)\n3. **Are there other internal IPs exhibiting similar behavior?** (Lateral movement risk.)\n4. **Should we adjust IDS rules to better detect DDoS vs. infiltration?**",
+    "enforced_rules": [],
+    "code_provided": false,
+    "dry_run": true,
+    "status": "SIMULATED_SUCCESS"
   }
 ]

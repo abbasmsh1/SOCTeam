@@ -1,0 +1,6 @@
+2026-03-03 02:33:49 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052 (Immediate bind enabled)
+INFO:     127.0.0.1:49698 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51935 - "GET /health HTTP/1.1" 200 OK
+2026-03-03 02:35:10 - AgentServer - INFO - Lazy initializing tier2 agent...
+2026-03-03 02:35:12 - AgentServer - INFO - tier2 agent initialized.
+INFO:     127.0.0.1:62879 - "POST /process HTTP/1.1" 200 OK

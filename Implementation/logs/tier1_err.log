@@ -1,0 +1,16 @@
+INFO:     Started server process [7524]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:6051 (Press CTRL+C to quit)
+WARNING: No libpcap provider available ! pcap won't be used
+2026-03-03 02:34:47,032 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
+2026-03-03 02:34:47,042 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
+2026-03-03 02:34:47,043 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
+C:\ProgramData\anaconda3\Lib\site-packages\sklearn\base.py:380: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.7.2 when using version 1.6.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+2026-03-03 02:34:47,097 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
+2026-03-03 02:34:47,600 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cuda
+2026-03-03 02:34:47,602 - AgentServer - INFO - tier1 agent initialized.
+2026-03-03 02:34:47,815 - Implementation.src.Agents.BaseAgent - WARNING - Tier1Analyst: Graph execution failed ('__start__'). Falling back to direct LLM call.
+2026-03-03 02:35:10,881 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
