@@ -3,3 +3,11 @@ INFO:     Started server process [16332]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6050 (Press CTRL+C to quit)
+2026-03-03 02:53:29,348 - Implementation.src.IDS.IDS - INFO - Initializing SOCWorkflow with remote agents: {'tier1': 'http://127.0.0.1:6051', 'tier2': 'http://127.0.0.1:6052', 'tier3': 'http://127.0.0.1:6053', 'warroom': 'http://127.0.0.1:6054', 'reporter': 'http://127.0.0.1:6055', 'remediation': 'http://127.0.0.1:6056'}
+2026-03-03 02:53:29,388 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2026-03-03 02:53:29,693 - Implementation.src.Agents.VectorMemoryManager - INFO - VectorMemoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Implementation/Data/vector_db
+2026-03-03 02:53:29,696 - Implementation.src.IDS.IDS - INFO - Starting SOC Workflow for alert: DDoS
+2026-03-03 02:53:29,697 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-03-03 02:53:29,698 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-03-03 02:53:59,814 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-03-03 02:54:27,265 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True

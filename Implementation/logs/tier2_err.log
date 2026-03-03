@@ -2,3 +2,4 @@ INFO:     Started server process [34876]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6052 (Press CTRL+C to quit)
+Tier2Analyst: Graph execution failed ('__start__'). Falling back to direct LLM call.
