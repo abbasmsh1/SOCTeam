@@ -1,0 +1,31 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0
+rootdir: E:\IMT\2nd Sem\Project\Implementation
+plugins: anyio-4.7.0
+collected 7 items
+
+tests\test_endpoints.py .....F                                           [ 85%]
+tests\test_report_gen.py .                                               [100%]
+
+================================== FAILURES ===================================
+______________________ TestIDSEndpoints.test_06_workflow ______________________
+
+self = <test_endpoints.TestIDSEndpoints testMethod=test_06_workflow>
+
+    def test_06_workflow(self):
+        """Test the SOC workflow endpoint."""
+        alert_data = {
+            "Attack": "DDOS",
+            "Severity": "CRITICAL",
+            "confidence": 0.95
+        }
+        response = requests.post(f"{self.BASE_URL}/workflow/process", json=alert_data, headers=self.HEADERS)
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+>       self.assertIn("tier1_analysis", result)
+E       AssertionError: 'tier1_analysis' not found in {'error': "Workflow execution failed: '__start__'", 'timestamp': '2026-02-27T23:09:06.312369'}
+
+tests\test_endpoints.py:106: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_endpoints.py::TestIDSEndpoints::test_06_workflow - Assertio...
+======================== 1 failed, 6 passed in 16.66s =========================

@@ -1,0 +1,115 @@
+# Enhanced IDS System Requirements
+# Core dependencies for the Intrusion Detection System with SQLite integration
+
+# Data Processing and Analysis
+pandas>=1.5.0
+numpy>=1.21.0
+scikit-learn>=1.1.0
+
+# Machine Learning and Deep Learning
+torch>=1.12.0
+torchvision>=0.13.0
+torchaudio>=0.12.0
+
+# Web Scraping and HTTP Requests (also used for Hexstrike-AI MCP client)
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+urllib3>=1.26.0
+
+# Network Flow Analysis (CICFlowMeter Integration)
+cicflowmeter>=0.1.4  # Network flow feature extraction
+scapy>=2.5.0         # Packet manipulation and analysis
+pyshark>=0.6.0       # Packet parsing (tshark wrapper)
+netifaces>=0.11.0    # Network interface detection
+
+
+
+# Web Framework and API
+flask>=2.2.0
+flask-cors>=4.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# Database
+#sqlite3  # Built-in with Python, but listed for clarity
+
+# Configuration Management
+pyyaml>=6.0
+python-dotenv>=0.19.0
+
+# LLM Integration
+langchain
+langchain-core
+langchain-mistralai
+langgraph
+langgraph-checkpoint
+mistralai
+
+# Data Visualization (optional, for analysis)
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Logging and Monitoring
+psutil>=5.9.0  # For system monitoring
+
+# Development and Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Security and Cryptography
+cryptography>=3.4.0
+
+# Date and Time Handling
+python-dateutil>=2.8.0
+
+# JSON and Data Serialization
+jsonschema>=4.0.0
+
+# HTTP Client with advanced features
+httpx>=0.24.0
+
+# Environment and Configuration
+python-decouple>=3.6
+
+# Data Validation
+pydantic>=1.10.0
+
+# Async Support (for future enhancements)
+aiohttp>=3.8.0
+asyncio  # Built-in with Python
+
+# Memory and Performance Monitoring
+memory-profiler>=0.60.0
+
+# Additional Utilities
+tqdm>=4.64.0  # Progress bars
+click>=8.0.0  # Command line interface
+
+# Optional: For advanced data analysis
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Optional: For API documentation
+flask-restx>=1.0.0
+
+# Optional: For database migrations (if needed in future)
+alembic>=1.8.0
+
+# Optional: For caching
+redis>=4.0.0
+
+# Optional: For message queuing (if needed in future)
+celery>=5.2.0
+
+# Development Tools
+black>=22.0.0  # Code formatting
+flake8>=5.0.0  # Linting
+mypy>=0.991  # Type checking
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
+
+xgboost>=1.6.0  # For gradient boosting algorithms
+mcp # Model Context Protocol
+kagglehub>=0.1.0 # For downloading datasets

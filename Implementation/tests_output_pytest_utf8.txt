@@ -1,0 +1,448 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0
+rootdir: E:\IMT\2nd Sem\Project\Implementation
+plugins: anyio-4.7.0
+collected 14 items / 45 errors
+
+=================================== ERRORS ====================================
+_____ ERROR collecting libs/agent_lightning/contrib/recipes/webshop/tests _____
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\ProgramData\anaconda3\Lib\site-packages\_pytest\assertion\rewrite.py:184: in exec_module
+    exec(co, module.__dict__)
+libs\agent_lightning\contrib\recipes\webshop\tests\conftest.py:11: in <module>
+    from agentlightning.adapter.triplet import TracerTraceToTriplet
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\__init__.py:5: in <module>
+    from .adapter import *
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\adapter\__init__.py:5: in <module>
+    from .triplet import LlmProxyTraceToTriplet, TracerTraceToTriplet, TraceToTripletBase
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\adapter\triplet.py:14: in <module>
+    from agentlightning.emitter.reward import get_reward_value
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\emitter\__init__.py:14: in <module>
+    from .annotation import emit_annotation, operation
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\emitter\annotation.py:25: in <module>
+    from agentlightning.tracer.base import get_active_tracer
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\tracer\__init__.py:3: in <module>
+    from .agentops import AgentOpsTracer
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\tracer\agentops.py:19: in <module>
+    from agentlightning.store.base import LightningStore
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\store\__init__.py:4: in <module>
+    from .client_server import LightningStoreClient, LightningStoreServer
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\store\client_server.py:64: in <module>
+    from agentlightning.utils.server_launcher import LaunchMode, PythonServerLauncher, PythonServerLauncherArgs
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\utils\server_launcher.py:25: in <module>
+    from gunicorn.app.base import BaseApplication
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\gunicorn\app\base.py:10: in <module>
+    from gunicorn import util
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\gunicorn\util.py:7: in <module>
+    import fcntl
+E   ModuleNotFoundError: No module named 'fcntl'
+_ ERROR collecting libs/agent_lightning/examples/azure/tests/test_deployment.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\examples\azure\tests\test_deployment.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+libs\agent_lightning\examples\azure\tests\test_deployment.py:3: in <module>
+    from aoai_finetune import AzureOpenAIFinetune
+E   ModuleNotFoundError: No module named 'aoai_finetune'
+_ ERROR collecting libs/agent_lightning/examples/calc_x/tests/test_agentops.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\examples\calc_x\tests\test_agentops.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+libs\agent_lightning\examples\calc_x\tests\test_agentops.py:6: in <module>
+    from agentlightning.reward import reward
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\__init__.py:11: in <module>
+    from .execution import *
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\execution\__init__.py:4: in <module>
+    from .client_server import ClientServerExecutionStrategy
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\execution\client_server.py:14: in <module>
+    from agentlightning.store.client_server import LightningStoreClient, LightningStoreServer
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\store\__init__.py:4: in <module>
+    from .client_server import LightningStoreClient, LightningStoreServer
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\store\client_server.py:64: in <module>
+    from agentlightning.utils.server_launcher import LaunchMode, PythonServerLauncher, PythonServerLauncherArgs
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\agentlightning\utils\server_launcher.py:25: in <module>
+    from gunicorn.app.base import BaseApplication
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\gunicorn\app\base.py:10: in <module>
+    from gunicorn import util
+C:\Users\abbas\AppData\Roaming\Python\Python313\site-packages\gunicorn\util.py:7: in <module>
+    import fcntl
+E   ModuleNotFoundError: No module named 'fcntl'
+_ ERROR collecting libs/agent_lightning/examples/tinker/tests/test_tinker_llm.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\examples\tinker\tests\test_tinker_llm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.test_tinker_llm'
+____ ERROR collecting libs/agent_lightning/tests/adapter/test_llm_proxy.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\adapter\test_llm_proxy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.adapter'
+_ ERROR collecting libs/agent_lightning/tests/adapter/test_messages_adapter.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\adapter\test_messages_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.adapter'
+_ ERROR collecting libs/agent_lightning/tests/adapter/test_triplet_trace_tree.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\adapter\test_triplet_trace_tree.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.adapter'
+______ ERROR collecting libs/agent_lightning/tests/algorithm/test_apo.py ______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\algorithm\test_apo.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.algorithm'
+___ ERROR collecting libs/agent_lightning/tests/algorithm/test_baseline.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\algorithm\test_baseline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.algorithm'
+___ ERROR collecting libs/agent_lightning/tests/algorithm/test_decorator.py ___
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\algorithm\test_decorator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.algorithm'
+_____ ERROR collecting libs/agent_lightning/tests/algorithm/test_utils.py _____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\algorithm\test_utils.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.algorithm'
+___ ERROR collecting libs/agent_lightning/tests/emitter/test_annotation.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_annotation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+____ ERROR collecting libs/agent_lightning/tests/emitter/test_exception.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_exception.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+_____ ERROR collecting libs/agent_lightning/tests/emitter/test_message.py _____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_message.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+_____ ERROR collecting libs/agent_lightning/tests/emitter/test_object.py ______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_object.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+____ ERROR collecting libs/agent_lightning/tests/emitter/test_operation.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_operation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+_____ ERROR collecting libs/agent_lightning/tests/emitter/test_reward.py ______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\emitter\test_reward.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.emitter'
+_ ERROR collecting libs/agent_lightning/tests/execution/test_client_server.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\execution\test_client_server.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.execution'
+_ ERROR collecting libs/agent_lightning/tests/execution/test_shared_memory.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\execution\test_shared_memory.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.execution'
+___ ERROR collecting libs/agent_lightning/tests/litagent/test_decorator.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\litagent\test_decorator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.litagent'
+___ ERROR collecting libs/agent_lightning/tests/litagent/test_resources.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\litagent\test_resources.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.litagent'
+_ ERROR collecting libs/agent_lightning/tests/llm_proxy/test_llm_proxy_cpu.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\llm_proxy\test_llm_proxy_cpu.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.llm_proxy'
+_ ERROR collecting libs/agent_lightning/tests/llm_proxy/test_llm_proxy_gpu.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\llm_proxy\test_llm_proxy_gpu.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.llm_proxy'
+____ ERROR collecting libs/agent_lightning/tests/llm_proxy/test_stream.py _____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\llm_proxy\test_stream.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.llm_proxy'
+_ ERROR collecting libs/agent_lightning/tests/runner/test_agent_integration.py _
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\runner\test_agent_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.runner'
+___ ERROR collecting libs/agent_lightning/tests/runner/test_agent_runner.py ___
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\runner\test_agent_runner.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.runner'
+__ ERROR collecting libs/agent_lightning/tests/runner/test_runner_context.py __
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\runner\test_runner_context.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.runner'
+______________ ERROR collecting libs/agent_lightning/tests/store ______________
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1310: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1324: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'tests.store'
+_________ ERROR collecting libs/agent_lightning/tests/test_client.py __________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\test_client.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.test_client'
+_________ ERROR collecting libs/agent_lightning/tests/test_config.py __________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\test_config.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.test_config'
+_________ ERROR collecting libs/agent_lightning/tests/test_env_var.py _________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\test_env_var.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.test_env_var'
+_________ ERROR collecting libs/agent_lightning/tests/test_logging.py _________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\test_logging.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.test_logging'
+_____ ERROR collecting libs/agent_lightning/tests/tracer/test_agentops.py _____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\tracer\test_agentops.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.tracer'
+______ ERROR collecting libs/agent_lightning/tests/tracer/test_dummy.py _______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\tracer\test_dummy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.tracer'
+___ ERROR collecting libs/agent_lightning/tests/tracer/test_integration.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\tracer\test_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.tracer'
+_______ ERROR collecting libs/agent_lightning/tests/tracer/test_otel.py _______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\tracer\test_otel.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.tracer'
+______ ERROR collecting libs/agent_lightning/tests/tracer/test_weave.py _______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\tracer\test_weave.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.tracer'
+___ ERROR collecting libs/agent_lightning/tests/trainer/test_init_utils.py ____
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\trainer\test_init_utils.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.trainer'
+___ ERROR collecting libs/agent_lightning/tests/trainer/test_trainer_dev.py ___
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\trainer\test_trainer_dev.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.trainer'
+__ ERROR collecting libs/agent_lightning/tests/trainer/test_trainer_init.py ___
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\trainer\test_trainer_init.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.trainer'
+______ ERROR collecting libs/agent_lightning/tests/utils/test_metrics.py ______
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\utils\test_metrics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.utils'
+_______ ERROR collecting libs/agent_lightning/tests/utils/test_otel.py ________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\utils\test_otel.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.utils'
+_______ ERROR collecting libs/agent_lightning/tests/utils/test_otlp.py ________
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\utils\test_otlp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.utils'
+__ ERROR collecting libs/agent_lightning/tests/utils/test_server_launcher.py __
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\utils\test_server_launcher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.utils'
+__ ERROR collecting libs/agent_lightning/tests/utils/test_system_snapshot.py __
+ImportError while importing test module 'E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\utils\test_system_snapshot.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\ProgramData\anaconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'tests.utils'
+============================== warnings summary ===============================
+libs\agent_lightning\tests\instrumentation\test_agentops.py:19
+  E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\instrumentation\test_agentops.py:19: PytestUnknownMarkWarning: Unknown pytest.mark.agentops - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.agentops
+
+libs\agent_lightning\tests\instrumentation\test_agentops.py:37
+  E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\instrumentation\test_agentops.py:37: PytestUnknownMarkWarning: Unknown pytest.mark.agentops - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.agentops
+
+libs\agent_lightning\tests\instrumentation\test_agentops.py:55
+  E:\IMT\2nd Sem\Project\Implementation\libs\agent_lightning\tests\instrumentation\test_agentops.py:55: PytestUnknownMarkWarning: Unknown pytest.mark.agentops - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.agentops
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR libs/agent_lightning/contrib/recipes/webshop/tests - ModuleNotFoundErro...
+ERROR libs/agent_lightning/examples/azure/tests/test_deployment.py
+ERROR libs/agent_lightning/examples/calc_x/tests/test_agentops.py
+ERROR libs/agent_lightning/examples/tinker/tests/test_tinker_llm.py
+ERROR libs/agent_lightning/tests/adapter/test_llm_proxy.py
+ERROR libs/agent_lightning/tests/adapter/test_messages_adapter.py
+ERROR libs/agent_lightning/tests/adapter/test_triplet_trace_tree.py
+ERROR libs/agent_lightning/tests/algorithm/test_apo.py
+ERROR libs/agent_lightning/tests/algorithm/test_baseline.py
+ERROR libs/agent_lightning/tests/algorithm/test_decorator.py
+ERROR libs/agent_lightning/tests/algorithm/test_utils.py
+ERROR libs/agent_lightning/tests/emitter/test_annotation.py
+ERROR libs/agent_lightning/tests/emitter/test_exception.py
+ERROR libs/agent_lightning/tests/emitter/test_message.py
+ERROR libs/agent_lightning/tests/emitter/test_object.py
+ERROR libs/agent_lightning/tests/emitter/test_operation.py
+ERROR libs/agent_lightning/tests/emitter/test_reward.py
+ERROR libs/agent_lightning/tests/execution/test_client_server.py
+ERROR libs/agent_lightning/tests/execution/test_shared_memory.py
+ERROR libs/agent_lightning/tests/litagent/test_decorator.py
+ERROR libs/agent_lightning/tests/litagent/test_resources.py
+ERROR libs/agent_lightning/tests/llm_proxy/test_llm_proxy_cpu.py
+ERROR libs/agent_lightning/tests/llm_proxy/test_llm_proxy_gpu.py
+ERROR libs/agent_lightning/tests/llm_proxy/test_stream.py
+ERROR libs/agent_lightning/tests/runner/test_agent_integration.py
+ERROR libs/agent_lightning/tests/runner/test_agent_runner.py
+ERROR libs/agent_lightning/tests/runner/test_runner_context.py
+ERROR libs/agent_lightning/tests/store - ModuleNotFoundError: No module named...
+ERROR libs/agent_lightning/tests/test_client.py
+ERROR libs/agent_lightning/tests/test_config.py
+ERROR libs/agent_lightning/tests/test_env_var.py
+ERROR libs/agent_lightning/tests/test_logging.py
+ERROR libs/agent_lightning/tests/tracer/test_agentops.py
+ERROR libs/agent_lightning/tests/tracer/test_dummy.py
+ERROR libs/agent_lightning/tests/tracer/test_integration.py
+ERROR libs/agent_lightning/tests/tracer/test_otel.py
+ERROR libs/agent_lightning/tests/tracer/test_weave.py
+ERROR libs/agent_lightning/tests/trainer/test_init_utils.py
+ERROR libs/agent_lightning/tests/trainer/test_trainer_dev.py
+ERROR libs/agent_lightning/tests/trainer/test_trainer_init.py
+ERROR libs/agent_lightning/tests/utils/test_metrics.py
+ERROR libs/agent_lightning/tests/utils/test_otel.py
+ERROR libs/agent_lightning/tests/utils/test_otlp.py
+ERROR libs/agent_lightning/tests/utils/test_server_launcher.py
+ERROR libs/agent_lightning/tests/utils/test_system_snapshot.py
+!!!!!!!!!!!!!!!!!! Interrupted: 45 errors during collection !!!!!!!!!!!!!!!!!!!
+======================= 3 warnings, 45 errors in 12.75s =======================

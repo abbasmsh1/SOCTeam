@@ -1,0 +1,39 @@
+/CODE_REVIEW.md
+/implementation_plan.md
+/venv
+/.env
+/config.json
+/verification_output.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment
+.env
+.env.local
+.env.*.local
+Implementation/.env
+Implementation/.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+Implementation/.env
+Implementation/.env
+
+#Dataset
+./Data/*

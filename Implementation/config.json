@@ -1,0 +1,20 @@
+{
+  "Model": "mistral-large-latest",
+  "Temperature": 0.7,
+  "Max_Tokens": 2048,
+  "Top_P": 0.9,
+  "Frequency_Penalty": 0,
+  "hexstrike_url": "http://localhost:8888",
+  "cve_base_url": "https://cve.mitre.org",
+  "nvd_base_url": "https://nvd.nist.gov/vuln/detail",
+  "cve_details_url": "https://www.cvedetails.com/",
+  "kev_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+  "virustotal_base_url": "https://www.virustotal.com/api/v3/ip_addresses/",
+  "abuseipdb_base_url": "https://api.abuseipdb.com/api/v2/check",
+  "mcpServers": {
+    "vuln-nist-mcp-server": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/vuln-nist-mcp-server"]
+    }
+  }
+}

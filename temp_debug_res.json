@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-03-03T01:08:17.712046",
+  "workflow_version": "2.0",
+  "tier1_analysis": {},
+  "escalated_to_tier2": false,
+  "escalated_to_tier3": false,
+  "war_room_triggered": false,
+  "final_severity": "Unknown",
+  "incident_classification": "Tier 1 Analysis Only",
+  "recommended_actions": "N/A",
+  "report_path": "E:\\IMT\\2nd Sem\\Project\\Reports\\SOC_Report_20260303_020817_710976.md"
+}

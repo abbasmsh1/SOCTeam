@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  soc-engine:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: soc_engine
+    
+    # Use host networking for best packet capture performance (Linux only)
+    # Uncomment for Linux hosts:
+    # network_mode: "host"
+    
+    # For Docker Desktop (Mac/Win), use bridge with capabilities
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    
+    # Port mappings (not needed if using host network mode)
+    ports:
+      - "8000:8000"  # Backend API
+      - "5173:5173"  # Frontend (if serving via dev server)
+    
+    volumes:
+      # Mount logs and reports for persistence
+      - ./Implementation/logs:/app/Implementation/logs
+      - ./Implementation/Reports:/app/Implementation/Reports
+      # Optional: Mount dataset for updates
+      - ./Implementation/Data:/app/Implementation/Data
+      # Optional: Mount models directory
+      - ./Models:/app/Models
+    
+    env_file:
+      - Implementation/.env
+    
+    # Override default command for specific mode
+    # Options:
+    #   - Monitoring mode: python -m Implementation.main --monitor --interface eth0
+    #   - Interactive mode: python -m Implementation.main --interactive
+    #   - Alert processing: python -m Implementation.main --alert /path/to/alert.json
+    command: python -m Implementation.main --monitor --interface eth0 --duration 60
+    
+    restart: unless-stopped
+    
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+

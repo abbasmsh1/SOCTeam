@@ -1,0 +1,97 @@
+# Ignore version control
+.git
+.gitignore
+.gitattributes
+
+# Ignore Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist
+build
+.pytest_cache
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore logs
+*.log
+logs/
+Implementation/logs/*
+!Implementation/logs/.gitkeep
+
+# Ignore large dataset files (will be created in container or mounted)
+Implementation/Data/NF-UQ-NIDS-v2.part-*
+*.csv
+!Implementation/Data/dataset_subset.csv
+
+# Ignore model checkpoints (too large for image)
+Models/*.pth
+Models/*.pt
+Models/*.h5
+!Models/.gitkeep
+
+# Ignore reports
+Implementation/Reports/*
+!Implementation/Reports/.gitkeep
+Reports/*
+
+# Ignore node_modules (will be installed in build stage)
+node_modules/
+frontend/node_modules/
+
+# Ignore frontend build output (will be created in build stage)
+frontend/dist/
+frontend/build/
+
+# Ignore output files
+*.txt
+benchmark_output*.txt
+server_log*.txt
+build_output*.txt
+
+# Ignore temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Ignore environment files (sensitive data)
+.env
+.env.*
+!.env.template
+
+# Ignore artifacts directory
+artifacts/
+
+# Ignore LitReview (not needed in container)
+LitReview/
+
+# Ignore docker files themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignore documentation images
+Images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Keep important files
+!frontend/public/*.png
+!frontend/public/*.jpg
+!frontend/public/*.ico

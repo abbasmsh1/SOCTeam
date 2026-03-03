@@ -1,0 +1,61 @@
+﻿python : WARNING: 
+No libpcap provider 
+available ! pcap 
+won't be used
+At line:1 char:1
++ python tools/live_
+traffic_monitor.py 
+--simulate > 
+monitor_out.txt 2>& 
+...
++ ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo  
+            : NotS  
+  pecified: (WARN   
+ ING: No lib...p    
+ won't be used:    
+String) [], Rem    
+oteException
+    + FullyQualifie 
+   dErrorId : Nati  
+  veCommandError
+ 
+Traceback (most 
+recent call last):
+  File "E:\IMT\2nd S
+em\Project\Implement
+ation\tools\live_tra
+ffic_monitor.py", 
+line 22, in <module>
+    from Implementat
+ion.src.Agents.SOCWo
+rkflow import 
+SOCWorkflow
+  File "E:\IMT\2nd S
+em\Project\Implement
+ation\tools\..\..\Im
+plementation\src\Age
+nts\SOCWorkflow.py",
+ line 19, in 
+<module>
+    from Implementat
+ion.src.Agents.Repor
+tGeneratorAgent 
+import 
+ReportGeneratorAgent
+  File "E:\IMT\2nd S
+em\Project\Implement
+ation\tools\..\..\Im
+plementation\src\Age
+nts\ReportGeneratorA
+gent.py", line 5, 
+in <module>
+    from 
+utils.Logger import 
+setup_logger
+ModuleNotFoundError:
+ No module named 
+'utils'

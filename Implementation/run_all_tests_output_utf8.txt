@@ -1,0 +1,408 @@
+﻿2026-02-28 18:47:33 - AgentServer - INFO - Initializing tier2 agent service...
+2026-02-28 18:47:33 - AgentServer - INFO - Initializing warroom agent service...
+2026-02-28 18:47:33 - AgentServer - INFO - Initializing tier1 agent service...
+2026-02-28 18:47:33 - AgentServer - INFO - Initializing tier3 agent service...
+2026-02-28 18:47:33 - AgentServer - INFO - Initializing reporter agent service...
+2026-02-28 18:47:33 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055
+python : INFO:     
+Started server 
+process [29324]
+At line:1 char:1
++ python 
+run_all_tests.py > r
+un_all_tests_output.
+txt 2>&1
++ ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo  
+            : NotS  
+  pecified: (INFO   
+ :     Started s    
+erver process [    
+29324]:String)     
+[], RemoteExcep    
+tion
+    + FullyQualifie 
+   dErrorId : Nati  
+  veCommandError
+ 
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:6055 
+(Press CTRL+C to 
+quit)
+2026-02-28 18:47:37 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053
+2026-02-28 18:47:37 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052
+INFO:     Started 
+server process 
+[30620]
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:6053 
+(Press CTRL+C to 
+quit)
+INFO:     Started 
+server process 
+[30404]
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:6052 
+(Press CTRL+C to 
+quit)
+BlueTeamAgent: 
+Hexstrike-AI server 
+unhealthy - HTTPConn
+ectionPool(host='loc
+alhost', 
+port=8888): Max 
+retries exceeded 
+with url: /health 
+(Caused by NewConnec
+tionError('<urllib3.
+connection.HTTPConne
+ction object at 0x00
+0001F2CE69DE80>: 
+Failed to establish 
+a new connection: 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused 
+it'))
+WARNING: No libpcap 
+provider available 
+! pcap won't be used
+WARNING: No libpcap 
+provider available 
+! pcap won't be used
+2026-02-28 
+18:47:46,529 - Imple
+mentation.src.IDS.ID
+S - INFO - Loading 
+IDS model and 
+artifacts...
+2026-02-28 
+18:47:46,529 - Imple
+mentation.src.IDS.ID
+S - INFO -   
+Artifacts 
+directory: 
+E:\IMT\2nd 
+Sem\Project\Models
+2026-02-28 
+18:47:46,529 - Imple
+mentation.src.IDS.ID
+S - INFO -   Model 
+path: E:\IMT\2nd Sem
+\Project\Models\best
+_ids_model.pth
+C:\ProgramData\anaco
+nda3\Lib\site-packag
+es\sklearn\base.py:3
+80: InconsistentVers
+ionWarning: Trying 
+to unpickle 
+estimator 
+LabelEncoder from 
+version 1.7.2 when 
+using version 
+1.6.1. This might 
+lead to breaking 
+code or invalid 
+results. Use at 
+your own risk. For 
+more info please 
+refer to:
+https://scikit-learn
+.org/stable/model_pe
+rsistence.html#secur
+ity-maintainability-
+limitations
+  warnings.warn(
+INFO:     Started 
+server process 
+[12544]
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on http://12
+7.0.0.1:6050 (Press 
+CTRL+C to quit)
+2026-02-28 
+18:47:46,788 - Imple
+mentation.src.IDS.ID
+S - INFO -   
+Loading model from 
+checkpoint (Epoch 
+12, Val Acc: 
+54.99208925477247%)
+2026-02-28 
+18:47:47,333 - Imple
+mentation.src.IDS.ID
+S - INFO - IDS 
+model loaded 
+successfully. Using 
+device: cuda
+2026-02-28 18:47:47 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051
+2026-02-28 
+18:47:47,334 - 
+AgentServer - INFO 
+- Starting uvicorn 
+server for tier1 on 
+port 6051
+INFO:     Started 
+server process 
+[29948]
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:6051 
+(Press CTRL+C to 
+quit)
+RedTeamAgent: 
+Hexstrike-AI server 
+unhealthy - HTTPConn
+ectionPool(host='loc
+alhost', 
+port=8888): Max 
+retries exceeded 
+with url: /health 
+(Caused by NewConnec
+tionError('<urllib3.
+connection.HTTPConne
+ction object at 0x00
+0001F2CE5C7250>: 
+Failed to establish 
+a new connection: 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused 
+it'))
+2026-02-28 18:47:49 - AgentServer - INFO - Starting uvicorn server for warroom on port 6054
+INFO:     Started 
+server process 
+[30632]
+INFO:     Waiting 
+for application 
+startup.
+INFO:     
+Application startup 
+complete.
+INFO:     Uvicorn 
+running on 
+http://0.0.0.0:6054 
+(Press CTRL+C to 
+quit)
+INFO:     127.0.0.1:50089 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50092 - "POST /predict/ HTTP/1.1" 422 Unprocessable Content
+2026-02-28 
+18:47:54,554 - 
+src.IDS.IDS - INFO 
+- Loading IDS model 
+and artifacts...
+2026-02-28 
+18:47:54,554 - 
+src.IDS.IDS - INFO 
+-   Artifacts 
+directory: 
+E:\IMT\2nd 
+Sem\Project\Models
+2026-02-28 
+18:47:54,554 - 
+src.IDS.IDS - INFO 
+-   Model path: 
+E:\IMT\2nd Sem\Proje
+ct\Models\best_ids_m
+odel.pth
+C:\ProgramData\anaco
+nda3\Lib\site-packag
+es\sklearn\base.py:3
+80: InconsistentVers
+ionWarning: Trying 
+to unpickle 
+estimator 
+LabelEncoder from 
+version 1.7.2 when 
+using version 
+1.6.1. This might 
+lead to breaking 
+code or invalid 
+results. Use at 
+your own risk. For 
+more info please 
+refer to:
+https://scikit-learn
+.org/stable/model_pe
+rsistence.html#secur
+ity-maintainability-
+limitations
+  warnings.warn(
+2026-02-28 
+18:47:54,614 - 
+src.IDS.IDS - INFO 
+-   Loading model 
+from checkpoint 
+(Epoch 12, Val Acc: 
+54.99208925477247%)
+2026-02-28 
+18:47:54,728 - 
+src.IDS.IDS - INFO 
+- IDS model loaded 
+successfully. Using 
+device: cuda
+2026-02-28 
+18:47:55,388 - 
+src.IDS.IDS - INFO 
+- Prediction: 
+password 
+(Confidence: 0.3818)
+INFO:     127.0.0.1:50101 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53199 - "GET /reports HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53204 - "POST /events/add HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51298 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59818 - "GET /events/stats HTTP/1.1" 200 OK
+2026-02-28 
+18:48:06,332 - 
+src.IDS.IDS - INFO 
+- Initializing 
+SOCWorkflow with 
+remote agents: 
+{'tier1': 'http://lo
+calhost:6051', 
+'tier2': 'http://loc
+alhost:6052', 
+'tier3': 'http://loc
+alhost:6053', 
+'warroom': 'http://l
+ocalhost:6054', 
+'reporter': 'http://
+localhost:6055'}
+2026-02-28 
+18:48:06,333 - 
+src.IDS.IDS - INFO 
+- Starting SOC 
+Workflow for alert: 
+DDOS
+
+SOCWorkflow: Processing alert for DDOS
+2026-02-28 18:48:06 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDOS
+2026-02-28 
+18:48:06,333 - Imple
+mentation.src.Agents
+.SOCWorkflow - INFO 
+- Processing alert: 
+DDOS
+2026-02-28 
+18:48:06,333 - Imple
+mentation.src.Agents
+.SOCWorkflow - 
+WARNING - Running 
+in direct execution 
+mode (no API key)...
+2026-02-28 18:48:06 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+DEBUG: Executing Tier 1 Node...
+2026-02-28 
+18:48:08,611 - Imple
+mentation.src.Agents
+.BaseAgent - 
+WARNING - 
+Tier1Analyst: Graph 
+execution failed 
+('__start__'). 
+Falling back to 
+direct LLM call.
+2026-02-28 
+18:49:10,376 - 
+httpx - INFO - HTTP 
+Request: POST https:
+//api.mistral.ai/v1/
+chat/completions 
+"HTTP/1.1 200 OK"
+2026-02-28 
+18:49:10,385 - Imple
+mentation.src.Agents
+.TierAnalystAgent - 
+INFO - Tier 1 
+Decision: Severity=*
+*CRITICAL**, FalsePo
+sitive=False, 
+Escalate=False
+INFO:     127.0.0.1:64396 - "POST /process HTTP/1.1" 200 OK
+2026-02-28 18:49:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=**CRITICAL**, Escalate=False
+2026-02-28 
+18:49:10,389 - Imple
+mentation.src.Agents
+.SOCWorkflow - INFO 
+- Tier 1 [Triage]: S
+everity=**CRITICAL**
+, Escalate=False
+DEBUG: Tier 1 Complete. Severity: **CRITICAL**
+DEBUG: Finalizing Workflow...
+DEBUG: Finalizing node - Generating report...
+2026-02-28 18:49:12 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260228_184912_809152.md
+2026-02-28 18:49:12 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260228_184912_809152.md
+DEBUG: Report saved successfully!
+INFO:     127.0.0.1:56313 - "POST /generate_report HTTP/1.1" 200 OK
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260228_184912_809152.md
+2026-02-28 18:49:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Report generated at: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260228_184912_809152.md
+2026-02-28 
+18:49:12,434 - Imple
+mentation.src.Agents
+.SOCWorkflow - INFO 
+- Workflow 
+completed. Report 
+generated at: 
+E:\IMT\2nd Sem\Proje
+ct\Reports\SOC_Repor
+t_20260228_184912_80
+9152.md
+DEBUG: Finalize Complete.
+INFO:     127.0.0.1:64392 - "POST /workflow/process HTTP/1.1" 200 OK
+Starting agent microservices and IDS server...
+Waiting 15 seconds for services to start...
+Running tests...
+--- Pytest Output ---
+============================= test session starts =============================
+platform win32 -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0
+rootdir: E:\IMT\2nd Sem\Project\Implementation
+plugins: anyio-4.7.0
+collected 7 items
+
+tests\test_endpoints.py ......                                           [ 85%]
+tests\test_report_gen.py .                                               [100%]
+
+======================== 7 passed in 84.28s (0:01:24) =========================
+
+Cleaning up processes...

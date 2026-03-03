@@ -1,0 +1,75 @@
+﻿python : Traceback 
+(most recent call 
+last):
+At line:1 char:1
++ python tools/feed_
+csv_flows.py > 
+out.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo  
+            : NotS  
+  pecified: (Trac   
+ eback (most rec    
+ent call last):    
+:String) [], Re    
+moteException
+    + FullyQualifie 
+   dErrorId : Nati  
+  veCommandError
+ 
+  File "E:\IMT\2nd S
+em\Project\Implement
+ation\tools\feed_csv
+_flows.py", line 
+185, in <module>
+    main()
+    ~~~~^^
+  File "E:\IMT\2nd S
+em\Project\Implement
+ation\tools\feed_csv
+_flows.py", line 
+80, in main
+    print("\u2554\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2550\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2550\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2550\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2550\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2550\u2
+550\u2550\u2550\u255
+0\u2550\u2550\u2550\
+u2550\u2550\u2557")
+    ~~~~~^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
+  File "C:\ProgramDa
+ta\anaconda3\Lib\enc
+odings\cp1252.py", 
+line 19, in encode
+    return codecs.ch
+armap_encode(input,s
+elf.errors,encoding_
+table)[0]
+           ~~~~~~~~~
+~~~~~~~~~~~~^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+^^^^^^
+UnicodeEncodeError: 
+'charmap' codec 
+can't encode 
+characters in 
+position 0-60: 
+character maps to 
+<undefined>

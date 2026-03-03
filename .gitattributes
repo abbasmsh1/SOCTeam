@@ -1,0 +1,2 @@
+*.csv filter=lfs diff=lfs merge=lfs -text
+Implementation/Data/NF-UQ-NIDS-v2.part-* filter=lfs diff=lfs merge=lfs -text
