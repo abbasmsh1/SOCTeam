@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.pipeline import Pipeline
 import joblib
 import os
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Any, Tuple
 import logging
 
 # Configure logging
@@ -15,6 +15,141 @@ logger = logging.getLogger(__name__)
 # This file is at: Implementation/src/IDS/preprocess.py
 # Base project directory is 3 levels up
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+def _safe_entropy_from_series(values: pd.Series) -> float:
+    """Compute Shannon entropy (base2) for a pandas Series."""
+    try:
+        if values is None or len(values) == 0:
+            return 0.0
+        vc = values.astype(str).value_counts(dropna=False)
+        probs = (vc / vc.sum()).to_numpy(dtype=float)
+        # Avoid log2(0)
+        probs = probs[probs > 0]
+        if probs.size == 0:
+            return 0.0
+        return float(-(probs * np.log2(probs)).sum())
+    except Exception:
+        return 0.0
+
+class EntropyWindowFeatures(BaseEstimator, TransformerMixin):
+    """
+    Add Lakhina-style window entropy features.
+
+    Computes per-time-window entropy over selected categorical fields and
+    attaches them as numeric columns to every row in the window.
+    """
+
+    def __init__(
+        self,
+        window_seconds: int = 10,
+        timestamp_col: str = "Timestamp",
+        enable: bool = False,
+    ):
+        self.window_seconds = int(window_seconds)
+        self.timestamp_col = timestamp_col
+        self.enable = bool(enable)
+
+        # Columns to consider (if present)
+        self.src_ip_col = "IPV4_SRC_ADDR"
+        self.dst_ip_col = "IPV4_DST_ADDR"
+        self.src_port_col = "L4_SRC_PORT"
+        self.dst_port_col = "L4_DST_PORT"
+        self.proto_col = "PROTOCOL"
+        self.l7_col = "L7_PROTO"
+
+        # Numeric column to bin for entropy (if present)
+        self.pkt_len_col = "LONGEST_FLOW_PKT"
+
+    def fit(self, X: pd.DataFrame, y=None):
+        return self
+
+    def _get_window_key(self, df: pd.DataFrame) -> pd.Series:
+        if self.timestamp_col not in df.columns:
+            return pd.Series(np.zeros(len(df), dtype=np.int64), index=df.index)
+
+        ts = df[self.timestamp_col]
+        # Try numeric timestamps first
+        ts_num = pd.to_numeric(ts, errors="coerce")
+        if ts_num.notna().any():
+            # Heuristic: if values look like ms since epoch, scale down
+            median = float(ts_num.dropna().median()) if ts_num.notna().any() else 0.0
+            if median > 1e12:
+                ts_sec = (ts_num / 1000.0).fillna(0.0)
+            elif median > 1e10:
+                ts_sec = (ts_num / 1000.0).fillna(0.0)
+            else:
+                ts_sec = ts_num.fillna(0.0)
+            return (ts_sec // max(self.window_seconds, 1)).astype(np.int64)
+
+        # Fallback: parse datetime-like strings
+        ts_dt = pd.to_datetime(ts, errors="coerce", utc=True)
+        if ts_dt.notna().any():
+            ts_sec = (ts_dt.view("int64") / 1e9).fillna(0.0)
+            return (ts_sec // max(self.window_seconds, 1)).astype(np.int64)
+
+        return pd.Series(np.zeros(len(df), dtype=np.int64), index=df.index)
+
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+        if not self.enable:
+            return X if isinstance(X, pd.DataFrame) else pd.DataFrame(X)
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X)
+
+        df = X.copy()
+        if df.empty:
+            return df
+
+        window_key = self._get_window_key(df)
+        df["_entropy_window"] = window_key.values
+
+        # Packet length bin for entropy
+        if self.pkt_len_col in df.columns:
+            pkt = pd.to_numeric(df[self.pkt_len_col], errors="coerce").fillna(0.0)
+            # Fixed bins: small->large
+            df["_pkt_len_bin"] = pd.cut(
+                pkt,
+                bins=[-np.inf, 128, 256, 512, 1024, 1514, np.inf],
+                labels=["0_128", "128_256", "256_512", "512_1024", "1024_1514", "gt_1514"],
+            ).astype(str)
+        else:
+            df["_pkt_len_bin"] = "unknown"
+
+        group = df.groupby("_entropy_window", sort=False)
+
+        def _entropy_for_col(col: str) -> pd.Series:
+            if col not in df.columns:
+                # broadcast 0 entropy
+                return group.size().astype(float).apply(lambda _: 0.0)
+            return group[col].apply(_safe_entropy_from_series)
+
+        ent_src_ip = _entropy_for_col(self.src_ip_col)
+        ent_dst_ip = _entropy_for_col(self.dst_ip_col)
+        ent_src_port = _entropy_for_col(self.src_port_col)
+        ent_dst_port = _entropy_for_col(self.dst_port_col)
+        ent_proto = _entropy_for_col(self.proto_col)
+        ent_l7 = _entropy_for_col(self.l7_col)
+        ent_pktbin = group["_pkt_len_bin"].apply(_safe_entropy_from_series)
+
+        # Basic window context
+        window_flow_count = group.size().astype(float)
+
+        ent_frame = pd.DataFrame(
+            {
+                "ENT_SRC_IP": ent_src_ip,
+                "ENT_DST_IP": ent_dst_ip,
+                "ENT_SRC_PORT": ent_src_port,
+                "ENT_DST_PORT": ent_dst_port,
+                "ENT_PROTOCOL": ent_proto,
+                "ENT_L7_PROTO": ent_l7,
+                "ENT_PKT_LEN_BIN": ent_pktbin,
+                "WINDOW_FLOW_COUNT": window_flow_count,
+            }
+        )
+
+        # Merge back to rows
+        df = df.join(ent_frame, on="_entropy_window")
+        df.drop(columns=["_entropy_window", "_pkt_len_bin"], inplace=True, errors="ignore")
+        return df
 
 
 # ============================================================================
@@ -322,7 +457,12 @@ class FeatureScaler(BaseEstimator, TransformerMixin):
 # Preprocessing Pipeline Factory
 # ============================================================================
 
-def create_preprocessing_pipeline(save_dir: Optional[str] = None) -> Pipeline:
+def create_preprocessing_pipeline(
+    save_dir: Optional[str] = None,
+    *,
+    enable_entropy: bool = False,
+    entropy_window_seconds: int = 10,
+) -> Pipeline:
     """
     Create a preprocessing pipeline for IDS data.
     
@@ -339,6 +479,7 @@ def create_preprocessing_pipeline(save_dir: Optional[str] = None) -> Pipeline:
     ]
 
     pipeline = Pipeline([
+        ('entropy_features', EntropyWindowFeatures(window_seconds=entropy_window_seconds, enable=enable_entropy)),
         ('drop_columns', ColumnDropper(nan_threshold=0.5, columns_to_drop=drop_cols)),
         ('remove_duplicates', DuplicateRemover()),
         # ('filter_labels', LabelFilter(labels_to_remove=['Infiltration'])), # Removed filter for now
@@ -445,7 +586,14 @@ def get_unique_labels(path_pattern: str, chunksize: int = 100000) -> List[str]:
     return final_labels
 
 
-def fit_pipeline_and_encoder(path_pattern: str, sample_size: int = 500000, save_dir: Optional[str] = None):
+def fit_pipeline_and_encoder(
+    path_pattern: str,
+    sample_size: int = 500000,
+    save_dir: Optional[str] = None,
+    *,
+    enable_entropy: bool = False,
+    entropy_window_seconds: int = 10,
+):
     """
     Fit preprocessing pipeline and label encoder using a sample of the data.
     """
@@ -470,7 +618,11 @@ def fit_pipeline_and_encoder(path_pattern: str, sample_size: int = 500000, save_
     
     # 3. Fit pipeline
     print("Fitting preprocessing pipeline on sample...")
-    pipeline = create_preprocessing_pipeline(save_dir=save_dir)
+    pipeline = create_preprocessing_pipeline(
+        save_dir=save_dir,
+        enable_entropy=enable_entropy,
+        entropy_window_seconds=entropy_window_seconds,
+    )
     pipeline.fit(df_sample)
     
     print("✅ Pipeline and encoder fitted and saved.")

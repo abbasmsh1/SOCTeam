@@ -4,6 +4,10 @@ import subprocess
 import json
 import uuid
 import warnings
+import time
+from queue import Queue, Full
+from threading import Thread, Lock
+from collections import Counter
 
 # Suppress optional libpcap warning (not needed for CSV-based flow processing)
 warnings.filterwarnings("ignore", message=".*No libpcap provider available.*")
@@ -11,7 +15,7 @@ warnings.filterwarnings("ignore", message=".*No libpcap provider available.*")
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
-# Load .env first so MISTRAL_API_KEY and other vars are available
+# Load .env first so RAGARENN_API_KEY and other vars are available
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '..', '.env'))
 
@@ -36,7 +40,7 @@ except ImportError:
     FLOW_EXTRACTOR_AVAILABLE = False
 
 
-from fastapi import Header, HTTPException, Depends, BackgroundTasks
+from fastapi import Header, HTTPException, Depends, Query
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import logging
@@ -63,6 +67,14 @@ class IDSConfig:
     REPORTS_DIR = os.path.join(_BASE_DIR, "Reports")
     HOST = "0.0.0.0"
     PORT = 6050  # FIX: removed duplicate PORT assignment
+    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.85"))
+    AUTO_WORKFLOW_COOLDOWN_SEC = float(os.getenv("IDS_AUTO_WORKFLOW_COOLDOWN_SEC", "10"))
+    WORKFLOW_QUEUE_MAXSIZE = int(os.getenv("IDS_WORKFLOW_QUEUE_MAXSIZE", "200"))
+    REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "5"))
+    REPORTS_LIST_LIMIT = int(os.getenv("IDS_REPORTS_LIST_LIMIT", "200"))
+    REMEDIATION_LOG_LIMIT = int(os.getenv("IDS_REMEDIATION_LOG_LIMIT", "200"))
+    ENTROPY_WINDOW_SECONDS = int(os.getenv("IDS_ENTROPY_WINDOW_SECONDS", "10"))
+    PREDICT_MODE = os.getenv("IDS_PREDICT_MODE", "ann_only")  # ann_only|tree_only|ensemble
 
 # ---------------------------------------------------
 # IDS Predictor Class (for standalone use)
@@ -81,8 +93,12 @@ class IDSPredictor:
         self.model_path = model_path or IDSConfig.MODEL_PATH
         self.artifacts_dir = artifacts_dir or IDSConfig.ARTIFACTS_DIR
         self.model = None
+        self.tree_model = None
+        self.ensemble_weight = None
+        self.predict_mode = IDSConfig.PREDICT_MODE
         self.label_encoder = None
         self.preprocessor = None  # Use InferencePreprocessor
+        self._entropy = RollingEntropyWindow(window_seconds=IDSConfig.ENTROPY_WINDOW_SECONDS)
         self._load_model()
     
     def _load_model(self):
@@ -130,6 +146,21 @@ class IDSPredictor:
         self.model.eval()
         
         logger.info(f"IDS model loaded successfully. Using device: {self.device}")
+
+        # Optional: load ensemble artifacts (tree model + weight)
+        manifest_path = os.path.join(self.artifacts_dir, "ids_manifest.json")
+        try:
+            if os.path.exists(manifest_path):
+                with open(manifest_path, "r", encoding="utf-8") as fh:
+                    manifest = json.load(fh)
+                self.predict_mode = os.getenv("IDS_PREDICT_MODE", manifest.get("default_mode", self.predict_mode))
+                self.ensemble_weight = manifest.get("ensemble_weight", None)
+                tree_path = manifest.get("tree_model") or os.path.join(self.artifacts_dir, "tree_model.joblib")
+                if tree_path and os.path.exists(tree_path):
+                    self.tree_model = joblib.load(tree_path)
+                    logger.info(f"Loaded tree model for ensemble: {tree_path}")
+        except Exception as e:
+            logger.warning(f"Could not load ensemble artifacts: {e}")
     
     def preprocess_for_inference(self, df: pd.DataFrame) -> pd.DataFrame:
         """
@@ -146,8 +177,11 @@ class IDSPredictor:
         Predict intrusion class from a dictionary record.
         Returns textual label (not encoded).
         """
+        enriched = dict(data)
+        enriched.update(self._entropy.observe_and_compute(enriched))
+
         # Convert input dictionary to DataFrame
-        df = pd.DataFrame([data])
+        df = pd.DataFrame([enriched])
         
         # Preprocess the DataFrame
         features = self.preprocess_for_inference(df)
@@ -161,13 +195,89 @@ class IDSPredictor:
             with torch.no_grad():
                 output = self.model(features_tensor)
                 
-        pred_idx = output.argmax(dim=1).item()
+        ann_probs = torch.softmax(output, dim=1).detach().cpu().numpy()[0]
+        probs = ann_probs
+        mode = (self.predict_mode or "ann_only").lower().strip()
+
+        # Tree-only or ensemble mode if tree artifact is available
+        if self.tree_model is not None:
+            try:
+                X_np = features.values.astype(np.float32)
+                tree_probs = self.tree_model.predict_proba(X_np)[0]
+                if mode == "tree_only":
+                    probs = tree_probs
+                elif mode == "ensemble":
+                    w = float(self.ensemble_weight) if self.ensemble_weight is not None else 0.5
+                    probs = (w * ann_probs) + ((1.0 - w) * tree_probs)
+            except Exception as e:
+                logger.warning(f"Tree inference failed; falling back to ANN: {e}")
+
+        pred_idx = int(np.argmax(probs))
         pred_label = self.label_encoder.inverse_transform([pred_idx])[0]
-        
+        confidence = float(probs[pred_idx])
+
         return {
             "predicted_label": pred_label,
             "predicted_index": int(pred_idx),
-            "confidence": float(torch.softmax(output, dim=1)[0][pred_idx].item())
+            "confidence": confidence,
+            "predict_mode": mode,
+        }
+
+
+class RollingEntropyWindow:
+    """
+    Rolling window entropy features for online inference.
+
+    Stores recent observations and computes Shannon entropy (base2) across the
+    last `window_seconds` for key categorical fields.
+    """
+
+    def __init__(self, window_seconds: int = 10):
+        self.window_seconds = max(int(window_seconds), 1)
+        self._events: deque = deque()
+
+    @staticmethod
+    def _entropy(counter: Counter) -> float:
+        total = sum(counter.values())
+        if total <= 0:
+            return 0.0
+        probs = [c / total for c in counter.values() if c > 0]
+        return float(-sum(p * np.log2(p) for p in probs))
+
+    def _prune(self, now: float) -> None:
+        cutoff = now - self.window_seconds
+        while self._events and self._events[0][0] < cutoff:
+            self._events.popleft()
+
+    def observe_and_compute(self, record: Dict[str, Any]) -> Dict[str, float]:
+        now = time.time()
+        self._prune(now)
+
+        src_ip = str(record.get("Source IP", record.get("SourceIP", record.get("IPV4_SRC_ADDR", "UNKNOWN"))))
+        dst_ip = str(record.get("Destination IP", record.get("DestinationIP", record.get("IPV4_DST_ADDR", "UNKNOWN"))))
+        src_port = str(record.get("L4_SRC_PORT", record.get("Source Port", record.get("src_port", "0"))))
+        dst_port = str(record.get("L4_DST_PORT", record.get("Destination Port", record.get("dst_port", "0"))))
+        proto = str(record.get("Protocol", record.get("PROTOCOL", "0")))
+        l7 = str(record.get("L7_PROTO", record.get("Application Protocol", "0")))
+
+        self._events.append((now, src_ip, dst_ip, src_port, dst_port, proto, l7))
+
+        src_ip_c = Counter(e[1] for e in self._events)
+        dst_ip_c = Counter(e[2] for e in self._events)
+        src_port_c = Counter(e[3] for e in self._events)
+        dst_port_c = Counter(e[4] for e in self._events)
+        proto_c = Counter(e[5] for e in self._events)
+        l7_c = Counter(e[6] for e in self._events)
+
+        return {
+            "ENT_SRC_IP": self._entropy(src_ip_c),
+            "ENT_DST_IP": self._entropy(dst_ip_c),
+            "ENT_SRC_PORT": self._entropy(src_port_c),
+            "ENT_DST_PORT": self._entropy(dst_port_c),
+            "ENT_PROTOCOL": self._entropy(proto_c),
+            "ENT_L7_PROTO": self._entropy(l7_c),
+            "ENT_PKT_LEN_BIN": 0.0,  # unavailable from live API payloads by default
+            "WINDOW_FLOW_COUNT": float(len(self._events)),
         }
     
     def predict_batch(self, df: pd.DataFrame) -> List[Dict[str, Any]]:
@@ -280,6 +390,74 @@ class IDSPredictor:
 _predictor = None
 _workflow = None
 _history_mgr = None
+_workflow_queue: "Queue[Dict[str, Any]]" = Queue(maxsize=IDSConfig.WORKFLOW_QUEUE_MAXSIZE)
+_workflow_worker_started = False
+_workflow_worker_lock = Lock()
+_last_auto_workflow_ts = 0.0
+_auto_workflow_lock = Lock()
+_reports_cache: List[Dict[str, str]] = []
+_reports_cache_ts = 0.0
+_reports_cache_lock = Lock()
+
+def _run_soc_workflow(alert_data: dict, current_status: str) -> Dict[str, Any]:
+    """Run SOC workflow synchronously and return result payload."""
+    workflow = get_workflow()
+    input_data = {
+        "alert_data": alert_data,
+        "current_status": current_status,
+        "context_logs": "System live monitoring active",
+        "current_incidents": "N/A"
+    }
+    return workflow.process(input_data)
+
+def _workflow_worker_loop():
+    """Dedicated daemon worker that drains queued workflow requests."""
+    while True:
+        job = _workflow_queue.get()
+        try:
+            _run_soc_workflow(job["alert_data"], job["current_status"])
+            logger.info(
+                "Queued workflow complete for %s",
+                job["alert_data"].get("predicted_label", "Unknown")
+            )
+        except Exception as e:
+            logger.error(f"Queued workflow failed: {e}")
+        finally:
+            _workflow_queue.task_done()
+
+def _ensure_workflow_worker():
+    """Start workflow worker once, lazily."""
+    global _workflow_worker_started
+    if _workflow_worker_started:
+        return
+    with _workflow_worker_lock:
+        if _workflow_worker_started:
+            return
+        worker = Thread(target=_workflow_worker_loop, name="soc-workflow-worker", daemon=True)
+        worker.start()
+        _workflow_worker_started = True
+        logger.info("SOC workflow background worker started")
+
+def _queue_workflow(alert_data: dict, current_status: str) -> Dict[str, Any]:
+    """Queue workflow job and return queue status."""
+    _ensure_workflow_worker()
+    try:
+        _workflow_queue.put_nowait({
+            "alert_data": alert_data,
+            "current_status": current_status
+        })
+        return {
+            "queued": True,
+            "queue_size": _workflow_queue.qsize(),
+            "message": "Workflow queued"
+        }
+    except Full:
+        logger.warning("Workflow queue is full; dropping workflow request")
+        return {
+            "queued": False,
+            "queue_size": _workflow_queue.qsize(),
+            "message": "Workflow queue full"
+        }
 
 def get_history_manager():
     """Get or create global FlowHistoryManager instance."""
@@ -309,7 +487,7 @@ def get_workflow():
     global _workflow
     if _workflow is None:
         from Implementation.src.Agents.SOCWorkflow import SOCWorkflow
-        api_key = os.getenv("MISTRAL_API_KEY")
+        api_key = os.getenv("RAGARENN_API_KEY")
         
         # Read agent URLs from environment if they are configured to run as microservices
         agent_urls = {}
@@ -361,7 +539,7 @@ async def verify_api_key(x_api_key: Optional[str] = Header(None, alias="X-API-Ke
 # API Routes
 # ---------------------------------------------------
 @app.post("/predict/", dependencies=[Depends(verify_api_key)])
-async def predict_api(data: dict, background_tasks: BackgroundTasks):
+async def predict_api(data: dict):
     """Predict intrusion class from a JSON record (API endpoint)."""
     predictor = get_predictor()
     result = predictor.predict(data)
@@ -388,48 +566,52 @@ async def predict_api(data: dict, background_tasks: BackgroundTasks):
     except Exception as e:
         logger.error(f"Critical: Failed to persist flow to history DB: {e}")
 
-    # Automated Response: If confidence is high and it's a threat, trigger workflow in background
-    if result['predicted_label'] != 'BENIGN' and result['confidence'] > 0.85:
-        logger.warning(f"High-confidence threat detected! Auto-triggering SOC Workflow...")
-        background_tasks.add_task(process_workflow_background, result)
-        result["automated_response"] = "SOC Workflow Triggered"
+    # Automated Response under load control: queue workflows and enforce cooldown.
+    if result['predicted_label'] != 'BENIGN' and result['confidence'] > IDSConfig.AUTO_WORKFLOW_CONFIDENCE:
+        now = time.monotonic()
+        should_queue = False
+        with _auto_workflow_lock:
+            global _last_auto_workflow_ts
+            if now - _last_auto_workflow_ts >= IDSConfig.AUTO_WORKFLOW_COOLDOWN_SEC:
+                _last_auto_workflow_ts = now
+                should_queue = True
+
+        if should_queue:
+            queue_result = _queue_workflow(result, "Automated API Response")
+            if queue_result["queued"]:
+                logger.warning("High-confidence threat detected; workflow queued")
+                result["automated_response"] = "SOC Workflow Queued"
+            else:
+                result["automated_response"] = "SOC Workflow Skipped (Queue Full)"
+        else:
+            result["automated_response"] = "SOC Workflow Deferred (Cooldown)"
         
     return result
 
-async def process_workflow_background(alert_data: dict):
-    """Background task to run the full SOC workflow for a detection."""
-    try:
-        workflow = get_workflow()
-        input_data = {
-            "alert_data": alert_data,
-            "current_status": "Automated API Response",
-            "context_logs": "System live monitoring active",
-            "current_incidents": "N/A"
-        }
-        workflow.process(input_data)
-        logger.info(f"Automated workflow complete for {alert_data.get('predicted_label')}")
-    except Exception as e:
-        logger.error(f"Failed automated workflow: {e}")
-
 @app.post("/workflow/process", dependencies=[Depends(verify_api_key)])
-async def process_workflow(alert_data: dict):
-    """Process an alert through the full SOC Workflow."""
-    workflow = get_workflow()
-    logger.info(f"Starting SOC Workflow for alert: {alert_data.get('Attack', 'Unknown')}")
-    
-    input_data = {
-        "alert_data": alert_data,
-        "current_status": "API Triggered Workflow",
-        "context_logs": "System live monitoring active",
-        "current_incidents": "N/A"
+async def process_workflow(alert_data: dict, sync: bool = Query(False)):
+    """
+    Process an alert through SOC workflow.
+    - sync=true: run inline and return full workflow result
+    - sync=false (default): enqueue and return immediately
+    """
+    logger.info(f"Workflow request for alert: {alert_data.get('Attack', 'Unknown')} (sync={sync})")
+
+    if sync:
+        try:
+            return _run_soc_workflow(alert_data, "API Triggered Workflow")
+        except Exception as e:
+            logger.error(f"Workflow processing failed: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+    queue_result = _queue_workflow(alert_data, "API Triggered Workflow")
+    if not queue_result["queued"]:
+        raise HTTPException(status_code=503, detail=queue_result["message"])
+    return {
+        "status": "accepted",
+        "detail": queue_result["message"],
+        "queue_size": queue_result["queue_size"]
     }
-    
-    try:
-        result = workflow.process(input_data)
-        return result
-    except Exception as e:
-        logger.error(f"Workflow processing failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/reports", dependencies=[Depends(verify_api_key)])
 def list_reports():
@@ -437,16 +619,35 @@ def list_reports():
     reports_dir = IDSConfig.REPORTS_DIR
     if not os.path.exists(reports_dir):
         return []
-    
-    reports = []
-    for f in os.listdir(reports_dir):
-        if f.endswith(".md"):
-            reports.append({
-                "id": f,
-                "name": f,
-                "created_at": datetime.fromtimestamp(os.path.getctime(os.path.join(reports_dir, f))).isoformat()
-            })
-    return sorted(reports, key=lambda x: x["created_at"], reverse=True)
+
+    now = time.monotonic()
+    global _reports_cache_ts, _reports_cache
+    if now - _reports_cache_ts < IDSConfig.REPORTS_CACHE_TTL_SEC:
+        return _reports_cache
+
+    with _reports_cache_lock:
+        if now - _reports_cache_ts < IDSConfig.REPORTS_CACHE_TTL_SEC:
+            return _reports_cache
+
+        reports = []
+        with os.scandir(reports_dir) as entries:
+            for entry in entries:
+                if not entry.is_file() or not entry.name.endswith(".md"):
+                    continue
+                try:
+                    created_at = datetime.fromtimestamp(entry.stat().st_ctime).isoformat()
+                except OSError:
+                    continue
+                reports.append({
+                    "id": entry.name,
+                    "name": entry.name,
+                    "created_at": created_at
+                })
+
+        reports.sort(key=lambda x: x["created_at"], reverse=True)
+        _reports_cache = reports[:IDSConfig.REPORTS_LIST_LIMIT]
+        _reports_cache_ts = time.monotonic()
+        return _reports_cache
 
 @app.get("/reports/{report_id}", dependencies=[Depends(verify_api_key)])
 def get_report(report_id: str):
@@ -482,7 +683,16 @@ def get_stats():
     
     # Calculate packets/sec (approximate based on last 10 seconds)
     now = datetime.now()
-    recent_events = [e for e in live_events if (now - datetime.fromisoformat(e['timestamp'])).total_seconds() < 10]
+    recent_events = []
+    for e in live_events:
+        ts = e.get('timestamp')
+        if not ts:
+            continue
+        try:
+            if (now - datetime.fromisoformat(ts)).total_seconds() < 10:
+                recent_events.append(e)
+        except Exception:
+            continue
     packets_sec = len(recent_events) / 10 if recent_events else 0
     
     return {
@@ -502,7 +712,7 @@ def get_remediation_logs():
     try:
         with open(log_path, 'r', encoding='utf-8') as f:
             logs = json.load(f)
-            return logs[::-1] # Return reversed (latest first)
+            return logs[::-1][:IDSConfig.REMEDIATION_LOG_LIMIT] # latest first + bounded payload
     except Exception as e:
         logger.error(f"Failed to read remediation logs: {e}")
         return []

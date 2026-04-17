@@ -3,11 +3,20 @@ import torch
 import pandas as pd
 import joblib
 import numpy as np
+import json
+import hashlib
 from torch.utils.data import IterableDataset, DataLoader
 from ann_model import IDSModel, IDSTrainer
 from preprocess import fit_pipeline_and_encoder, process_data_chunks
 import glob
 import re
+from tree_ensemble import (
+    train_tree_model,
+    save_tree_model,
+    predict_proba_tree,
+    tune_ensemble_weight,
+)
+from sklearn.model_selection import train_test_split
 
 # Calculate base directory relative to this file
 # This file is at: Implementation/src/IDS/train.py
@@ -67,7 +76,13 @@ def train_ids_model():
     # 1. Fit pipeline and encoder on a sample
     print("\nPreparing pipeline and encoders...")
     # Use a smaller sample for fitting to be fast, but large enough to capture distribution
-    pipeline, label_encoder = fit_pipeline_and_encoder(data_path, sample_size=100000, save_dir=models_dir)
+    pipeline, label_encoder = fit_pipeline_and_encoder(
+        data_path,
+        sample_size=100000,
+        save_dir=models_dir,
+        enable_entropy=True,
+        entropy_window_seconds=10,
+    )
     
     # 2. Determine input size by transforming a small dummy chunk
     print("Determining input size...")
@@ -166,6 +181,75 @@ def train_ids_model():
     
     # Evaluate
     trainer.evaluate()
+
+    # ------------------------------------------------------------------
+    # Tree model + ensemble tuning (sampled, to keep memory bounded)
+    # ------------------------------------------------------------------
+    print("\nTraining tree model (sampled) for hybrid ensemble...")
+    # Sample a bounded amount of data from the already-processed stream
+    X_buf = []
+    y_buf = []
+    max_rows = 200000  # keep manageable on Windows
+    for X_chunk, y_chunk in process_data_chunks(
+        data_path, pipeline, label_encoder, chunksize=50000, split="train"
+    ):
+        X_buf.append(X_chunk)
+        y_buf.append(y_chunk)
+        if sum(x.shape[0] for x in X_buf) >= max_rows:
+            break
+
+    manifest = {
+        "feature_schema_version": "entropy_v1",
+        "artifacts_dir": models_dir,
+        "ann_checkpoint": os.path.join(models_dir, "best_ids_model.pth"),
+        "tree_model": None,
+        "ensemble_weight": None,
+        "metrics": {},
+    }
+
+    # Hash feature schema for safety
+    feature_names_path = os.path.join(models_dir, "feature_names.txt")
+    if os.path.exists(feature_names_path):
+        with open(feature_names_path, "rb") as fh:
+            manifest["feature_names_sha256"] = hashlib.sha256(fh.read()).hexdigest()
+
+    if X_buf and y_buf:
+        X_all = np.vstack(X_buf)
+        y_all = np.concatenate(y_buf)
+        X_train_s, X_val_s, y_train_s, y_val_s = train_test_split(
+            X_all, y_all, test_size=0.2, random_state=42, stratify=y_all
+        )
+
+        tree_model = train_tree_model(X_train_s, y_train_s, random_state=42)
+        tree_path = os.path.join(models_dir, "tree_model.joblib")
+        save_tree_model(tree_model, tree_path)
+        print(f"✅ Tree model saved to {tree_path}")
+        manifest["tree_model"] = tree_path
+
+        # ANN logits on validation sample
+        model.eval()
+        with torch.no_grad():
+            logits = model(torch.tensor(X_val_s, dtype=torch.float32).to(device)).cpu().numpy()
+        tree_proba = predict_proba_tree(tree_model, X_val_s)
+        tune = tune_ensemble_weight(logits, tree_proba, y_val_s)
+        print(
+            f"✅ Ensemble tuning: best_w={tune.best_weight:.2f} macroF1={tune.best_macro_f1:.4f} "
+            f"(ann={tune.ann_macro_f1:.4f}, tree={tune.tree_macro_f1:.4f})"
+        )
+        manifest["ensemble_weight"] = tune.best_weight
+        manifest["metrics"]["macro_f1"] = {
+            "ann": tune.ann_macro_f1,
+            "tree": tune.tree_macro_f1,
+            "ensemble": tune.best_macro_f1,
+        }
+    else:
+        print("⚠️ Skipping tree model training: could not sample training data.")
+
+    # Persist manifest
+    manifest_path = os.path.join(models_dir, "ids_manifest.json")
+    with open(manifest_path, "w", encoding="utf-8") as fh:
+        json.dump(manifest, fh, indent=2)
+    print(f"✅ IDS manifest saved to {manifest_path}")
 
     model_path = os.path.join(models_dir, "best_ids_model.pth")
     print(f"✅ Model training complete. Saved to {model_path}")

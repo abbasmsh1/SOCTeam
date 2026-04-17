@@ -12,11 +12,11 @@ import { idsApi } from '../utils/api';
 /** Shape of a single remediation log entry returned by the API. */
 interface RemediationLog {
   id: string;
-  action: string;       // e.g. "BLOCK_IP", "RATE_LIMIT"
-  target: string;       // IP address or hostname targeted
-  reason: string;       // Human-readable reason for the action
-  status: string;       // "EXECUTED" | "SIMULATED_SUCCESS" | "PENDING"
-  timestamp: string;    // ISO 8601 timestamp
+  action?: string;       // e.g. "BLOCK_IP", "RATE_LIMIT"
+  target?: string;       // IP address or hostname targeted
+  reason?: string;       // Human-readable reason for the action
+  status?: string;       // "EXECUTED" | "SIMULATED_SUCCESS" | "PENDING"
+  timestamp?: string;    // ISO 8601 timestamp
   duration?: string;    // Optional blocking duration (e.g. "24h")
   auto_pilot?: boolean; // Whether the action was triggered automatically
 }
@@ -32,7 +32,7 @@ export default function BlockedIpsTable() {
     const fetchLogs = async () => {
       try {
         const res = await idsApi.getRemediationLogs();
-        setLogs(res.data);
+        setLogs(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
         console.error("Failed to fetch remediation logs:", error);
       } finally {
@@ -45,7 +45,7 @@ export default function BlockedIpsTable() {
   }, []);
 
   /** Green = completed, amber = pending, neutral = other. */
-  const getStatusColor = (status: string): string => {
+  const getStatusColor = (status?: string): string => {
     switch (status) {
       case 'EXECUTED':
       case 'SIMULATED_SUCCESS':
@@ -58,9 +58,10 @@ export default function BlockedIpsTable() {
   };
 
   /** Red = block, amber = rate limit, blue = other. */
-  const getActionColor = (action: string): string => {
-    if (action.includes('BLOCK')) return 'text-malicious bg-malicious/10 border-malicious/30';
-    if (action.includes('LIMIT')) return 'text-warning bg-warning/10 border-warning/30';
+  const getActionColor = (action?: string): string => {
+    const safeAction = (action ?? '').toUpperCase();
+    if (safeAction.includes('BLOCK')) return 'text-malicious bg-malicious/10 border-malicious/30';
+    if (safeAction.includes('LIMIT')) return 'text-warning bg-warning/10 border-warning/30';
     return 'text-primary bg-primary/10 border-primary/30';
   };
 
@@ -103,21 +104,23 @@ export default function BlockedIpsTable() {
                     </td></tr>
                 ) : logs.length > 0 ? (
                     logs.map((log, idx) => (
-                        <motion.tr key={log.timestamp + idx} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                        <motion.tr key={`${log.timestamp ?? 'unknown'}-${idx}`} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
                             className="border-b border-white/5 hover:bg-white/5 transition-colors group">
                             {/* Timestamp */}
                             <td className="py-4 pl-4 align-top">
                                 <div className="flex items-center gap-2 text-slate-400">
                                     <Clock size={12} className="opacity-50" />
                                     <span className="text-[11px] font-mono">
-                                        {new Date(log.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'medium' })}
+                                        {log.timestamp
+                                          ? new Date(log.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'medium' })
+                                          : 'Unknown time'}
                                     </span>
                                 </div>
                             </td>
                             {/* Action badge */}
                             <td className="py-4 align-top">
                                 <span className={`text-[10px] font-bold font-mono px-2 py-1 border ${getActionColor(log.action)}`}>
-                                    {log.action}
+                                    {log.action ?? 'UNKNOWN_ACTION'}
                                 </span>
                             </td>
                             {/* Target IP */}
@@ -125,7 +128,7 @@ export default function BlockedIpsTable() {
                                 <div className="flex items-center gap-2">
                                     <Target size={12} className="text-slate-500 hidden sm:block" />
                                     <span className="text-[11px] font-mono text-white bg-black/50 px-2 py-0.5 border border-white/10">
-                                        {log.target}
+                                        {log.target ?? 'Unknown target'}
                                     </span>
                                 </div>
                             </td>
@@ -135,13 +138,13 @@ export default function BlockedIpsTable() {
                             </td>
                             {/* Reason */}
                             <td className="py-4 align-top hidden lg:table-cell">
-                                <div className="text-[11px] text-slate-400 max-w-xs truncate" title={log.reason}>{log.reason}</div>
+                                <div className="text-[11px] text-slate-400 max-w-xs truncate" title={log.reason ?? ''}>{log.reason ?? 'No reason provided'}</div>
                             </td>
                             {/* Status + auto-pilot */}
                             <td className="py-4 pr-4 align-top text-right">
                                 <div className="flex items-center justify-end gap-2">
                                     <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 border ${getStatusColor(log.status)}`}>
-                                        {log.status === 'SIMULATED_SUCCESS' ? 'SIMULATED' : log.status}
+                                        {log.status === 'SIMULATED_SUCCESS' ? 'SIMULATED' : (log.status ?? 'UNKNOWN')}
                                     </span>
                                     {log.auto_pilot && (
                                         <span title="Auto-pilot active"><Activity size={12} className="text-primary animate-pulse" /></span>

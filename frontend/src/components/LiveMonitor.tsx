@@ -8,7 +8,7 @@ interface Flow {
   SourceIP: string;
   DestinationIP: string;
   Protocol: string;
-  Attack: string;
+  Attack?: string;
   timestamp: string;
   severity?: string;
 }
@@ -20,7 +20,8 @@ export default function LiveMonitor() {
     const fetchFlows = async () => {
       try {
         const res = await idsApi.getEvents();
-        setFlows(res.data.slice(0, 8)); // Top 8 flows
+        const raw = Array.isArray(res.data) ? res.data : [];
+        setFlows(raw.slice(0, 8)); // Top 8 flows
       } catch (error) {
         console.error("Failed to fetch flows:", error);
       }
@@ -62,23 +63,29 @@ export default function LiveMonitor() {
           <tbody>
             <AnimatePresence initial={false}>
               {flows.map((flow) => (
+                (() => {
+                  const attack = (flow.Attack ?? 'Benign').toString();
+                  const isBenign = attack.toLowerCase() === 'benign';
+                  return (
                 <motion.tr
                   key={flow.id}
                   initial={{ opacity: 0, backgroundColor: 'rgba(255,255,255,0.05)' }}
                   animate={{ opacity: 1, backgroundColor: 'rgba(255,255,255,0)' }}
                   className="group hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                 >
-                  <td className="py-3 px-2 text-slate-300 group-hover:text-white">{flow.SourceIP}</td>
-                  <td className="py-3 px-2 text-slate-500">{flow.DestinationIP}</td>
-                  <td className="py-3 px-2 font-bold text-slate-400 opacity-50">{flow.Protocol}</td>
+                  <td className="py-3 px-2 text-slate-300 group-hover:text-white">{flow.SourceIP ?? 'Unknown'}</td>
+                  <td className="py-3 px-2 text-slate-500">{flow.DestinationIP ?? 'Unknown'}</td>
+                  <td className="py-3 px-2 font-bold text-slate-400 opacity-50">{flow.Protocol ?? 'N/A'}</td>
                   <td className="py-3 px-2 text-right">
                     <span className={`px-1 font-bold ${
-                      flow.Attack === 'Benign' ? 'text-benign/40' : 'text-malicious bg-malicious/10'
+                      isBenign ? 'text-benign/40' : 'text-malicious bg-malicious/10'
                     }`}>
-                      {flow.Attack.toUpperCase()}
+                      {attack.toUpperCase()}
                     </span>
                   </td>
                 </motion.tr>
+                  );
+                })()
               ))}
             </AnimatePresence>
           </tbody>

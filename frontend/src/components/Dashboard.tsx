@@ -17,6 +17,7 @@ import { useSocDashboard, type Report } from '../hooks/useSocDashboard';
 import LiveMonitor from './LiveMonitor';
 import AgentFlow from './AgentFlow';
 import RemediationPanel from './RemediationPanel';
+import BlockedIpsTable from './BlockedIpsTable';
 import { StatCard } from './ui/StatCard';
 
 /** Placeholder data for the network traffic chart until live data is wired. */
@@ -135,6 +136,9 @@ export default function Dashboard() {
 
           {/* Real-time threat monitor feed */}
           <LiveMonitor />
+
+          {/* Full remediation action log table */}
+          <BlockedIpsTable />
           
           {/* Agent Reasoning Path – shows which tier processed the latest report */}
           <div className="hud-card border-primary/20">

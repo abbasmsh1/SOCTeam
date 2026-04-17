@@ -40,10 +40,9 @@ python-dotenv>=0.19.0
 # LLM Integration
 langchain
 langchain-core
-langchain-mistralai
+langchain-openai
 langgraph
 langgraph-checkpoint
-mistralai
 
 # Data Visualization (optional, for analysis)
 matplotlib>=3.5.0

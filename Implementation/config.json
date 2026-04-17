@@ -1,5 +1,6 @@
 {
-  "Model": "mistral-large-latest",
+  "Model": "mistral-small",
+  "Provider": "ragarenn",
   "Temperature": 0.7,
   "Max_Tokens": 2048,
   "Top_P": 0.9,

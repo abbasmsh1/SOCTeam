@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 
 from Implementation.src.Agents.AgentTools import get_agent_tools
 from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
-from Implementation.src.Agents.runtime_compat import AIMessage, ChatMistralAI, MemorySaver, StateGraph
+from Implementation.src.Agents.runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
 from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class BaseAgent:
 
         self.agent_name = agent_name
         self.config = AgentConfig.load_config()
-        self.api_key = api_key or os.getenv("MISTRAL_API_KEY")
+        self.api_key = api_key or os.getenv("RAGARENN_API_KEY")
         self.hexstrike = None
         self.tools = []
         self.tool_map: Dict[str, Any] = {}
@@ -143,16 +143,17 @@ class BaseAgent:
             self.graph = None
             self.app = None
 
-    def _initialize_llm(self, temperature: float) -> ChatMistralAI:
+    def _initialize_llm(self, temperature: float) -> ChatOpenAI:
         callbacks = []
         if getattr(self, "tracer", None) and hasattr(self.tracer, "get_langchain_handler"):
             handler = self.tracer.get_langchain_handler()
             if handler:
                 callbacks.append(handler)
 
-        return ChatMistralAI(
-            model=self.config.get("Model", "mistral-large-latest"),
+        return ChatOpenAI(
+            model=self.config.get("Model", "mistral-small"),
             api_key=self.api_key,
+            base_url=os.getenv("RAGARENN_API_BASE", "https://api.openai.com/v1"),
             temperature=temperature,
             timeout=60,
             callbacks=callbacks,

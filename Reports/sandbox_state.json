@@ -1,0 +1,32 @@
+{
+  "blocked_ips": {},
+  "blocked_subnets": {},
+  "isolation_network": {},
+  "rate_limits": {},
+  "isolated_hosts": {},
+  "tcp_resets": [],
+  "enrichment_queue": [],
+  "password_resets": [],
+  "siem_tuning": [],
+  "threat_escalations": [],
+  "history": [
+    {
+      "timestamp": "2026-04-17T18:36:22.814136",
+      "action": "TUNE_SIEM",
+      "target": "IDS_RULESET",
+      "reason": "Report recommendation: 4. Draft a Temporary Block Rule (If Confirmed Malicious)",
+      "auto_pilot": false,
+      "sandboxed": true,
+      "status": "STAGED"
+    },
+    {
+      "timestamp": "2026-04-17T18:36:22.914201",
+      "action": "TUNE_SIEM",
+      "target": "IDS_RULESET",
+      "reason": "Report recommendation: \"If confirmed malicious, draft a block rule and escalate.\"",
+      "auto_pilot": false,
+      "sandboxed": true,
+      "status": "STAGED"
+    }
+  ]
+}

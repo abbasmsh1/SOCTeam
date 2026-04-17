@@ -21,7 +21,7 @@ if (-not (Test-Path $LogDir)) {
 }
 
 $env:PYTHONPATH = $ProjectRoot
-$PythonExe = "C:\ProgramData\anaconda3\python.exe"
+$PythonExe = "E:\IMT\2nd Sem\Project\venv\Scripts\python.exe"
 
 # Load .env
 $envFile = Join-Path $ImplRoot ".env"

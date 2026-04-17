@@ -100,6 +100,117 @@ class SOCWorkflow:
             self.app = self.graph.compile()
         else:
             self.app = None
+
+    def _normalize_recommended_actions(self, actions: Any) -> list[str]:
+        """Normalize recommendation payload into a list of action strings."""
+        if isinstance(actions, list):
+            return [str(a).strip() for a in actions if str(a).strip()]
+        if isinstance(actions, str):
+            text = actions.strip()
+            if not text or text.upper() == "N/A":
+                return []
+            if "\n" in text:
+                parts = [p.strip("-* ").strip() for p in text.splitlines()]
+            else:
+                parts = [p.strip() for p in text.split(",")]
+            return [p for p in parts if p]
+        return []
+
+    def _build_actionable_rules_from_recommendations(
+        self,
+        recommendations: Any,
+        alert_data: Dict[str, Any],
+    ) -> str:
+        """
+        Convert high-level recommendations into executable ACTIONABLE_RULES JSON.
+        This ensures report recommendations can be enforced automatically.
+        """
+        source_ip = (
+            alert_data.get("SourceIP")
+            or alert_data.get("Source IP")
+            or alert_data.get("src_ip")
+            or "UNKNOWN"
+        )
+        target_ip = (
+            alert_data.get("DestinationIP")
+            or alert_data.get("Destination IP")
+            or alert_data.get("dst_ip")
+            or source_ip
+        )
+        threat_label = str(alert_data.get("Attack", alert_data.get("predicted_label", "Unknown")))
+        action_texts = self._normalize_recommended_actions(recommendations)
+        if not action_texts:
+            return ""
+
+        rules = []
+        for rec in action_texts:
+            rec_lower = rec.lower()
+            if "block" in rec_lower and "ip" in rec_lower:
+                rules.append({
+                    "action": "BLOCK_IP",
+                    "target": source_ip,
+                    "duration": "1h",
+                    "reason": f"Report recommendation: {rec}",
+                })
+            elif "rate" in rec_lower and "limit" in rec_lower:
+                rules.append({
+                    "action": "RATE_LIMIT",
+                    "target": source_ip,
+                    "limit": "50/s",
+                    "reason": f"Report recommendation: {rec}",
+                })
+            elif "isolate" in rec_lower:
+                rules.append({
+                    "action": "ISOLATE_HOST",
+                    "target": source_ip,
+                    "reason": f"Report recommendation: {rec}",
+                })
+            elif "reset" in rec_lower and "password" in rec_lower:
+                rules.append({
+                    "action": "RESET_PASSWORD",
+                    "target": source_ip,
+                    "reason": f"Report recommendation: {rec}",
+                })
+            elif "scan" in rec_lower or "enrich" in rec_lower or "investigate" in rec_lower:
+                rules.append({
+                    "action": "ENRICH_TARGET",
+                    "target": target_ip,
+                    "reason": f"Report recommendation: {rec}",
+                })
+            elif "siem" in rec_lower or "rule" in rec_lower or "detection" in rec_lower:
+                rules.append({
+                    "action": "TUNE_SIEM",
+                    "target": "IDS_RULESET",
+                    "reason": f"Report recommendation: {rec}",
+                })
+
+        if not rules:
+            rules.append({
+                "action": "ENRICH_TARGET",
+                "target": target_ip,
+                "reason": f"Generic recommendation for {threat_label}",
+            })
+
+        return "[ACTIONABLE_RULES]\n" + json.dumps(rules, indent=2) + "\n[/ACTIONABLE_RULES]"
+
+    def _merge_defense_plan_with_recommendations(
+        self,
+        defense_plan: str,
+        recommendations: Any,
+        alert_data: Dict[str, Any],
+    ) -> str:
+        """Append actionable rule block derived from recommendations when missing."""
+        plan_text = str(defense_plan or "")
+        if "[ACTIONABLE_RULES]" in plan_text and "[/ACTIONABLE_RULES]" in plan_text:
+            return plan_text
+
+        generated_block = self._build_actionable_rules_from_recommendations(
+            recommendations=recommendations,
+            alert_data=alert_data,
+        )
+        if not generated_block:
+            return plan_text
+        return f"{plan_text}\n\n{generated_block}".strip()
     
     def _create_graph(self) -> StateGraph:
         """Create the LangGraph workflow."""
@@ -268,6 +379,11 @@ class SOCWorkflow:
         blue_plan = war_room_result.get("blue_team_plan", {})
         generated_code = blue_plan.get("generated_defensive_code", {}).get("final_code", "")
         defense_plan = blue_plan.get("defense_plan", tier3_result.get("response_plan", ""))
+        defense_plan = self._merge_defense_plan_with_recommendations(
+            defense_plan=defense_plan,
+            recommendations=tier2_result.get("recommended_actions", []),
+            alert_data=alert_data,
+        )
         
         # Determine auto-pilot based on confidence
         # We look for IDS or Analyst confidence > 0.90
@@ -330,6 +446,26 @@ class SOCWorkflow:
             final_result["final_severity"] = tier1_result.get("severity", "Unknown")
             final_result["incident_classification"] = "Tier 1 Analysis Only"
             final_result["recommended_actions"] = tier1_result.get("triage_response", "N/A")
+
+        # If recommendations exist but remediation did not run earlier, execute them now.
+        if not final_result.get("remediation"):
+            recommendation_plan = self._build_actionable_rules_from_recommendations(
+                recommendations=final_result.get("recommended_actions", []),
+                alert_data=state.get("alert_data", {}),
+            )
+            if recommendation_plan:
+                try:
+                    fallback_remediation = self.remediation_executor.process({
+                        "threat_info": state.get("alert_data", {}),
+                        "generated_code": "",
+                        "defense_plan": recommendation_plan,
+                        "auto_pilot": False,
+                    })
+                    final_result["remediation"] = fallback_remediation
+                    state["remediation_result"] = fallback_remediation
+                    logger.info("Executed remediation from report recommendations")
+                except Exception as e:
+                    logger.error(f"Recommendation-based remediation failed: {e}")
         
         # Save meaningful incidents to memory
         if escalated and tier2_result and final_result.get("incident_classification") == "Confirmed Incident":

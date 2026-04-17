@@ -13,14 +13,14 @@ from typing import Any, Callable, Dict, Iterable, List, Optional
 
 
 try:
-    from langchain_mistralai import ChatMistralAI  # type: ignore
+    from langchain_openai import ChatOpenAI  # type: ignore
 except ImportError:  # pragma: no cover - exercised in lean test envs
-    class ChatMistralAI:  # type: ignore
+    class ChatOpenAI:  # type: ignore
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             self.args = args
             self.kwargs = kwargs
 
-        def bind_tools(self, tools: Iterable[Any]) -> "ChatMistralAI":
+        def bind_tools(self, tools: Iterable[Any]) -> "ChatOpenAI":
             self.tools = list(tools)
             return self
 
