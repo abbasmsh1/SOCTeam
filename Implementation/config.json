@@ -17,5 +17,9 @@
       "command": "docker",
       "args": ["run", "-i", "--rm", "mcp/vuln-nist-mcp-server"]
     }
+  },
+  "ollama": {
+    "url": "http://localhost:11434",
+    "model": "llama3.2"
   }
 }

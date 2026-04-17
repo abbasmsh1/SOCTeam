@@ -40,7 +40,43 @@ def get_system_status() -> str:
     """
     Get the current status of the SOC system.
     """
-    return "SOC System Online. Agents: Tier 1, Tier 2, Tier 3 ready."
+    return "SOC System Online. Agents: Tier 1, Tier 2, Tier 3 ready. Advanced Tracking: Active."
+
+@mcp.tool()
+def get_realtime_network_stats() -> str:
+    """
+    Get real-time network flow statistics (top talkers, protocol distribution).
+    """
+    try:
+        from Implementation.src.IDS.IDS import get_flow_tracker
+        tracker = get_flow_tracker()
+        return json.dumps(tracker.get_summary_statistics(), indent=2)
+    except Exception as e:
+        return json.dumps({"error": f"Failed to get network stats: {e}"})
+
+@mcp.tool()
+def get_network_pattern_analysis() -> str:
+    """
+    Get results of automated pattern analysis (scans, anomalies).
+    """
+    try:
+        from Implementation.src.IDS.IDS import get_analytics
+        analytics = get_analytics()
+        return json.dumps(analytics.analyze_flows(), indent=2)
+    except Exception as e:
+        return json.dumps({"error": f"Failed to run pattern analysis: {e}"})
+
+@mcp.tool()
+def get_segment_security_status() -> str:
+    """
+    Get security status of network segments and lateral movement alerts.
+    """
+    try:
+        from Implementation.src.IDS.IDS import get_segment_monitor
+        monitor = get_segment_monitor()
+        return json.dumps(monitor.get_segment_analysis(), indent=2)
+    except Exception as e:
+        return json.dumps({"error": f"Failed to get segment status: {e}"})
 
 if __name__ == "__main__":
     # Run the server

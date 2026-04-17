@@ -30,6 +30,7 @@ class DefensiveActionSandbox:
         "NETWORK_ISOLATION",
         "THREAT_ESCALATION",
         "SUBNET_BLOCK",
+        "FIREWALL_RULE",
     }
 
     def __init__(self, state_path: Optional[str] = None) -> None:
@@ -110,6 +111,10 @@ class DefensiveActionSandbox:
 
     def list_active_rules(self) -> Dict[str, Any]:
         return self._summarize_state(self.load_state())
+
+    def clear_sandbox(self) -> None:
+        """Resets the sandbox to an empty state."""
+        self.save_state(self._empty_state())
 
     def _validate_rule(self, rule: Dict[str, Any], threat_info: Dict[str, Any]) -> Optional[str]:
         action = str(rule.get("action", "")).upper()
@@ -243,6 +248,28 @@ class DefensiveActionSandbox:
         }
         return {"status": "ENFORCED", "effect": "SUBNET_BLOCKED"}
 
+    def _handle_firewall_rule(self, rule: Dict[str, Any], threat_info: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
+        """Add a granular firewall rule (Tier 1/2/3)."""
+        if "firewall_rules" not in state:
+            state["firewall_rules"] = []
+        
+        new_rule = {
+            "id": rule.get("id", f"rule-{len(state['firewall_rules']) + 1}"),
+            "priority": rule.get("priority", 100),
+            "action": rule.get("action_type", "DENY"),
+            "src_ip": rule.get("src_ip", "ANY"),
+            "dst_ip": rule.get("dst_ip", rule.get("target", "ANY")),
+            "port": rule.get("port", "ANY"),
+            "protocol": rule.get("protocol", "ANY"),
+            "reason": rule.get("reason", "Custom firewall policy"),
+            "added_at": dt.datetime.utcnow().isoformat(),
+        }
+        state["firewall_rules"].append(new_rule)
+        # Keep rules sorted by priority
+        state["firewall_rules"].sort(key=lambda x: x["priority"])
+        
+        return {"status": "ENFORCED", "effect": "FIREWALL_RULE_ADDED", "rule_id": new_rule["id"]}
+
     def _append_history(self, state: Dict[str, Any], result: Dict[str, Any]) -> None:
         state["history"].append({k: v for k, v in result.items() if k != "state_snapshot"})
         state["history"] = state["history"][-100:]
@@ -258,6 +285,7 @@ class DefensiveActionSandbox:
             "pending_siem_tuning": len(state.get("siem_tuning", [])),
             "threat_escalations": len(state.get("threat_escalations", [])),
             "history_count": len(state.get("history", [])),
+            "firewall_rules_count": len(state.get("firewall_rules", [])),
         }
 
     @staticmethod
@@ -273,6 +301,7 @@ class DefensiveActionSandbox:
             "password_resets": [],
             "siem_tuning": [],
             "threat_escalations": [],
+            "firewall_rules": [],
             "history": [],
         }
 

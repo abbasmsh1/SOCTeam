@@ -1,32 +1,85 @@
 {
-  "blocked_ips": {},
+  "blocked_ips": {
+    "192.168.1.45": {
+      "duration": "permanent",
+      "reason": "Probable SMB Lateral Movement (WannaCry variant)",
+      "added_at": "2026-04-17T23:54:26.317210"
+    },
+    "203.0.113.12": {
+      "duration": "permanent",
+      "reason": "Confirmed SQL Injection attempt via WAF signature",
+      "added_at": "2026-04-17T23:54:29.326725"
+    }
+  },
   "blocked_subnets": {},
   "isolation_network": {},
   "rate_limits": {},
   "isolated_hosts": {},
-  "tcp_resets": [],
+  "tcp_resets": [
+    {
+      "target": "203.0.113.12",
+      "reason": "Terminate active exfiltration session",
+      "timestamp": "2026-04-17T23:54:29.333519"
+    }
+  ],
   "enrichment_queue": [],
   "password_resets": [],
   "siem_tuning": [],
   "threat_escalations": [],
+  "firewall_rules": [
+    {
+      "id": "rule-1",
+      "priority": 10,
+      "action": "DENY",
+      "src_ip": "192.168.1.45",
+      "dst_ip": "ANY",
+      "port": 445,
+      "protocol": "TCP",
+      "reason": "Deny SMB from suspicious host",
+      "added_at": "2026-04-17T23:54:26.323799"
+    }
+  ],
   "history": [
     {
-      "timestamp": "2026-04-17T18:36:22.814136",
-      "action": "TUNE_SIEM",
-      "target": "IDS_RULESET",
-      "reason": "Report recommendation: 4. Draft a Temporary Block Rule (If Confirmed Malicious)",
-      "auto_pilot": false,
+      "timestamp": "2026-04-17T23:54:26.317210",
+      "action": "BLOCK_IP",
+      "target": "192.168.1.45",
+      "reason": "Probable SMB Lateral Movement (WannaCry variant)",
+      "auto_pilot": true,
       "sandboxed": true,
-      "status": "STAGED"
+      "status": "ENFORCED",
+      "effect": "IP_BLOCKED"
     },
     {
-      "timestamp": "2026-04-17T18:36:22.914201",
-      "action": "TUNE_SIEM",
-      "target": "IDS_RULESET",
-      "reason": "Report recommendation: \"If confirmed malicious, draft a block rule and escalate.\"",
-      "auto_pilot": false,
+      "timestamp": "2026-04-17T23:54:26.323799",
+      "action": "FIREWALL_RULE",
+      "target": "UNKNOWN",
+      "reason": "Deny SMB from suspicious host",
+      "auto_pilot": true,
       "sandboxed": true,
-      "status": "STAGED"
+      "status": "ENFORCED",
+      "effect": "FIREWALL_RULE_ADDED",
+      "rule_id": "rule-1"
+    },
+    {
+      "timestamp": "2026-04-17T23:54:29.326725",
+      "action": "BLOCK_IP",
+      "target": "203.0.113.12",
+      "reason": "Confirmed SQL Injection attempt via WAF signature",
+      "auto_pilot": true,
+      "sandboxed": true,
+      "status": "ENFORCED",
+      "effect": "IP_BLOCKED"
+    },
+    {
+      "timestamp": "2026-04-17T23:54:29.333519",
+      "action": "TCP_RESET",
+      "target": "203.0.113.12",
+      "reason": "Terminate active exfiltration session",
+      "auto_pilot": true,
+      "sandboxed": true,
+      "status": "ENFORCED",
+      "effect": "TCP_RESET_SENT"
     }
   ]
 }

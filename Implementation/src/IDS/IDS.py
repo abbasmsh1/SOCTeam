@@ -31,6 +31,9 @@ import uvicorn
 import numpy as np
 from typing import Dict, Any, Optional, List
 from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
+from Implementation.src.Database.LiveFlowTracker import LiveFlowTracker
+from Implementation.src.Database.FlowAnalytics import FlowAnalytics
+from Implementation.src.Database.NetworkSegmentMonitor import NetworkSegmentMonitor
 
 # Import FlowExtractor for pcap processing (optional)
 try:
@@ -399,6 +402,13 @@ _reports_cache: List[Dict[str, str]] = []
 _reports_cache_ts = 0.0
 _reports_cache_lock = Lock()
 
+# Advanced IDS Components
+_flow_tracker = None
+_analytics = None
+_segment_monitor = None
+_analytics_worker_started = False
+_analytics_worker_lock = Lock()
+
 def _run_soc_workflow(alert_data: dict, current_status: str) -> Dict[str, Any]:
     """Run SOC workflow synchronously and return result payload."""
     workflow = get_workflow()
@@ -437,6 +447,56 @@ def _ensure_workflow_worker():
         worker.start()
         _workflow_worker_started = True
         logger.info("SOC workflow background worker started")
+
+def get_flow_tracker():
+    global _flow_tracker
+    if _flow_tracker is None:
+        _flow_tracker = LiveFlowTracker()
+    return _flow_tracker
+
+def get_analytics():
+    global _analytics
+    if _analytics is None:
+        _analytics = FlowAnalytics(get_flow_tracker())
+    return _analytics
+
+def get_segment_monitor():
+    global _segment_monitor
+    if _segment_monitor is None:
+        _segment_monitor = NetworkSegmentMonitor()
+    return _segment_monitor
+
+def _analytics_worker_loop():
+    """Periodic analytics processing."""
+    analytics = get_analytics()
+    segment_monitor = get_segment_monitor()
+    while True:
+        try:
+            # Run pattern detection
+            results = analytics.analyze_flows()
+            if results["anomalies_detected"] > 0:
+                logger.info(f"Analytics pattern detection: Found {len(results['patterns'])} anomalies")
+            
+            # Run segment integrity check
+            integrity = segment_monitor.check_segment_integrity()
+            if len(integrity["integrity_threats"]) > 0:
+                logger.warning(f"Segment integrity threat: {integrity['integrity_threats']}")
+                
+        except Exception as e:
+            logger.error(f"Analytics worker error: {e}")
+        time.sleep(30) # Run every 30 seconds
+
+def _ensure_analytics_worker():
+    global _analytics_worker_started
+    if _analytics_worker_started:
+        return
+    with _analytics_worker_lock:
+        if _analytics_worker_started:
+            return
+        worker = Thread(target=_analytics_worker_loop, name="ids-analytics-worker", daemon=True)
+        worker.start()
+        _analytics_worker_started = True
+        logger.info("Advanced IDS analytics background worker started")
 
 def _queue_workflow(alert_data: dict, current_status: str) -> Dict[str, Any]:
     """Queue workflow job and return queue status."""
@@ -586,6 +646,20 @@ async def predict_api(data: dict):
         else:
             result["automated_response"] = "SOC Workflow Deferred (Cooldown)"
         
+    # Update Advanced IDS Tracking
+    try:
+        tracker = get_flow_tracker()
+        segment_monitor = get_segment_monitor()
+        _ensure_analytics_worker()
+
+        # Update real-time flow stats
+        tracker.update_flow(data)
+
+        # Update segment monitoring
+        segment_monitor.update_traffic(data)
+    except Exception as e:
+        logger.error(f"Error updating advanced IDS components: {e}")
+
     return result
 
 @app.post("/workflow/process", dependencies=[Depends(verify_api_key)])
@@ -716,6 +790,28 @@ def get_remediation_logs():
     except Exception as e:
         logger.error(f"Failed to read remediation logs: {e}")
         return []
+
+# ---------------------------------------------------
+# Advanced IDS Analytics Routes
+# ---------------------------------------------------
+@app.get("/api/v1/stats/realtime", dependencies=[Depends(verify_api_key)])
+def get_realtime_stats():
+    """Get real-time flow statistics from LiveFlowTracker."""
+    tracker = get_flow_tracker()
+    return tracker.get_flow_stats()
+
+@app.get("/api/v1/stats/analytics", dependencies=[Depends(verify_api_key)])
+def get_analytics_results():
+    """Get current pattern analysis results from FlowAnalytics."""
+    analytics = get_analytics()
+    # We trigger a quick re-run if it's been a while, but usually worker handles it
+    return analytics.analyze_flows()
+
+@app.get("/api/v1/stats/segments", dependencies=[Depends(verify_api_key)])
+def get_segment_stats():
+    """Get network segment analysis and lateral movement detection results."""
+    monitor = get_segment_monitor()
+    return monitor.get_segment_analysis()
 
 feed_process = None
 

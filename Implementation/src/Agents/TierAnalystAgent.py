@@ -62,6 +62,7 @@ You must provide a descriptive analysis and end your response with a JSON block:
   "recommended_actions": ["Action 1", ...],
   "escalate": true/false,
   "confidence": 0.0-1.0,
+  "forensic_status": "NONE/COLLECTING/ENRICHED/INVESTIGATING/COMPLETE",
   "rationale": "..."
 }
 FORCE 'escalate': true for any DDoS or Botnet attack."""
@@ -80,6 +81,7 @@ Provide a detailed forensic report and end your response with a JSON block:
   "recommended_actions": ["Action 1", ...],
   "escalate": true/false,
   "confidence": 0.0-1.0,
+  "forensic_status": "NONE/COLLECTING/ENRICHED/INVESTIGATING/COMPLETE",
   "investigation_summary": "..."
 }
 FORCE 'escalate': true for confirmed DDoS or Botnet threats."""
@@ -274,6 +276,7 @@ class TierAnalystAgent(BaseAgent):
             "false_positive": is_false_positive,
             "escalate": should_escalate,
             "ids_prediction": ids_prediction,
+            "forensic_status": metadata.get("forensic_status", "NONE"),
         }
 
     # ── Tier 2 processing ───────────────────────────────────────────────
@@ -309,6 +312,7 @@ class TierAnalystAgent(BaseAgent):
             "recommended_actions": metadata.get("recommended_actions", "N/A"),
             "escalate": "Yes" if should_escalate else "No",
             "confidence": float(metadata.get("confidence", 0.0)),
+            "forensic_status": metadata.get("forensic_status", "INVESTIGATING"),
             "full_report": llm_response,
         }
 

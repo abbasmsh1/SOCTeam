@@ -64,12 +64,12 @@ class FlowAnalytics:
         self.flow_count_anomaly_threshold = 100  # concurrent flows
         self.tcp_reset_threshold = 50  # RST packets
     
-    def analyze_flows(self) -> List[FlowPattern]:
+    def analyze_flows(self) -> List[Dict[str, Any]]:
         """
         Analyze all active flows and detect patterns.
         
         Returns:
-            List of detected patterns
+            List of detected patterns as dictionaries
         """
         patterns = []
         
@@ -82,7 +82,7 @@ class FlowAnalytics:
         patterns.extend(self._detect_beaconing())
         
         self.detected_patterns = patterns
-        return patterns
+        return [p.to_dict() for p in patterns]
     
     def _detect_port_scans(self) -> List[FlowPattern]:
         """Detect port scanning activities."""
@@ -321,7 +321,7 @@ class FlowAnalytics:
                 "MEDIUM": len([p for p in patterns if p.severity == "MEDIUM"]),
                 "LOW": len([p for p in patterns if p.severity == "LOW"]),
             },
-            "patterns": [p.to_dict() for p in patterns],
+            "patterns": patterns,
             "top_talkers": self.get_top_talkers(5),
             "top_destinations": self.get_top_destinations(5),
             "protocol_distribution": self.get_protocol_distribution(),

@@ -246,7 +246,7 @@ class NetworkSegmentMonitor:
             
             # Filter to only flows crossing interfaces
             crossing = {
-                str(key): interfaces
+                str(key): list(interfaces)
                 for key, interfaces in cross_interface.items()
                 if len(interfaces) > 1
             }

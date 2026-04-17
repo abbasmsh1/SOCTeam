@@ -50,3 +50,4 @@ mock_hexstrike_server.py
 Implementation/logs/*
 .cursorrules
 .claude/*
+Implementation/logs/*.log

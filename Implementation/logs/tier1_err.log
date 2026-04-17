@@ -1,16 +1,16 @@
-INFO:     Started server process [12248]
+INFO:     Started server process [18224]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6051 (Press CTRL+C to quit)
-2026-04-17 21:16:26,371 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
-2026-04-17 21:16:26,373 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
-2026-04-17 21:16:26,374 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
+2026-04-18 01:31:51,218 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
+2026-04-18 01:31:51,219 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
+2026-04-18 01:31:51,220 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
 E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
 https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
   warnings.warn(
 E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
 https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
   warnings.warn(
-2026-04-17 21:16:26,448 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
-2026-04-17 21:16:26,451 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cpu
-2026-04-17 21:16:26,452 - AgentServer - INFO - tier1 agent initialized.
+2026-04-18 01:31:51,256 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
+2026-04-18 01:31:51,258 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cpu
+2026-04-18 01:31:51,259 - AgentServer - INFO - tier1 agent initialized.

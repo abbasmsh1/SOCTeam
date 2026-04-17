@@ -154,6 +154,9 @@ class HexstrikeClient:
 
         while attempt < self.max_retries:
             try:
+                if self.session is None:
+                    return {"error": "requests_not_installed", "message": "The 'requests' library is not installed."}
+                
                 url = f"{self.base_url}{endpoint}"
                 response = self.session.post(url, json=payload, timeout=self.timeout)
                 response.raise_for_status()
@@ -166,33 +169,34 @@ class HexstrikeClient:
                 self._log_stats(success=True)
                 return result
 
-            except requests.exceptions.Timeout:
-                attempt += 1
-                self._log_stats(success=False, retry=True)
-                logger.warning(
-                    f"Request to {endpoint} timed out (attempt {attempt}/{self.max_retries}). "
-                    f"Retrying in {backoff}s..."
-                )
-                if attempt < self.max_retries:
-                    threading.Event().wait(backoff)
-                    backoff = min(backoff * 2, 30)  # Exponential backoff, max 30s
+            except Exception as e:
+                # Safe attribute access for requests.exceptions
+                is_timeout = False
+                if requests is not None:
+                    if isinstance(e, requests.exceptions.Timeout):
+                        is_timeout = True
+                
+                if is_timeout:
+                    attempt += 1
+                    self._log_stats(success=False, retry=True)
+                    logger.warning(
+                        f"Request to {endpoint} timed out (attempt {attempt}/{self.max_retries}). "
+                        f"Retrying in {backoff}s..."
+                    )
+                    if attempt < self.max_retries:
+                        threading.Event().wait(backoff)
+                        backoff = min(backoff * 2, 30)  # Exponential backoff, max 30s
+                    else:
+                        logger.error(f"Request to {endpoint} timed out after {self.max_retries} attempts")
+                        return {
+                            "error": "timeout",
+                            "message": f"Request timed out after {self.max_retries} attempts",
+                            "retries": attempt,
+                        }
                 else:
-                    logger.error(f"Request to {endpoint} timed out after {self.max_retries} attempts")
-                    return {
-                        "error": "timeout",
-                        "message": f"Request timed out after {self.max_retries} attempts",
-                        "retries": attempt,
-                    }
-
-            except requests.exceptions.RequestException as e:
-                self._log_stats(success=False)
-                logger.error(f"Request failed: {e}")
-                return {"error": "request_failed", "message": str(e)}
-
-            except json.JSONDecodeError as e:
-                self._log_stats(success=False)
-                logger.error(f"Failed to parse response: {e}")
-                return {"error": "parse_error", "message": "Invalid JSON response"}
+                    self._log_stats(success=False)
+                    logger.error(f"Request failed: {e}")
+                    return {"error": "request_failed", "message": str(e)}
 
         return {"error": "max_retries_exceeded", "message": f"Failed after {self.max_retries} attempts"}
 

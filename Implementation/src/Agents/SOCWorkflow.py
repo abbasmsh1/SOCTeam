@@ -4,11 +4,13 @@ This workflow orchestrates the escalation process from Tier 1 to Tier 2 analysis
 """
 
 from Implementation.src.Agents.runtime_compat import MemorySaver, StateGraph
-from typing import Dict, Any, Literal
+from typing import Dict, Any, Literal, List, Optional
 import datetime
 import uuid
 import json
 import os
+import threading
+from concurrent.futures import ThreadPoolExecutor
 try:
     from typing import TypedDict
 except ImportError:
@@ -40,6 +42,8 @@ class SOCWorkflowState(TypedDict, total=False):
     escalate_to_tier3: bool # Added escalation flag
     trigger_war_room: bool # Added War Room trigger
     remediation_result: Dict[str, Any] # Added Remediation
+    hexstrike_enrichment: Dict[str, Any] # Added background enrichment state
+    forensic_future: Any # Handle for background thread
     final_result: Dict[str, Any]
 
 
@@ -92,6 +96,7 @@ class SOCWorkflow:
             self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent()
 
         self.flow_history = FlowHistoryManager()
+        self.executor = ThreadPoolExecutor(max_workers=5)
         
         
         # Use LangGraph only if we have an API key AND we are NOT running in microservices mode
@@ -278,7 +283,8 @@ class SOCWorkflow:
         """Tier 1 analysis node."""
         input_data = {
             "alert_data": state.get("alert_data", {}),
-            "current_status": state.get("current_status", "Unknown")
+            "current_status": state.get("current_status", "Unknown"),
+            "forensic_status": "PENDING" if state.get("forensic_future") else "IDLE"
         }
         
         tier1_result = self.tier1_analyst.process(input_data)
@@ -304,7 +310,8 @@ class SOCWorkflow:
             "tier1_output": tier1_result,
             "context_logs": state.get("context_logs", "No additional logs available."),
             "current_incidents": state.get("current_incidents", "No active incidents logged."),
-            "similar_incidents": similar_incidents # Pass similar incidents to Tier 2
+            "similar_incidents": similar_incidents,
+            "hexstrike_enrichment": state.get("hexstrike_enrichment", {})
         }
         
         tier2_result = self.tier2_analyst.process(input_data)
@@ -541,9 +548,21 @@ class SOCWorkflow:
             "escalate": False,
             "escalate_to_tier3": False,
             "trigger_war_room": False,
-            "remediation_result": {},
-            "final_result": {}
+            "final_result": {},
+            "hexstrike_enrichment": {},
+            "forensic_future": None,
+            "forensic_status": "IDLE"
         }
+
+        # Threaded Forensics: Spawn background thread for high-severity/external IPs
+        future = self._execute_forensic_background(input_data.get("alert_data", {}))
+        initial_state["forensic_future"] = future
+        
+        # Calculate status
+        if future:
+            initial_state["forensic_status"] = "INVESTIGATING"
+        else:
+            initial_state["forensic_status"] = "IDLE"
         
         if self.app:
             try:
@@ -556,7 +575,17 @@ class SOCWorkflow:
                 print(f"DEBUG: App invoke complete. Keys in result: {result.keys()}")
                 
                 final_result = result.get("final_result", {})
-                print(f"DEBUG: Final result report_path: {final_result.get('report_path')}")
+                
+                # Surface forensic status
+                if "forensic_status" not in final_result:
+                    future = result.get("forensic_future")
+                    if future and future.done():
+                        final_result["forensic_status"] = "COMPLETED"
+                    elif future:
+                        final_result["forensic_status"] = "INVESTIGATING"
+                    else:
+                        final_result["forensic_status"] = "IDLE"
+                
                 return final_result
             except Exception as e:
                 return {
@@ -575,7 +604,16 @@ class SOCWorkflow:
             
             # Check escalation
             if self._should_escalate(state) == "escalate":
-                # Tier 2
+                # Tier 2: Block on forensics if they are still running
+                future = state.get("forensic_future")
+                if future:
+                    try:
+                        logger.info("Waiting for deep forensics to complete before Tier 2 analysis...")
+                        state["hexstrike_enrichment"] = future.result(timeout=60)
+                    except Exception as e:
+                        logger.error("Forensic thread failed/timed out: %s", e)
+                        state["hexstrike_enrichment"] = {"error": str(e)}
+
                 print("DEBUG: Escalating to Tier 2...")
                 state = self._tier2_node(state)
                 print("DEBUG: Tier 2 Complete.")
@@ -599,5 +637,61 @@ class SOCWorkflow:
             print("DEBUG: Finalizing Workflow...")
             state = self._finalize_node(state)
             print("DEBUG: Finalize Complete.")
-            return state.get("final_result", {})
+            
+            # Surface forensic status if applicable
+            final_result = state.get("final_result", {})
+            if "forensic_status" not in final_result:
+                final_result["forensic_status"] = state.get("forensic_status", "IDLE")
+            
+            return final_result
+
+    def run_full_triage(self, alert_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Main entry point for SOC triage.
+        Orchestrates the entire process from ingestion to remediation.
+        """
+        # Check if we should launch background forensics
+        self._execute_forensic_background(alert_data)
+        
+        return self.process({"alert_data": alert_data})
+
+    def _execute_forensic_background(self, alert_data: Dict[str, Any]) -> Optional[Any]:
+        """Helper to spawn background forensic threads."""
+        src_ip = alert_data.get("Source IP", alert_data.get("src_ip", "Unknown"))
+        if self._is_external_ip(src_ip):
+            severity = str(alert_data.get("Priority", alert_data.get("severity", "low"))).lower()
+            if severity in ["high", "critical"] or "ddos" in str(alert_data).lower():
+                logger.info("Spawning background forensic thread for %s", src_ip)
+                return self.executor.submit(self._fetch_forensics, src_ip)
+        return None
+
+    def _is_external_ip(self, ip: str) -> bool:
+        """Standard whitelist check (internal IPs)."""
+        import re
+        private_patterns = [
+            r"^127\.", r"^10\.", r"^192\.168\.", r"^172\.(1[6-9]|2[0-9]|3[0-1])\."
+        ]
+        return not any(re.match(p, ip) for p in private_patterns)
+
+    def _fetch_forensics(self, ip: str) -> Dict[str, Any]:
+        """Deep enrichment from HexStrike."""
+        # Note: This runs in a separate thread
+        try:
+            logger.info("Deep forensics started for %s", ip)
+            # Re-initialize client if url is available - using self.hexstrike_url
+            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            client = HexstrikeClient(base_url=self.hexstrike_url)
+            
+            analysis = client.analyze_target(ip, analysis_type="comprehensive")
+            reputation = client.check_ip_reputation(ip)
+            
+            return {
+                "source": "HexStrike-AI (Deep Forensics)",
+                "analysis": analysis,
+                "reputation": reputation,
+                "completed_at": datetime.datetime.utcnow().isoformat()
+            }
+        except Exception as e:
+            logger.error("HexStrike deep forensics failed: %s", e)
+            return {"error": str(e)}
 

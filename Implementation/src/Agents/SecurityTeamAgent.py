@@ -169,6 +169,7 @@ class SecurityTeamAgent(BaseAgent):
         5. [ENRICH_TARGET]: Trigger an automated intelligence scan (Nuclei/Nmap) via Hexstrike.
         6. [RESET_PASSWORD]: Force password reset for compromised accounts.
         7. [TUNE_SIEM]: Adjust detection rules to reduce false positives or catch new variants.
+        8. [FIREWALL_RULE]: Add granular IP/Port/Protocol rules to the mock firewall.
         
         Playbook Strategies:
         - DDoS/Flooding: Use BLOCK_IP for top offenders + RATE_LIMIT on the target port/protocol.
@@ -176,6 +177,7 @@ class SecurityTeamAgent(BaseAgent):
         - Bruteforce: Use BLOCK_IP with a temporary duration (e.g., "1h") + RESET_PASSWORD for targeted accounts.
         - Unknown/Suspicious: Use ENRICH_TARGET to gather more intel before escalation.
         - SIEM/Detection Issues: Use TUNE_SIEM to suggest rule modifications.
+        - Lateral Movement: Use FIREWALL_RULE to DENY high-port traffic between sensitive subnets.
         
         CRITICAL: Every defensive response MUST include a structured rule block:
         [ACTIONABLE_RULES]
@@ -184,6 +186,7 @@ class SecurityTeamAgent(BaseAgent):
           {{"action": "RATE_LIMIT", "target": "PORT_OR_IP", "limit": "50/s", "reason": "Abnormal volume"}},
           {{"action": "ENRICH_TARGET", "target": "IP_TO_SCAN", "reason": "Requires intelligence gathering"}},
           {{"action": "RESET_PASSWORD", "target": "USERNAME", "reason": "Compromised credentials"}},
+          {{"action": "FIREWALL_RULE", "priority": 50, "action_type": "DENY", "src_ip": "SOURCE_IP", "port": 445, "protocol": "TCP", "reason": "SMB Lateral movement detected"}},
           {{"action": "TUNE_SIEM", "target": "RULE_NAME", "reason": "High false positive rate"}}
         ]
         [/ACTIONABLE_RULES]
