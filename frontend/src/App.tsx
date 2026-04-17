@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import AgentReportPage from './components/AgentReportPage'
+import BlockedIpsTable from './components/BlockedIpsTable'
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
             <Dashboard />
             <div className="px-6 space-y-6">
               <div id="live-monitor" />
-              {/* Other components will be added here or integrated into Dashboard */}
+              <BlockedIpsTable />
             </div>
           </>
         } />

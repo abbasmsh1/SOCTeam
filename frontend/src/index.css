@@ -1,86 +1,81 @@
 @import "tailwindcss";
 
+/* ─── Custom Design Tokens ─────────────────────────────── */
 @theme {
-  --color-primary: #f97316; /* Signal Orange */
-  --color-benign: #22c55e;
+  --color-primary:   #f97316;
+  --color-benign:    #22c55e;
   --color-malicious: #ef4444;
-  --color-warning: #f59e0b;
-  --color-background: #050505;
+  --color-warning:   #f59e0b;
+  --color-black:     #000000;
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 98%;
-    --primary: 24 95% 53%;
-    --accent-green: 142 70% 45%;
-    --accent-red: 0 84% 60%;
-    --border: 0 0% 15%;
-  }
+/* ─── Base Styles ──────────────────────────────────────── */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 
-  body {
-    background-color: #000;
-    color: white;
-    margin: 0;
-    font-family: 'Inter', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    
-    /* Grain Texture HUD Background */
-    background-image: 
-      radial-gradient(circle at 50% 50%, rgba(38, 38, 38, 0.4) 0%, transparent 100%),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    background-size: cover, 150px 150px;
-    background-repeat: no-repeat, repeat;
-    background-attachment: fixed;
-  }
-
-  /* Precision HUD Reset: No rounded corners */
-  * {
-    border-radius: 0 !important;
-  }
+  /* Grain texture background */
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(38, 38, 38, 0.4) 0%, transparent 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: cover, 150px 150px;
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed;
 }
 
-@layer components {
-  .hud-card {
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hud-card:hover {
-    border-color: rgba(255, 255, 255, 0.18);
-    background-color: rgba(5, 5, 5, 0.8);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
-  .glass {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(15px);
-  }
-
-  /* Utility mapping for legacy color usage in TSX if needed */
-  .text-primary { color: #f97316; }
-  .text-benign { color: #22c55e; }
-  .text-malicious { color: #ef4444; }
-  .bg-primary { background-color: #f97316; }
-  .bg-benign { background-color: #22c55e; }
-  .bg-malicious { background-color: #ef4444; }
-  .bg-warning { background-color: #f59e0b; }
+* {
+  border-radius: 0 !important;
+  box-sizing: border-box;
 }
 
-/* Custom Tactical Scrollbar */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #222; }
-::-webkit-scrollbar-thumb:hover { background: #f97316; }
+/* ─── HUD Components ───────────────────────────────────── */
+.hud-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  overflow: hidden;
+  transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
 
-/* Selection HUD highlight */
+.hud-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: rgba(5, 5, 5, 0.8);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+}
+
+/* ─── Explicit Color Overrides (required by Tailwind v4 @theme) */
+.text-primary    { color: #f97316 !important; }
+.text-benign     { color: #22c55e !important; }
+.text-malicious  { color: #ef4444 !important; }
+.text-warning    { color: #f59e0b !important; }
+.bg-primary      { background-color: #f97316 !important; }
+.bg-benign       { background-color: #22c55e !important; }
+.bg-malicious    { background-color: #ef4444 !important; }
+.bg-warning      { background-color: #f59e0b !important; }
+.bg-black        { background-color: #000000 !important; }
+.border-primary  { border-color: #f97316 !important; }
+.border-benign   { border-color: #22c55e !important; }
+.border-malicious { border-color: #ef4444 !important; }
+
+/* ─── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 3px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: #222; }
+::-webkit-scrollbar-thumb:hover  { background: #f97316; }
+
 ::selection {
-    background: rgba(249, 115, 22, 0.3);
-    color: white;
+  background: rgba(249, 115, 22, 0.3);
+  color: white;
 }

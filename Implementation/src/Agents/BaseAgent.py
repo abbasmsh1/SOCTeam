@@ -1,173 +1,187 @@
 """
-Base Agent Class
-Provides shared functionality for all SOC Team agents, reducing code duplication.
+Base agent utilities shared across the SOC system.
 """
 
-from langchain_mistralai import ChatMistralAI
-from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import StateGraph, START, END
-from typing import Dict, Any, Optional, TypedDict, Annotated, Sequence
-import os
+from __future__ import annotations
+
 import json
-import uuid
 import logging
 import operator
+import os
+import re
+import uuid
+from typing import Annotated, Any, Dict, Optional, Sequence, TypedDict
+
 from dotenv import load_dotenv
+
+from Implementation.src.Agents.AgentTools import get_agent_tools
+from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
+from Implementation.src.Agents.runtime_compat import AIMessage, ChatMistralAI, MemorySaver, StateGraph
+from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
 
 logger = logging.getLogger(__name__)
 
 
 class AgentConfig:
-    """Centralized configuration management for agents."""
-    
+    """Cached configuration loader for agent settings."""
+
     _config_cache: Optional[Dict[str, Any]] = None
-    
+
     @classmethod
     def load_config(cls) -> Dict[str, Any]:
-        """Load configuration from config.json with caching."""
         if cls._config_cache is not None:
             return cls._config_cache
-        
+
         try:
             config_path = os.path.join(
                 os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                'config.json'
+                "config.json",
             )
-            with open(config_path, 'r') as f:
-                cls._config_cache = json.load(f)
-                logger.debug(f"Configuration loaded from {config_path}")
-                return cls._config_cache
-        except Exception as e:
-            logger.warning(f"Config load failed: {e}. Using defaults.")
+            with open(config_path, "r", encoding="utf-8") as fh:
+                cls._config_cache = json.load(fh)
+        except (FileNotFoundError, json.JSONDecodeError) as exc:
+            logger.warning("Config load failed: %s. Using defaults.", exc)
             cls._config_cache = {}
-            return cls._config_cache
-    
+        return cls._config_cache
+
     @classmethod
     def get(cls, key: str, default: Any = None) -> Any:
-        """Get configuration value with default."""
-        config = cls.load_config()
-        return config.get(key, default)
-    
+        return cls.load_config().get(key, default)
+
     @classmethod
-    def clear_cache(cls):
-        """Clear configuration cache (useful for testing)."""
+    def clear_cache(cls) -> None:
         cls._config_cache = None
 
 
 class AgentState(TypedDict):
-    """Explicit state definition for LangGraph 0.0.x compatibility."""
+    """Shared LangGraph-compatible state structure."""
+
     messages: Annotated[Sequence[Any], operator.add]
 
 
 class BaseAgent:
-    """
-    Base class for all SOC Team agents.
-    Provides common initialization, LLM setup, and graph management.
-    """
-    
+    """Common runtime for all SOC agents."""
+
     def __init__(
         self,
         agent_name: str,
         temperature: float = 0.3,
         api_key: Optional[str] = None,
         hexstrike_url: Optional[str] = None,
-        enable_hexstrike: bool = False
-    ):
-        """
-        Initialize base agent.
-        
-        Args:
-            agent_name: Name of the agent (for logging)
-            temperature: LLM temperature setting
-            api_key: Mistral API key (falls back to env var)
-            hexstrike_url: Hexstrike-AI MCP server URL
-            enable_hexstrike: Whether to initialize Hexstrike client
-        """
-        # Load environment variables
+        enable_hexstrike: bool = False,
+    ) -> None:
         load_dotenv()
-        
+
         self.agent_name = agent_name
         self.config = AgentConfig.load_config()
-        
-        # Initialize API key
-        self.api_key = api_key or os.getenv('MISTRAL_API_KEY')
-        
-        # Initialize LLM
-        self.llm = self._initialize_llm(temperature) if self.api_key else None
-        
-        # Initialize memory
-        self.memory = MemorySaver() if self.api_key else None
-        
-        # Initialize Hexstrike client if requested
+        self.api_key = api_key or os.getenv("MISTRAL_API_KEY")
         self.hexstrike = None
+        self.tools = []
+        self.tool_map: Dict[str, Any] = {}
+        self.sandbox = DefensiveActionSandbox()
+        self.flow_history = FlowHistoryManager()
+        
+        # Initialize IP Blocking Manager for Tier 2 and 3 agents
+        try:
+            from Implementation.src.Agents.IPBlockingManager import IPBlockingManager
+            self.ip_blocking_mgr = IPBlockingManager()
+        except Exception as exc:
+            logger.warning("%s: Failed to initialize IPBlockingManager: %s", agent_name, exc)
+            self.ip_blocking_mgr = None
+        
+        self.tracer = None
+
+        try:
+            import agentlightning as agl
+
+            agl.setup_logging(apply_to=[__name__])
+            self.tracer = agl.AgentOpsTracer()
+        except ImportError:
+            logger.debug("%s: agentlightning not available (optional tracer)", self.agent_name)
+
+        self.llm = self._initialize_llm(temperature) if self.api_key else None
+        self.memory = MemorySaver() if self.api_key else None
+
+        try:
+            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            from Implementation.src.Agents.HexstrikeTools import get_hexstrike_tools
+
+            url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
+            self.hexstrike = HexstrikeClient(base_url=url)
+            self.tools.extend(get_hexstrike_tools(self.hexstrike))
+        except Exception as exc:
+            logger.warning("Failed to load hexstrike tools: %s", exc)
+
         if enable_hexstrike:
             self._initialize_hexstrike(hexstrike_url)
-        
-        # Initialize graph and app (subclasses should implement _create_graph)
+
+        self.tools.extend(
+            get_agent_tools(
+                agent_name=self.agent_name,
+                sandbox=self.sandbox,
+                flow_history=self.flow_history,
+                ip_blocking_mgr=self.ip_blocking_mgr,
+            )
+        )
+        self.tool_map = {tool.name: tool for tool in self.tools}
+
+        if self.tools and self.llm and hasattr(self.llm, "bind_tools"):
+            try:
+                self.llm = self.llm.bind_tools(self.tools)
+            except Exception as exc:
+                logger.warning("%s: Failed to bind tools: %s", self.agent_name, exc)
+
         if self.api_key:
             try:
                 self.graph = self._create_graph()
                 self.app = self.graph.compile(checkpointer=self.memory)
-                logger.info(f"{self.agent_name} initialized successfully")
-            except Exception as e:
-                logger.error(f"Failed to initialize {self.agent_name}: {e}")
+            except Exception as exc:
+                logger.error("Failed to initialise %s: %s", self.agent_name, exc)
                 self.graph = None
                 self.app = None
         else:
-            logger.warning(f"{self.agent_name} initialized without API key")
             self.graph = None
             self.app = None
-    
+
     def _initialize_llm(self, temperature: float) -> ChatMistralAI:
-        """Initialize the LLM with configuration."""
+        callbacks = []
+        if getattr(self, "tracer", None) and hasattr(self.tracer, "get_langchain_handler"):
+            handler = self.tracer.get_langchain_handler()
+            if handler:
+                callbacks.append(handler)
+
         return ChatMistralAI(
-            model=self.config.get('Model', 'mistral-large-latest'),
+            model=self.config.get("Model", "mistral-large-latest"),
             api_key=self.api_key,
             temperature=temperature,
             timeout=60,
+            callbacks=callbacks,
         )
-    
-    def _initialize_hexstrike(self, hexstrike_url: Optional[str] = None):
-        """Initialize Hexstrike-AI MCP client."""
+
+    def _initialize_hexstrike(self, hexstrike_url: Optional[str] = None) -> None:
         try:
             from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
-            
-            url = hexstrike_url or self.config.get('hexstrike_url', 'http://localhost:8888')
+
+            url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
             self.hexstrike = HexstrikeClient(base_url=url)
-            
-            # Health check
-            health = self.hexstrike.health_check()
-            if health.get('status') == 'healthy':
-                logger.info(f"{self.agent_name}: Hexstrike-AI MCP server connected")
-            else:
-                logger.warning(f"{self.agent_name}: Hexstrike-AI server unhealthy - {health.get('error')}")
-                self.hexstrike = None
-        except Exception as e:
-            logger.warning(f"{self.agent_name}: Failed to connect to Hexstrike-AI - {e}")
+            # Try health check but don't fail if Hexstrike is not available
+            try:
+                health = self.hexstrike.health_check()
+                if health.get("status") != "healthy":
+                    logger.debug("%s: Hexstrike health check failed (non-critical)", self.agent_name)
+            except Exception as hc_exc:
+                logger.debug("%s: Hexstrike health check unavailable (continuing without it): %s", self.agent_name, hc_exc)
+        except Exception as exc:
+            logger.debug("%s: Hexstrike tools will not be available: %s", self.agent_name, exc)
             self.hexstrike = None
-    
+
     def _create_graph(self) -> StateGraph:
-        """
-        Create the agent's workflow graph.
-        Must be implemented by subclasses.
-        """
         raise NotImplementedError("Subclasses must implement _create_graph()")
-    
+
     def _call_model(self, state: Dict[str, Any], system_message: str) -> Dict[str, Any]:
-        """
-        Standard LLM invocation pattern.
-        
-        Args:
-            state: Current message state
-            system_message: System prompt for the agent
-            
-        Returns:
-            Updated state with AI response
-        """
         if not self.llm:
-            logger.warning(f"{self.agent_name}: LLM not available")
             return {"messages": []}
-        
+
         try:
             try:
                 msg = state["messages"][-1]
@@ -179,129 +193,87 @@ class BaseAgent:
                     last_message = str(msg)
             except (KeyError, IndexError):
                 last_message = "No input provided."
-            
-            messages = [
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": last_message}
-            ]
-            
-            response = self.llm.invoke(messages)
-            
-            from langchain_core.messages import AIMessage
-            # Handle response robustly
-            if hasattr(response, 'content'):
-                content = response.content
-            elif isinstance(response, dict):
-                content = response.get('content', str(response))
-            else:
-                content = str(response)
-                
-            return {"messages": [AIMessage(content=content)]}
-        
-        except Exception as e:
-            logger.error(f"{self.agent_name}: Error calling model - {e}")
-            from langchain_core.messages import AIMessage
-            return {"messages": [AIMessage(content=f"Error: {e}")]}
-    
-    def _stream_with_config(self, prompt: str, timeout_override: Optional[int] = None) -> Optional[str]:
-        """
-        Standard streaming pattern for agent processing.
-        
-        Args:
-            prompt: User prompt
-            timeout_override: Optional timeout override
-            
-        Returns:
-            Final AI response content or None
-        """
-        if not self.app:
-            logger.error(f"{self.agent_name}: App not initialized")
-            return None
-        
-        try:
-            thread_id = str(uuid.uuid4())
-            config = {"configurable": {"thread_id": thread_id}}
-            
-            # Try using graph processing
-            if self.app:
-                try:
-                    result = self.app.invoke(
-                        {"messages": [{"role": "user", "content": prompt}]},
-                        config
-                    )
-                    messages = result.get("messages", [])
-                    if messages:
-                        msg = messages[-1]
-                        if hasattr(msg, "content"):
-                            return msg.content
-                        elif isinstance(msg, dict):
-                            return msg.get("content", str(msg))
-                        return str(msg)
-                except (KeyError, Exception) as graph_err:
-                    logger.warning(f"{self.agent_name}: Graph execution failed ({graph_err}). Falling back to direct LLM call.")
-            
-            # Fallback: Direct LLM call if graph fails or is not initialized
-            if self.llm:
-                messages = [
-                    {"role": "system", "content": "You are a helpful SOC Analyst agent."},
-                    {"role": "user", "content": prompt}
+
+            response = self.llm.invoke(
+                [
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": last_message},
                 ]
-                response = self.llm.invoke(messages)
-                if hasattr(response, 'content'):
-                    return response.content
-                elif isinstance(response, dict):
-                    return response.get('content', str(response))
-                return str(response)
-                
+            )
+            content = response.content if hasattr(response, "content") else str(response)
+            return {"messages": [AIMessage(content=content)]}
+        except Exception as exc:
+            logger.error("%s: Error calling model: %s", self.agent_name, exc)
+            return {"messages": [AIMessage(content=f"Error: {exc}")]}
+
+    def _stream_with_config(self, prompt: str, timeout_override: Optional[int] = None) -> Optional[str]:
+        try:
+            if self.app:
+                thread_id = str(uuid.uuid4())
+                config = {"configurable": {"thread_id": thread_id}}
+                result = self.app.invoke({"messages": [{"role": "user", "content": prompt}]}, config)
+                messages = result.get("messages", [])
+                if messages:
+                    msg = messages[-1]
+                    return msg.content if hasattr(msg, "content") else str(msg)
+
+            if self.llm:
+                response = self.llm.invoke(
+                    [
+                        {"role": "system", "content": "You are a helpful SOC Analyst agent."},
+                        {"role": "user", "content": prompt},
+                    ]
+                )
+                return response.content if hasattr(response, "content") else str(response)
             return None
-        
-        except Exception as e:
-            logger.error(f"{self.agent_name}: Error during processing - {e}")
+        except Exception as exc:
+            logger.error("%s: Error during processing: %s", self.agent_name, exc)
             return None
-    
-    def is_ready(self) -> bool:
-        """Check if agent is ready to process requests."""
-        return self.llm is not None and self.app is not None
-    
+
     def _extract_json_block(self, text: str) -> Optional[Dict[str, Any]]:
-        """
-        Robustly extract a JSON object from text, handling markdown fences and chatter.
-        """
-        import re
-        import json
-        
-        # 1. Look for ```json ... ``` or ``` ... ```
         json_pattern = r"```(?:json)?\s*(\{.*?\})\s*```"
         match = re.search(json_pattern, text, re.DOTALL)
-        
-        if not match:
-            # 2. Look for FIRST { and LAST }
-            start = text.find('{')
-            end = text.rfind('}')
-            if start != -1 and end != -1:
-                json_str = text[start:end+1]
-            else:
-                return None
-        else:
+        if match:
             json_str = match.group(1)
-            
+        else:
+            start = text.find("{")
+            end = text.rfind("}")
+            if start == -1 or end == -1:
+                return None
+            json_str = text[start : end + 1]
+
         try:
             return json.loads(json_str)
         except json.JSONDecodeError:
-            # Last ditch effort: try to clean single/double quotes or common LLM artifacts
             try:
-                # Basic cleaning for mismatched quotes if any
-                cleaned = json_str.replace("'", '"')
-                return json.loads(cleaned)
-            except:
+                return json.loads(json_str.replace("'", '"'))
+            except (json.JSONDecodeError, ValueError):
                 return None
 
+    def is_ready(self) -> bool:
+        return self.llm is not None and self.app is not None
+
     def get_status(self) -> Dict[str, Any]:
-        """Get agent status information."""
         return {
             "agent_name": self.agent_name,
             "llm_available": self.llm is not None,
             "app_available": self.app is not None,
             "hexstrike_available": self.hexstrike is not None,
-            "ready": self.is_ready()
+            "tool_count": len(self.tools),
+            "ready": self.is_ready(),
         }
+
+    def list_tools(self) -> Dict[str, Any]:
+        return {
+            "agent_name": self.agent_name,
+            "tools": [
+                {"name": tool.name, "description": tool.description}
+                for tool in self.tools
+            ],
+        }
+
+    def execute_tool(self, tool_name: str, **kwargs: Any) -> Any:
+        tool = self.tool_map.get(tool_name)
+        if tool is None:
+            raise KeyError(f"Unknown tool: {tool_name}")
+        return tool.invoke(kwargs)

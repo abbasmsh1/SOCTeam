@@ -3,8 +3,10 @@ import os
 import logging
 import datetime
 from typing import List, Dict, Any, Optional
-import chromadb
-from chromadb.utils import embedding_functions
+try:
+    import chromadb
+except ImportError:  # pragma: no cover - optional in unit tests
+    chromadb = None
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +24,12 @@ class VectorMemoryManager:
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.persist_directory = os.path.join(base_dir, db_path)
         os.makedirs(self.persist_directory, exist_ok=True)
+
+        self.client = None
+        self.collection = None
+        if chromadb is None:
+            logger.warning("chromadb not installed; vector memory disabled")
+            return
         
         # Initialize Persistent Client
         self.client = chromadb.PersistentClient(path=self.persist_directory)
@@ -76,6 +84,8 @@ class VectorMemoryManager:
         Store a new incident in the vector database.
         """
         try:
+            if self.collection is None:
+                return
             incident_id = incident.get("id", str(datetime.datetime.utcnow().timestamp()))
             document = self._prepare_document(incident)
             
@@ -111,6 +121,8 @@ class VectorMemoryManager:
         Find top_k similar incidents using vector similarity.
         """
         try:
+            if self.collection is None:
+                return []
             if self.collection.count() == 0:
                 return []
 

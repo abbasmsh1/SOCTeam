@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Clock, List, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ShieldCheck, Clock, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { idsApi } from '../utils/api';
 

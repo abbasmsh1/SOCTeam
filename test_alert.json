@@ -1,0 +1,14 @@
+{
+  "alert_id": "ALERT_TEST_001",
+  "severity": "HIGH",
+  "type": "PORT_SCAN",
+  "source_ip": "203.0.113.42",
+  "destination_ip": "10.0.0.5",
+  "destination_port": 22,
+  "protocol": "TCP",
+  "timestamp": "2024-04-15T10:30:00Z",
+  "description": "Potential port scanning activity detected",
+  "confidence": 0.85,
+  "flow_count": 25,
+  "unique_ports": 23
+}

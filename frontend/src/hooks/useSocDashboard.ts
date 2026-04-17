@@ -38,7 +38,8 @@ export const useSocDashboard = (pollingInterval = 2000) => {
         ]);
         
         // Ensure reports are sorted by most recent
-        const sortedReports = (reportsRes.data as Report[]).sort(
+        const rawReports = Array.isArray(reportsRes.data) ? reportsRes.data : [];
+        const sortedReports = (rawReports as Report[]).sort(
           (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
         

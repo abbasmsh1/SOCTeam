@@ -1,167 +1,142 @@
-import { useEffect } from 'react';
-import ReactFlow, { 
-  Background, 
-  Controls, 
-  MarkerType,
-  Position,
-  useNodesState,
-  useEdgesState,
-  type Node,
-  type Edge
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+/**
+ * AgentFlow.tsx
+ * =============
+ * Visualizes the SOC agent escalation pipeline as a horizontal node graph:
+ *   IDS SENSOR → T1 ANALYST → T2 ANALYST → T3 ANALYST → SECURITY TEAM
+ *
+ * Active nodes light up based on escalation data from the latest report.
+ * Edges pulse when a flow was escalated between two adjacent tiers.
+ */
 
+/** Props for the AgentFlow component. */
 interface AgentFlowProps {
   latestReport: any;
 }
 
-const initialNodes: Node[] = [
-  { 
-    id: 'ids', 
-    position: { x: 0, y: 100 }, 
-    data: { label: 'IDS SENSOR' },
-    sourcePosition: Position.Right,
-    style: { background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px', width: 130 }
-  },
-  { 
-    id: 'tier1', 
-    position: { x: 200, y: 100 }, 
-    data: { label: 'T1 ANALYST' },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    style: { background: '#1e293b', color: '#fff', border: '1px solid #3b82f6', borderRadius: '12px', padding: '10px', width: 130 }
-  },
-  { 
-    id: 'tier2', 
-    position: { x: 400, y: 100 }, 
-    data: { label: 'T2 ANALYST' },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    style: { background: '#1e293b', color: '#fff', border: '1px solid #3b82f6', borderRadius: '12px', padding: '10px', width: 130 }
-  },
-  { 
-    id: 'tier3', 
-    position: { x: 600, y: 100 }, 
-    data: { label: 'T3 ANALYST' },
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    style: { background: '#1e293b', color: '#fff', border: '1px solid #3b82f6', borderRadius: '12px', padding: '10px', width: 130 }
-  },
-  { 
-    id: 'warroom', 
-    position: { x: 800, y: 100 }, 
-    data: { label: 'SECURITY TEAM' },
-    targetPosition: Position.Left,
-    style: { background: '#1e293b', color: '#fff', border: '1px solid #ef4444', borderRadius: '12px', padding: '10px', width: 130 }
-  },
+/**
+ * Pipeline stages (left-to-right order).
+ * `color` is the default (inactive) background; active colors are
+ * computed dynamically in `getNodeColor`.
+ */
+const AGENTS = [
+  { id: 'ids',     label: 'IDS SENSOR',    color: '#3b82f6' },
+  { id: 'tier1',   label: 'T1 ANALYST',    color: '#1e293b' },
+  { id: 'tier2',   label: 'T2 ANALYST',    color: '#1e293b' },
+  { id: 'tier3',   label: 'T3 ANALYST',    color: '#1e293b' },
+  { id: 'warroom', label: 'SECURITY TEAM', color: '#1e293b' },
 ];
 
-const initialEdges: Edge[] = [
-  { 
-    id: 'e1-2', source: 'ids', target: 'tier1', 
-    animated: true, type: 'smoothstep', 
-    markerEnd: { type: MarkerType.ArrowClosed, color: '#3b82f6' },
-    style: { stroke: '#3b82f6' }
-  },
-  { 
-    id: 'e2-3', source: 'tier1', target: 'tier2', 
-    label: 'Escalate', type: 'smoothstep',
-    markerEnd: { type: MarkerType.ArrowClosed, color: '#334155' },
-    style: { stroke: '#334155' }
-  },
-  { 
-    id: 'e3-4', source: 'tier2', target: 'tier3', 
-    type: 'smoothstep',
-    markerEnd: { type: MarkerType.ArrowClosed, color: '#334155' },
-    style: { stroke: '#334155' }
-  },
-  { 
-    id: 'e4-5', source: 'tier3', target: 'warroom', 
-    label: 'Critical', type: 'smoothstep',
-    markerEnd: { type: MarkerType.ArrowClosed, color: '#334155' },
-    style: { stroke: '#334155' }
-  },
-];
+/** Color mapping for each escalation level. */
+const COLOR = {
+  BLUE:    '#3b82f6',  // IDS / Tier 1
+  PURPLE:  '#8b5cf6',  // Tier 2
+  AMBER:   '#f59e0b',  // Tier 3
+  RED:     '#ef4444',  // War Room / Security Team
+  DARK:    '#1e293b',  // Inactive node
+  BORDER:  '#334155',  // Inactive border
+  EDGE_ON: '#60a5fa',  // Active edge
+  EDGE_OFF:'#334155',  // Inactive edge
+} as const;
 
 export default function AgentFlow({ latestReport }: AgentFlowProps) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  useEffect(() => {
-    if (!latestReport) return;
+  /**
+   * Determines the background color for a pipeline node based on
+   * escalation flags in the latest report.
+   */
+  const getNodeColor = (id: string): string => {
+    if (!latestReport) return id === 'ids' ? COLOR.BLUE : COLOR.DARK;
 
-    // Reset styles
-    const newNodes = initialNodes.map(n => ({...n}));
-    const newEdges = initialEdges.map(e => ({...e}));
+    if (id === 'ids')                                        return COLOR.BLUE;
+    if (id === 'tier1')                                      return COLOR.BLUE;
+    if (id === 'tier2'   && latestReport.escalated_to_tier2) return COLOR.PURPLE;
+    if (id === 'tier3'   && latestReport.escalated_to_tier3) return COLOR.AMBER;
+    if (id === 'warroom' && latestReport.war_room_triggered) return COLOR.RED;
+    return COLOR.DARK;
+  };
 
-    // Tier 1 is always active if we have a report
-    newNodes[1].style = { ...newNodes[1].style, background: '#3b82f6', boxShadow: '0 0 15px #3b82f640' };
+  /** Returns the border color – matches the node's active color or falls back to inactive. */
+  const getBorderColor = (id: string): string => {
+    const c = getNodeColor(id);
+    return c !== COLOR.DARK ? c : COLOR.BORDER;
+  };
 
-    // Tier 2
-    if (latestReport.escalated_to_tier2) {
-      newNodes[2].style = { ...newNodes[2].style, background: '#8b5cf6', boxShadow: '0 0 15px #8b5cf640', borderColor: '#8b5cf6' };
-      // Edge 1-2
-      const e2 = newEdges.find(e => e.id === 'e2-3');
-      if (e2) {
-        e2.animated = true;
-        e2.style = { stroke: '#8b5cf6', strokeWidth: 2 };
-        e2.markerEnd = { type: MarkerType.ArrowClosed, color: '#8b5cf6' };
-      }
-    }
+  /** Adds a glow effect to active nodes; inactive nodes have no glow. */
+  const getGlow = (id: string): string => {
+    const c = getNodeColor(id);
+    return c === COLOR.DARK ? 'none' : `0 0 15px ${c}60`;
+  };
 
-    // Tier 3
-    if (latestReport.escalated_to_tier3) {
-      newNodes[3].style = { ...newNodes[3].style, background: '#f59e0b', boxShadow: '0 0 15px #f59e0b40', borderColor: '#f59e0b' };
-        // Edge 2-3
-        const e3 = newEdges.find(e => e.id === 'e3-4');
-        if (e3) {
-          e3.animated = true;
-          e3.style = { stroke: '#f59e0b', strokeWidth: 2 };
-          e3.markerEnd = { type: MarkerType.ArrowClosed, color: '#f59e0b' };
-        }
-    }
-
-    // War Room
-    if (latestReport.war_room_triggered) {
-      newNodes[4].style = { ...newNodes[4].style, background: '#ef4444', boxShadow: '0 0 20px #ef444460', borderColor: '#ef4444' };
-        // Edge 3-4
-        const e4 = newEdges.find(e => e.id === 'e4-5');
-        if (e4) {
-          e4.animated = true;
-          e4.style = { stroke: '#ef4444', strokeWidth: 2 };
-          e4.markerEnd = { type: MarkerType.ArrowClosed, color: '#ef4444' };
-        }
-    }
-
-    setNodes(newNodes);
-    setEdges(newEdges);
-
-  }, [latestReport]);
+  /** Checks whether the edge between two adjacent nodes should be highlighted. */
+  const isEdgeActive = (from: string, to: string): boolean => {
+    if (!latestReport) return false;
+    if (from === 'ids'   && to === 'tier1')   return true;
+    if (from === 'tier1' && to === 'tier2')   return !!latestReport.escalated_to_tier2;
+    if (from === 'tier2' && to === 'tier3')   return !!latestReport.escalated_to_tier3;
+    if (from === 'tier3' && to === 'warroom') return !!latestReport.war_room_triggered;
+    return false;
+  };
 
   return (
-    <div className="glass rounded-2xl p-6 h-[500px] w-full mt-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-bold text-white">Agent Workflow Visualization</h3>
-        <div className="flex gap-4">
-           {latestReport && (
-             <span className="text-xs text-slate-400">
-               Displaying path for: <span className="text-white font-mono">{latestReport.name}</span>
-             </span>
-           )}
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, padding: '2rem 0', overflowX: 'auto' }}>
+      {AGENTS.map((agent, idx) => (
+        <div key={agent.id} style={{ display: 'flex', alignItems: 'center' }}>
+
+          {/* Pipeline Node */}
+          <div style={{
+            width: 120,
+            padding: '12px 8px',
+            textAlign: 'center',
+            background: getNodeColor(agent.id),
+            border: `1px solid ${getBorderColor(agent.id)}`,
+            boxShadow: getGlow(agent.id),
+            transition: 'all 0.4s ease',
+            color: '#fff',
+            fontSize: 10,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            flexShrink: 0,
+          }}>
+            {agent.label}
+          </div>
+
+          {/* Arrow connector between nodes */}
+          {idx < AGENTS.length - 1 && (() => {
+            const nextAgent = AGENTS[idx + 1];
+            const active = isEdgeActive(agent.id, nextAgent.id);
+            return (
+              <div style={{ display: 'flex', alignItems: 'center', width: 40, flexShrink: 0 }}>
+                {/* Horizontal line */}
+                <div style={{
+                  flex: 1,
+                  height: 2,
+                  background: active ? COLOR.EDGE_ON : COLOR.EDGE_OFF,
+                  transition: 'background 0.3s',
+                  animation: active ? 'pulse 1.5s infinite' : 'none',
+                }} />
+                {/* Arrowhead (CSS triangle) */}
+                <div style={{
+                  width: 0,
+                  height: 0,
+                  borderTop: '5px solid transparent',
+                  borderBottom: '5px solid transparent',
+                  borderLeft: `6px solid ${active ? COLOR.EDGE_ON : COLOR.EDGE_OFF}`,
+                  transition: 'border-color 0.3s',
+                }} />
+              </div>
+            );
+          })()}
         </div>
-      </div>
-      <div className="h-[380px] bg-background/50 rounded-xl border border-white/5">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          fitView
-          nodesConnectable={false}
-          nodesDraggable={false}
-        >
-          <Background color="#ffffff10" />
-          <Controls />
-        </ReactFlow>
-      </div>
+      ))}
+
+      {/* Keyframe animation for pulsing active edges */}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Terminal, HardDrive, Wifi, Activity } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Activity, Wifi, HardDrive } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { idsApi } from '../utils/api';
 
@@ -19,7 +19,7 @@ export default function LiveMonitor() {
   useEffect(() => {
     const fetchFlows = async () => {
       try {
-        const res = await idsApi.getFlows();
+        const res = await idsApi.getEvents();
         setFlows(res.data.slice(0, 8)); // Top 8 flows
       } catch (error) {
         console.error("Failed to fetch flows:", error);

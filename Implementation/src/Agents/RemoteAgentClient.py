@@ -1,4 +1,7 @@
-import requests
+try:
+    import requests
+except ImportError:  # pragma: no cover - optional in unit tests
+    requests = None
 import logging
 from typing import Dict, Any
 
@@ -32,6 +35,9 @@ class RemoteAgentClient:
         return result.get("report_path", "")
         
     def _make_request(self, path: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        if requests is None:
+            logger.error("requests dependency is not installed")
+            return {}
         try:
             response = requests.post(
                 f"{self.endpoint_url}{path}", 

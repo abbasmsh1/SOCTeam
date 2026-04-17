@@ -1,14 +1,25 @@
-import React from 'react';
-import { Shield, Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText } from 'lucide-react';
+/**
+ * Dashboard.tsx
+ * =============
+ * Main SOC Mission Control dashboard. Displays:
+ *   - System status header with health indicator
+ *   - Primary telemetry grid (throughput, backlog, threats, agents)
+ *   - Network traffic chart & remediation panel
+ *   - Live threat monitor
+ *   - Agent reasoning path visualization
+ *   - Historical incident ledger (sidebar)
+ */
+
+import { Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText } from 'lucide-react';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useSocDashboard, Report } from '../hooks/useSocDashboard';
+import { useSocDashboard, type Report } from '../hooks/useSocDashboard';
 import LiveMonitor from './LiveMonitor';
 import AgentFlow from './AgentFlow';
 import RemediationPanel from './RemediationPanel';
 import { StatCard } from './ui/StatCard';
 
+/** Placeholder data for the network traffic chart until live data is wired. */
 const MOCK_HISTORICAL_DATA = [
   { name: '04:00', flows: 400 },
   { name: '04:05', flows: 300 },
@@ -23,7 +34,8 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen p-6 space-y-8 bg-transparent">
-      {/* HUD Header */}
+
+      {/* ── HUD Header ── */}
       <header className="flex items-center justify-between border-b border-white/10 pb-8">
         <div>
           <div className="flex items-center gap-3 mb-1">
@@ -37,6 +49,7 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {/* System health status indicator */}
         <div className="flex flex-col items-end gap-2">
             <div className="flex items-center gap-4 text-[10px] font-mono">
                 <span className="text-slate-500 uppercase">System Status:</span>
@@ -44,13 +57,14 @@ export default function Dashboard() {
                     [{error ? "EXT_ERR" : "SECURED"}]
                 </span>
             </div>
+            {/* Mini progress bar (decorative health gauge) */}
             <div className="h-1 w-32 bg-white/5 relative">
                 <div className="absolute top-0 left-0 h-full bg-primary w-2/3" />
             </div>
         </div>
       </header>
 
-      {/* Primary Telemetry Grid */}
+      {/* ── Primary Telemetry Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard 
             title="Throughput (P/S)" 
@@ -78,13 +92,16 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Operations Center Layout */}
+      {/* ── Operations Center Layout (two-column) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Analytics & Execution */}
         <div className="lg:col-span-9 space-y-8">
           
+          {/* Traffic chart + Remediation side-by-side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            {/* Network Traffic Area Chart */}
             <div className="hud-card">
                <h3 className="text-xs font-black text-white mb-6 uppercase tracking-widest flex items-center gap-2">
                 <div className="w-1.5 h-3 bg-primary" />
@@ -112,11 +129,14 @@ export default function Dashboard() {
                </div>
             </div>
 
+            {/* Active remediation actions panel */}
             <RemediationPanel />
           </div>
 
+          {/* Real-time threat monitor feed */}
           <LiveMonitor />
           
+          {/* Agent Reasoning Path – shows which tier processed the latest report */}
           <div className="hud-card border-primary/20">
              <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
                  <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
@@ -133,7 +153,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Right Column: Historical Ledger */}
+        {/* Right Column: Historical Incident Ledger (sticky sidebar) */}
         <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
             <div className="hud-card bg-primary/5 border-primary/20">
                 <h3 className="text-xs font-black text-white mb-6 uppercase tracking-widest flex items-center gap-2">
@@ -153,6 +173,7 @@ export default function Dashboard() {
                 </div>
             </div>
 
+            {/* Decorative system metadata footer */}
             <div className="opacity-20 text-[9px] font-mono leading-tight uppercase tracking-tighter">
                 [SYSTEM_ID: REDACTED]<br/>
                 [LOC: SERVER_NODE_A]<br/>
@@ -165,6 +186,12 @@ export default function Dashboard() {
   );
 }
 
+/**
+ * ReportLink
+ * ----------
+ * Renders a single incident report entry in the sidebar ledger.
+ * Highlights critical reports with a red badge.
+ */
 function ReportLink({ report }: { report: Report }) {
   const isCritical = report.final_severity === 'CRITICAL' || (report.name && report.name.includes('Report'));
   

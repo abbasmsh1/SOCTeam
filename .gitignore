@@ -40,3 +40,13 @@ Implementation/Data/*
 *.txt
 *.md
 *.log
+# Added by code-review-graph
+.code-review-graph/
+.cursor/mcp.json
+.windsurfrules
+.mcp.json
+Claude_tester/*
+mock_hexstrike_server.py
+Implementation/logs/*
+.cursorrules
+.claude/*

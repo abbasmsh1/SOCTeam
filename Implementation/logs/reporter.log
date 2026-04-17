@@ -1,3 +1,0 @@
-2026-03-03 02:46:57 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
-INFO:     127.0.0.1:61584 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61602 - "GET /health HTTP/1.1" 200 OK

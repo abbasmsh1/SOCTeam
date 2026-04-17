@@ -1,6 +1,9 @@
 from langchain_mistralai import ChatMistralAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, MessagesState, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+from Implementation.src.Agents.HexstrikeTools import get_hexstrike_tools
 from typing import Dict, Any
 import os
 import json
@@ -25,6 +28,21 @@ class CodeReviewAgent:
         load_dotenv()
         
         api_key = api_key or os.getenv('MISTRAL_API_KEY')
+        
+        try:
+            import agentlightning as agl
+            agl.setup_logging(apply_to=[__name__])
+            self.tracer = agl.AgentOpsTracer()
+        except ImportError:
+            self.tracer = None
+
+        try:
+            self.hexstrike = HexstrikeClient(base_url=config.get('hexstrike_url', 'http://localhost:8888'))
+            self.tools = get_hexstrike_tools(self.hexstrike)
+        except Exception:
+            self.hexstrike = None
+            self.tools = []
+
         self.llm = ChatMistralAI(
             model=config.get('Model', 'mistral-large-latest'),
             api_key=api_key,
@@ -33,6 +51,9 @@ class CodeReviewAgent:
         ) if api_key else None
 
         self.memory = MemorySaver() if api_key else None
+
+        if api_key and self.tools:
+            self.llm = getattr(self.llm, 'bind_tools', lambda x: self.llm)(self.tools)
 
         if api_key:
             self.graph = self._create_graph()
@@ -48,9 +69,13 @@ class CodeReviewAgent:
         except:
             workflow.add_edge("__start__", "reviewer")
         try:
-            workflow.set_finish_point("reviewer")
+            workflow.add_node("tools", ToolNode(self.tools))
+        workflow.add_conditional_edges("reviewer", tools_condition)
+        workflow.add_edge("tools", "reviewer")
         except:
-            workflow.add_edge("reviewer", "__end__")
+            workflow.add_node("tools", ToolNode(self.tools))
+        workflow.add_conditional_edges("reviewer", tools_condition)
+        workflow.add_edge("tools", "reviewer")
         return workflow
 
     def _call_model(self, state: MessagesState):

@@ -1,4 +1,7 @@
-import requests
+try:
+    import requests
+except ImportError:  # pragma: no cover - optional in unit tests
+    requests = None
 
 class GeoLocator:
     def __init__(self, token: str = None):
@@ -39,6 +42,8 @@ class GeoLocator:
             }
         
         try:
+            if requests is None:
+                return {"ip": ip, "notes": "requests dependency not available"}
             url = f"{self.base_url}{ip}/json"
             if self.token:
                 url += f"?token={self.token}"

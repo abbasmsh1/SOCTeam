@@ -60,5 +60,325 @@
     "code_provided": false,
     "dry_run": true,
     "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:50:57.673347",
+    "action": "BLOCK_IP",
+    "target": "192.168.1.99",
+    "duration": "24h",
+    "reason": "DDoS attack detected",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:50:57.677157",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.1",
+    "duration": "1h",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:50:57.751326",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.2",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:50:57.850557",
+    "action": "RATE_LIMIT",
+    "target": "10.0.0.3",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:50:57.931236",
+    "action": "BLOCK_IP",
+    "target": "172.16.5.22",
+    "duration": "6h",
+    "reason": "Brute force",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:02.564396",
+    "action": "BLOCK_IP",
+    "target": "192.168.200.1",
+    "duration": "24h",
+    "reason": "DDoS attack from 192.168.200.1",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:02.641761",
+    "action": "BLOCK_IP",
+    "target": "10.10.50.99",
+    "duration": "12h",
+    "reason": "Port_Scan attack from 10.10.50.99",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:02.723544",
+    "action": "BLOCK_IP",
+    "target": "172.20.1.33",
+    "duration": "permanent",
+    "reason": "Brute_Force attack from 172.20.1.33",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:41.866840",
+    "action": "BLOCK_IP",
+    "target": "192.168.1.99",
+    "duration": "24h",
+    "reason": "DDoS attack detected",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:41.938384",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.1",
+    "duration": "1h",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:42.044945",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.2",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:42.132276",
+    "action": "RATE_LIMIT",
+    "target": "10.0.0.3",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:42.253087",
+    "action": "BLOCK_IP",
+    "target": "172.16.5.22",
+    "duration": "6h",
+    "reason": "Brute force",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:46.809972",
+    "action": "BLOCK_IP",
+    "target": "192.168.200.1",
+    "duration": "24h",
+    "reason": "DDoS attack from 192.168.200.1",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:46.903391",
+    "action": "BLOCK_IP",
+    "target": "10.10.50.99",
+    "duration": "12h",
+    "reason": "Port_Scan attack from 10.10.50.99",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:51:46.992791",
+    "action": "BLOCK_IP",
+    "target": "172.20.1.33",
+    "duration": "permanent",
+    "reason": "Brute_Force attack from 172.20.1.33",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:03.521215",
+    "action": "BLOCK_IP",
+    "target": "192.168.1.99",
+    "duration": "24h",
+    "reason": "DDoS attack detected",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:03.598589",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.1",
+    "duration": "1h",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:03.677131",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.2",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:03.737546",
+    "action": "RATE_LIMIT",
+    "target": "10.0.0.3",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:03.837332",
+    "action": "BLOCK_IP",
+    "target": "172.16.5.22",
+    "duration": "6h",
+    "reason": "Brute force",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:08.383821",
+    "action": "BLOCK_IP",
+    "target": "192.168.200.1",
+    "duration": "24h",
+    "reason": "DDoS attack from 192.168.200.1",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:08.476418",
+    "action": "BLOCK_IP",
+    "target": "10.10.50.99",
+    "duration": "12h",
+    "reason": "Port_Scan attack from 10.10.50.99",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T12:52:08.559723",
+    "action": "BLOCK_IP",
+    "target": "172.20.1.33",
+    "duration": "permanent",
+    "reason": "Brute_Force attack from 172.20.1.33",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:37.713607",
+    "action": "BLOCK_IP",
+    "target": "192.168.1.99",
+    "duration": "24h",
+    "reason": "DDoS attack detected",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:37.746890",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.1",
+    "duration": "1h",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:37.771768",
+    "action": "BLOCK_IP",
+    "target": "10.0.0.2",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:37.821232",
+    "action": "RATE_LIMIT",
+    "target": "10.0.0.3",
+    "duration": "permanent",
+    "reason": "Detected threat pattern",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:37.862770",
+    "action": "BLOCK_IP",
+    "target": "172.16.5.22",
+    "duration": "6h",
+    "reason": "Brute force",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:45.156751",
+    "action": "BLOCK_IP",
+    "target": "192.168.200.1",
+    "duration": "24h",
+    "reason": "DDoS attack from 192.168.200.1",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:45.186142",
+    "action": "BLOCK_IP",
+    "target": "10.10.50.99",
+    "duration": "12h",
+    "reason": "Port_Scan attack from 10.10.50.99",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
+  },
+  {
+    "timestamp": "2026-03-20T13:50:45.217916",
+    "action": "BLOCK_IP",
+    "target": "172.20.1.33",
+    "duration": "permanent",
+    "reason": "Brute_Force attack from 172.20.1.33",
+    "dry_run": true,
+    "auto_pilot": false,
+    "status": "SIMULATED_SUCCESS"
   }
 ]

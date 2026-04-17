@@ -1,0 +1,11 @@
+{
+  "blocked_ips": {},
+  "blocked_subnets": {},
+  "isolation_network": {},
+  "rate_limits": {},
+  "isolated_hosts": {},
+  "pending_enrichment": 0,
+  "pending_siem_tuning": 0,
+  "threat_escalations": 0,
+  "history_count": 0
+}

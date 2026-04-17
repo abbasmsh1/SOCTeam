@@ -3,11 +3,12 @@ SOC Workflow using LangGraph to connect Tier1Analyst and Tier2Analyst.
 This workflow orchestrates the escalation process from Tier 1 to Tier 2 analysis.
 """
 
-from langgraph.graph import StateGraph, MessagesState, START, END
-from langgraph.checkpoint.memory import MemorySaver
+from Implementation.src.Agents.runtime_compat import MemorySaver, StateGraph
 from typing import Dict, Any, Literal
 import datetime
 import uuid
+import json
+import os
 try:
     from typing import TypedDict
 except ImportError:
@@ -16,9 +17,11 @@ from Implementation.src.Agents.LegacyCompat import Tier1Analyst, Tier2Analyst, T
 from Implementation.src.Agents.WarRoomWorkflow import WarRoomWorkflow
 
 from Implementation.src.Agents.VectorMemoryManager import VectorMemoryManager
+from Implementation.src.Agents.MetadataManager import MetadataManager
 from Implementation.src.Agents.ReportGeneratorAgent import ReportGeneratorAgent
 from Implementation.src.Agents.RemoteAgentClient import RemoteAgentClient
 from Implementation.src.Agents.RemediationAgent import RemediationAgent
+from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
 from Implementation.utils.Logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -44,26 +47,51 @@ class SOCWorkflow:
     """
     SOC Workflow that orchestrates Tier 1, Tier 2, and Tier 3 analysis using LangGraph.
     """
-    
-    def __init__(self, api_key: str = None, agent_urls: Dict[str, str] = None):
+
+    def __init__(self, api_key: str = None, agent_urls: Dict[str, str] = None, hexstrike_url: str = None):
         """
         Initialize the SOC workflow with Tier 1, Tier 2, and Tier 3 analysts.
-        
+
         Args:
             api_key: Optional API key for LLM services
             agent_urls: Optional dictionary mapping agent roles to their microservice URLs.
                         Example: {"tier1": "http://localhost:6051", "tier2": "http://localhost:6052"}
+            hexstrike_url: Optional Hexstrike-AI MCP server URL. Falls back to config.json.
         """
         agent_urls = agent_urls or {}
-        
-        self.tier1_analyst = RemoteAgentClient(agent_urls["tier1"]) if "tier1" in agent_urls else Tier1Analyst(api_key=api_key)
-        self.tier2_analyst = RemoteAgentClient(agent_urls["tier2"]) if "tier2" in agent_urls else Tier2Analyst(api_key=api_key)
-        self.tier3_analyst = RemoteAgentClient(agent_urls["tier3"]) if "tier3" in agent_urls else Tier3Analyst(api_key=api_key)
-        self.war_room = RemoteAgentClient(agent_urls["warroom"]) if "warroom" in agent_urls else WarRoomWorkflow(api_key=api_key)
+
+        # Load hexstrike_url from config if not provided
+        if not hexstrike_url:
+            try:
+                config_path = os.path.join(
+                    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                    "config.json",
+                )
+                with open(config_path, "r") as fh:
+                    config = json.load(fh)
+                    hexstrike_url = config.get("hexstrike_url", "http://localhost:8888")
+            except Exception:
+                hexstrike_url = "http://localhost:8888"
+
+        self.hexstrike_url = hexstrike_url
+
+        self.tier1_analyst = RemoteAgentClient(agent_urls["tier1"]) if "tier1" in agent_urls else Tier1Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        self.tier2_analyst = RemoteAgentClient(agent_urls["tier2"]) if "tier2" in agent_urls else Tier2Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        self.tier3_analyst = RemoteAgentClient(agent_urls["tier3"]) if "tier3" in agent_urls else Tier3Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        self.war_room = RemoteAgentClient(agent_urls["warroom"]) if "warroom" in agent_urls else WarRoomWorkflow(api_key=api_key, hexstrike_url=hexstrike_url)
         self.memory = MemorySaver() if api_key else None
         self.kb_memory = VectorMemoryManager() # Initialize persistent Vector DB memory
+        self.metadata_mgr = MetadataManager() # Initialize SQL Metadata Repository
         self.reporter = RemoteAgentClient(agent_urls["reporter"]) if "reporter" in agent_urls else ReportGeneratorAgent()
-        self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent()
+
+        # Initialize RemediationAgent with Hexstrike client
+        try:
+            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent(hexstrike=HexstrikeClient(base_url=hexstrike_url))
+        except Exception:
+            self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent()
+
+        self.flow_history = FlowHistoryManager()
         
         
         # Use LangGraph only if we have an API key AND we are NOT running in microservices mode
@@ -232,6 +260,8 @@ class SOCWorkflow:
         """Remediation execution node."""
         war_room_result = state.get("war_room_result", {})
         tier3_result = state.get("tier3_result", {})
+        tier1_result = state.get("tier1_result", {})
+        tier2_result = state.get("tier2_result", {})
         alert_data = state.get("alert_data", {})
         
         # Get generated code from Blue Team if available
@@ -309,8 +339,12 @@ class SOCWorkflow:
         print("DEBUG: Finalizing node - Generating report...")
         report_path = self.reporter.generate_report(final_result)
         final_result["report_path"] = report_path
+        
+        # Structured Persistence: Save to Metadata Repository (SQL)
+        self.metadata_mgr.save_incident(final_result)
+        
         print(f"DEBUG: Report generated: {report_path}")
-        logger.info(f"Workflow completed. Report generated at: {report_path}")
+        logger.info(f"Workflow completed. Incident recorded in Metadata DB. Report: {report_path}")
 
         return {
             **state,
@@ -345,11 +379,24 @@ class SOCWorkflow:
         """
         print(f"\nSOCWorkflow: Processing alert for {input_data.get('alert_data', {}).get('Attack', 'Unknown')}")
         logger.info(f"Processing alert: {input_data.get('alert_data', {}).get('Attack', 'Unknown')}")
+        
+        # Enrich with historical context from the flow database
+        src_ip = input_data.get("alert_data", {}).get("Source IP", input_data.get("alert_data", {}).get("src_ip", "Unknown"))
+        ip_stats = self.flow_history.get_ip_stats(src_ip)
+        
+        historical_summary = f"--- HISTORICAL CONTEXT (LAST 5 MINS) ---\n"
+        historical_summary += f"IP: {src_ip}\n"
+        historical_summary += f"Total Flows: {ip_stats.get('total_flows_last_n_min', 0)}\n"
+        historical_summary += f"Threat Detections: {json.dumps(ip_stats.get('malicious_counts', {}))}\n"
+        historical_summary += f"Unique Destinations: {ip_stats.get('unique_destinations', 0)}\n"
+        historical_summary += f"Threat Ratio: {ip_stats.get('threat_ratio', 0):.2f}\n"
+        historical_summary += f"----------------------------------------"
+
         # Initialize state
         initial_state: SOCWorkflowState = {
             "alert_data": input_data.get("alert_data", {}),
             "current_status": input_data.get("current_status", "Unknown"),
-            "context_logs": input_data.get("context_logs", "No additional logs available."),
+            "context_logs": input_data.get("context_logs", "") + "\n\n" + historical_summary,
             "current_incidents": input_data.get("current_incidents", "No active incidents logged."),
             "tier1_result": {},
             "tier2_result": {},

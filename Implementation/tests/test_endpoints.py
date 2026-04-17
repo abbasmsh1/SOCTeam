@@ -1,9 +1,14 @@
-import requests
+import unittest
+
+try:
+    import requests
+except ImportError:  # pragma: no cover - optional integration dependency
+    requests = None
 import json
 import time
 import os
-import unittest
 
+@unittest.skipIf(requests is None, "requests dependency not installed")
 class TestIDSEndpoints(unittest.TestCase):
     BASE_URL = "http://localhost:6050"
     API_KEY = "ids-secret-key"

@@ -12,6 +12,10 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, trendIndicator
   const isPositive = trendIndicator === 'LIVE' || trendIndicator.startsWith('+');
   const isNegative = trendIndicator === 'CRITICAL' || trendIndicator.startsWith('-');
 
+  // Determine color based on trendIndicator for the icon background
+  const iconBgColor = isPositive ? 'bg-benign' : isNegative ? 'bg-malicious' : 'bg-slate-700';
+  const iconColor = isPositive ? 'text-benign' : isNegative ? 'text-malicious' : 'text-slate-500';
+
   return (
     <motion.div 
       initial={{ opacity: 0, x: -20 }}
@@ -19,8 +23,9 @@ export const StatCard: React.FC<StatCardProps> = ({ title, value, trendIndicator
       className="hud-card group"
     >
       <div className="flex justify-between items-start mb-6">
-        <div className="p-2 border border-white/10 bg-white/5 group-hover:border-primary/50 transition-colors">
-          {React.cloneElement(icon as React.ReactElement, { size: 18 })}
+        {/* New icon rendering block */}
+        <div className={`p-3 rounded-xl bg-opacity-20 ${iconBgColor}`}>
+          {React.cloneElement(icon as any, { className: `w-6 h-6 ${iconColor}` })}
         </div>
         <span className={`text-[10px] font-mono font-bold px-2 py-0.5 border ${
           isPositive ? 'border-benign/50 text-benign' : 

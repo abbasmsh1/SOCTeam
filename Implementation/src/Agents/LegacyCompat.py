@@ -42,22 +42,22 @@ class PurpleTeamAgent(SecurityTeamAgent):
 # Compatibility: Tier1Analyst
 class Tier1Analyst(TierAnalystAgent):
     """Tier 1 Analyst - Backwards compatible wrapper."""
-    def __init__(self, api_key: Optional[str] = None):
-        super().__init__(tier=1, api_key=api_key)
+    def __init__(self, api_key: Optional[str] = None, hexstrike_url: Optional[str] = None):
+        super().__init__(tier=1, api_key=api_key, hexstrike_url=hexstrike_url)
 
 
 # Compatibility: Tier2Analyst
 class Tier2Analyst(TierAnalystAgent):
     """Tier 2 Analyst - Backwards compatible wrapper."""
-    def __init__(self, api_key: Optional[str] = None):
-        super().__init__(tier=2, api_key=api_key)
+    def __init__(self, api_key: Optional[str] = None, hexstrike_url: Optional[str] = None):
+        super().__init__(tier=2, api_key=api_key, hexstrike_url=hexstrike_url)
 
 
 # Compatibility: Tier3Analyst
 class Tier3Analyst(TierAnalystAgent):
     """Tier 3 Analyst - Backwards compatible wrapper."""
-    def __init__(self, api_key: Optional[str] = None):
-        super().__init__(tier=3, api_key=api_key)
+    def __init__(self, api_key: Optional[str] = None, hexstrike_url: Optional[str] = None):
+        super().__init__(tier=3, api_key=api_key, hexstrike_url=hexstrike_url)
 
 
 # Compatibility: RemediationAgent

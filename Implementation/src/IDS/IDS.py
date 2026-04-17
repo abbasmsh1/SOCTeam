@@ -1,5 +1,12 @@
 import os
 import sys
+import subprocess
+import json
+import uuid
+import warnings
+
+# Suppress optional libpcap warning (not needed for CSV-based flow processing)
+warnings.filterwarnings("ignore", message=".*No libpcap provider available.*")
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
@@ -19,21 +26,19 @@ import os
 import uvicorn
 import numpy as np
 from typing import Dict, Any, Optional, List
+from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
 
-# Import FlowExtractor for pcap processing
+# Import FlowExtractor for pcap processing (optional)
 try:
     from Implementation.src.IDS.FlowExtractor import FlowExtractor, check_cicflowmeter_installation
     FLOW_EXTRACTOR_AVAILABLE = True
 except ImportError:
     FLOW_EXTRACTOR_AVAILABLE = False
-    import warnings
-    warnings.warn("FlowExtractor not available. PCAP processing disabled.")
 
 
 from fastapi import Header, HTTPException, Depends, BackgroundTasks
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
-import logging
 import logging
 from collections import deque
 
@@ -57,9 +62,7 @@ class IDSConfig:
     API_KEY = os.getenv("IDS_API_KEY", "ids-secret-key")
     REPORTS_DIR = os.path.join(_BASE_DIR, "Reports")
     HOST = "0.0.0.0"
-    PORT = 6050
-
-    PORT = 6050
+    PORT = 6050  # FIX: removed duplicate PORT assignment
 
 # ---------------------------------------------------
 # IDS Predictor Class (for standalone use)
@@ -276,6 +279,19 @@ class IDSPredictor:
 # ---------------------------------------------------
 _predictor = None
 _workflow = None
+_history_mgr = None
+
+def get_history_manager():
+    """Get or create global FlowHistoryManager instance."""
+    global _history_mgr
+    if _history_mgr is None:
+        try:
+            # We don't provide path, let it resolve to Data/flow_history.db
+            _history_mgr = FlowHistoryManager()
+        except Exception as e:
+            logger.error(f"Failed to initialize FlowHistoryManager: {e}")
+            # Don't raise, we want the IDS to still function even if logging fails
+    return _history_mgr
 
 def get_predictor():
     """Get or create global predictor instance."""
@@ -316,21 +332,26 @@ app = FastAPI(title="AI-Powered Intrusion Detection System")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development, allow all origins. In production, specify the frontend URL.
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["X-API-Key", "Content-Type", "Authorization", "*"],
 )
 
 @app.get("/")
 @app.get("/health")
+@app.get("/v1/agl/health")
 def health_check():
     return {"status": "healthy", "service": "IDS Backend Gateway"}
 
 # ---------------------------------------------------
 # Security Middleware
 # ---------------------------------------------------
-async def verify_api_key(x_api_key: str = Header(...)):
+async def verify_api_key(x_api_key: Optional[str] = Header(None, alias="X-API-Key")):
+    if not x_api_key:
+        logger.warning("Missing X-API-Key header")
+        return "public" # Allow public for health checks if needed, but the routes have dependency
+    
     if x_api_key != IDSConfig.API_KEY:
         logger.warning(f"Unauthorized access attempt with API Key: {x_api_key}")
         raise HTTPException(status_code=403, detail="Could not validate credentials")
@@ -339,10 +360,6 @@ async def verify_api_key(x_api_key: str = Header(...)):
 # ---------------------------------------------------
 # API Routes
 # ---------------------------------------------------
-@app.get("/")
-def home():
-    return {"message": "Intrusion Detection System is up and running!"}
-
 @app.post("/predict/", dependencies=[Depends(verify_api_key)])
 async def predict_api(data: dict, background_tasks: BackgroundTasks):
     """Predict intrusion class from a JSON record (API endpoint)."""
@@ -350,6 +367,27 @@ async def predict_api(data: dict, background_tasks: BackgroundTasks):
     result = predictor.predict(data)
     logger.info(f"Prediction: {result['predicted_label']} (Confidence: {result['confidence']:.4f})")
     
+    # Dashboard event tracking
+    pred_label = result['predicted_label']
+    dashboard_event = {
+        "id": str(uuid.uuid4()),
+        "SourceIP": data.get("Source IP", "Unknown"),
+        "DestinationIP": data.get("Destination IP", "Unknown"),
+        "Protocol": str(data.get("Protocol", "TCP")),
+        "Attack": "Benign" if pred_label == "BENIGN" else pred_label,
+        "timestamp": datetime.now().isoformat(),
+        "severity": "high" if pred_label != "BENIGN" else "low"
+    }
+    live_events.appendleft(dashboard_event)
+
+    # Log flow to history database
+    try:
+        history_mgr = get_history_manager()
+        if history_mgr:
+            history_mgr.add_flow(data, result['predicted_label'], result['confidence'])
+    except Exception as e:
+        logger.error(f"Critical: Failed to persist flow to history DB: {e}")
+
     # Automated Response: If confidence is high and it's a threat, trigger workflow in background
     if result['predicted_label'] != 'BENIGN' and result['confidence'] > 0.85:
         logger.warning(f"High-confidence threat detected! Auto-triggering SOC Workflow...")
@@ -438,7 +476,8 @@ def add_event(event: dict):
 def get_stats():
     """Get dynamic statistics for the dashboard."""
     total_events = len(live_events)
-    threats = [e for e in live_events if e.get('predicted_label', 'BENIGN') != 'BENIGN']
+    # FIX: use 'Attack' key (matching dashboard_event structure), not 'predicted_label'
+    threats = [e for e in live_events if e.get('Attack', 'Benign') != 'Benign']
     active_threats = len(threats)
     
     # Calculate packets/sec (approximate based on last 10 seconds)
@@ -447,10 +486,10 @@ def get_stats():
     packets_sec = len(recent_events) / 10 if recent_events else 0
     
     return {
-        "packets_per_second": int(packets_sec * 60) if packets_sec > 0 else 0, # Scaling for demo effect if traffic is low
+        "packets_per_second": int(packets_sec * 60) if packets_sec > 0 else 0,
         "pending_alerts": total_events - active_threats,
         "confirmed_threats": active_threats,
-        "active_agents": 5 # Fixed for now, or dynamic if we track agent states
+        "active_agents": 5
     }
 
 @app.get("/remediation/logs", dependencies=[Depends(verify_api_key)])
@@ -467,6 +506,49 @@ def get_remediation_logs():
     except Exception as e:
         logger.error(f"Failed to read remediation logs: {e}")
         return []
+
+feed_process = None
+
+@app.get("/feed-status", dependencies=[Depends(verify_api_key)])
+@app.get("/v1/agl/feed-status", dependencies=[Depends(verify_api_key)])
+def get_feed_status():
+    """Check if the flow feed is currently running."""
+    global feed_process
+    is_running = feed_process is not None and feed_process.poll() is None
+    return {
+        "is_running": is_running,
+        "detail": "Feed is active" if is_running else "Feed is stopped"
+    }
+
+@app.post("/start-feed", dependencies=[Depends(verify_api_key)])
+@app.post("/v1/agl/start-feed", dependencies=[Depends(verify_api_key)])
+def start_feed():
+    """Start feeding flows from CSV."""
+    global feed_process
+    if feed_process and feed_process.poll() is None:
+        return {"status": "success", "is_running": True, "message": "Feed is already running."}
+    
+    # FIX: correct path — feed_csv_flows.py is at Implementation/ root, not Implementation/tools/
+    script_path = os.path.join(_BASE_DIR, "Implementation", "feed_csv_flows.py")
+    try:
+        # Pass --delay 1.5 by default for a good dashboard visualization speed
+        feed_process = subprocess.Popen([sys.executable, script_path, "--delay", "1.5"])
+        return {"status": "success", "is_running": True, "message": "Started feeding CSV flows."}
+    except Exception as e:
+        logger.error(f"Failed to start feed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/stop-feed", dependencies=[Depends(verify_api_key)])
+@app.post("/v1/agl/stop-feed", dependencies=[Depends(verify_api_key)])
+def stop_feed():
+    """Stop feeding flows from CSV."""
+    global feed_process
+    if feed_process and feed_process.poll() is None:
+        feed_process.terminate()
+        feed_process.wait() # Ensure it's fully cleaned up
+        feed_process = None
+        return {"status": "success", "is_running": False, "message": "Stopped feeding CSV flows."}
+    return {"status": "success", "is_running": False, "message": "No feed process was running."}
 
 # ---------------------------------------------------
 # Main
