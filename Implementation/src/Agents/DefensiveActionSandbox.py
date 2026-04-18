@@ -12,6 +12,7 @@ import datetime as dt
 import ipaddress
 import json
 import os
+import subprocess
 from typing import Any, Dict, List, Optional
 
 
@@ -112,9 +113,73 @@ class DefensiveActionSandbox:
     def list_active_rules(self) -> Dict[str, Any]:
         return self._summarize_state(self.load_state())
 
+    def dashboard_ui_state(self) -> Dict[str, Any]:
+        """
+        Shape expected by the React SandboxStatePanel (arrays + total_actions).
+        list_active_rules() returns summarized dicts/counts; the UI needs list fields.
+        """
+        state = self.load_state()
+        blocked = state.get("blocked_ips") or {}
+        rate_lims = state.get("rate_limits") or {}
+        fw_rules = state.get("firewall_rules") or []
+        out_fw: List[Dict[str, Any]] = []
+        for r in fw_rules:
+            if not isinstance(r, dict):
+                continue
+            out_fw.append({
+                "rule_id": r.get("id", ""),
+                "action": str(r.get("action", "DENY")).upper().replace("DENY", "DROP"),
+                "source_ip": r.get("src_ip", "ANY"),
+                "destination_ip": r.get("dst_ip", "ANY"),
+                "port": r.get("port", "ANY"),
+                "protocol": r.get("protocol", "ANY"),
+                "description": r.get("reason", ""),
+                "created_at": r.get("added_at", ""),
+            })
+        return {
+            "blocked_ips": list(blocked.keys()),
+            "firewall_rules": out_fw,
+            "rate_limited_hosts": list(rate_lims.keys()),
+            "total_actions": len(state.get("history", [])),
+        }
+
     def clear_sandbox(self) -> None:
         """Resets the sandbox to an empty state."""
         self.save_state(self._empty_state())
+
+    def get_live_firewall_rules(self) -> List[Dict[str, Any]]:
+        """
+        Retrieves active firewall rules from the Windows host using PowerShell.
+        Returns a list of structured rule dictionaries.
+        """
+        # Command to fetch enabled rules with common fields, formatted as JSON
+        ps_command = (
+            "Get-NetFirewallRule -Enabled True | "
+            "Select-Object DisplayName, Action, Direction, Protocol, LocalPort | "
+            "ConvertTo-Json"
+        )
+        
+        try:
+            result = subprocess.run(
+                ["powershell", "-Command", ps_command],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            if not result.stdout.strip():
+                return []
+                
+            raw_rules = json.loads(result.stdout)
+            
+            # Convert single object to list if only one rule was found
+            if isinstance(raw_rules, dict):
+                raw_rules = [raw_rules]
+                
+            return raw_rules
+        except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError) as e:
+            # Fallback/Debug info (In a real SOC we might log this)
+            return [{"DisplayName": f"Error fetching live rules: {str(e)}", "Action": "ERROR"}]
 
     def _validate_rule(self, rule: Dict[str, Any], threat_info: Dict[str, Any]) -> Optional[str]:
         action = str(rule.get("action", "")).upper()

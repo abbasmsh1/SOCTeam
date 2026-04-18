@@ -3,9 +3,14 @@ Backwards Compatibility Layer
 Maintains old agent API while using new optimized implementations.
 """
 
-from .SecurityTeamAgent import SecurityTeamAgent
-from .TierAnalystAgent import TierAnalystAgent
-from .RemediationAgent import RemediationAgent
+try:
+    from .SecurityTeamAgent import SecurityTeamAgent
+    from .TierAnalystAgent import TierAnalystAgent
+    from .RemediationAgent import RemediationAgent
+except (ImportError, ValueError):
+    from SecurityTeamAgent import SecurityTeamAgent
+    from TierAnalystAgent import TierAnalystAgent
+    from RemediationAgent import RemediationAgent
 
 from typing import Optional
 

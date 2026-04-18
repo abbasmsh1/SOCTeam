@@ -10,14 +10,26 @@ Unified agent supporting three SOC analyst tiers:
 Extends :class:`BaseAgent` for LLM and graph wiring.
 """
 
-from .BaseAgent import BaseAgent, AgentState
-from .runtime_compat import StateGraph
-from ..utils.Geolocator import GeoLocator
+try:
+    from .BaseAgent import BaseAgent, AgentState
+    from .runtime_compat import StateGraph
+except (ImportError, ValueError):
+    from BaseAgent import BaseAgent, AgentState
+    from runtime_compat import StateGraph
+
+try:
+    from ..utils.Geolocator import GeoLocator
+except (ImportError, ValueError):
+    try:
+        from utils.Geolocator import GeoLocator
+    except ImportError:
+        GeoLocator = None # Fallback if utils not available
 from typing import Dict, Any, Literal, Optional, List
 import json
 import logging
 import datetime
 import re
+import uuid
 try:
     import requests
 except ImportError:  # pragma: no cover - optional during unit tests
@@ -92,8 +104,84 @@ Provide a remediation strategy and end your response with a JSON block:
 {
   "credible_threat": true/false,
   "response_plan": "...",
-  "summary": "..."
-}"""
+  "summary": "...",
+  "recommended_actions": ["Concrete step 1", "Concrete step 2"]
+}
+Include recommended_actions as short, executable items (no placeholders); they are merged into the sandbox rule engine."""
+
+_NO_PLACEHOLDER_RULES = """
+## Mandatory writing rules
+- Do **not** use angle-bracket placeholders (e.g. <SOURCE_IP>, <TARGET>, <INCIDENT_ID>) or shell-style variables.
+- Use **only** the exact IP addresses, ports, and protocol strings given under **OBSERVED FACTS** below when discussing endpoints.
+- If an endpoint value is truly absent from OBSERVED FACTS, say **"Not present in telemetry"** — do not invent addresses.
+- Prioritize **summarizing what is already observed** (Tier 1/2 text, HexStrike/AbuseIPDB snippets in the payload) over generic step lists of tools to run later.
+- The response_plan must read as an operator-ready narrative referencing concrete values from OBSERVED FACTS, not a generic playbook.
+"""
+
+
+def _resolve_src_ip(alert: Dict[str, Any]) -> str:
+    if not isinstance(alert, dict):
+        return ""
+    v = (
+        alert.get("SourceIP")
+        or alert.get("Source IP")
+        or alert.get("src_ip")
+        or alert.get("IPV4_SRC_ADDR")
+    )
+    return str(v).strip() if v not in (None, "") else ""
+
+
+def _resolve_dst_ip(alert: Dict[str, Any]) -> str:
+    if not isinstance(alert, dict):
+        return ""
+    v = (
+        alert.get("DestinationIP")
+        or alert.get("Destination IP")
+        or alert.get("dst_ip")
+        or alert.get("IPV4_DST_ADDR")
+    )
+    return str(v).strip() if v not in (None, "") else ""
+
+
+def format_observed_facts_block(
+    alert: Dict[str, Any],
+    *,
+    tier1_output: Optional[Dict[str, Any]] = None,
+    hexstrike_enrichment: Optional[Dict[str, Any]] = None,
+    extra_lines: Optional[List[str]] = None,
+) -> str:
+    """Human + LLM-facing facts block; anchors IPs for all tiers."""
+    src = _resolve_src_ip(alert)
+    dst = _resolve_dst_ip(alert)
+    proto = str(
+        alert.get("Protocol")
+        or alert.get("PROTOCOL")
+        or alert.get("protocol")
+        or "N/A"
+    )
+    sp = alert.get("L4_SRC_PORT") or alert.get("Source Port") or alert.get("src_port", "")
+    dp = alert.get("L4_DST_PORT") or alert.get("Destination Port") or alert.get("dst_port", "")
+    attack = str(alert.get("Attack", alert.get("prediction", "Unknown")))
+    lines = [
+        "## OBSERVED FACTS (cite these exact values; never replace with placeholders)",
+        f"- **Source IP:** `{src or 'Not present in telemetry'}`",
+        f"- **Destination IP:** `{dst or 'Not present in telemetry'}`",
+        f"- **Protocol / ports:** proto={proto}  src_port={sp or 'N/A'}  dst_port={dp or 'N/A'}",
+        f"- **Attack label (alert):** {attack}",
+    ]
+    if tier1_output:
+        ids_pred = tier1_output.get("ids_prediction") or {}
+        if isinstance(ids_pred, dict) and ids_pred:
+            lines.append(
+                f"- **IDS model:** label=`{ids_pred.get('predicted_label', 'N/A')}`  "
+                f"confidence={ids_pred.get('confidence', 'N/A')}"
+            )
+    if hexstrike_enrichment and isinstance(hexstrike_enrichment, dict):
+        keys = list(hexstrike_enrichment.keys())[:12]
+        lines.append(f"- **HexStrike keys populated:** {', '.join(keys) or 'none'}")
+    if extra_lines:
+        lines.extend(extra_lines)
+    return "\n".join(lines)
 
 
 # ---------------------------------------------------------------------------
@@ -168,7 +256,40 @@ class TierAnalystAgent(BaseAgent):
 
     def _get_system_message(self) -> str:
         """Return the system prompt matching the current tier."""
-        return {1: _TIER1_SYSTEM_MSG, 2: _TIER2_SYSTEM_MSG, 3: _TIER3_SYSTEM_MSG}[self.tier]
+        base = {1: _TIER1_SYSTEM_MSG, 2: _TIER2_SYSTEM_MSG, 3: _TIER3_SYSTEM_MSG}[self.tier]
+        return base + "\n" + _NO_PLACEHOLDER_RULES
+
+    def _stream_with_config(self, prompt: str, timeout_override: Optional[int] = None) -> Optional[str]:
+        """
+        Invoke the LLM with the tier-specific system prompt.
+
+        BaseAgent falls back to a generic system string when ``self.llm`` is used
+        without the compiled graph; tier analysts must always send tier rules.
+        """
+        try:
+            if self.app:
+                thread_id = str(uuid.uuid4())
+                config = {"configurable": {"thread_id": thread_id}}
+                result = self.app.invoke(
+                    {"messages": [{"role": "user", "content": prompt}]}, config
+                )
+                messages = result.get("messages", [])
+                if messages:
+                    msg = messages[-1]
+                    return msg.content if hasattr(msg, "content") else str(msg)
+
+            if self.llm:
+                response = self.llm.invoke(
+                    [
+                        {"role": "system", "content": self._get_system_message()},
+                        {"role": "user", "content": prompt},
+                    ]
+                )
+                return response.content if hasattr(response, "content") else str(response)
+            return None
+        except Exception as exc:
+            logger.error("%s: Error during processing: %s", self.agent_name, exc)
+            return None
 
     # ── Public processing entry point ───────────────────────────────────
 
@@ -207,8 +328,8 @@ class TierAnalystAgent(BaseAgent):
                 pass  # Gracefully degrade if IDS fails
 
         # Hexstrike enrichment for high-severity alerts
-        src_ip = alert_data.get("Source IP", alert_data.get("src_ip", ""))
-        dst_ip = alert_data.get("Destination IP", alert_data.get("dst_ip", ""))
+        src_ip = _resolve_src_ip(alert_data)
+        dst_ip = _resolve_dst_ip(alert_data)
         attack_type = str(alert_data.get("Attack", "")).upper()
 
         # Determine if this is a high-severity alert warranting Hexstrike scans
@@ -249,15 +370,42 @@ class TierAnalystAgent(BaseAgent):
                 logger.warning(f"Tier 1 Hexstrike enrichment failed: {exc}")
                 enriched_alert["hexstrike_error"] = str(exc)
 
-        # LLM triage
-        prompt = f"Enriched Alert:\n{json.dumps(enriched_alert, indent=2)}"
-        llm_response = self._stream_with_config(prompt) or "LLM Error"
+        # LLM triage — anchor on concrete endpoints + full JSON payload
+        tier1_ids_snapshot: Dict[str, Any] = {}
+        if ids_prediction and isinstance(ids_prediction, dict):
+            tier1_ids_snapshot["ids_prediction"] = ids_prediction
+        facts = format_observed_facts_block(
+            alert_data,
+            tier1_output=tier1_ids_snapshot or None,
+            hexstrike_enrichment=enriched_alert.get("hexstrike_enrichment"),
+        )
+        ctx = (input_data.get("context_logs") or "").strip()
+        if len(ctx) > 14000:
+            ctx = ctx[:14000] + "\n... [context_logs truncated]"
+        db_preamble = ""
+        if ctx:
+            db_preamble = (
+                "### Flow database & operational context (IDS `flow_history.db` — cite this for historical behavior)\n"
+                f"{ctx}\n\n"
+            )
+        prompt = (
+            f"{facts}\n\n"
+            f"{db_preamble}"
+            f"### Enriched telemetry (machine-readable)\n"
+            f"{json.dumps(enriched_alert, indent=2, default=str)}\n"
+        )
+        llm_response = self._sanitize_endpoint_placeholders(
+            self._stream_with_config(prompt) or "LLM Error",
+            _resolve_src_ip(alert_data),
+            _resolve_dst_ip(alert_data),
+        )
 
         # Parse structured block from LLM output
         metadata = self._extract_json_block(llm_response) or {}
 
-        final_severity = metadata.get("severity", "Medium")
-        should_escalate = metadata.get("escalate", False)
+        # ``.get("severity", "Medium")`` returns None if JSON had "severity": null
+        final_severity = metadata.get("severity") or "Medium"
+        should_escalate = bool(metadata.get("escalate", False))
         is_false_positive = metadata.get("false_positive", False)
 
         # Heuristic override: force escalation for DDoS / Botnet
@@ -277,6 +425,7 @@ class TierAnalystAgent(BaseAgent):
             "escalate": should_escalate,
             "ids_prediction": ids_prediction,
             "forensic_status": metadata.get("forensic_status", "NONE"),
+            "recommended_actions": metadata.get("recommended_actions", []),
         }
 
     # ── Tier 2 processing ───────────────────────────────────────────────
@@ -288,16 +437,51 @@ class TierAnalystAgent(BaseAgent):
         Applies heuristic overrides for DDoS / Botnet after the LLM response.
         """
         tier1_output = input_data.get("tier1_output", {})
-        prompt = (
-            f"### Alert Details\n{str(tier1_output.get('enriched_alert', {}))}\n\n"
-            f"### Tier 1 Triage\n{tier1_output.get('triage_response', '')}"
+        raw_alert = tier1_output.get("raw_alert") or {}
+        enriched = tier1_output.get("enriched_alert") or {}
+        hs_workflow = input_data.get("hexstrike_enrichment") or enriched.get("hexstrike_enrichment") or {}
+        facts = format_observed_facts_block(
+            raw_alert if isinstance(raw_alert, dict) else {},
+            tier1_output=tier1_output,
+            hexstrike_enrichment=hs_workflow if isinstance(hs_workflow, dict) else {},
         )
+        ctx = input_data.get("context_logs", "")
+        if isinstance(ctx, str) and len(ctx) > 6000:
+            ctx = ctx[:6000] + "\n... [truncated]"
 
-        llm_response = self._stream_with_config(prompt) or "LLM Error"
+        prompt = f"""{facts}
+
+### Forensic / workflow HexStrike payload (authoritative for open ports, reputation)
+{json.dumps(hs_workflow, indent=2, default=str) if hs_workflow else "{}"}
+
+### Historical / flow context (feeder logs)
+{ctx}
+
+### Similar past incidents (knowledge base)
+{json.dumps(input_data.get("similar_incidents"), indent=2, default=str)}
+
+### Tier 1 triage (model output)
+{tier1_output.get("triage_response", "")}
+
+### Tier 1 enriched telemetry (subset)
+{json.dumps(
+    {k: enriched.get(k) for k in (
+        "SourceIP", "DestinationIP", "source_geolocation", "destination_geolocation",
+        "src_ip_reputation", "dst_ip_reputation", "hexstrike_enrichment", "ids_prediction", "ids_confidence",
+    ) if k in enriched},
+    indent=2,
+    default=str,
+)}
+"""
+        llm_response = self._sanitize_endpoint_placeholders(
+            self._stream_with_config(prompt) or "LLM Error",
+            _resolve_src_ip(raw_alert if isinstance(raw_alert, dict) else {}),
+            _resolve_dst_ip(raw_alert if isinstance(raw_alert, dict) else {}),
+        )
         metadata = self._extract_json_block(llm_response) or {}
 
-        val_severity = metadata.get("validated_severity", "High")
-        should_escalate = metadata.get("escalate", False)
+        val_severity = metadata.get("validated_severity") or metadata.get("severity") or "High"
+        should_escalate = bool(metadata.get("escalate", False))
 
         # Heuristic override
         attack_type = str(tier1_output.get("raw_alert", {}).get("Attack", "")).upper()
@@ -320,7 +504,39 @@ class TierAnalystAgent(BaseAgent):
 
     def _process_tier3(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Tier 3: generate an incident response plan."""
-        llm_response = self._stream_with_config(str(input_data)) or "LLM Error"
+        tier1_output = input_data.get("tier1_output") or {}
+        tier2_output = input_data.get("tier2_output") or {}
+        raw_alert = tier1_output.get("raw_alert") or input_data.get("alert_data") or {}
+        if not isinstance(raw_alert, dict):
+            raw_alert = {}
+        hs = input_data.get("hexstrike_enrichment") or (
+            (tier1_output.get("enriched_alert") or {}).get("hexstrike_enrichment")
+        )
+        facts = format_observed_facts_block(
+            raw_alert,
+            tier1_output=tier1_output,
+            hexstrike_enrichment=hs if isinstance(hs, dict) else {},
+        )
+        ctx = input_data.get("context_logs", "")
+        if isinstance(ctx, str) and len(ctx) > 4000:
+            ctx = ctx[:4000] + "\n... [truncated]"
+
+        prompt = f"""{facts}
+
+### Tier 2 investigation output (use concrete IPs from OBSERVED FACTS only)
+{tier2_output.get("full_report", "")}
+
+### Context for this incident (flows / logs)
+{ctx}
+
+### Workflow forensic enrichment (summary keys)
+{json.dumps(list((hs or {}).keys()) if isinstance(hs, dict) else [], default=str)}
+"""
+        llm_response = self._sanitize_endpoint_placeholders(
+            self._stream_with_config(prompt) or "LLM Error",
+            _resolve_src_ip(raw_alert),
+            _resolve_dst_ip(raw_alert),
+        )
         metadata = self._extract_json_block(llm_response) or {}
 
         return {
@@ -328,6 +544,7 @@ class TierAnalystAgent(BaseAgent):
             "response_plan": llm_response,
             "status": "Plan Generated",
             "credible_threat": metadata.get("credible_threat", False),
+            "recommended_actions": metadata.get("recommended_actions", []),
         }
 
     # ── Enrichment helpers ──────────────────────────────────────────────
@@ -338,19 +555,52 @@ class TierAnalystAgent(BaseAgent):
 
         Queries both source and destination IPs when available.
         """
-        enriched = alert.copy()
-        src_ip = alert.get("SourceIP")
-        dst_ip = alert.get("DestinationIP")
+        enriched = dict(alert) if isinstance(alert, dict) else {}
+        src_ip = _resolve_src_ip(enriched)
+        dst_ip = _resolve_dst_ip(enriched)
+        if src_ip:
+            enriched["SourceIP"] = src_ip
+        if dst_ip:
+            enriched["DestinationIP"] = dst_ip
 
         if src_ip:
-            enriched["source_geolocation"] = self.geo_locator.locate_ip(src_ip)
-            enriched["src_ip_reputation"] = self.abuseipdb_check(src_ip)
+            rep_src = self.abuseipdb_check(src_ip)
+            enriched["src_ip_reputation"] = rep_src
+            enriched["ip_reputation"] = rep_src  # legacy key consumed by assess_severity
+            if self.geo_locator:
+                enriched["source_geolocation"] = self.geo_locator.locate_ip(src_ip)
 
         if dst_ip:
-            enriched["destination_geolocation"] = self.geo_locator.locate_ip(dst_ip)
             enriched["dst_ip_reputation"] = self.abuseipdb_check(dst_ip)
+            if self.geo_locator:
+                enriched["destination_geolocation"] = self.geo_locator.locate_ip(dst_ip)
 
         return enriched
+
+    def _sanitize_endpoint_placeholders(self, text: str, src_ip: str, dst_ip: str) -> str:
+        """Replace common LLM placeholder tokens with resolved telemetry when available."""
+        if not text:
+            return text
+        out = text
+        if src_ip:
+            for token in (
+                "<SOURCE_IP>",
+                "<source_ip>",
+                "<SRC_IP>",
+                "<IPv4_SRC>",
+            ):
+                out = out.replace(token, src_ip)
+        if dst_ip:
+            for token in (
+                "<DESTINATION_IP>",
+                "<destination_ip>",
+                "<DST_IP>",
+                "<TARGET_IP>",
+                "<target_ip>",
+                "<IPv4_DST>",
+            ):
+                out = out.replace(token, dst_ip)
+        return out
 
     def _is_internal_ip(self, ip: str) -> bool:
         """

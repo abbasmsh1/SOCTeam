@@ -3,6 +3,7 @@ import sys
 import subprocess
 import json
 import uuid
+import math
 import warnings
 import time
 from queue import Queue, Full
@@ -70,7 +71,8 @@ class IDSConfig:
     REPORTS_DIR = os.path.join(_BASE_DIR, "Reports")
     HOST = "0.0.0.0"
     PORT = 6050  # FIX: removed duplicate PORT assignment
-    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.85"))
+    # Queue SOC workflow when malicious class confidence is above this (0–1). Default: >50%.
+    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.5"))
     AUTO_WORKFLOW_COOLDOWN_SEC = float(os.getenv("IDS_AUTO_WORKFLOW_COOLDOWN_SEC", "10"))
     WORKFLOW_QUEUE_MAXSIZE = int(os.getenv("IDS_WORKFLOW_QUEUE_MAXSIZE", "200"))
     REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "5"))
@@ -611,6 +613,56 @@ async def verify_api_key(x_api_key: Optional[str] = Header(None, alias="X-API-Ke
         raise HTTPException(status_code=403, detail="Could not validate credentials")
     return x_api_key
 
+
+def _flow_endpoint_str(data: dict, *candidate_keys: str) -> str:
+    """
+    Resolve source/destination IP from heterogeneous flow JSON (manual POST, CSV/NetFlow rows).
+    Pandas/JSON may supply NaN or 0.0 for missing fields; those must not become truthy bugs.
+    """
+    if not isinstance(data, dict):
+        return "Unknown"
+    for k in candidate_keys:
+        if k not in data:
+            continue
+        v = data[k]
+        if v is None:
+            continue
+        if isinstance(v, float):
+            if math.isnan(v) or math.isinf(v) or v == 0.0:
+                continue
+        if isinstance(v, (int, float)) and not isinstance(v, bool):
+            s = str(v).strip()
+            if s in ("", "0", "0.0"):
+                continue
+            return s
+        if isinstance(v, str):
+            s = v.strip()
+            if not s or s.lower() == "nan":
+                continue
+            return s
+        s = str(v).strip()
+        if s:
+            return s
+    return "Unknown"
+
+
+def _dashboard_protocol_label(data: dict) -> str:
+    """Prefer human Protocol; map numeric PROTOCOL (e.g. 6) from CSV exports."""
+    p = data.get("Protocol")
+    if p is not None and str(p).strip():
+        return str(p)
+    pn = data.get("PROTOCOL")
+    if pn is None:
+        return "TCP"
+    try:
+        if isinstance(pn, float) and math.isnan(pn):
+            return "TCP"
+        n = int(float(pn))
+    except (TypeError, ValueError):
+        return str(pn)
+    return {6: "TCP", 17: "UDP", 1: "ICMP"}.get(n, f"proto-{n}")
+
+
 # ---------------------------------------------------
 # API Routes
 # ---------------------------------------------------
@@ -623,12 +675,36 @@ async def predict_api(data: dict):
     
     # Dashboard event tracking
     pred_label = result['predicted_label']
+    src = _flow_endpoint_str(
+        data,
+        "SourceIP",
+        "Source IP",
+        "src_ip",
+        "IPV4_SRC_ADDR",
+        "ipv4_src_addr",
+        "Src IP",
+        "source_ip",
+    )
+    dst = _flow_endpoint_str(
+        data,
+        "DestinationIP",
+        "Destination IP",
+        "dst_ip",
+        "IPV4_DST_ADDR",
+        "ipv4_dst_addr",
+        "Dest IP",
+        "destination_ip",
+    )
     dashboard_event = {
         "id": str(uuid.uuid4()),
-        "SourceIP": data.get("Source IP", "Unknown"),
-        "DestinationIP": data.get("Destination IP", "Unknown"),
-        "Protocol": str(data.get("Protocol", "TCP")),
+        "SourceIP": src,
+        "DestinationIP": dst,
+        # Mirror NetFlow keys so older UIs / bookmarks still resolve addresses
+        "IPV4_SRC_ADDR": src,
+        "IPV4_DST_ADDR": dst,
+        "Protocol": _dashboard_protocol_label(data),
         "Attack": "Benign" if pred_label == "BENIGN" else pred_label,
+        "confidence": result.get("confidence", 0.0),
         "timestamp": datetime.now().isoformat(),
         "severity": "high" if pred_label != "BENIGN" else "low"
     }
@@ -653,7 +729,9 @@ async def predict_api(data: dict):
                 should_queue = True
 
         if should_queue:
-            queue_result = _queue_workflow(result, "Automated API Response")
+            # Merge original flow fields with prediction so async worker has IPs / NetFlow keys for DB context & tiers
+            workflow_payload = {**data, **result}
+            queue_result = _queue_workflow(workflow_payload, "Automated API Response")
             if queue_result["queued"]:
                 logger.warning("High-confidence threat detected; workflow queued")
                 result["automated_response"] = "SOC Workflow Queued"
@@ -682,8 +760,10 @@ async def predict_api(data: dict):
 async def process_workflow(alert_data: dict, sync: bool = Query(False)):
     """
     Process an alert through SOC workflow.
-    - sync=true: run inline and return full workflow result
-    - sync=false (default): enqueue and return immediately
+    - sync=true: run the workflow in-process. Tier 1 completes on the request thread; if the alert
+      escalates to Tier 2 (direct/microservice mode), Tier 2+ may continue on a background thread
+      and the JSON may include tier2_processing=background with Tier 1 fields only until the report exists.
+    - sync=false (default): enqueue full run on the workflow worker and return immediately.
     """
     logger.info(f"Workflow request for alert: {alert_data.get('Attack', 'Unknown')} (sync={sync})")
 
@@ -703,9 +783,23 @@ async def process_workflow(alert_data: dict, sync: bool = Query(False)):
         "queue_size": queue_result["queue_size"]
     }
 
+
+def _report_markdown_escalated_to_tier2(file_path: str) -> bool:
+    """
+    Reports generated with escalated_to_tier2 include a Tier 2 section from ReportGeneratorAgent.
+    Tier-1-only runs omit it (Classification: Tier 1 Analysis Only).
+    """
+    try:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as fh:
+            text = fh.read(262144)
+    except OSError:
+        return False
+    return "## Tier 2 Analysis" in text
+
+
 @app.get("/reports", dependencies=[Depends(verify_api_key)])
 def list_reports():
-    """List all generated security incident reports."""
+    """List generated security incident reports escalated to Tier 2 (incident ledger)."""
     reports_dir = IDSConfig.REPORTS_DIR
     if not os.path.exists(reports_dir):
         return []
@@ -724,6 +818,9 @@ def list_reports():
             for entry in entries:
                 if not entry.is_file() or not entry.name.endswith(".md"):
                     continue
+                full_path = os.path.join(reports_dir, entry.name)
+                if not _report_markdown_escalated_to_tier2(full_path):
+                    continue
                 try:
                     created_at = datetime.fromtimestamp(entry.stat().st_ctime).isoformat()
                 except OSError:
@@ -731,7 +828,8 @@ def list_reports():
                 reports.append({
                     "id": entry.name,
                     "name": entry.name,
-                    "created_at": created_at
+                    "created_at": created_at,
+                    "escalated_to_tier2": True,
                 })
 
         reports.sort(key=lambda x: x["created_at"], reverse=True)
@@ -847,10 +945,15 @@ def get_sandbox_state():
     """
     Return the current DefensiveActionSandbox enforcement state:
     blocked IPs, rate limits, isolated hosts, firewall rules, etc.
+
+    Merges summarized counters with dashboard_ui_state() so the React
+    SandboxStatePanel receives arrays (blocked_ips, firewall_rules, rate_limited_hosts).
     """
     try:
         generator = get_auto_soc()
-        return generator.sandbox.list_active_rules()
+        summary = generator.sandbox.list_active_rules()
+        ui = generator.sandbox.dashboard_ui_state()
+        return {**summary, **ui}
     except Exception as exc:
         logger.error("[sandbox/state] Error: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))

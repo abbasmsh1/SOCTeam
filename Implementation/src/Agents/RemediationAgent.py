@@ -10,8 +10,14 @@ import logging
 import os
 import re
 from typing import Any, Dict, List
-
-from .DefensiveActionSandbox import DefensiveActionSandbox
+try:
+    from .BaseAgent import BaseAgent
+    from .DefensiveActionSandbox import DefensiveActionSandbox
+    from .runtime_compat import MessagesState, StateGraph
+except (ImportError, ValueError):
+    from BaseAgent import BaseAgent
+    from DefensiveActionSandbox import DefensiveActionSandbox
+    from runtime_compat import MessagesState, StateGraph
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +25,7 @@ logger = logging.getLogger(__name__)
 class RemediationAgent:
     """Apply defensive rules safely through the sandbox executor."""
 
-    def __init__(self, dry_run: bool = True, hexstrike: Any = None):
+    def __init__(self, dry_run: bool = False, hexstrike: Any = None):
         self.dry_run = dry_run
         self.hexstrike = hexstrike
         self.sandbox = DefensiveActionSandbox()
@@ -36,15 +42,19 @@ class RemediationAgent:
         threat_info = input_data.get("threat_info", {})
         plan = input_data.get("defense_plan", "")
         auto_pilot = bool(input_data.get("auto_pilot", False))
+        force_enforce = bool(input_data.get("force_enforce", False))
 
         rules = self._parse_rules(plan)
-        execution_results = [self.apply_remediation_rule(rule, threat_info, auto_pilot) for rule in rules]
+        rules = self._augment_firewall_rules(rules, threat_info)
+        effective_auto_pilot = auto_pilot or force_enforce
+        execution_results = [self.apply_remediation_rule(rule, threat_info, effective_auto_pilot) for rule in rules]
         self._save_active_rules()
 
         return {
             "remediation_status": "COMPLETED" if execution_results else "NO_ACTION",
             "execution_log": execution_results,
             "enforced_rules": rules,
+            "effective_auto_pilot": effective_auto_pilot,
             "active_protections": self.sandbox.list_active_rules(),
             "timestamp": datetime.datetime.utcnow().isoformat(),
         }
@@ -56,7 +66,14 @@ class RemediationAgent:
         auto_pilot: bool,
     ) -> Dict[str, Any]:
         action = rule.get("action", "UNKNOWN").upper()
-        target = rule.get("target", threat_info.get("SourceIP", threat_info.get("Source IP", "UNKNOWN")))
+        target = rule.get(
+            "target",
+            threat_info.get("SourceIP")
+            or threat_info.get("Source IP")
+            or threat_info.get("IPV4_SRC_ADDR")
+            or threat_info.get("src_ip")
+            or "UNKNOWN",
+        )
         duration = rule.get("duration", "permanent")
         reason = rule.get("reason", "Detected threat pattern")
 
@@ -71,10 +88,11 @@ class RemediationAgent:
             "status": "PENDING",
         }
 
+        should_enforce = auto_pilot and not self.dry_run
         sandbox_result = self.sandbox.execute_rule(
             rule={**rule, "action": action, "target": target, "duration": duration, "reason": reason},
             threat_info=threat_info,
-            auto_pilot=(auto_pilot and not self.dry_run),
+            auto_pilot=should_enforce,
         )
         log_entry["status"] = sandbox_result.get("status", "UNKNOWN")
         log_entry["effect"] = sandbox_result.get("effect")
@@ -90,12 +108,49 @@ class RemediationAgent:
     def _execute_enrichment(self, target: str) -> str:
         if self.hexstrike:
             try:
-                logger.info("Queueing enrichment scan for %s", target)
-                return "ENRICHMENT_QUEUED"
+                logger.info("Running HexStrike enrichment for %s", target)
+                analysis = self.hexstrike.analyze_target(target, "comprehensive")
+                reputation = self.hexstrike.check_ip_reputation(target)
+                return "ENRICHMENT_COMPLETED" if (analysis is not None or reputation is not None) else "ENRICHMENT_EMPTY"
             except Exception as exc:
                 logger.warning("Enrichment failed for %s: %s", target, exc)
                 return "ENRICHMENT_FAILED"
         return "HEXSTRIKE_UNAVAILABLE"
+
+    def _augment_firewall_rules(self, rules: List[Dict[str, Any]], threat_info: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Inject a FIREWALL_RULE for attack families that require explicit network policy entries."""
+        attack_text = str(
+            threat_info.get("Attack")
+            or threat_info.get("predicted_label")
+            or threat_info.get("attack_type")
+            or ""
+        ).lower()
+        matched = any(tag in attack_text for tag in ("ddos", "xss", "brute", "bruteforce", "brute-force"))
+        if not matched:
+            return rules
+
+        has_firewall_rule = any(str(rule.get("action", "")).upper() == "FIREWALL_RULE" for rule in rules)
+        if has_firewall_rule:
+            return rules
+
+        source_ip = (
+            threat_info.get("SourceIP")
+            or threat_info.get("Source IP")
+            or threat_info.get("src_ip")
+            or "UNKNOWN"
+        )
+        firewall_rule = {
+            "action": "FIREWALL_RULE",
+            "target": source_ip,
+            "action_type": "DENY",
+            "src_ip": source_ip,
+            "dst_ip": "ANY",
+            "port": "ANY",
+            "protocol": "ANY",
+            "priority": 10,
+            "reason": f"Auto firewall policy for attack pattern: {attack_text or 'unknown'}",
+        }
+        return [*rules, firewall_rule]
 
     def _save_log(self, entry: Dict[str, Any]) -> None:
         try:

@@ -21,7 +21,7 @@ interface RemediationLog {
   auto_pilot?: boolean; // Whether the action was triggered automatically
 }
 
-const POLL_INTERVAL_MS = 5000;
+const POLL_INTERVAL_MS = 2000;
 
 export default function BlockedIpsTable() {
   const [logs, setLogs] = useState<RemediationLog[]>([]);

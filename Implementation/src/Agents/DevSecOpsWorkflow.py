@@ -3,13 +3,22 @@ Optimized DevSecOps Workflow
 Inlines code generation and review logic to reduce overhead.
 """
 
-from langgraph.graph import StateGraph, START, END
-from langchain_mistralai import ChatMistralAI
+try:
+    from langgraph.graph import StateGraph, START, END
+except ImportError:
+    from .runtime_compat import StateGraph, START, END
+
+try:
+    from langchain_mistralai import ChatMistralAI
+except ImportError:
+    from .runtime_compat import ChatMistralAI
+
 from typing import Dict, Any, TypedDict
 import os
 import json
 import uuid
 import logging
+from .runtime_compat import MessagesState # Ensure we use protected state if needed
 from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)

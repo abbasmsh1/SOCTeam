@@ -21,17 +21,20 @@ BATCH_SIZE = 5  # Process 5 flows at a time
 DELAY = 2  # Seconds between batches
 
 
-
-
-def send_prediction_to_api(flow_data, backend_url):
-    """Send flow to IDS /predict/ endpoint for classification."""
-    # Convert flow data to dict, handling NaN values
-    flow_dict = {}
-    for key, value in flow_data.items():
+def normalize_flow_record(flow_row) -> dict:
+    """Convert a pandas Series (or any .items() mapping) to a JSON-safe dict for the IDS API."""
+    out = {}
+    for key, value in flow_row.items():
         if pd.isna(value):
-            flow_dict[key] = 0
+            out[key] = 0
         else:
-            flow_dict[key] = float(value) if isinstance(value, (int, float)) else str(value)
+            out[key] = float(value) if isinstance(value, (int, float)) else str(value)
+    return out
+
+
+def send_prediction_to_api(flow_row, backend_url):
+    """Send flow to IDS /predict/ endpoint for classification."""
+    flow_dict = normalize_flow_record(flow_row)
     
     try:
         response = requests.post(
@@ -119,7 +122,7 @@ def main():
         
         for idx, (_, flow) in enumerate(batch.iterrows(), 1):
             # Get prediction from IDS
-            prediction = send_prediction_to_api(flow.to_dict(), backend_url)
+            prediction = send_prediction_to_api(flow, backend_url)
             
             if prediction:
                 attack_type = prediction['predicted_label']
@@ -133,17 +136,34 @@ def main():
                 # If malicious, trigger SOC workflow
                 if attack_type != "BENIGN" and confidence > 50:  # Only process high-confidence attacks
                     try:
-                        print(f"      [->] Triggering SOC workflow...")
+                        print(f"      [->] Triggering SOC workflow (sync)...")
+                        # Merge original NetFlow row with prediction IDs so `/workflow/process` has IPV4_*, ports,
+                        # etc. for tier analysts and flow_history.db context (prediction JSON alone has no IPs).
+                        workflow_body = {**normalize_flow_record(flow), **prediction}
+                        # sync=true runs the workflow inline and returns final_result including final_severity.
+                        # Default sync=false only acknowledges the job to the queue — no severity in the body.
                         workflow_response = requests.post(
                             f"{backend_url}/workflow/process",
-                            json=prediction,
+                            json=workflow_body,
+                            params={"sync": True},
                             headers={"X-API-Key": API_KEY},
-                            timeout=120
+                            timeout=300,
                         )
                         if workflow_response.status_code == 200:
                             result = workflow_response.json()
                             total_workflows += 1
-                            print(f"      [OK] Workflow complete - Severity: {result.get('final_severity', 'Unknown')}")
+                            if result.get("status") == "accepted":
+                                print(
+                                    "      [OK] Workflow queued (async); response has no final_severity — "
+                                    "call with ?sync=true for a full result."
+                                )
+                            elif result.get("error"):
+                                print(f"      [!] Workflow error: {result.get('error')}")
+                            else:
+                                sev = result.get("final_severity")
+                                if sev is None:
+                                    sev = "Unknown"
+                                print(f"      [OK] Workflow complete - Severity: {sev}")
                         else:
                             print(f"      [!] Workflow returned status {workflow_response.status_code}")
                     except Exception as e:

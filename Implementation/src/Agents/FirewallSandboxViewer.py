@@ -2,12 +2,21 @@ import os
 import json
 import time
 from datetime import datetime
+from DefensiveActionSandbox import DefensiveActionSandbox
 
-class FirewallSandboxViewer:
+# Premium Crimson Theme Constants
+CRIMSON = "\033[38;5;124m"
+RED = "\033[91m"
+RESET = "\033[0m"
+GRAY = "\033[90m"
+CYAN = "\033[96m"
+WHITE = "\033[97m"
+BOLD = "\033[1m"
     def __init__(self):
         # Align with DefensiveActionSandbox pathing
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         self.state_path = os.path.join(base_dir, "Reports", "sandbox_state.json")
+        self.engine = DefensiveActionSandbox()
         
     def _load_data(self):
         if not os.path.exists(self.state_path):
@@ -27,37 +36,55 @@ class FirewallSandboxViewer:
         try:
             while True:
                 self.clear_screen()
-                blocked_ips, rules = self._load_data()
+                blocked_ips, sandbox_rules = self._load_data()
+                live_rules = self.engine.get_live_firewall_rules()
                 
-                print("="*110)
-                print(f" AGENTIC FIREWALL SANDBOX - LIVE MONITOR | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-                print("="*110)
+                # --- Header ---
+                print(f"{CRIMSON}╔" + "═"*118 + "╗")
+                print(f"║ {WHITE}{BOLD}HEXSTRIKE AI {CRIMSON}║ {RED}ACTIVE FIREWALL RULES & SANDBOX MONITOR {CRIMSON}║ {GRAY}{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} {CRIMSON}║")
+                print(f"╚" + "═"*118 + f"╝{RESET}")
                 
                 # --- Blocked IPs Section ---
-                print("\n [SECTION] BLOCKED IP ENTITIES")
-                print("-" * 110)
+                print(f"\n {CRIMSON}{RESET}{BOLD}{WHITE} SECTION: BLOCKED ENTITIES (SANDBOX) {RESET}")
+                print(f"{GRAY}─" * 120)
                 if not blocked_ips:
-                    print(" No IPs currently blocked.")
+                    print(f" {GRAY}No IPs currently blocked in sandbox.{RESET}")
                 else:
-                    print(f"{'IP ADDRESS':<18} | {'DURATION':<10} | {'ADDED AT':<25} | {'REASON'}")
-                    print("-" * 110)
+                    print(f" {BOLD}{WHITE}{'IP ADDRESS':<20} │ {'DURATION':<12} │ {'ADDED AT':<28} │ {'REASON'}{RESET}")
+                    print(f"{GRAY}─" * 120)
                     for ip, info in blocked_ips.items():
-                        print(f"{ip:<18} | {info.get('duration'):<10} | {info.get('added_at'):<25} | {info.get('reason')}")
+                        print(f" {CYAN}{ip:<20} {RESET}│ {GRAY}{info.get('duration'):<12} {RESET}│ {info.get('added_at'):<28} │ {info.get('reason')}")
                 
-                # --- Firewall Rules Section ---
-                print("\n [SECTION] GRANULAR FIREWALL RULES")
-                print("-" * 110)
-                if not rules:
-                    print(" No firewall rules active.")
+                # --- Live System Rules Section ---
+                print(f"\n {RED}{RESET}{BOLD}{WHITE} SECTION: LIVE WINDOWS FIREWALL STATUS (ENABLED) {RESET}")
+                print(f"{GRAY}═" * 120)
+                if not live_rules:
+                    print(f" {GRAY}Analyzing system rules... (Wait or check permissions){RESET}")
                 else:
-                    # Table Header
-                    header = f"{'PRIO':<6} | {'ACTION':<8} | {'PROTOCOL':<8} | {'SRC IP':<18} | {'PORT':<8} | {'REASON'}"
-                    print(header)
-                    print("-" * 110)
-                    
-                    # Sort by priority
-                    sorted_rules = sorted(rules, key=lambda x: x.get('priority', 100))
-                    
+                    print(f" {BOLD}{WHITE}{'DISPLAY NAME':<50} │ {'ACTION':<10} │ {'DIR':<10} │ {'PROTO':<10} │ {'PORT'}{RESET}")
+                    print(f"{GRAY}─" * 120)
+                    # Limit to top 15 live rules to avoid overflow
+                    for r in live_rules[:15]:
+                        name = (r.get('DisplayName') or "Unknown")[:48]
+                        act = r.get('Action', 'Unknown')
+                        direct = r.get('Direction', 'Unknown')
+                        proto = r.get('Protocol', 'ANY')
+                        port = r.get('LocalPort', 'ANY')
+                        
+                        act_color = RED if act == "Block" else CYAN
+                        print(f" {WHITE}{name:<50} {RESET}│ {act_color}{act:<10} {RESET}│ {GRAY}{direct:<10} {RESET}│ {proto:<10} │ {port}")
+                    if len(live_rules) > 15:
+                        print(f"{GRAY}... and {len(live_rules)-15} more rules active on host.{RESET}")
+
+                # --- Sandbox Granular Rules ---
+                print(f"\n {CRIMSON}{RESET}{BOLD}{WHITE} SECTION: SANDBOXED GRANULAR POLICIES {RESET}")
+                print(f"{GRAY}─" * 120)
+                if not sandbox_rules:
+                    print(f" {GRAY}No simulated firewall rules active.{RESET}")
+                else:
+                    print(f" {BOLD}{WHITE}{'PRIO':<6} │ {'ACTION':<10} │ {'PROTOCOL':<10} │ {'SRC IP':<18} │ {'PORT':<10} │ {'REASON'}{RESET}")
+                    print(f"{GRAY}─" * 120)
+                    sorted_rules = sorted(sandbox_rules, key=lambda x: x.get('priority', 100))
                     for r in sorted_rules:
                         prio = r.get('priority', '-')
                         act = r.get('action_type', r.get('action', 'DENY'))
@@ -66,17 +93,15 @@ class FirewallSandboxViewer:
                         port = r.get('port', 'ANY')
                         reason = r.get('reason', 'N/A')
                         
-                        # Highlighting for DENY rules
-                        act_str = f"[{act}]" if act == "DENY" else f" {act} "
-                        
-                        print(f"{prio:<6} | {act_str:<8} | {proto:<8} | {src:<18} | {port:<8} | {reason}")
+                        act_color = RED if act == "DENY" else CYAN
+                        print(f" {WHITE}{prio:<6} {RESET}│ {act_color}{act:<10} {RESET}│ {GRAY}{proto:<10} {RESET}│ {src:<18} │ {port:<10} │ {reason}")
                 
-                print("\n" + "="*110)
-                print(" [CTRL+C to Exit] | Monitoring sandbox_state.json for updates...")
+                print(f"\n{CRIMSON}═" * 120 + f"{RESET}")
+                print(f" {BOLD}{WHITE}[SYSTEM STATUS]{RESET} {CRIMSON}RUNNING{RESET} | {GRAY}Refresh: 2s | CTRL+C to Exit{RESET}")
                 
                 time.sleep(2)
         except KeyboardInterrupt:
-            print("\nExiting Monitor.")
+            print(f"\n{RED}Monitoring Interrupted. Exiting SOC Sandbox Viewer.{RESET}")
 
 if __name__ == "__main__":
     viewer = FirewallSandboxViewer()

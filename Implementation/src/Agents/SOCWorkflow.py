@@ -5,10 +5,12 @@ This workflow orchestrates the escalation process from Tier 1 to Tier 2 analysis
 
 from .runtime_compat import MemorySaver, StateGraph
 from typing import Dict, Any, Literal, List, Optional
+import copy
 import datetime
 import uuid
 import json
 import os
+import re
 import threading
 from concurrent.futures import ThreadPoolExecutor
 try:
@@ -27,6 +29,17 @@ from ..Database.FlowHistoryManager import FlowHistoryManager
 from ...utils.Logger import setup_logger
 
 logger = setup_logger(__name__)
+
+# Auto-pilot / enforcement threshold (0–1). Defaults to >50%; can override via env.
+_REMEDIATION_AUTO_MIN = float(
+    os.getenv("IDS_REMEDIATION_AUTO_MIN_CONFIDENCE", os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.5"))
+)
+# When true (default), Tier 2+ runs on a worker thread so the caller returns after Tier 1 (direct mode / microservices).
+_TIER2_BACKGROUND = os.getenv("SOC_WORKFLOW_TIER2_BACKGROUND", "true").strip().lower() in (
+    "1",
+    "true",
+    "yes",
+)
 
 class SOCWorkflowState(TypedDict, total=False):
     """State schema for the SOC workflow."""
@@ -121,6 +134,152 @@ class SOCWorkflow:
             return [p for p in parts if p]
         return []
 
+    def _collect_all_recommendations(
+        self,
+        tier1_result: Dict[str, Any],
+        tier2_result: Dict[str, Any],
+        tier3_result: Dict[str, Any],
+    ) -> List[str]:
+        """
+        Merge analyst recommendations from all tiers (deduplicated, order preserved)
+        so the security team / sandbox receives one unified action list.
+        """
+        merged: List[str] = []
+        merged.extend(self._normalize_recommended_actions(tier1_result.get("recommended_actions")))
+        merged.extend(self._normalize_recommended_actions(tier2_result.get("recommended_actions")))
+        merged.extend(self._normalize_recommended_actions(tier3_result.get("recommended_actions")))
+        seen: set[str] = set()
+        out: List[str] = []
+        for item in merged:
+            key = item.casefold()
+            if key and key not in seen:
+                seen.add(key)
+                out.append(item)
+        return out
+
+    @staticmethod
+    def _reports_project_root() -> str:
+        """Project root (parent of ``Implementation``)."""
+        return os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        )
+
+    def _extract_actionable_rules_from_text(self, text: str) -> List[Dict[str, Any]]:
+        """Parse [ACTIONABLE_RULES] ... [/ACTIONABLE_RULES] blocks (same contract as RemediationAgent)."""
+        if not text:
+            return []
+        pattern = r"\[ACTIONABLE_RULES\](.*?)\[/ACTIONABLE_RULES\]"
+        match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+        if not match:
+            return []
+        content = match.group(1).strip()
+        content = re.sub(r"```(?:json)?", "", content)
+        content = content.replace("```", "").replace("**", "").strip()
+        json_match = re.search(r"(\[.*\]|\{.*\})", content, re.DOTALL)
+        if not json_match:
+            return []
+        try:
+            rules = json.loads(json_match.group(1).strip())
+            return rules if isinstance(rules, list) else [rules]
+        except (json.JSONDecodeError, ValueError):
+            return []
+
+    @staticmethod
+    def _strip_actionable_rules_blocks(text: str) -> str:
+        """Remove all ACTIONABLE_RULES blocks, keeping narrative text for the defense plan."""
+        if not text:
+            return ""
+        cleaned = re.sub(
+            r"\[ACTIONABLE_RULES\].*?\[/ACTIONABLE_RULES\]",
+            "",
+            text,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+        return cleaned.strip()
+
+    @staticmethod
+    def _dedupe_rule_dicts(rules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        seen = set()
+        out: List[Dict[str, Any]] = []
+        for r in rules:
+            key = (
+                str(r.get("action", "")),
+                str(r.get("target", "")),
+                str(r.get("reason", ""))[:120],
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(r)
+        return out
+
+    def _recommendations_to_rule_dicts(
+        self,
+        action_texts: List[str],
+        alert_data: Dict[str, Any],
+    ) -> List[Dict[str, Any]]:
+        """Map natural-language recommendations to sandbox rule dicts."""
+        s_src = FlowHistoryManager.resolve_src_ip(alert_data)
+        s_dst = FlowHistoryManager.resolve_dst_ip(alert_data)
+        source_ip = s_src if s_src != "Unknown" else "UNKNOWN"
+        target_ip = s_dst if s_dst != "Unknown" else source_ip
+        threat_label = str(alert_data.get("Attack", alert_data.get("predicted_label", "Unknown")))
+        if not action_texts:
+            return []
+
+        rules: List[Dict[str, Any]] = []
+        for rec in action_texts:
+            rec_lower = rec.lower()
+            if "block" in rec_lower and "ip" in rec_lower:
+                rules.append({
+                    "action": "BLOCK_IP",
+                    "target": source_ip,
+                    "duration": "1h",
+                    "reason": f"Tier recommendation: {rec}",
+                })
+            elif "rate" in rec_lower and "limit" in rec_lower:
+                rules.append({
+                    "action": "RATE_LIMIT",
+                    "target": source_ip,
+                    "limit": "50/s",
+                    "reason": f"Tier recommendation: {rec}",
+                })
+            elif "isolate" in rec_lower:
+                rules.append({
+                    "action": "ISOLATE_HOST",
+                    "target": source_ip,
+                    "reason": f"Tier recommendation: {rec}",
+                })
+            elif "reset" in rec_lower and "password" in rec_lower:
+                rules.append({
+                    "action": "RESET_PASSWORD",
+                    "target": source_ip,
+                    "reason": f"Tier recommendation: {rec}",
+                })
+            elif "scan" in rec_lower or "enrich" in rec_lower or "investigate" in rec_lower:
+                rules.append({
+                    "action": "ENRICH_TARGET",
+                    "target": target_ip,
+                    "reason": f"Tier recommendation: {rec}",
+                })
+            elif "siem" in rec_lower or "rule" in rec_lower or "detection" in rec_lower:
+                rules.append({
+                    "action": "TUNE_SIEM",
+                    "target": "IDS_RULESET",
+                    "reason": f"Tier recommendation: {rec}",
+                })
+
+        if not rules:
+            rules.append({
+                "action": "ENRICH_TARGET",
+                "target": target_ip,
+                "reason": f"Generic recommendation for {threat_label}",
+            })
+        return rules
+
+    def _serialize_actionable_rules_block(self, rules: List[Dict[str, Any]]) -> str:
+        return "[ACTIONABLE_RULES]\n" + json.dumps(rules, indent=2) + "\n[/ACTIONABLE_RULES]"
+
     def _build_actionable_rules_from_recommendations(
         self,
         recommendations: Any,
@@ -130,73 +289,11 @@ class SOCWorkflow:
         Convert high-level recommendations into executable ACTIONABLE_RULES JSON.
         This ensures report recommendations can be enforced automatically.
         """
-        source_ip = (
-            alert_data.get("SourceIP")
-            or alert_data.get("Source IP")
-            or alert_data.get("src_ip")
-            or "UNKNOWN"
-        )
-        target_ip = (
-            alert_data.get("DestinationIP")
-            or alert_data.get("Destination IP")
-            or alert_data.get("dst_ip")
-            or source_ip
-        )
-        threat_label = str(alert_data.get("Attack", alert_data.get("predicted_label", "Unknown")))
         action_texts = self._normalize_recommended_actions(recommendations)
         if not action_texts:
             return ""
-
-        rules = []
-        for rec in action_texts:
-            rec_lower = rec.lower()
-            if "block" in rec_lower and "ip" in rec_lower:
-                rules.append({
-                    "action": "BLOCK_IP",
-                    "target": source_ip,
-                    "duration": "1h",
-                    "reason": f"Report recommendation: {rec}",
-                })
-            elif "rate" in rec_lower and "limit" in rec_lower:
-                rules.append({
-                    "action": "RATE_LIMIT",
-                    "target": source_ip,
-                    "limit": "50/s",
-                    "reason": f"Report recommendation: {rec}",
-                })
-            elif "isolate" in rec_lower:
-                rules.append({
-                    "action": "ISOLATE_HOST",
-                    "target": source_ip,
-                    "reason": f"Report recommendation: {rec}",
-                })
-            elif "reset" in rec_lower and "password" in rec_lower:
-                rules.append({
-                    "action": "RESET_PASSWORD",
-                    "target": source_ip,
-                    "reason": f"Report recommendation: {rec}",
-                })
-            elif "scan" in rec_lower or "enrich" in rec_lower or "investigate" in rec_lower:
-                rules.append({
-                    "action": "ENRICH_TARGET",
-                    "target": target_ip,
-                    "reason": f"Report recommendation: {rec}",
-                })
-            elif "siem" in rec_lower or "rule" in rec_lower or "detection" in rec_lower:
-                rules.append({
-                    "action": "TUNE_SIEM",
-                    "target": "IDS_RULESET",
-                    "reason": f"Report recommendation: {rec}",
-                })
-
-        if not rules:
-            rules.append({
-                "action": "ENRICH_TARGET",
-                "target": target_ip,
-                "reason": f"Generic recommendation for {threat_label}",
-            })
-
-        return "[ACTIONABLE_RULES]\n" + json.dumps(rules, indent=2) + "\n[/ACTIONABLE_RULES]"
+        rules = self._recommendations_to_rule_dicts(action_texts, alert_data)
+        return self._serialize_actionable_rules_block(rules)
 
     def _merge_defense_plan_with_recommendations(
         self,
@@ -204,18 +301,82 @@ class SOCWorkflow:
         recommendations: Any,
         alert_data: Dict[str, Any],
     ) -> str:
-        """Append actionable rule block derived from recommendations when missing."""
-        plan_text = str(defense_plan or "")
-        if "[ACTIONABLE_RULES]" in plan_text and "[/ACTIONABLE_RULES]" in plan_text:
-            return plan_text
+        """
+        Merge tier recommendations into the defense plan as a single ACTIONABLE_RULES block.
 
-        generated_block = self._build_actionable_rules_from_recommendations(
-            recommendations=recommendations,
-            alert_data=alert_data,
-        )
-        if not generated_block:
+        Preserves narrative from Blue Team / Tier 3, parses any existing rules, unions
+        with rules derived from **all** supplied recommendations, deduplicates, and
+        re-serializes so the sandbox executes one combined policy set.
+        """
+        plan_text = str(defense_plan or "")
+        narrative = self._strip_actionable_rules_blocks(plan_text)
+        existing = self._extract_actionable_rules_from_text(plan_text)
+        action_texts = self._normalize_recommended_actions(recommendations)
+        generated = self._recommendations_to_rule_dicts(action_texts, alert_data) if action_texts else []
+        merged = self._dedupe_rule_dicts(existing + generated)
+        if not merged:
             return plan_text
-        return f"{plan_text}\n\n{generated_block}".strip()
+        block = self._serialize_actionable_rules_block(merged)
+        if not narrative:
+            return block
+        return f"{narrative}\n\n{block}".strip()
+
+    def _persist_security_team_handoff(
+        self,
+        *,
+        alert_data: Dict[str, Any],
+        all_recommendations: List[str],
+        defense_plan_for_sandbox: str,
+        remediation_result: Dict[str, Any],
+    ) -> Optional[str]:
+        """
+        Write a machine-readable handoff file for operators / Blue Team so every
+        tier recommendation is traceable alongside sandbox execution results.
+        """
+        reports_dir = os.path.join(self._reports_project_root(), "Reports")
+        try:
+            os.makedirs(reports_dir, exist_ok=True)
+        except OSError as exc:
+            logger.warning("Could not create Reports dir for security handoff: %s", exc)
+            return None
+
+        payload = {
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "purpose": "Security team — consolidated recommendations → sandbox",
+            "alert": {
+                "Attack": alert_data.get("Attack"),
+                "SourceIP": alert_data.get("SourceIP") or alert_data.get("Source IP") or alert_data.get("IPV4_SRC_ADDR"),
+                "DestinationIP": alert_data.get("DestinationIP") or alert_data.get("Destination IP") or alert_data.get("IPV4_DST_ADDR"),
+            },
+            "recommended_actions_all_tiers": all_recommendations,
+            "parsed_actionable_rules": self._extract_actionable_rules_from_text(defense_plan_for_sandbox),
+            "remediation": {
+                "status": remediation_result.get("remediation_status"),
+                "execution_log": remediation_result.get("execution_log", []),
+                "enforced_rules": remediation_result.get("enforced_rules", []),
+            },
+        }
+        path = os.path.join(reports_dir, "security_team_sandbox_handoff.json")
+        try:
+            backlog: List[Dict[str, Any]] = []
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as fh:
+                    try:
+                        raw = json.load(fh)
+                        if isinstance(raw, list):
+                            backlog = raw
+                        elif isinstance(raw, dict):
+                            backlog = [raw]
+                    except json.JSONDecodeError:
+                        backlog = []
+            backlog.append(payload)
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump(backlog, fh, indent=2)
+            logger.info("Security team handoff written: %s", path)
+            return path
+        except OSError as exc:
+            logger.warning("Failed to write security team handoff: %s", exc)
+            return None
     
     def _create_graph(self) -> StateGraph:
         """Create the LangGraph workflow."""
@@ -283,6 +444,7 @@ class SOCWorkflow:
         """Tier 1 analysis node."""
         input_data = {
             "alert_data": state.get("alert_data", {}),
+            "context_logs": state.get("context_logs", ""),
             "current_status": state.get("current_status", "Unknown"),
             "forensic_status": "PENDING" if state.get("forensic_future") else "IDLE"
         }
@@ -301,6 +463,25 @@ class SOCWorkflow:
     def _tier2_node(self, state: SOCWorkflowState) -> SOCWorkflowState:
         """Tier 2 analysis node."""
         tier1_result = state.get("tier1_result", {})
+        alert_data = state.get("alert_data", {})
+        force_forensics = bool(alert_data.get("force_forensics", False))
+
+        # Tier2+ requires forensic enrichment; block until available.
+        enrichment = state.get("hexstrike_enrichment", {})
+        future = state.get("forensic_future")
+        if not enrichment:
+            if not future:
+                future = self._execute_forensic_background(alert_data, force_forensics=True)
+            if future:
+                try:
+                    logger.info("Awaiting HexStrike enrichment before Tier 2 analysis...")
+                    enrichment = future.result(timeout=90)
+                except Exception as e:
+                    logger.error("Forensic enrichment failed/timed out before Tier 2: %s", e)
+                    enrichment = {"error": str(e)}
+            elif force_forensics:
+                src_ip = FlowHistoryManager.resolve_src_ip(alert_data)
+                enrichment = self._fetch_forensics(src_ip)
         
         # Retrieve similar past incidents from memory
         alert_summary = f"{tier1_result.get('severity', '')} {str(state.get('alert_data', ''))}"
@@ -311,7 +492,7 @@ class SOCWorkflow:
             "context_logs": state.get("context_logs", "No additional logs available."),
             "current_incidents": state.get("current_incidents", "No active incidents logged."),
             "similar_incidents": similar_incidents,
-            "hexstrike_enrichment": state.get("hexstrike_enrichment", {})
+            "hexstrike_enrichment": enrichment
         }
         
         tier2_result = self.tier2_analyst.process(input_data)
@@ -330,6 +511,7 @@ class SOCWorkflow:
         return {
             **state,
             "tier2_result": tier2_result,
+            "hexstrike_enrichment": enrichment,
             "escalate_to_tier3": escalate_to_tier3
         }
 
@@ -340,7 +522,10 @@ class SOCWorkflow:
         
         input_data = {
             "tier1_output": tier1_result,
-            "tier2_output": tier2_result
+            "tier2_output": tier2_result,
+            "alert_data": state.get("alert_data", {}),
+            "hexstrike_enrichment": state.get("hexstrike_enrichment", {}),
+            "context_logs": state.get("context_logs", ""),
         }
         
         tier3_result = self.tier3_analyst.process(input_data)
@@ -386,32 +571,97 @@ class SOCWorkflow:
         blue_plan = war_room_result.get("blue_team_plan", {})
         generated_code = blue_plan.get("generated_defensive_code", {}).get("final_code", "")
         defense_plan = blue_plan.get("defense_plan", tier3_result.get("response_plan", ""))
+        all_recommendations = self._collect_all_recommendations(
+            tier1_result, tier2_result, tier3_result
+        )
         defense_plan = self._merge_defense_plan_with_recommendations(
             defense_plan=defense_plan,
-            recommendations=tier2_result.get("recommended_actions", []),
+            recommendations=all_recommendations,
             alert_data=alert_data,
         )
         
-        # Determine auto-pilot based on confidence
-        # We look for IDS or Analyst confidence > 0.90
+        # Determine auto-pilot based on confidence (IDS + tier analysts)
         t1_conf = float(tier1_result.get("ids_prediction", {}).get("confidence", 0.0) or 0.0)
         t2_conf = float(tier2_result.get("confidence", 0.0) or 0.0)
-        max_confidence = max(t1_conf, t2_conf)
+        alert_conf = float(alert_data.get("confidence") or alert_data.get("malicious_confidence") or 0.0)
+        max_confidence = max(t1_conf, t2_conf, alert_conf)
         
         input_data = {
             "threat_info": alert_data,
             "generated_code": generated_code,
             "defense_plan": defense_plan,
-            "auto_pilot": max_confidence >= 0.90
+            "auto_pilot": max_confidence > _REMEDIATION_AUTO_MIN,
+            "force_enforce": max_confidence > _REMEDIATION_AUTO_MIN,
         }
         
         remediation_result = self.remediation_executor.process(input_data)
+
+        self._persist_security_team_handoff(
+            alert_data=alert_data,
+            all_recommendations=all_recommendations,
+            defense_plan_for_sandbox=defense_plan,
+            remediation_result=remediation_result,
+        )
         
         return {
             **state,
             "remediation_result": remediation_result
         }
     
+    def _infer_final_severity(
+        self,
+        alert_data: Dict[str, Any],
+        tier1_result: Dict[str, Any],
+        tier2_result: Dict[str, Any],
+        escalated: bool,
+    ) -> str:
+        """
+        Produce a non-unknown final severity when tiers omit it, remote calls fail ({}),
+        or JSON contained null severities. Uses IDS confidence + predicted label as fallback.
+        """
+        t2 = tier2_result or {}
+        t1 = tier1_result or {}
+        if escalated and t2:
+            vs = t2.get("validated_severity")
+            if self._is_meaningful_severity(vs):
+                return str(vs).strip()
+        s1 = t1.get("severity")
+        if self._is_meaningful_severity(s1):
+            return str(s1).strip()
+
+        conf = alert_data.get("confidence")
+        if conf is None:
+            conf = alert_data.get("malicious_confidence")
+        try:
+            c = float(conf)
+        except (TypeError, ValueError):
+            c = 0.0
+        label = str(alert_data.get("predicted_label") or alert_data.get("Attack") or "").upper()
+        if any(x in label for x in ("DDOS", "BOTNET", "INFIL", "EXPLOIT", "RANSOM", "WORM")):
+            tier = "High"
+        elif any(x in label for x in ("BRUTE", "DOS", "SQL", "XSS", "INJECTION")):
+            tier = "High"
+        elif any(x in label for x in ("SCAN", "FUZZ", "PORT")):
+            tier = "Medium"
+        else:
+            tier = "Medium"
+        if c >= 0.85:
+            return "High"
+        if c >= 0.65:
+            return "High" if tier == "High" else "Medium"
+        if c >= 0.45:
+            return tier if tier == "High" else "Medium"
+        return "Low"
+
+    @staticmethod
+    def _is_meaningful_severity(value: Any) -> bool:
+        if value is None:
+            return False
+        s = str(value).strip()
+        if not s:
+            return False
+        return s.lower() not in ("unknown", "n/a", "none", "null")
+
     def _finalize_node(self, state: SOCWorkflowState) -> SOCWorkflowState:
         """Finalize and combine results."""
         tier1_result = state.get("tier1_result", {})
@@ -429,14 +679,29 @@ class SOCWorkflow:
             "tier1_analysis": tier1_result,
             "escalated_to_tier2": escalated,
             "escalated_to_tier3": escalated_tier3,
-            "war_room_triggered": triggered_war_room
+            "war_room_triggered": triggered_war_room,
+            "hexstrike_enrichment": state.get("hexstrike_enrichment", {}),
+            "alert_data": state.get("alert_data", {}),
+            "context_logs": state.get("context_logs", ""),
         }
         
+        combined_recs = self._collect_all_recommendations(
+            tier1_result,
+            tier2_result if escalated else {},
+            tier3_result if escalated_tier3 else {},
+        )
+        alert_data = state.get("alert_data") or {}
         if escalated and tier2_result:
             final_result["tier2_analysis"] = tier2_result
-            final_result["final_severity"] = tier2_result.get("validated_severity", tier1_result.get("severity", "Unknown"))
+            final_result["final_severity"] = self._infer_final_severity(
+                alert_data, tier1_result, tier2_result, True
+            )
             final_result["incident_classification"] = tier2_result.get("incident_classification", "N/A")
-            final_result["recommended_actions"] = tier2_result.get("recommended_actions", "N/A")
+            final_result["recommended_actions"] = (
+                combined_recs
+                if combined_recs
+                else tier2_result.get("recommended_actions", "N/A")
+            )
             
             if escalated_tier3 and tier3_result:
                 final_result["tier3_analysis"] = tier3_result
@@ -450,14 +715,19 @@ class SOCWorkflow:
             if remediation_result:
                 final_result["remediation"] = remediation_result
         else:
-            final_result["final_severity"] = tier1_result.get("severity", "Unknown")
+            final_result["final_severity"] = self._infer_final_severity(
+                alert_data, tier1_result, tier2_result, False
+            )
             final_result["incident_classification"] = "Tier 1 Analysis Only"
-            final_result["recommended_actions"] = tier1_result.get("triage_response", "N/A")
+            final_result["recommended_actions"] = (
+                combined_recs if combined_recs else tier1_result.get("triage_response", "N/A")
+            )
 
         # If recommendations exist but remediation did not run earlier, execute them now.
         if not final_result.get("remediation"):
+            fallback_recs = self._normalize_recommended_actions(final_result.get("recommended_actions"))
             recommendation_plan = self._build_actionable_rules_from_recommendations(
-                recommendations=final_result.get("recommended_actions", []),
+                recommendations=fallback_recs,
                 alert_data=state.get("alert_data", {}),
             )
             if recommendation_plan:
@@ -470,6 +740,12 @@ class SOCWorkflow:
                     })
                     final_result["remediation"] = fallback_remediation
                     state["remediation_result"] = fallback_remediation
+                    self._persist_security_team_handoff(
+                        alert_data=state.get("alert_data", {}),
+                        all_recommendations=fallback_recs,
+                        defense_plan_for_sandbox=recommendation_plan,
+                        remediation_result=fallback_remediation,
+                    )
                     logger.info("Executed remediation from report recommendations")
                 except Exception as e:
                     logger.error(f"Recommendation-based remediation failed: {e}")
@@ -515,7 +791,74 @@ class SOCWorkflow:
             return "remediation"
             
         return "finalize"
-    
+
+    def _shallow_state_for_background(self, state: SOCWorkflowState) -> SOCWorkflowState:
+        """Detach top-level mutable dicts so the worker thread does not race the caller."""
+        out: Dict[str, Any] = dict(state)
+        if isinstance(state.get("alert_data"), dict):
+            out["alert_data"] = copy.copy(state["alert_data"])
+        if isinstance(state.get("tier1_result"), dict):
+            out["tier1_result"] = copy.copy(state["tier1_result"])
+        return out  # type: ignore[return-value]
+
+    def _immediate_result_tier1_escalation(self, state: SOCWorkflowState) -> Dict[str, Any]:
+        """API payload returned immediately while Tier 2+ runs on a background executor thread."""
+        tier1 = state.get("tier1_result") or {}
+        alert = state.get("alert_data") or {}
+        return {
+            "timestamp": datetime.datetime.utcnow().isoformat(),
+            "workflow_version": "2.0",
+            "tier1_analysis": tier1,
+            "escalated_to_tier2": True,
+            "escalated_to_tier3": False,
+            "war_room_triggered": False,
+            "tier2_processing": "background",
+            "incident_classification": "Tier 2 pending (background worker)",
+            "final_severity": self._infer_final_severity(alert, tier1, {}, False),
+            "recommended_actions": tier1.get("recommended_actions", []),
+            "context_logs": state.get("context_logs", ""),
+            "alert_data": alert,
+            "hexstrike_enrichment": state.get("hexstrike_enrichment", {}),
+            "message": (
+                "Escalated to Tier 2. Investigation (Tier 2 → Tier 3 → remediation → report) "
+                "runs on a background thread; /predict/ and other hot paths are not blocked by it. "
+                "A full incident report will appear under Reports/ when the pipeline completes."
+            ),
+        }
+
+    def _background_tier2_pipeline(self, state: SOCWorkflowState) -> None:
+        """
+        Run Tier 2 through finalize on a worker thread (used after Tier 1 escalation).
+        Mirrors the previous inline direct-execution path.
+        """
+        try:
+            future = state.get("forensic_future")
+            if future:
+                try:
+                    logger.info("Background SOC: awaiting deep forensics before Tier 2...")
+                    state["hexstrike_enrichment"] = future.result(timeout=120)
+                except Exception as e:
+                    logger.error("Background SOC: forensic thread failed/timed out: %s", e)
+                    state["hexstrike_enrichment"] = {"error": str(e)}
+
+            logger.info("Background SOC: Tier 2 starting...")
+            state = self._tier2_node(state)
+
+            if self._should_escalate_to_tier3(state) == "escalate_tier3":
+                state = self._tier3_node(state)
+                if self._should_trigger_war_room(state) == "trigger_war_room":
+                    state = self._war_room_node(state)
+                if state.get("tier3_result") or state.get("war_room_result"):
+                    logger.info("Background SOC: remediation...")
+                    state = self._remediation_node(state)
+
+            logger.info("Background SOC: finalizing (report + metadata)...")
+            state = self._finalize_node(state)
+            report_path = state.get("final_result", {}).get("report_path", "")
+            logger.info("Background SOC pipeline complete. Report: %s", report_path)
+        except Exception:
+            logger.exception("Background SOC Tier 2+ pipeline failed")
+
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process an alert through the SOC workflow.
@@ -523,17 +866,15 @@ class SOCWorkflow:
         print(f"\nSOCWorkflow: Processing alert for {input_data.get('alert_data', {}).get('Attack', 'Unknown')}")
         logger.info(f"Processing alert: {input_data.get('alert_data', {}).get('Attack', 'Unknown')}")
         
-        # Enrich with historical context from the flow database
-        src_ip = input_data.get("alert_data", {}).get("Source IP", input_data.get("alert_data", {}).get("src_ip", "Unknown"))
-        ip_stats = self.flow_history.get_ip_stats(src_ip)
-        
-        historical_summary = f"--- HISTORICAL CONTEXT (LAST 5 MINS) ---\n"
-        historical_summary += f"IP: {src_ip}\n"
-        historical_summary += f"Total Flows: {ip_stats.get('total_flows_last_n_min', 0)}\n"
-        historical_summary += f"Threat Detections: {json.dumps(ip_stats.get('malicious_counts', {}))}\n"
-        historical_summary += f"Unique Destinations: {ip_stats.get('unique_destinations', 0)}\n"
-        historical_summary += f"Threat Ratio: {ip_stats.get('threat_ratio', 0):.2f}\n"
-        historical_summary += f"----------------------------------------"
+        # Enrich with flow_history.db: stats + recent rows (same IP resolution as persistence layer)
+        alert = input_data.get("alert_data") or {}
+        src_ip = FlowHistoryManager.resolve_src_ip(alert)
+        dst_ip = FlowHistoryManager.resolve_dst_ip(alert)
+        historical_summary = self.flow_history.format_history_for_llm(
+            src_ip,
+            dst_ip=dst_ip if dst_ip != "Unknown" else None,
+            windows=(5, 60),
+        )
 
         # Initialize state
         initial_state: SOCWorkflowState = {
@@ -593,56 +934,60 @@ class SOCWorkflow:
                     "timestamp": datetime.datetime.utcnow().isoformat()
                 }
         else:
-            # Fallback: process without LangGraph (direct calls)
-            logger.warning("Running in direct execution mode (no API key)...")
+            # Direct execution (remote tier URLs / no LangGraph app). Tier 1 stays on this thread.
+            logger.info(
+                "SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=%s",
+                _TIER2_BACKGROUND,
+            )
             state = initial_state
-            
-            # Tier 1
+
             print("DEBUG: Executing Tier 1 Node...")
             state = self._tier1_node(state)
             print(f"DEBUG: Tier 1 Complete. Severity: {state.get('tier1_result', {}).get('severity')}")
-            
-            # Check escalation
-            if self._should_escalate(state) == "escalate":
-                # Tier 2: Block on forensics if they are still running
-                future = state.get("forensic_future")
-                if future:
-                    try:
-                        logger.info("Waiting for deep forensics to complete before Tier 2 analysis...")
-                        state["hexstrike_enrichment"] = future.result(timeout=60)
-                    except Exception as e:
-                        logger.error("Forensic thread failed/timed out: %s", e)
-                        state["hexstrike_enrichment"] = {"error": str(e)}
 
-                print("DEBUG: Escalating to Tier 2...")
-                state = self._tier2_node(state)
-                print("DEBUG: Tier 2 Complete.")
-                
-                # Check escalation to Tier 3
-                if self._should_escalate_to_tier3(state) == "escalate_tier3":
-                    # Tier 3
-                    state = self._tier3_node(state)
-                    
-                    # Check War Room
-                    if self._should_trigger_war_room(state) == "trigger_war_room":
-                        state = self._war_room_node(state)
-                    
-                    # Manual path: Remediation
-                    # If we have Tier 3 or War Room, we should remediate
-                    if state.get("tier3_result") or state.get("war_room_result"):
-                        print("DEBUG: Executing Remediation Node...")
-                        state = self._remediation_node(state)
-            
-            # Finalize
+            if self._should_escalate(state) != "escalate":
+                print("DEBUG: Finalizing Workflow (Tier 1 only)...")
+                state = self._finalize_node(state)
+                final_result = state.get("final_result", {})
+                if "forensic_status" not in final_result:
+                    final_result["forensic_status"] = state.get("forensic_status", "IDLE")
+                return final_result
+
+            if _TIER2_BACKGROUND:
+                worker_state = self._shallow_state_for_background(state)
+                self.executor.submit(self._background_tier2_pipeline, worker_state)
+                logger.info("Tier 2+ scheduled on background thread (executor)")
+                return self._immediate_result_tier1_escalation(state)
+
+            future = state.get("forensic_future")
+            if future:
+                try:
+                    logger.info("Waiting for deep forensics to complete before Tier 2 analysis...")
+                    state["hexstrike_enrichment"] = future.result(timeout=60)
+                except Exception as e:
+                    logger.error("Forensic thread failed/timed out: %s", e)
+                    state["hexstrike_enrichment"] = {"error": str(e)}
+
+            print("DEBUG: Escalating to Tier 2 (blocking)...")
+            state = self._tier2_node(state)
+            print("DEBUG: Tier 2 Complete.")
+
+            if self._should_escalate_to_tier3(state) == "escalate_tier3":
+                state = self._tier3_node(state)
+                if self._should_trigger_war_room(state) == "trigger_war_room":
+                    state = self._war_room_node(state)
+                if state.get("tier3_result") or state.get("war_room_result"):
+                    print("DEBUG: Executing Remediation Node...")
+                    state = self._remediation_node(state)
+
             print("DEBUG: Finalizing Workflow...")
             state = self._finalize_node(state)
             print("DEBUG: Finalize Complete.")
-            
-            # Surface forensic status if applicable
+
             final_result = state.get("final_result", {})
             if "forensic_status" not in final_result:
                 final_result["forensic_status"] = state.get("forensic_status", "IDLE")
-            
+
             return final_result
 
     def run_full_triage(self, alert_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -655,12 +1000,12 @@ class SOCWorkflow:
         
         return self.process({"alert_data": alert_data})
 
-    def _execute_forensic_background(self, alert_data: Dict[str, Any]) -> Optional[Any]:
+    def _execute_forensic_background(self, alert_data: Dict[str, Any], force_forensics: bool = False) -> Optional[Any]:
         """Helper to spawn background forensic threads."""
-        src_ip = alert_data.get("Source IP", alert_data.get("src_ip", "Unknown"))
-        if self._is_external_ip(src_ip):
+        src_ip = FlowHistoryManager.resolve_src_ip(alert_data)
+        if force_forensics or self._is_external_ip(src_ip):
             severity = str(alert_data.get("Priority", alert_data.get("severity", "low"))).lower()
-            if severity in ["high", "critical"] or "ddos" in str(alert_data).lower():
+            if force_forensics or severity in ["high", "critical"] or "ddos" in str(alert_data).lower():
                 logger.info("Spawning background forensic thread for %s", src_ip)
                 return self.executor.submit(self._fetch_forensics, src_ip)
         return None

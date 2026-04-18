@@ -4,8 +4,8 @@ import os
 import datetime
 from typing import Dict, Any, List, Optional
 try:
-    from Implementation.utils.Logger import setup_logger
-except ImportError:
+    from ..utils.Logger import setup_logger
+except (ImportError, ValueError):
     import logging
     def setup_logger(name):
         return logging.getLogger(name)

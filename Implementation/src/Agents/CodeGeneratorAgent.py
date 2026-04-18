@@ -1,9 +1,17 @@
-from langchain_mistralai import ChatMistralAI
-from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import StateGraph, MessagesState, START, END
-from langgraph.prebuilt import ToolNode, tools_condition
-from .HexstrikeClient import HexstrikeClient
-from .HexstrikeTools import get_hexstrike_tools
+try:
+    from langchain_mistralai import ChatMistralAI
+    from langgraph.checkpoint.memory import MemorySaver
+    from langgraph.graph import StateGraph, MessagesState, START, END
+    from langgraph.prebuilt import ToolNode, tools_condition
+except ImportError:
+    from .runtime_compat import ChatMistralAI, MemorySaver, StateGraph, MessagesState, START, END, ToolNode, tools_condition
+
+try:
+    from .HexstrikeClient import HexstrikeClient
+    from .HexstrikeTools import get_hexstrike_tools
+except (ImportError, ValueError):
+    from HexstrikeClient import HexstrikeClient
+    from HexstrikeTools import get_hexstrike_tools
 from typing import Dict, Any
 import os
 import json

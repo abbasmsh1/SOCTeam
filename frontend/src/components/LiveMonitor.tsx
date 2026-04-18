@@ -18,12 +18,39 @@ import { idsApi } from '../utils/api';
 
 interface Flow {
   id: string;
-  SourceIP: string;
-  DestinationIP: string;
+  SourceIP?: string;
+  DestinationIP?: string;
+  ['Source IP']?: string;
+  ['Destination IP']?: string;
+  /** NetFlow / dataset_subset.csv column names from /predict payloads */
+  IPV4_SRC_ADDR?: string;
+  IPV4_DST_ADDR?: string;
   Protocol: string;
   Attack?: string;
   timestamp: string;
   severity?: string;
+}
+
+function displayEndpoint(
+  flow: Flow,
+  kind: 'src' | 'dst'
+): string {
+  const empty = (s: string | undefined) =>
+    s && s.trim() !== '' ? s.trim() : undefined;
+  if (kind === 'src') {
+    return (
+      empty(flow.SourceIP) ??
+      empty(flow['Source IP']) ??
+      empty(flow.IPV4_SRC_ADDR) ??
+      'Unknown'
+    );
+  }
+  return (
+    empty(flow.DestinationIP) ??
+    empty(flow['Destination IP']) ??
+    empty(flow.IPV4_DST_ADDR) ??
+    'Unknown'
+  );
 }
 
 /** How many recently-processed flow IDs to remember (prevent duplicate rule generation). */
@@ -157,9 +184,9 @@ export default function LiveMonitor() {
                     className="group hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                   >
                     <td className="py-3 px-2 text-slate-300 group-hover:text-white">
-                      {flow.SourceIP ?? 'Unknown'}
+                      {displayEndpoint(flow, 'src')}
                     </td>
-                    <td className="py-3 px-2 text-slate-500">{flow.DestinationIP ?? 'Unknown'}</td>
+                    <td className="py-3 px-2 text-slate-500">{displayEndpoint(flow, 'dst')}</td>
                     <td className="py-3 px-2 font-bold text-slate-400 opacity-50">
                       {flow.Protocol ?? 'N/A'}
                     </td>

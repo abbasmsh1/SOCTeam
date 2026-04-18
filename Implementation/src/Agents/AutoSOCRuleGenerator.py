@@ -20,28 +20,30 @@ import os
 import json
 import re
 import logging
+import datetime
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
 # -- Path bootstrap -----------------------------------------------------------
-# Add project root and local Agents dir to path to ensure robust imports
-_agent_dir = os.path.dirname(os.path.abspath(__file__))
-_project_root = os.path.abspath(os.path.join(_agent_dir, "..", ".."))
+# Add local Agents dir to path IF run as a script directly
+if __name__ == "__main__":
+    _agent_dir = os.path.dirname(os.path.abspath(__file__))
+    if _agent_dir not in sys.path:
+        sys.path.insert(0, _agent_dir)
 
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _agent_dir not in sys.path:
-    sys.path.insert(0, _agent_dir)
-
-from Agents.LegacyCompat import BlueTeamAgent
-from Agents.DefensiveActionSandbox import DefensiveActionSandbox
+try:
+    from .LegacyCompat import BlueTeamAgent
+    from .DefensiveActionSandbox import DefensiveActionSandbox
+except (ImportError, ValueError):
+    from LegacyCompat import BlueTeamAgent
+    from DefensiveActionSandbox import DefensiveActionSandbox
 
 logger = logging.getLogger(__name__)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Threat context dataclass
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 @dataclass
 class ThreatContext:
@@ -63,12 +65,14 @@ class ThreatContext:
             detection.get("Source IP")
             or detection.get("SourceIP")
             or detection.get("src_ip")
+            or detection.get("IPV4_SRC_ADDR")
             or "UNKNOWN"
         )
         dst_ip = (
             detection.get("Destination IP")
             or detection.get("DestinationIP")
             or detection.get("dst_ip")
+            or detection.get("IPV4_DST_ADDR")
             or "UNKNOWN"
         )
         confidence = float(
@@ -101,12 +105,17 @@ class ThreatContext:
     @classmethod
     def from_text(cls, text: str) -> "ThreatContext":
         """Build a ThreatContext from a free-form threat description string."""
-        ip_match = re.search(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
-        src_ip = ip_match.group(0) if ip_match else "UNKNOWN"
+        # Find all IP-like strings in the text
+        ip_matches = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
+        src_ip = ip_matches[0] if len(ip_matches) > 0 else "UNKNOWN"
+        dst_ip = ip_matches[1] if len(ip_matches) > 1 else "UNKNOWN"
+
         attack_type = _infer_attack_type(text)
+
         return cls(
             description=text,
             source_ip=src_ip,
+            destination_ip=dst_ip,
             attack_type=attack_type,
             raw={},
         )
@@ -157,7 +166,7 @@ class AutoSOCRuleGenerator:
         self.agent = BlueTeamAgent(api_key=api_key)
         self.sandbox = DefensiveActionSandbox()
 
-    # ── Public interfaces ────────────────────────────────────────────────────
+    # -- Public interfaces ----------------------------------------------------
 
     def process_ids_detection(self, detection: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -169,15 +178,48 @@ class AutoSOCRuleGenerator:
 
     def process_threat(self, threat: Any) -> Dict[str, Any]:
         """
-        Full SOC pipeline.
+        Full autonomous SOC pipeline (legacy interface).
+        """
+        # 1. Analyze
+        analysis = self.analyze_threat(threat)
+        ctx_dict = analysis["threat_context"]
+        rules = analysis["proposed_rules"]
+        agent_plan = analysis["agent_plan"]
 
-        Args:
-            threat: Either a ThreatContext, a plain string description,
-                    or a raw IDS detection dict.
+        # Reconstruct ThreatContext if needed for enforcement logic
+        ctx = ThreatContext(
+            description=ctx_dict["description"],
+            source_ip=ctx_dict["source_ip"],
+            destination_ip=ctx_dict["destination_ip"],
+            attack_type=ctx_dict["attack_type"],
+            confidence=ctx_dict["confidence"]
+        )
 
-        Returns:
-            dict with keys: rules_enforced, rules_failed, agent_plan,
-                            sandbox_summary, threat_context.
+        if not rules:
+            return {
+                "rules_enforced": [],
+                "rules_failed": [],
+                "agent_plan": agent_plan,
+                "sandbox_summary": self.sandbox.list_active_rules(),
+                "threat_context": ctx_dict,
+            }
+
+        # 2. Enforce
+        enforced, failed = self._execute_enforcement(rules, ctx)
+
+        sandbox_summary = self.sandbox.list_active_rules()
+        return {
+            "rules_enforced": enforced,
+            "rules_failed": failed,
+            "agent_plan": agent_plan,
+            "sandbox_summary": sandbox_summary,
+            "threat_context": ctx_dict,
+        }
+
+    def analyze_threat(self, threat: Any) -> Dict[str, Any]:
+        """
+        Phase 1-3 of the SOC pipeline: Analysis and rule generation ONLY.
+        Used for the Human-in-the-loop (HITL) policy.
         """
         # Normalise input
         if isinstance(threat, str):
@@ -187,50 +229,22 @@ class AutoSOCRuleGenerator:
         else:
             ctx = threat  # already a ThreatContext
 
-        logger.info("[SOC] Incoming alert: %s", ctx.description)
-        print(f"\n[SOC] {'='*55}")
-        print(f"[SOC] Incoming Alert  : {ctx.description}")
-        print(f"[SOC] Attack Type     : {ctx.attack_type}")
-        print(f"[SOC] Source IP       : {ctx.source_ip}")
-        print(f"[SOC] Confidence      : {ctx.confidence:.1%}")
-        print(f"[SOC] {'='*55}\n")
-        print("[SOC] Dispatching Blue Team Agent for autonomous analysis...")
-
-        # ── Phase 1: LLM Agent ────────────────────────────────────────────
+        logger.info("[SOC] Analyzing alert: %s", ctx.description)
+        
+        # -- Phase 1: LLM Agent --------------------------------------------
         agent_plan, rules = self._invoke_agent(ctx)
 
-        # ── Phase 2: Heuristic fallback ───────────────────────────────────
+        # -- Phase 2: Heuristic fallback -----------------------------------
         if not rules:
-            print("[SOC] Agent returned no structured rules → engaging heuristic fallback.")
+            logger.info("[SOC] Agent returned no structured rules -> engaging heuristic fallback.")
             rules = self._heuristic_fallback(ctx)
 
-        if not rules:
-            print("[SOC] ⚠ No actionable rules generated for this alert.")
-            return {
-                "rules_enforced": [],
-                "rules_failed": [],
-                "agent_plan": agent_plan,
-                "sandbox_summary": self.sandbox.list_active_rules(),
-                "threat_context": vars(ctx),
-            }
-
-        # ── Phase 3: Deduplicate ──────────────────────────────────────────
+        # -- Phase 3: Deduplicate ------------------------------------------
         rules = self._deduplicate_rules(rules)
-        print(f"[SOC] ✔ {len(rules)} unique rule(s) queued for enforcement.")
-
-        # ── Phase 4: Enforce in sandbox ───────────────────────────────────
-        enforced, failed = self._enforce_rules(rules, ctx)
-
-        sandbox_summary = self.sandbox.list_active_rules()
-        print(f"\n[SOC] Enforcement complete — {len(enforced)} enforced, {len(failed)} failed.")
-        print(f"[SOC] Active blocks: {len(sandbox_summary.get('blocked_ips', {}))}")
-        print(f"[SOC] Firewall rules: {sandbox_summary.get('firewall_rules_count', 0)}\n")
-
+        
         return {
-            "rules_enforced": enforced,
-            "rules_failed": failed,
+            "proposed_rules": rules,
             "agent_plan": agent_plan,
-            "sandbox_summary": sandbox_summary,
             "threat_context": {
                 "description": ctx.description,
                 "source_ip": ctx.source_ip,
@@ -238,9 +252,41 @@ class AutoSOCRuleGenerator:
                 "attack_type": ctx.attack_type,
                 "confidence": ctx.confidence,
             },
+            "timestamp": datetime.datetime.now().isoformat()
         }
 
-    # ── Private: Agent invocation ────────────────────────────────────────────
+    def enforce_rule(self, rule: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Apply a single rule to the sandbox.
+        """
+        ctx = None
+        if context:
+            # Reconstruct context if provided
+            ctx = ThreatContext(
+                description=context.get("description", "Manual enforcement"),
+                source_ip=context.get("source_ip", "UNKNOWN"),
+                destination_ip=context.get("destination_ip", "UNKNOWN"),
+                attack_type=context.get("attack_type", "Unknown"),
+                confidence=context.get("confidence", 0.0)
+            )
+        
+        enforced, failed = self._execute_enforcement([rule], ctx)
+        return {
+            "success": len(enforced) > 0,
+            "rule": rule,
+            "error": failed[0].get("error") if failed else None
+        }
+
+    def _execute_enforcement(self, rules: List[Dict[str, Any]], ctx: Optional[ThreatContext]) -> tuple:
+        """Internal helper to run Phase 4."""
+        print(f"[SOC] * {len(rules)} unique rule(s) queued for enforcement.")
+        enforced_list, failed_list = self._enforce_rules(rules, ctx)
+        
+        sandbox_summary = self.sandbox.list_active_rules()
+        print(f"\n[SOC] Enforcement complete - {len(enforced_list)} enforced, {len(failed_list)} failed.")
+        return enforced_list, failed_list
+
+    # -- Private: Agent invocation --------------------------------------------
 
     def _invoke_agent(self, ctx: ThreatContext):
         """
@@ -441,7 +487,7 @@ class AutoSOCRuleGenerator:
                 },
             ]
 
-        # ── Data Exfiltration ─────────────────────────────────────────────
+        # -- Data Exfiltration ---------------------------------------------
         elif atype == "EXFILTRATION" or any(
             kw in text for kw in ("exfiltration", "data transfer", "dns tunnel", "exfil")
         ):
@@ -464,7 +510,7 @@ class AutoSOCRuleGenerator:
                 },
             ]
 
-        # ── Port Scan / Reconnaissance ────────────────────────────────────
+        # -- Port Scan / Reconnaissance ------------------------------------
         elif atype == "PORT_SCAN" or any(kw in text for kw in ("port scan", "portscan", "nmap", "masscan")):
             rules += [
                 {
@@ -489,7 +535,7 @@ class AutoSOCRuleGenerator:
                 },
             ]
 
-        # ── Generic unknown threat ────────────────────────────────────────
+        # -- Generic unknown threat ----------------------------------------
         else:
             rules += [
                 {
@@ -507,7 +553,7 @@ class AutoSOCRuleGenerator:
 
         return rules
 
-    # ── Private: Deduplication ───────────────────────────────────────────────
+    # -- Private: Deduplication -----------------------------------------------
 
     @staticmethod
     def _deduplicate_rules(rules: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -521,7 +567,7 @@ class AutoSOCRuleGenerator:
                 unique.append(rule)
         return unique
 
-    # ── Private: Sandbox enforcement ─────────────────────────────────────────
+    # -- Private: Sandbox enforcement -----------------------------------------
 
     def _enforce_rules(
         self, rules: List[Dict[str, Any]], ctx: ThreatContext
@@ -543,21 +589,21 @@ class AutoSOCRuleGenerator:
                 )
                 status = result.get("status", "?")
                 if "REJECTED" in status or "UNSUPPORTED" in status:
-                    print(f"  [✗] {action} → {target} | {status}")
+                    print(f"  [X] {action} -> {target} | {status}")
                     failed.append({"rule": rule, "status": status})
                 else:
-                    print(f"  [✔] {action} → {target} | {status}")
+                    print(f"  [OK] {action} -> {target} | {status}")
                     enforced.append({"rule": rule, "result": result})
             except Exception as exc:
                 err = str(exc)
                 logger.warning("[SOC] Rule enforcement error: %s", err)
-                print(f"  [!] {action} → {target} | ERROR: {err}")
+                print(f"  [!] {action} -> {target} | ERROR: {err}")
                 failed.append({"rule": rule, "error": err})
 
         return enforced, failed
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Demo / standalone entry-point
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -606,9 +652,12 @@ if __name__ == "__main__":
     )
 
     for name, alert in scenarios_to_run:
-        print(f"\n{'='*60}")
-        print(f"  SCENARIO: {name.upper()}")
-        print(f"{'='*60}")
+        print("=" * 80)
+        print(" " * 20 + "AUTOSOC - CLOUDNATIVE RULE GENERATOR")
+        print("=" * 80)
+        print(f"Scenario: {name.upper()}")
+        print(f"System:   Windows-Compatible Hybrid Environment")
+        print("-" * 80)
         result = generator.process_threat(alert)
         print(f"\n  Summary | Enforced: {len(result['rules_enforced'])} | "
               f"Failed: {len(result['rules_failed'])}")

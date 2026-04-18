@@ -16,9 +16,14 @@ from __future__ import annotations
 
 from typing import Any, Callable, Dict, List, Optional
 
-from .DefensiveActionSandbox import DefensiveActionSandbox
-from .IPBlockingManager import IPBlockingManager
-from .runtime_compat import StructuredTool
+try:
+    from .DefensiveActionSandbox import DefensiveActionSandbox
+    from .IPBlockingManager import IPBlockingManager
+    from .runtime_compat import StructuredTool
+except (ImportError, ValueError):
+    from DefensiveActionSandbox import DefensiveActionSandbox
+    from IPBlockingManager import IPBlockingManager
+    from runtime_compat import StructuredTool
 
 
 def _tool(name: str, description: str, func: Callable[..., Any]) -> StructuredTool:

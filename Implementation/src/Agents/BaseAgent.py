@@ -14,18 +14,30 @@ from typing import Annotated, Any, Dict, Optional, Sequence, TypedDict
 
 from dotenv import load_dotenv
 
-from .AgentTools import get_agent_tools
-from .DefensiveActionSandbox import DefensiveActionSandbox
-from .runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
+try:
+    from .AgentTools import get_agent_tools
+    from .DefensiveActionSandbox import DefensiveActionSandbox
+    from .runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
+except (ImportError, ValueError):
+    from AgentTools import get_agent_tools
+    from DefensiveActionSandbox import DefensiveActionSandbox
+    from runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
+
 # Local database manager
 try:
     from ..Database.FlowHistoryManager import FlowHistoryManager
-except ImportError:
-    # Final fallback if needed, though relative should work in package
+except (ImportError, ValueError):
     try:
-        from .FlowHistoryManager import FlowHistoryManager
+        from Database.FlowHistoryManager import FlowHistoryManager
     except ImportError:
-        class FlowHistoryManager: pass
+        try:
+            from FlowHistoryManager import FlowHistoryManager
+        except ImportError:
+            # Create a mock if it absolutely cannot be found
+            class FlowHistoryManager:
+                def __init__(self, *args, **kwargs): pass
+                def log_flow(self, *args, **kwargs): pass
+                def get_history(self, *args, **kwargs): return []
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +103,10 @@ class BaseAgent:
         
         # Initialize IP Blocking Manager for Tier 2 and 3 agents
         try:
-            from .IPBlockingManager import IPBlockingManager
+            try:
+                from .IPBlockingManager import IPBlockingManager
+            except (ImportError, ValueError):
+                from IPBlockingManager import IPBlockingManager
             self.ip_blocking_mgr = IPBlockingManager()
         except Exception as exc:
             logger.warning("%s: Failed to initialize IPBlockingManager: %s", agent_name, exc)
@@ -111,8 +126,12 @@ class BaseAgent:
         self.memory = MemorySaver() if self.api_key else None
 
         try:
-            from .HexstrikeClient import HexstrikeClient
-            from .HexstrikeTools import get_hexstrike_tools
+            try:
+                from .HexstrikeClient import HexstrikeClient
+                from .HexstrikeTools import get_hexstrike_tools
+            except (ImportError, ValueError):
+                from HexstrikeClient import HexstrikeClient
+                from HexstrikeTools import get_hexstrike_tools
 
             url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
             self.hexstrike = HexstrikeClient(base_url=url)
