@@ -10,9 +10,9 @@ Unified agent supporting three SOC analyst tiers:
 Extends :class:`BaseAgent` for LLM and graph wiring.
 """
 
-from Implementation.src.Agents.BaseAgent import BaseAgent, AgentState
-from Implementation.src.Agents.runtime_compat import StateGraph
-from Implementation.utils.Geolocator import GeoLocator
+from .BaseAgent import BaseAgent, AgentState
+from .runtime_compat import StateGraph
+from ..utils.Geolocator import GeoLocator
 from typing import Dict, Any, Literal, Optional, List
 import json
 import logging
@@ -138,7 +138,7 @@ class TierAnalystAgent(BaseAgent):
 
             # Attempt to load the IDS neural-network predictor
             try:
-                from Implementation.src.IDS.IDS import IDSPredictor
+                from ..IDS.IDS import IDSPredictor
 
                 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
                 project_root = os.path.dirname(base_dir)

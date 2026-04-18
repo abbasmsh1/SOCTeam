@@ -11,8 +11,8 @@ Improvements:
 """
 
 from typing import List, Dict, Any, Optional, Callable
-from Implementation.src.Agents.runtime_compat import StructuredTool, ToolException
-from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+from .runtime_compat import StructuredTool, ToolException
+from .HexstrikeClient import HexstrikeClient
 import re
 import logging
 

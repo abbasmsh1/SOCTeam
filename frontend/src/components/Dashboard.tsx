@@ -18,6 +18,7 @@ import LiveMonitor from './LiveMonitor';
 import AgentFlow from './AgentFlow';
 import RemediationPanel from './RemediationPanel';
 import BlockedIpsTable from './BlockedIpsTable';
+import SandboxStatePanel from './SandboxStatePanel';
 import { StatCard } from './ui/StatCard';
 
 /** Placeholder data for the network traffic chart until live data is wired. */
@@ -139,7 +140,10 @@ export default function Dashboard() {
 
           {/* Full remediation action log table */}
           <BlockedIpsTable />
-          
+
+          {/* Autonomous SOC – live sandbox state */}
+          <SandboxStatePanel />
+
           {/* Agent Reasoning Path – shows which tier processed the latest report */}
           <div className="hud-card border-primary/20">
              <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">

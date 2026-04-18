@@ -16,7 +16,7 @@ for filename in os.listdir(AGENT_DIR):
     if "from langgraph.prebuilt import ToolNode, tools_condition" not in content:
         content = re.sub(
             r"(from langgraph\.graph import StateGraph[^\n]+)",
-            r"\1\nfrom langgraph.prebuilt import ToolNode, tools_condition\nfrom Implementation.src.Agents.HexstrikeClient import HexstrikeClient\nfrom Implementation.src.Agents.HexstrikeTools import get_hexstrike_tools",
+            r"\1\nfrom langgraph.prebuilt import ToolNode, tools_condition\nfrom .HexstrikeClient import HexstrikeClient\nfrom .HexstrikeTools import get_hexstrike_tools",
             content
         )
 
@@ -69,8 +69,8 @@ for filename in os.listdir(AGENT_DIR):
         # Add tools load
         tool_init = """
         try:
-            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
-            from Implementation.src.Agents.HexstrikeTools import get_hexstrike_tools
+            from .HexstrikeClient import HexstrikeClient
+            from .HexstrikeTools import get_hexstrike_tools
             url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
             self.hexstrike = HexstrikeClient(base_url=url)
             self.tools = get_hexstrike_tools(self.hexstrike)

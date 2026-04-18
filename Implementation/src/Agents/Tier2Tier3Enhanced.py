@@ -7,9 +7,9 @@ This module enhances the BaseAgent to include IP reputation checking and blockin
 """
 
 from typing import Any, Dict, Optional
-from Implementation.src.Agents.BaseAgent import BaseAgent
-from Implementation.src.Agents.IPBlockingManager import IPBlockingManager
-from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
+from .BaseAgent import BaseAgent
+from .IPBlockingManager import IPBlockingManager
+from .DefensiveActionSandbox import DefensiveActionSandbox
 
 
 class Tier2AgentEnhanced(BaseAgent):

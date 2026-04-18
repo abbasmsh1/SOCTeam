@@ -562,6 +562,22 @@ def get_workflow():
         _workflow = SOCWorkflow(api_key=api_key, agent_urls=agent_urls)
     return _workflow
 
+# Lazy singleton for AutoSOCRuleGenerator
+_auto_soc = None
+_auto_soc_lock = Lock()
+
+def get_auto_soc():
+    """Get or create global AutoSOCRuleGenerator instance."""
+    global _auto_soc
+    if _auto_soc is None:
+        with _auto_soc_lock:
+            if _auto_soc is None:
+                from Implementation.src.Agents.AutoSOCRuleGenerator import AutoSOCRuleGenerator
+                api_key = os.getenv("RAGARENN_API_KEY")
+                _auto_soc = AutoSOCRuleGenerator(api_key=api_key)
+                logger.info("AutoSOCRuleGenerator initialised")
+    return _auto_soc
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -790,6 +806,71 @@ def get_remediation_logs():
     except Exception as e:
         logger.error(f"Failed to read remediation logs: {e}")
         return []
+
+# ---------------------------------------------------
+# Autonomous SOC Rule Generator Routes
+# ---------------------------------------------------
+
+@app.post("/soc/auto-rules", dependencies=[Depends(verify_api_key)])
+async def soc_auto_rules(detection: dict):
+    """
+    Run the AutoSOCRuleGenerator on an IDS detection dict and return
+    the enforcement summary.  Accepts the same payload shape as /predict/.
+
+    Example body:
+      {
+        "Source IP": "10.0.0.155",
+        "Destination IP": "10.0.0.21",
+        "Protocol": "TCP",
+        "Destination Port": 445,
+        "prediction": "SMB-Lateral",
+        "confidence": 0.97
+      }
+    """
+    try:
+        generator = get_auto_soc()
+        result = generator.process_ids_detection(detection)
+        logger.info(
+            "[SOC/auto-rules] %s rules enforced, %s failed for attack=%s",
+            len(result.get("rules_enforced", [])),
+            len(result.get("rules_failed", [])),
+            result.get("threat_context", {}).get("attack_type", "Unknown"),
+        )
+        return result
+    except Exception as exc:
+        logger.error("[SOC/auto-rules] Error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.get("/sandbox/state", dependencies=[Depends(verify_api_key)])
+def get_sandbox_state():
+    """
+    Return the current DefensiveActionSandbox enforcement state:
+    blocked IPs, rate limits, isolated hosts, firewall rules, etc.
+    """
+    try:
+        generator = get_auto_soc()
+        return generator.sandbox.list_active_rules()
+    except Exception as exc:
+        logger.error("[sandbox/state] Error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post("/sandbox/clear", dependencies=[Depends(verify_api_key)])
+def clear_sandbox():
+    """
+    Reset the DefensiveActionSandbox to an empty state.
+    Use during testing or after a drill exercise.
+    """
+    try:
+        generator = get_auto_soc()
+        generator.sandbox.clear_sandbox()
+        logger.info("[sandbox/clear] Sandbox state reset by API call")
+        return {"status": "cleared", "detail": "Sandbox state has been reset"}
+    except Exception as exc:
+        logger.error("[sandbox/clear] Error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+
 
 # ---------------------------------------------------
 # Advanced IDS Analytics Routes

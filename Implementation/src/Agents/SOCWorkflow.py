@@ -3,7 +3,7 @@ SOC Workflow using LangGraph to connect Tier1Analyst and Tier2Analyst.
 This workflow orchestrates the escalation process from Tier 1 to Tier 2 analysis.
 """
 
-from Implementation.src.Agents.runtime_compat import MemorySaver, StateGraph
+from .runtime_compat import MemorySaver, StateGraph
 from typing import Dict, Any, Literal, List, Optional
 import datetime
 import uuid
@@ -15,16 +15,16 @@ try:
     from typing import TypedDict
 except ImportError:
     from typing_extensions import TypedDict
-from Implementation.src.Agents.LegacyCompat import Tier1Analyst, Tier2Analyst, Tier3Analyst
-from Implementation.src.Agents.WarRoomWorkflow import WarRoomWorkflow
+from .LegacyCompat import Tier1Analyst, Tier2Analyst, Tier3Analyst
+from .WarRoomWorkflow import WarRoomWorkflow
 
-from Implementation.src.Agents.VectorMemoryManager import VectorMemoryManager
-from Implementation.src.Agents.MetadataManager import MetadataManager
-from Implementation.src.Agents.ReportGeneratorAgent import ReportGeneratorAgent
-from Implementation.src.Agents.RemoteAgentClient import RemoteAgentClient
-from Implementation.src.Agents.RemediationAgent import RemediationAgent
-from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
-from Implementation.utils.Logger import setup_logger
+from .VectorMemoryManager import VectorMemoryManager
+from .MetadataManager import MetadataManager
+from .ReportGeneratorAgent import ReportGeneratorAgent
+from .RemoteAgentClient import RemoteAgentClient
+from .RemediationAgent import RemediationAgent
+from ..Database.FlowHistoryManager import FlowHistoryManager
+from ...utils.Logger import setup_logger
 
 logger = setup_logger(__name__)
 
@@ -90,7 +90,7 @@ class SOCWorkflow:
 
         # Initialize RemediationAgent with Hexstrike client
         try:
-            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            from .HexstrikeClient import HexstrikeClient
             self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent(hexstrike=HexstrikeClient(base_url=hexstrike_url))
         except Exception:
             self.remediation_executor = RemoteAgentClient(agent_urls["remediation"]) if "remediation" in agent_urls else RemediationAgent()
@@ -679,7 +679,7 @@ class SOCWorkflow:
         try:
             logger.info("Deep forensics started for %s", ip)
             # Re-initialize client if url is available - using self.hexstrike_url
-            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            from .HexstrikeClient import HexstrikeClient
             client = HexstrikeClient(base_url=self.hexstrike_url)
             
             analysis = client.analyze_target(ip, analysis_type="comprehensive")

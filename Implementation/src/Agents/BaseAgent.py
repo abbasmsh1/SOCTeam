@@ -14,10 +14,18 @@ from typing import Annotated, Any, Dict, Optional, Sequence, TypedDict
 
 from dotenv import load_dotenv
 
-from Implementation.src.Agents.AgentTools import get_agent_tools
-from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
-from Implementation.src.Agents.runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
-from Implementation.src.Database.FlowHistoryManager import FlowHistoryManager
+from .AgentTools import get_agent_tools
+from .DefensiveActionSandbox import DefensiveActionSandbox
+from .runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
+# Local database manager
+try:
+    from ..Database.FlowHistoryManager import FlowHistoryManager
+except ImportError:
+    # Final fallback if needed, though relative should work in package
+    try:
+        from .FlowHistoryManager import FlowHistoryManager
+    except ImportError:
+        class FlowHistoryManager: pass
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +91,7 @@ class BaseAgent:
         
         # Initialize IP Blocking Manager for Tier 2 and 3 agents
         try:
-            from Implementation.src.Agents.IPBlockingManager import IPBlockingManager
+            from .IPBlockingManager import IPBlockingManager
             self.ip_blocking_mgr = IPBlockingManager()
         except Exception as exc:
             logger.warning("%s: Failed to initialize IPBlockingManager: %s", agent_name, exc)
@@ -103,8 +111,8 @@ class BaseAgent:
         self.memory = MemorySaver() if self.api_key else None
 
         try:
-            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
-            from Implementation.src.Agents.HexstrikeTools import get_hexstrike_tools
+            from .HexstrikeClient import HexstrikeClient
+            from .HexstrikeTools import get_hexstrike_tools
 
             url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
             self.hexstrike = HexstrikeClient(base_url=url)
@@ -161,7 +169,7 @@ class BaseAgent:
 
     def _initialize_hexstrike(self, hexstrike_url: Optional[str] = None) -> None:
         try:
-            from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+            from .HexstrikeClient import HexstrikeClient
 
             url = hexstrike_url or self.config.get("hexstrike_url", "http://localhost:8888")
             self.hexstrike = HexstrikeClient(base_url=url)

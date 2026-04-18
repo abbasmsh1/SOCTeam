@@ -11,7 +11,7 @@ import os
 import re
 from typing import Any, Dict, List
 
-from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
+from .DefensiveActionSandbox import DefensiveActionSandbox
 
 logger = logging.getLogger(__name__)
 

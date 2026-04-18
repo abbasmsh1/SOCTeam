@@ -12,8 +12,8 @@ Each role has distinct capabilities:
   - Purple Team: Coordinates Red/Blue exercises and evaluates outcomes.
 """
 
-from Implementation.src.Agents.BaseAgent import BaseAgent
-from Implementation.src.Agents.runtime_compat import MessagesState, StateGraph
+from .BaseAgent import BaseAgent
+from .runtime_compat import MessagesState, StateGraph
 from typing import Dict, Any, List, Optional, Literal
 import json
 import logging
@@ -79,7 +79,7 @@ class SecurityTeamAgent(BaseAgent):
         self.devsecops = None
         if role in self.HEXSTRIKE_ENABLED_ROLES:
             try:
-                from Implementation.src.Agents.DevSecOpsWorkflow import DevSecOpsWorkflow
+                from .DevSecOpsWorkflow import DevSecOpsWorkflow
                 self.devsecops = DevSecOpsWorkflow(api_key=api_key)
             except Exception as e:
                 logger.warning(f"DevSecOps workflow not available: {e}")

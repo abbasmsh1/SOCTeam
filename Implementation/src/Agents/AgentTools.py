@@ -16,9 +16,9 @@ from __future__ import annotations
 
 from typing import Any, Callable, Dict, List, Optional
 
-from Implementation.src.Agents.DefensiveActionSandbox import DefensiveActionSandbox
-from Implementation.src.Agents.IPBlockingManager import IPBlockingManager
-from Implementation.src.Agents.runtime_compat import StructuredTool
+from .DefensiveActionSandbox import DefensiveActionSandbox
+from .IPBlockingManager import IPBlockingManager
+from .runtime_compat import StructuredTool
 
 
 def _tool(name: str, description: str, func: Callable[..., Any]) -> StructuredTool:

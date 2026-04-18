@@ -19,6 +19,11 @@ export const idsApi = {
   getEvents: () => api.get("/events"),
   getStats: () => api.get("/events/stats"),
   getRemediationLogs: () => api.get("/remediation/logs"),
+  // ── Autonomous SOC ────────────────────────────────────────────────────────
+  generateAutoRules: (payload: { detection?: Record<string, any>; description?: string }) =>
+    api.post("/soc/auto-rules", payload),
+  getSandboxState: () => api.get("/sandbox/state"),
+  clearSandbox: () => api.post("/sandbox/clear"),
 };
 
 export default api;

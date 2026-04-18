@@ -7,12 +7,12 @@ mediated by Purple Team analysis.
 Flow:  Red Team  →  Blue Team  →  Purple Team (analysis)
 """
 
-from Implementation.src.Agents.runtime_compat import StateGraph
+from .runtime_compat import StateGraph
 from typing import Dict, Any, TypedDict, Optional
 import logging
 
-from Implementation.src.Agents.LegacyCompat import BlueTeamAgent, PurpleTeamAgent, RedTeamAgent
-from Implementation.src.Agents.HexstrikeClient import HexstrikeClient
+from .LegacyCompat import BlueTeamAgent, PurpleTeamAgent, RedTeamAgent
+from .HexstrikeClient import HexstrikeClient
 
 logger = logging.getLogger(__name__)
 

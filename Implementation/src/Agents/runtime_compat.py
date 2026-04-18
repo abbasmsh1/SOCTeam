@@ -14,7 +14,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional
 
 try:
     from langchain_openai import ChatOpenAI  # type: ignore
-except ImportError:  # pragma: no cover - exercised in lean test envs
+except ImportError:  # pragma: no cover
     class ChatOpenAI:  # type: ignore
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             self.args = args
@@ -27,6 +27,12 @@ except ImportError:  # pragma: no cover - exercised in lean test envs
         def invoke(self, messages: List[Dict[str, str]]) -> Any:
             last_message = messages[-1]["content"] if messages else ""
             return AIMessage(content=last_message)
+
+try:
+    from langchain_mistralai import ChatMistralAI  # type: ignore
+except ImportError:  # pragma: no cover
+    class ChatMistralAI(ChatOpenAI):  # type: ignore
+        pass
 
 
 try:
