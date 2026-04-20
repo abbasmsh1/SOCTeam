@@ -13,7 +13,14 @@ import ipaddress
 import json
 import os
 import subprocess
+import tempfile
+import threading
 from typing import Any, Dict, List, Optional
+
+try:
+    from .SandboxStore import SandboxStore
+except (ImportError, ValueError):
+    from SandboxStore import SandboxStore  # type: ignore
 
 
 class DefensiveActionSandbox:
@@ -34,25 +41,21 @@ class DefensiveActionSandbox:
         "FIREWALL_RULE",
     }
 
-    def __init__(self, state_path: Optional[str] = None) -> None:
+    def __init__(self, state_path: Optional[str] = None, db_path: Optional[str] = None) -> None:
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         reports_dir = os.path.join(base_dir, "Reports")
         os.makedirs(reports_dir, exist_ok=True)
         self.state_path = state_path or os.path.join(reports_dir, "sandbox_state.json")
+        self.db_path = db_path or os.path.join(reports_dir, "sandbox_state.db")
+        self._lock = threading.RLock()
+        self._store = SandboxStore(self.db_path)
+        self._store.migrate_from_json(self.state_path)
 
     def load_state(self) -> Dict[str, Any]:
-        if not os.path.exists(self.state_path):
-            return self._empty_state()
-        try:
-            with open(self.state_path, "r", encoding="utf-8") as fh:
-                data = json.load(fh)
-                return {**self._empty_state(), **data}
-        except (OSError, json.JSONDecodeError):
-            return self._empty_state()
+        return {**self._empty_state(), **self._store.load_state()}
 
     def save_state(self, state: Dict[str, Any]) -> None:
-        with open(self.state_path, "w", encoding="utf-8") as fh:
-            json.dump(state, fh, indent=2)
+        self._store.save_state(state)
 
     def execute_rule(
         self,
@@ -64,7 +67,6 @@ class DefensiveActionSandbox:
         action = str(rule.get("action", "")).upper().strip()
         target = rule.get("target") or threat_info.get("SourceIP") or threat_info.get("Source IP") or "UNKNOWN"
         reason = rule.get("reason", "Automated SOC response")
-        state = self.load_state()
 
         result: Dict[str, Any] = {
             "timestamp": dt.datetime.utcnow().isoformat(),
@@ -85,20 +87,23 @@ class DefensiveActionSandbox:
             result["status"] = f"REJECTED:{validation_error}"
             return result
 
-        if not auto_pilot:
-            result["status"] = "STAGED"
-            result["state_snapshot"] = state
+        with self._lock:
+            state = self.load_state()
+
+            if not auto_pilot:
+                result["status"] = "STAGED"
+                result["state_snapshot"] = state
+                self._append_history(state, result)
+                self.save_state(state)
+                return result
+
+            handler = getattr(self, f"_handle_{action.lower()}")
+            update = handler(rule, threat_info, state)
+            result.update(update)
             self._append_history(state, result)
             self.save_state(state)
+            result["state_snapshot"] = self._summarize_state(state)
             return result
-
-        handler = getattr(self, f"_handle_{action.lower()}")
-        update = handler(rule, threat_info, state)
-        result.update(update)
-        self._append_history(state, result)
-        self.save_state(state)
-        result["state_snapshot"] = self._summarize_state(state)
-        return result
 
     def inspect_target(self, target: str) -> Dict[str, Any]:
         state = self.load_state()

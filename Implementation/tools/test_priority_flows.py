@@ -10,13 +10,14 @@ import json
 import time
 import os
 import sys
+from pathlib import Path
 from dotenv import load_dotenv
 
 # Load environment
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
-API_URL = "http://localhost:6050"
-API_KEY = "ids-secret-key"
+API_URL = os.getenv("IDS_BASE_URL", "http://localhost:6050")
+API_KEY = os.getenv("IDS_ADMIN_API_KEY") or os.getenv("IDS_API_KEY") or "ids-secret-key"
 
 def run_priority_test():
     print("=== SOC Priority Flow Test (DDoS & Botnets) ===")

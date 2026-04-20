@@ -4,37 +4,34 @@
  * executed by the SOC Remediation Engine. Polls the backend every 5 seconds.
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ShieldAlert, Clock, Target, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { idsApi } from '../utils/api';
+import type { RemediationLog } from '../hooks/useSocStream';
 
-/** Shape of a single remediation log entry returned by the API. */
-interface RemediationLog {
-  id: string;
-  action?: string;       // e.g. "BLOCK_IP", "RATE_LIMIT"
-  target?: string;       // IP address or hostname targeted
-  reason?: string;       // Human-readable reason for the action
-  status?: string;       // "EXECUTED" | "SIMULATED_SUCCESS" | "PENDING"
-  timestamp?: string;    // ISO 8601 timestamp
-  duration?: string;    // Optional blocking duration (e.g. "24h")
-  auto_pilot?: boolean; // Whether the action was triggered automatically
+const POLL_INTERVAL_MS = 5000;
+
+interface Props {
+  logs?: RemediationLog[];
 }
 
-const POLL_INTERVAL_MS = 2000;
+export default function BlockedIpsTable({ logs: logsProp }: Props = {}) {
+  const [logs, setLogs] = useState<RemediationLog[]>(logsProp ?? []);
+  const [loading, setLoading] = useState(!logsProp);
 
-export default function BlockedIpsTable() {
-  const [logs, setLogs] = useState<RemediationLog[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch remediation logs on mount and poll periodically
   useEffect(() => {
+    if (logsProp !== undefined) {
+      setLogs(logsProp);
+      setLoading(false);
+      return;
+    }
     const fetchLogs = async () => {
       try {
         const res = await idsApi.getRemediationLogs();
         setLogs(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
-        console.error("Failed to fetch remediation logs:", error);
+        console.error('Failed to fetch remediation logs:', error);
       } finally {
         setLoading(false);
       }
@@ -42,7 +39,7 @@ export default function BlockedIpsTable() {
     fetchLogs();
     const interval = setInterval(fetchLogs, POLL_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, []);
+  }, [logsProp]);
 
   /** Green = completed, amber = pending, neutral = other. */
   const getStatusColor = (status?: string): string => {

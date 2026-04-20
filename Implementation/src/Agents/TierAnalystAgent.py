@@ -18,12 +18,15 @@ except (ImportError, ValueError):
     from runtime_compat import StateGraph
 
 try:
-    from ..utils.Geolocator import GeoLocator
+    from Implementation.utils.Geolocator import GeoLocator
 except (ImportError, ValueError):
     try:
-        from utils.Geolocator import GeoLocator
-    except ImportError:
-        GeoLocator = None # Fallback if utils not available
+        from ..utils.Geolocator import GeoLocator  # type: ignore
+    except (ImportError, ValueError):
+        try:
+            from utils.Geolocator import GeoLocator  # type: ignore
+        except ImportError:
+            GeoLocator = None  # Fallback if utils not available
 from typing import Dict, Any, Literal, Optional, List
 import json
 import logging
@@ -221,7 +224,9 @@ class TierAnalystAgent(BaseAgent):
 
         # ── Tier 1 specific components ──────────────────────────────────
         if tier == 1:
-            self.geo_locator = GeoLocator()
+            self.geo_locator = GeoLocator() if GeoLocator is not None else None
+            if self.geo_locator is None:
+                logger.warning("Tier 1: GeoLocator unavailable — geo-enrichment disabled")
             self.internal_networks = ["192.168.", "10.", "172.16."]
 
             # Attempt to load the IDS neural-network predictor

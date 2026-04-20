@@ -1,0 +1,14 @@
+{
+  "active_checkpoint": "best_ids_model.pth",
+  "architecture": "ann",
+  "trained_epochs": 12,
+  "last_updated": "2026-04-19",
+  "artifacts": {
+    "label_encoder": "label_encoder.joblib",
+    "scaler": "scaler.joblib",
+    "feature_names": "feature_names.txt"
+  },
+  "metrics": {
+    "notes": "Populate via Implementation/src/IDS/metrics/evaluate.py after the next training run."
+  }
+}

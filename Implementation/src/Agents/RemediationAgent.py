@@ -29,6 +29,15 @@ class RemediationAgent:
         self.dry_run = dry_run
         self.hexstrike = hexstrike
         self.sandbox = DefensiveActionSandbox()
+        try:
+            from .IPBlockingManager import IPBlockingManager
+        except (ImportError, ValueError):
+            from IPBlockingManager import IPBlockingManager  # type: ignore
+        try:
+            self.ip_manager = IPBlockingManager()
+        except Exception as exc:
+            logger.warning("RemediationAgent: IPBlockingManager init failed: %s", exc)
+            self.ip_manager = None
 
         current_file = os.path.abspath(__file__)
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_file))))
@@ -99,6 +108,24 @@ class RemediationAgent:
         log_entry["sandboxed"] = True
         log_entry["state_snapshot"] = sandbox_result.get("state_snapshot", {})
 
+        # Persist BLOCK_IP actions in IPBlockingManager so is_ip_blocked() sees them
+        if (
+            should_enforce
+            and action in ("BLOCK_IP", "BLOCK_IP_AGGRESSIVE")
+            and self.ip_manager is not None
+            and "REJECTED" not in str(log_entry["status"]).upper()
+            and target and target != "UNKNOWN"
+        ):
+            try:
+                self.ip_manager.add_blocked_ip(
+                    ip=target,
+                    reason=reason,
+                    duration=duration,
+                    threat_severity=str(threat_info.get("Attack", "high")).lower(),
+                )
+            except Exception as exc:
+                logger.warning("RemediationAgent: add_blocked_ip failed for %s: %s", target, exc)
+
         if action == "ENRICH_TARGET" and self.hexstrike:
             log_entry["status"] = self._execute_enrichment(target)
 
@@ -136,7 +163,11 @@ class RemediationAgent:
         source_ip = (
             threat_info.get("SourceIP")
             or threat_info.get("Source IP")
+            or threat_info.get("IPV4_SRC_ADDR")
+            or threat_info.get("ipv4_src_addr")
             or threat_info.get("src_ip")
+            or threat_info.get("source_ip")
+            or threat_info.get("Src IP")
             or "UNKNOWN"
         )
         firewall_rule = {

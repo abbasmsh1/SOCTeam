@@ -10,8 +10,8 @@ import os
 
 @unittest.skipIf(requests is None, "requests dependency not installed")
 class TestIDSEndpoints(unittest.TestCase):
-    BASE_URL = "http://localhost:6050"
-    API_KEY = "ids-secret-key"
+    BASE_URL = os.getenv("IDS_BASE_URL", "http://localhost:6050")
+    API_KEY = os.getenv("IDS_ADMIN_API_KEY") or os.getenv("IDS_API_KEY") or "ids-secret-key"
     HEADERS = {"X-API-Key": API_KEY}
 
     def test_01_home(self):

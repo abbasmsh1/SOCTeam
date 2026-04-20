@@ -51,3 +51,24 @@ Implementation/logs/*
 .cursorrules
 .claude/*
 Implementation/logs/*.log
+
+# Training checkpoints — only the active one referenced by Models/manifest.json
+# is tracked. Per-epoch checkpoints live locally.
+Models/best_ids_model_epoch_*.pth
+Implementation/src/IDS/test_checkpoints/
+Implementation/src/IDS/test_gpu_checkpoints/
+Implementation/src/IDS/test_resume_checkpoints/
+
+# Stray build outputs
+frontend/build_output*.txt
+frontend/build_errors*.txt
+hexstrike-fresh/
+hexstrike.log
+report_debug.log
+
+# Sandbox / reports runtime artefacts
+Reports/sandbox_state.json.migrated
+Reports/sandbox_state.db*
+Implementation/logs/*
+*.log
+.gitignore

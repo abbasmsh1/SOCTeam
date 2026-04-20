@@ -18,7 +18,12 @@ export interface SocStats {
   active_agents: number;
 }
 
-export const useSocDashboard = (pollingInterval = 2000) => {
+export interface TrafficPoint {
+  name: string;
+  flows: number;
+}
+
+export const useSocDashboard = (pollingInterval = 5000) => {
   const [reports, setReports] = useState<Report[]>([]);
   const [stats, setStats] = useState<SocStats>({
     packets_per_second: 0,
@@ -26,25 +31,27 @@ export const useSocDashboard = (pollingInterval = 2000) => {
     confirmed_threats: 0,
     active_agents: 0
   });
+  const [traffic, setTraffic] = useState<TrafficPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reportsRes, statsRes] = await Promise.all([
+        const [reportsRes, statsRes, trafficRes] = await Promise.all([
           idsApi.getReports(),
-          idsApi.getStats()
+          idsApi.getStats(),
+          idsApi.getEventsTimeseries(1800, 6)
         ]);
-        
-        // Ensure reports are sorted by most recent
+
         const rawReports = Array.isArray(reportsRes.data) ? reportsRes.data : [];
         const sortedReports = (rawReports as Report[]).sort(
           (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
-        
+
         setReports(sortedReports);
         setStats(statsRes.data);
+        setTraffic(Array.isArray(trafficRes.data) ? trafficRes.data : []);
         setError(null);
       } catch (err) {
         console.error("Dashboard refresh failed:", err);
@@ -64,6 +71,7 @@ export const useSocDashboard = (pollingInterval = 2000) => {
   return {
     reports,
     stats,
+    traffic,
     latestReport,
     isLoading,
     error

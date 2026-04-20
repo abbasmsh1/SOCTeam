@@ -170,19 +170,21 @@ class BaseAgent:
             self.graph = None
             self.app = None
 
-    def _initialize_llm(self, temperature: float) -> ChatOpenAI:
+    def _initialize_llm(self, temperature: float) -> Any:
         callbacks = []
         if getattr(self, "tracer", None) and hasattr(self.tracer, "get_langchain_handler"):
             handler = self.tracer.get_langchain_handler()
             if handler:
                 callbacks.append(handler)
 
-        return ChatOpenAI(
-            model=self.config.get("Model", "mistral-small"),
-            api_key=self.api_key,
-            base_url=os.getenv("RAGARENN_API_BASE", "https://api.openai.com/v1"),
+        try:
+            from .LLMClient import build_llm
+        except (ImportError, ValueError):
+            from LLMClient import build_llm  # type: ignore
+
+        return build_llm(
             temperature=temperature,
-            timeout=60,
+            api_key=self.api_key,
             callbacks=callbacks,
         )
 

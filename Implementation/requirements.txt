@@ -73,6 +73,9 @@ python-decouple>=3.6
 # Data Validation
 pydantic>=1.10.0
 
+# Rate limiting
+slowapi>=0.1.9
+
 # Async Support (for future enhancements)
 aiohttp>=3.8.0
 asyncio  # Built-in with Python

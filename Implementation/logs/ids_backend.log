@@ -1,1784 +1,496 @@
-INFO:     127.0.0.1:59092 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "OPTIONS /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "OPTIONS /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50290 - "OPTIONS /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "OPTIONS /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "OPTIONS /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50290 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50290 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62435 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62435 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /reports HTTP/1.1" 200 OK
-2026-04-18 21:18:53 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:52971 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52971 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62459 - "GET / HTTP/1.1" 200 OK
-2026-04-18 21:19:10 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62460 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62461 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62462 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:19:10 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-20 12:34:40 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54977 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54977 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52213 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59448 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58209 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59450 - "GET / HTTP/1.1" 200 OK
+2026-04-20 12:36:04 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+INFO:     127.0.0.1:59456 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59457 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59458 - "POST /predict/ HTTP/1.1" 200 OK
+2026-04-20 12:36:04 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
 
 SOCWorkflow: Processing alert for Infilteration
-2026-04-18 21:19:10 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:19:10 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:36:04 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-20 12:36:04 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-
-SOCWorkflow: Processing alert for Infilteration
-2026-04-18 21:19:10 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:19:10 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:19:19 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+2026-04-20 12:36:37 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-20 12:36:40 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:36:40 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211919_249664.md
-2026-04-18 21:19:19 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211919_249664.md
-DEBUG: Finalize Complete.
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211926_051904.md
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211926_051904.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:62463 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "GET /sandbox/state HTTP/1.1" 200 OK
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
+2026-04-20 12:36:42 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
+INFO:     127.0.0.1:59459 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for DDoS
-INFO:     127.0.0.1:54889 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-INFO:     127.0.0.1:59092 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /remediation/logs HTTP/1.1" 200 OK
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-INFO:     127.0.0.1:53841 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59478 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58964 - "GET /sandbox/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for DDoS
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-18 21:19:26 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-2026-04-18 21:19:32 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211932_051904.md
-2026-04-18 21:19:33 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211932_051904.md
-DEBUG: Finalize Complete.
-2026-04-18 21:19:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211939_051904.md
-2026-04-18 21:19:39 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211939_051904.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:63668 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59092 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:56708 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65473 - "POST /predict/ HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:54433 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65463 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54434 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54433 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54435 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65463 - "GET /events HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65463 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56708 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54433 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62432 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64287 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53841 - "GET /reports HTTP/1.1" 200 OK
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+INFO:     127.0.0.1:59480 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63947 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54690 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51675 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63951 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63952 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63953 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for Analysis
-2026-04-18 21:19:41 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
-INFO:     127.0.0.1:54436 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:19:41 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:37:32 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
+2026-04-20 12:37:32 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65463 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64287 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:62432 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Analysis
-2026-04-18 21:19:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
-2026-04-18 21:19:43 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:19:48 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+2026-04-20 12:38:04 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-20 12:38:07 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-20 12:38:08 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:38:08 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211948_051904.md
-2026-04-18 21:19:48 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211948_051904.md
-DEBUG: Finalize Complete.
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211955_051904.md
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211955_051904.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:54439 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58680 - "POST /predict/ HTTP/1.1" 200 OK
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
+2026-04-20 12:38:09 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
+INFO:     127.0.0.1:63954 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+2026-04-20 12:38:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63996 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for DDoS
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-INFO:     127.0.0.1:58681 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:38:11 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+INFO:     127.0.0.1:63998 - "POST /predict/ HTTP/1.1" 200 OK
+2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
 DEBUG: Executing Tier 1 Node...
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for DDoS
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-18 21:19:55 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-2026-04-18 21:20:02 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212002_051904.md
-2026-04-18 21:20:02 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212002_051904.md
-DEBUG: Finalize Complete.
-2026-04-18 21:20:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212010_051904.md
-2026-04-18 21:20:10 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212010_051904.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:58682 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58004 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64874 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /reports HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57079 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:55488 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:58004 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61353 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58004 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /remediation/logs HTTP/1.1" 200 OK
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+INFO:     127.0.0.1:63999 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64007 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64009 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for Shellcode
-INFO:     127.0.0.1:61356 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:20:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Shellcode
-2026-04-18 21:20:12 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:38:24 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Shellcode
+2026-04-20 12:38:24 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64874 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58004 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Shellcode
-2026-04-18 21:20:13 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Shellcode
-2026-04-18 21:20:13 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:20:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+2026-04-20 12:38:34 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-20 12:38:34 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212025_051904.md
-2026-04-18 21:20:25 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212025_051904.md
-DEBUG: Finalize Complete.
-2026-04-18 21:20:37 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
+2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
+2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
+2026-04-20 12:38:52 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-20 12:38:55 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212037_767552.md
-2026-04-18 21:20:37 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212037_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:61357 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:55488 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49901 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "OPTIONS /reports/SOC_Report_20260417_203412_595584.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "OPTIONS /reports/SOC_Report_20260417_203412_595584.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64204 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /reports HTTP/1.1" 200 OK
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
+2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
+2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
+2026-04-20 12:39:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
+2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64010 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49893 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49895 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58749 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
+2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
+2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56875 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59755 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59307 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59755 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51675 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59307 - "OPTIONS /events HTTP/1.1" 200 OK
 
 SOCWorkflow: Processing alert for Generic
-2026-04-18 21:20:38 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-INFO:     127.0.0.1:64205 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /events HTTP/1.1" 200 OK
-2026-04-18 21:20:38 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
+2026-04-20 12:39:17 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
+2026-04-20 12:39:17 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:55488 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Generic
-2026-04-18 21:20:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-2026-04-18 21:20:39 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:20:48 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+2026-04-20 12:39:19 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212048_767552.md
-2026-04-18 21:20:48 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212048_767552.md
-DEBUG: Finalize Complete.
-2026-04-18 21:20:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
+2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
+2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
+2026-04-20 12:39:34 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212055_767552.md
-2026-04-18 21:20:55 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212055_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:64206 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /reports/SOC_Report_20260417_203412_595584.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61337 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53837 - "GET /events/stats HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57079 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64510 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Worms
-INFO:     127.0.0.1:58677 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:20:57 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Worms
-INFO:     127.0.0.1:61337 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64874 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64510 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57079 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Worms
-2026-04-18 21:20:57 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Worms
-2026-04-18 21:20:57 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:20:57 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:21:04 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212104_767552.md
-2026-04-18 21:21:04 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212104_767552.md
-DEBUG: Finalize Complete.
-2026-04-18 21:21:11 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212111_767552.md
-2026-04-18 21:21:11 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212111_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:58683 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55488 - "GET /reports/SOC_Report_20260417_203412_595584.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53837 - "GET /reports HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64510 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Infilteration
-INFO:     127.0.0.1:58697 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:21:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:21:12 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-
-SOCWorkflow: Processing alert for Infilteration
-2026-04-18 21:21:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:21:12 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:21:24 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212124_767552.md
-2026-04-18 21:21:24 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212124_767552.md
-DEBUG: Finalize Complete.
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212136_767552.md
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212136_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:58700 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63830 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63831 - "POST /predict/ HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Benign
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Benign
-INFO:     127.0.0.1:63832 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-
-SOCWorkflow: Processing alert for Benign
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Benign
-2026-04-18 21:21:36 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:21:48 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212148_767552.md
-2026-04-18 21:21:48 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212148_767552.md
-DEBUG: Finalize Complete.
-2026-04-18 21:22:01 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212201_767552.md
-2026-04-18 21:22:01 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212201_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:63833 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62553 - "POST /predict/ HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:62547 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64350 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:59440 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57048 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:62547 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Infilteration
-INFO:     127.0.0.1:62555 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:22:08 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:22:08 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64350 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:59440 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57048 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:62547 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:59440 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:64350 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57048 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Infilteration
-2026-04-18 21:22:13 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-18 21:22:13 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212215_767552.md
-2026-04-18 21:22:15 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212215_767552.md
-DEBUG: Finalize Complete.
-2026-04-18 21:22:26 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212226_767552.md
-2026-04-18 21:22:26 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212226_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:62565 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:62547 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /sandbox/state HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Generic
-INFO:     127.0.0.1:62578 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-18 21:22:27 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-INFO:     127.0.0.1:62547 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Generic
-2026-04-18 21:22:27 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-2026-04-18 21:22:27 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:27 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212239_767552.md
-2026-04-18 21:22:39 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212239_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:62579 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62589 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53570 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events/stats HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:57048 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53572 - "POST /predict/ HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:63702 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63704 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63702 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57048 - "GET /events/stats HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Exploits
-2026-04-18 21:22:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Exploits
-2026-04-18 21:22:40 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:46 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212246_774208.md
-2026-04-18 21:22:46 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212246_774208.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for Exploits
-2026-04-18 21:22:46 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Exploits
-2026-04-18 21:22:46 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:52 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212252_767552.md
-2026-04-18 21:22:52 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212252_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:63705 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63719 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62547 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64350 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for injection
-2026-04-18 21:22:53 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: injection
-2026-04-18 21:22:53 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:22:59 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212300_767552.md
-2026-04-18 21:23:00 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212300_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for injection
-2026-04-18 21:23:00 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: injection
-2026-04-18 21:23:00 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:06 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212306_767552.md
-2026-04-18 21:23:06 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212306_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:64314 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56166 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60459 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-18 21:23:06 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-18 21:23:06 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:13 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212313_767552.md
-2026-04-18 21:23:13 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212313_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-18 21:23:13 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-18 21:23:13 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:20 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212320_767552.md
-2026-04-18 21:23:20 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212320_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:55524 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63426 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53538 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60459 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59440 - "GET /events/stats HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for xss
-2026-04-18 21:23:20 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: xss
-2026-04-18 21:23:20 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:27 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212327_767552.md
-2026-04-18 21:23:27 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212327_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for xss
-2026-04-18 21:23:27 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: xss
-2026-04-18 21:23:27 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:34 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212334_767552.md
-2026-04-18 21:23:34 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212334_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:63428 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:63414 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53538 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53538 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /events/stats HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /reports HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53538 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54997 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58949 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53538 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for xss
-2026-04-18 21:23:37 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: xss
-2026-04-18 21:23:37 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:45 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212345_767552.md
-2026-04-18 21:23:45 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212345_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for xss
-2026-04-18 21:23:45 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: xss
-2026-04-18 21:23:45 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:23:53 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212353_767552.md
-2026-04-18 21:23:53 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212353_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:58952 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58970 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /remediation/logs HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Generic
-2026-04-18 21:23:53 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-2026-04-18 21:23:53 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:24:00 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212400_767552.md
-2026-04-18 21:24:00 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212400_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for Generic
-2026-04-18 21:24:00 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-2026-04-18 21:24:00 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:24:07 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212407_767552.md
-2026-04-18 21:24:07 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212407_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:65259 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52455 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55250 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52445 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55250 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52445 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52457 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:65245 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55250 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52445 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for injection
-2026-04-18 21:24:07 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: injection
-2026-04-18 21:24:07 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:24:14 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212414_767552.md
-2026-04-18 21:24:14 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212414_767552.md
-DEBUG: Finalize Complete.
-
-SOCWorkflow: Processing alert for injection
-2026-04-18 21:24:14 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: injection
-2026-04-18 21:24:14 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
-2026-04-18 21:24:21 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=None, Escalate=False
-DEBUG: Tier 1 Complete. Severity: None
-DEBUG: Finalizing Workflow...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212421_767552.md
-2026-04-18 21:24:21 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212421_767552.md
-DEBUG: Finalize Complete.
-INFO:     127.0.0.1:52458 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /reports HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52468 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53327 - "GET /events HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Threat Detected: {
-  "description": "ALERT: Unknown detected. Source: UNKNOWN \u2192 Destination: UNKNOWN. Protocol: ANY, Port: 0. Confidence: 0.0%.",
-  "attack_type": "Unknown",
-  "source_ip": "UNKNOWN",
-  "destination_ip": "UNKNOWN",
-  "confidence": 0.0,
-  "protocol": "ANY",
-  "port": 0
-}
-        System State: Production network — autonomous response authorised.
-        Security Assessment Results: {}
-        
-        Based on the threat information and security assessment, propose a comprehensive defense plan.
-        If code is needed (e.g., a patch or script), specify the requirements.
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53327 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58568 - "GET /events/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63414 - "GET /reports HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for ransomware
-2026-04-18 21:24:21 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: ransomware
-2026-04-18 21:24:21 - Implementation.src.Agents.SOCWorkflow - WARNING - Running in direct execution mode (no API key)...
-DEBUG: Executing Tier 1 Node...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
+2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
+INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59310 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64853 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63155 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55932 - "POST /sandbox/clear HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54690 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64853 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "OPTIONS /reports/SOC_Report_20260420_123857_219264.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58954 - "OPTIONS /reports/SOC_Report_20260420_123857_219264.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden

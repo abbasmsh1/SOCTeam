@@ -34,9 +34,13 @@ if __name__ == "__main__":
 try:
     from .LegacyCompat import BlueTeamAgent
     from .DefensiveActionSandbox import DefensiveActionSandbox
+    from .IPBlockingManager import IPBlockingManager
+    from .SOCPipeline import Phase, SOCPipeline
 except (ImportError, ValueError):
     from LegacyCompat import BlueTeamAgent
     from DefensiveActionSandbox import DefensiveActionSandbox
+    from IPBlockingManager import IPBlockingManager
+    from SOCPipeline import Phase, SOCPipeline
 
 logger = logging.getLogger(__name__)
 
@@ -165,6 +169,14 @@ class AutoSOCRuleGenerator:
     def __init__(self, api_key: Optional[str] = None) -> None:
         self.agent = BlueTeamAgent(api_key=api_key)
         self.sandbox = DefensiveActionSandbox()
+        self.ip_manager = IPBlockingManager()
+        self._pipeline = (
+            SOCPipeline(name="auto-soc")
+            .set_handler(Phase.NORMALIZE, self._phase_normalize)
+            .set_handler(Phase.ANALYZE, self._phase_analyze)
+            .set_handler(Phase.ENFORCE, self._phase_enforce)
+            .set_handler(Phase.REPORT, self._phase_report)
+        )
 
     # -- Public interfaces ----------------------------------------------------
 
@@ -177,43 +189,53 @@ class AutoSOCRuleGenerator:
         return self.process_threat(ctx)
 
     def process_threat(self, threat: Any) -> Dict[str, Any]:
-        """
-        Full autonomous SOC pipeline (legacy interface).
-        """
-        # 1. Analyze
-        analysis = self.analyze_threat(threat)
-        ctx_dict = analysis["threat_context"]
-        rules = analysis["proposed_rules"]
-        agent_plan = analysis["agent_plan"]
+        """Full autonomous SOC pipeline (uses SOCPipeline primitive)."""
+        result = self._pipeline.run(ctx=threat)
+        return result.state
 
-        # Reconstruct ThreatContext if needed for enforcement logic
-        ctx = ThreatContext(
-            description=ctx_dict["description"],
-            source_ip=ctx_dict["source_ip"],
-            destination_ip=ctx_dict["destination_ip"],
-            attack_type=ctx_dict["attack_type"],
-            confidence=ctx_dict["confidence"]
-        )
+    # -- Pipeline phases ------------------------------------------------------
 
+    def _phase_normalize(self, threat: Any, _state: Dict[str, Any]) -> Dict[str, Any]:
+        if isinstance(threat, str):
+            ctx = ThreatContext.from_text(threat)
+        elif isinstance(threat, dict):
+            ctx = ThreatContext.from_ids_detection(threat)
+        else:
+            ctx = threat
+        logger.info("[SOC] Analyzing alert: %s", ctx.description)
+        return {"ctx": ctx}
+
+    def _phase_analyze(self, _threat: Any, state: Dict[str, Any]) -> Dict[str, Any]:
+        ctx: ThreatContext = state["ctx"]
+        agent_plan, rules = self._invoke_agent(ctx)
         if not rules:
-            return {
-                "rules_enforced": [],
-                "rules_failed": [],
-                "agent_plan": agent_plan,
-                "sandbox_summary": self.sandbox.list_active_rules(),
-                "threat_context": ctx_dict,
-            }
+            logger.info("[SOC] No structured rules -> heuristic fallback.")
+            rules = self._heuristic_fallback(ctx)
+        rules = self._deduplicate_rules(rules)
+        return {"agent_plan": agent_plan, "proposed_rules": rules}
 
-        # 2. Enforce
-        enforced, failed = self._execute_enforcement(rules, ctx)
+    def _phase_enforce(self, _threat: Any, state: Dict[str, Any]) -> Dict[str, Any]:
+        ctx: ThreatContext = state["ctx"]
+        rules: List[Dict[str, Any]] = state.get("proposed_rules", []) or []
+        if not rules:
+            return {"rules_enforced": [], "rules_failed": []}
+        print(f"[SOC] * {len(rules)} unique rule(s) queued for enforcement.")
+        enforced, failed = self._enforce_rules(rules, ctx)
+        print(f"\n[SOC] Enforcement complete - {len(enforced)} enforced, {len(failed)} failed.")
+        return {"rules_enforced": enforced, "rules_failed": failed}
 
-        sandbox_summary = self.sandbox.list_active_rules()
+    def _phase_report(self, _threat: Any, state: Dict[str, Any]) -> Dict[str, Any]:
+        ctx: ThreatContext = state["ctx"]
+        ctx_dict = {
+            "description": ctx.description,
+            "source_ip": ctx.source_ip,
+            "destination_ip": ctx.destination_ip,
+            "attack_type": ctx.attack_type,
+            "confidence": ctx.confidence,
+        }
         return {
-            "rules_enforced": enforced,
-            "rules_failed": failed,
-            "agent_plan": agent_plan,
-            "sandbox_summary": sandbox_summary,
             "threat_context": ctx_dict,
+            "sandbox_summary": self.sandbox.list_active_rules(),
         }
 
     def analyze_threat(self, threat: Any) -> Dict[str, Any]:
@@ -575,14 +597,22 @@ class AutoSOCRuleGenerator:
         """Execute each rule in the sandbox; track successes and failures."""
         enforced, failed = [], []
         threat_info = {
-            "confidence": max(ctx.confidence, 0.9),  # ensure sandbox validation passes
+            "confidence": ctx.confidence,
             "Attack": ctx.attack_type,
             "SourceIP": ctx.source_ip,
         }
 
         for rule in rules:
-            action = rule.get("action", "?")
-            target = rule.get("target", "?")
+            action = str(rule.get("action", "?")).upper()
+            target = rule.get("target") or rule.get("src_ip") or "?"
+
+            if action in {"BLOCK_IP", "BLOCK_IP_AGGRESSIVE", "FIREWALL_RULE", "RATE_LIMIT"} \
+                    and isinstance(target, str) and self.ip_manager.is_ip_whitelisted(target):
+                status = f"REJECTED:WHITELISTED:{target}"
+                print(f"  [X] {action} -> {target} | {status}")
+                failed.append({"rule": rule, "status": status})
+                continue
+
             try:
                 result = self.sandbox.execute_rule(
                     rule, threat_info=threat_info, auto_pilot=True
@@ -594,6 +624,13 @@ class AutoSOCRuleGenerator:
                 else:
                     print(f"  [OK] {action} -> {target} | {status}")
                     enforced.append({"rule": rule, "result": result})
+                    if action in {"BLOCK_IP", "BLOCK_IP_AGGRESSIVE"} and isinstance(target, str):
+                        self.ip_manager.add_blocked_ip(
+                            ip=target,
+                            reason=rule.get("reason", "SOC auto-enforcement"),
+                            duration=rule.get("duration", "permanent"),
+                            threat_severity=str(rule.get("severity", "high")),
+                        )
             except Exception as exc:
                 err = str(exc)
                 logger.warning("[SOC] Rule enforcement error: %s", err)

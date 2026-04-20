@@ -17,28 +17,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Shield, Ban, Flame, Gauge, Trash2, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { idsApi } from '../utils/api';
-
-// ── Types ────────────────────────────────────────────────────────────────────
-
-interface FirewallRule {
-  rule_id?: string;
-  action?: string;      // DROP | REJECT | ALLOW
-  source_ip?: string;
-  destination_ip?: string;
-  port?: number | string;
-  protocol?: string;
-  description?: string;
-  created_at?: string;
-}
-
-interface SandboxState {
-  blocked_ips: string[];
-  firewall_rules: FirewallRule[];
-  rate_limited_hosts: string[];
-  total_actions: number;
-  sandbox_active?: boolean;
-  last_updated?: string;
-}
+import type { SandboxState } from '../hooks/useSocStream';
 
 const EMPTY_STATE: SandboxState = {
   blocked_ips: [],
@@ -49,15 +28,16 @@ const EMPTY_STATE: SandboxState = {
 
 const POLL_INTERVAL_MS = 5_000;
 
-// ── Component ────────────────────────────────────────────────────────────────
+interface Props {
+  sandbox?: SandboxState;
+}
 
-export default function SandboxStatePanel() {
-  const [state, setState] = useState<SandboxState>(EMPTY_STATE);
-  const [loading, setLoading] = useState(true);
+export default function SandboxStatePanel({ sandbox: sandboxProp }: Props = {}) {
+  const [state, setState] = useState<SandboxState>(sandboxProp ?? EMPTY_STATE);
+  const [loading, setLoading] = useState(!sandboxProp);
   const [clearing, setClearing] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
-  // Fetch sandbox state from backend
   const fetchState = useCallback(async () => {
     try {
       const res = await idsApi.getSandboxState();
@@ -67,8 +47,6 @@ export default function SandboxStatePanel() {
         firewall_rules: Array.isArray(data.firewall_rules) ? data.firewall_rules : [],
         rate_limited_hosts: Array.isArray(data.rate_limited_hosts) ? data.rate_limited_hosts : [],
         total_actions: typeof data.total_actions === 'number' ? data.total_actions : 0,
-        sandbox_active: data.sandbox_active ?? true,
-        last_updated: data.last_updated,
       });
       setLastRefresh(new Date());
     } catch (err) {
@@ -78,12 +56,17 @@ export default function SandboxStatePanel() {
     }
   }, []);
 
-  // Poll on mount
   useEffect(() => {
+    if (sandboxProp !== undefined) {
+      setState(sandboxProp);
+      setLoading(false);
+      setLastRefresh(new Date());
+      return;
+    }
     fetchState();
     const interval = setInterval(fetchState, POLL_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [fetchState]);
+  }, [fetchState, sandboxProp]);
 
   // Clear sandbox action
   const handleClear = async () => {

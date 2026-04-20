@@ -13,9 +13,17 @@ import os
 import argparse
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+except ImportError:
+    pass
+
 # Configuration
-API_URL = "http://127.0.0.1:6050"
-API_KEY = "ids-secret-key"
+API_URL = os.getenv("IDS_BASE_URL", "http://127.0.0.1:6050")
+# Feeder posts to /predict (read scope) AND /workflow/process (admin scope),
+# so default to the admin key if set; fall back to read-only.
+API_KEY = os.getenv("IDS_ADMIN_API_KEY") or os.getenv("IDS_API_KEY") or "ids-secret-key"
 CSV_PATH = r"E:\IMT\2nd Sem\Project\Implementation\Data\dataset_subset.csv"
 BATCH_SIZE = 5  # Process 5 flows at a time
 DELAY = 2  # Seconds between batches

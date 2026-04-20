@@ -1,110 +1,14 @@
-2026-04-18 21:18:48 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
-INFO:     127.0.0.1:51957 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51957 - "GET /health HTTP/1.1" 200 OK
-2026-04-18 21:19:10 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:10 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62464 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:19 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:19 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62465 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:26 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:26 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63669 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:32 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:32 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63670 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:41 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:41 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:54437 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:48 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:48 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:54440 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:19:55 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:19:55 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58683 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:02 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:02 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58684 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:12 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:12 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:61358 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:25 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:25 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:61360 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:38 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:38 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:64207 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:48 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:48 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:53840 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:20:57 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:20:57 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58684 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:21:04 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:21:04 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58685 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:21:12 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:21:12 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58701 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:21:24 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:21:24 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58702 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:21:36 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:21:36 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63834 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:21:48 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:21:48 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63835 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:08 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:08 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62562 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:15 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:15 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62568 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:27 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:27 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62581 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:39 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:39 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:62580 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:46 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:46 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63706 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:52 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:52 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63710 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:22:59 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:22:59 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:64315 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:06 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:06 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:60464 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:13 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:13 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:55525 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:20 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:20 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63423 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:27 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:27 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:63429 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:34 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:34 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:57871 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:45 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:45 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58954 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:23:53 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:23:53 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:58963 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:24:00 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:24:00 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:65260 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:24:07 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:24:07 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:52452 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:24:14 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:24:14 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:52459 - "POST /process HTTP/1.1" 500 Internal Server Error
-2026-04-18 21:24:21 - AgentServer - INFO - Lazy initializing tier1 agent...
-2026-04-18 21:24:21 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-20 12:34:32 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
+INFO:     127.0.0.1:60353 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54979 - "GET /health HTTP/1.1" 200 OK
+2026-04-20 12:36:04 - AgentServer - INFO - Lazy initializing tier1 agent...
+2026-04-20 12:36:05 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-20 12:36:19 - AgentServer - INFO - tier1 agent initialized.
+INFO:     127.0.0.1:59460 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59479 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59482 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63955 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64000 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64002 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64011 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58008 - "POST /process HTTP/1.1" 200 OK

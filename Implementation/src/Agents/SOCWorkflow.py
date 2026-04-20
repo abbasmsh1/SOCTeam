@@ -92,10 +92,26 @@ class SOCWorkflow:
 
         self.hexstrike_url = hexstrike_url
 
-        self.tier1_analyst = RemoteAgentClient(agent_urls["tier1"]) if "tier1" in agent_urls else Tier1Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
-        self.tier2_analyst = RemoteAgentClient(agent_urls["tier2"]) if "tier2" in agent_urls else Tier2Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
-        self.tier3_analyst = RemoteAgentClient(agent_urls["tier3"]) if "tier3" in agent_urls else Tier3Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
-        self.war_room = RemoteAgentClient(agent_urls["warroom"]) if "warroom" in agent_urls else WarRoomWorkflow(api_key=api_key, hexstrike_url=hexstrike_url)
+        self.tier1_analyst = (
+            RemoteAgentClient(agent_urls["tier1"], local_factory=lambda: Tier1Analyst(api_key=api_key, hexstrike_url=hexstrike_url))
+            if "tier1" in agent_urls
+            else Tier1Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        )
+        self.tier2_analyst = (
+            RemoteAgentClient(agent_urls["tier2"], local_factory=lambda: Tier2Analyst(api_key=api_key, hexstrike_url=hexstrike_url))
+            if "tier2" in agent_urls
+            else Tier2Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        )
+        self.tier3_analyst = (
+            RemoteAgentClient(agent_urls["tier3"], local_factory=lambda: Tier3Analyst(api_key=api_key, hexstrike_url=hexstrike_url))
+            if "tier3" in agent_urls
+            else Tier3Analyst(api_key=api_key, hexstrike_url=hexstrike_url)
+        )
+        self.war_room = (
+            RemoteAgentClient(agent_urls["warroom"], local_factory=lambda: WarRoomWorkflow(api_key=api_key, hexstrike_url=hexstrike_url))
+            if "warroom" in agent_urls
+            else WarRoomWorkflow(api_key=api_key, hexstrike_url=hexstrike_url)
+        )
         self.memory = MemorySaver() if api_key else None
         self.kb_memory = VectorMemoryManager() # Initialize persistent Vector DB memory
         self.metadata_mgr = MetadataManager() # Initialize SQL Metadata Repository
@@ -910,7 +926,16 @@ class SOCWorkflow:
                 # Use LangGraph to process the workflow
                 thread_id = str(uuid.uuid4())
                 config = {"configurable": {"thread_id": thread_id}}
-                
+
+                # Await forensic enrichment so Tier 2+ see hexstrike_enrichment in state
+                if future:
+                    try:
+                        logger.info("Awaiting HexStrike enrichment before LangGraph invoke...")
+                        initial_state["hexstrike_enrichment"] = future.result(timeout=60)
+                    except Exception as exc:
+                        logger.error("Forensic thread failed/timed out: %s", exc)
+                        initial_state["hexstrike_enrichment"] = {"error": str(exc)}
+
                 print(f"DEBUG: Invoking LangGraph app (thread: {thread_id})...")
                 result = self.app.invoke(initial_state, config)
                 print(f"DEBUG: App invoke complete. Keys in result: {result.keys()}")
@@ -1002,6 +1027,8 @@ class SOCWorkflow:
 
     def _execute_forensic_background(self, alert_data: Dict[str, Any], force_forensics: bool = False) -> Optional[Any]:
         """Helper to spawn background forensic threads."""
+        if os.getenv("FORCE_FORENSICS", "").lower() in ("1", "true", "yes"):
+            force_forensics = True
         src_ip = FlowHistoryManager.resolve_src_ip(alert_data)
         if force_forensics or self._is_external_ip(src_ip):
             severity = str(alert_data.get("Priority", alert_data.get("severity", "low"))).lower()

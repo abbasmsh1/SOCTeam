@@ -14,6 +14,11 @@ import os
 import re
 from typing import Any, Dict, List, Optional, Set, Tuple
 
+try:
+    from .ReputationSource import ReputationSource, build_reputation_source
+except (ImportError, ValueError):
+    from ReputationSource import ReputationSource, build_reputation_source  # type: ignore
+
 logger = logging.getLogger(__name__)
 
 
@@ -61,29 +66,63 @@ class IPBlockingManager:
         "EXPLOIT", "INFILTRATION", "C2", "APT"
     }
     
-    def __init__(self, data_dir: Optional[str] = None):
+    def __init__(
+        self,
+        data_dir: Optional[str] = None,
+        reputation_source: Optional[ReputationSource] = None,
+    ):
         """
         Initialize the IP Blocking Manager.
-        
+
         Args:
             data_dir: Directory for persistent IP reputation cache
+            reputation_source: Pluggable reputation lookup. Defaults to the
+                env-configured source (REPUTATION_SOURCE).
         """
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
             os.path.abspath(__file__)))))
         self.data_dir = data_dir or os.path.join(base_dir, "Reports", "ip_blocking")
         os.makedirs(self.data_dir, exist_ok=True)
-        
+
         self.reputation_cache_path = os.path.join(self.data_dir, "ip_reputation.json")
         self.blocked_ips_path = os.path.join(self.data_dir, "blocked_ips.json")
         self.whitelist_path = os.path.join(self.data_dir, "ip_whitelist.json")
-        
+
         self.reputation_cache: Dict[str, IPReputation] = self._load_reputation_cache()
         self.blocked_ips: Dict[str, Dict[str, Any]] = self._load_blocked_ips()
         self.whitelist: Set[str] = self._load_whitelist()
+        self.reputation_source: ReputationSource = reputation_source or build_reputation_source()
         
     def is_ip_blocked(self, ip: str) -> bool:
-        """Check if an IP is currently blocked."""
-        return ip in self.blocked_ips
+        """Check if an IP is currently blocked (lazy expiry check)."""
+        record = self.blocked_ips.get(ip)
+        if record is None:
+            return False
+        if self._is_expired(record):
+            self.remove_blocked_ip(ip)
+            return False
+        return True
+
+    @staticmethod
+    def _is_expired(record: Dict[str, Any]) -> bool:
+        """Return True if the block record's expires_at is in the past."""
+        expires_at = record.get("expires_at")
+        if not expires_at:
+            return False
+        try:
+            return dt.datetime.fromisoformat(expires_at) <= dt.datetime.utcnow()
+        except (TypeError, ValueError):
+            return False
+
+    def sweep_expired(self) -> List[str]:
+        """Remove all expired block records; return the list of evicted IPs."""
+        expired = [ip for ip, rec in self.blocked_ips.items() if self._is_expired(rec)]
+        for ip in expired:
+            self.blocked_ips.pop(ip, None)
+        if expired:
+            self._save_blocked_ips()
+            logger.info("Swept %d expired block(s): %s", len(expired), expired)
+        return expired
         
     def is_ip_whitelisted(self, ip: str) -> bool:
         """Check if an IP is whitelisted (exempt from blocking)."""
@@ -196,33 +235,13 @@ class IPBlockingManager:
             if (dt.datetime.utcnow() - last_updated).total_seconds() < 86400:
                 return cached
                 
-        # Create new reputation entry
         reputation = IPReputation(ip)
-        
-        # Simulate enrichment (in production, fetch from AbuseIPDB API)
-        reputation = self._simulate_reputation_check(ip, reputation)
-        
+        reputation = self.reputation_source.fetch(ip, reputation)
+        reputation.last_updated = dt.datetime.utcnow().isoformat()
+
         self.reputation_cache[ip] = reputation
         self._save_reputation_cache()
-        
-        return reputation
-    
-    def _simulate_reputation_check(self, ip: str, reputation: IPReputation) -> IPReputation:
-        """
-        Simulate reputation check (in production, call real APIs).
-        For now, use heuristics based on IP patterns.
-        """
-        # Simple heuristic: public IPs starting with certain ranges are suspicious
-        if ip.startswith("192.") or ip.startswith("10.") or ip.startswith("172."):
-            reputation.abuse_score = 10  # Low score for internal IPs
-        elif ip.startswith("203.") or ip.startswith("185."):
-            reputation.abuse_score = 35  # Medium score for certain ranges
-        else:
-            reputation.abuse_score = 20  # Default medium-low score
-            
-        reputation.total_reports = int(reputation.abuse_score * 2)
-        reputation.country = "Unknown"
-        
+
         return reputation
     
     def add_blocked_ip(self, ip: str, reason: str, duration: str = "permanent",

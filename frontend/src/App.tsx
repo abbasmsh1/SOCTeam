@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import AgentReportPage from './components/AgentReportPage'
+import QuarantinePage from './components/QuarantinePage'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/report/:reportId" element={<AgentReportPage />} />
+        <Route path="/quarantine" element={<QuarantinePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

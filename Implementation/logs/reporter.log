@@ -1,180 +1,45 @@
-2026-04-18 21:18:48 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
-INFO:     127.0.0.1:54181 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54181 - "GET /health HTTP/1.1" 200 OK
-2026-04-18 21:19:19 - AgentServer - INFO - Lazy initializing reporter agent...
-2026-04-18 21:19:19 - AgentServer - INFO - reporter agent initialized.
-2026-04-18 21:19:19 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211919_249664.md
-2026-04-18 21:19:19 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211919_249664.md
+2026-04-20 12:34:32 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
+INFO:     127.0.0.1:62087 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54983 - "GET /health HTTP/1.1" 200 OK
+2026-04-20 12:36:40 - AgentServer - INFO - Lazy initializing reporter agent...
+2026-04-20 12:36:42 - AgentServer - INFO - reporter agent initialized.
+2026-04-20 12:36:42 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
+2026-04-20 12:36:42 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:52982 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:19:26 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211926_051904.md
-2026-04-18 21:19:26 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211926_051904.md
+INFO:     127.0.0.1:59476 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:38:08 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
+2026-04-20 12:38:08 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:54888 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:19:32 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211932_051904.md
-2026-04-18 21:19:32 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211932_051904.md
+INFO:     127.0.0.1:63995 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:38:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
+2026-04-20 12:38:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:65468 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:19:39 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211939_051904.md
-2026-04-18 21:19:39 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211939_051904.md
+INFO:     127.0.0.1:58051 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:38:57 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
+2026-04-20 12:38:57 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:65472 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:19:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211948_051904.md
-2026-04-18 21:19:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211948_051904.md
+INFO:     127.0.0.1:49882 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:39:12 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
+2026-04-20 12:39:12 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:54442 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:19:55 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211955_051904.md
-2026-04-18 21:19:55 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_211955_051904.md
+INFO:     127.0.0.1:49892 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:39:16 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
+2026-04-20 12:39:16 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58679 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:02 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212002_051904.md
-2026-04-18 21:20:02 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212002_051904.md
+INFO:     127.0.0.1:59309 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:39:21 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
+2026-04-20 12:39:21 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:61340 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:10 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212010_051904.md
-2026-04-18 21:20:10 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212010_051904.md
+INFO:     127.0.0.1:55931 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-20 12:39:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
+2026-04-20 12:39:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
 DEBUG: Report saved successfully!
-INFO:     127.0.0.1:61350 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:25 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212025_051904.md
-2026-04-18 21:20:25 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212025_051904.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:49896 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:37 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212037_767552.md
-2026-04-18 21:20:37 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212037_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:49900 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212048_767552.md
-2026-04-18 21:20:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212048_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58670 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:20:55 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212055_767552.md
-2026-04-18 21:20:55 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212055_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58673 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:21:04 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212104_767552.md
-2026-04-18 21:21:04 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212104_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58690 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:21:11 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212111_767552.md
-2026-04-18 21:21:11 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212111_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58696 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:21:24 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212124_767552.md
-2026-04-18 21:21:24 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212124_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58711 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:21:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212136_767552.md
-2026-04-18 21:21:36 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212136_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:63829 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:21:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212148_767552.md
-2026-04-18 21:21:48 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212148_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:51309 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:01 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212201_767552.md
-2026-04-18 21:22:01 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212201_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:62550 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:15 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212215_767552.md
-2026-04-18 21:22:15 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212215_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:62569 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:26 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212226_767552.md
-2026-04-18 21:22:26 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212226_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:62575 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:39 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212239_767552.md
-2026-04-18 21:22:39 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212239_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:62588 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:46 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212246_774208.md
-2026-04-18 21:22:46 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212246_774208.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:63709 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:22:52 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212252_767552.md
-2026-04-18 21:22:52 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212252_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:63717 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:00 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212300_767552.md
-2026-04-18 21:23:00 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212300_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:60463 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:06 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212306_767552.md
-2026-04-18 21:23:06 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212306_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:56164 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:13 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212313_767552.md
-2026-04-18 21:23:13 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212313_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:63421 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:20 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212320_767552.md
-2026-04-18 21:23:20 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212320_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:63425 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:27 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212327_767552.md
-2026-04-18 21:23:27 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212327_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:57870 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:34 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212334_767552.md
-2026-04-18 21:23:34 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212334_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:57876 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:45 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212345_767552.md
-2026-04-18 21:23:45 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212345_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58962 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:23:53 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212353_767552.md
-2026-04-18 21:23:53 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212353_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:58969 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:24:00 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212400_767552.md
-2026-04-18 21:24:00 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212400_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:52450 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:24:07 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212407_767552.md
-2026-04-18 21:24:07 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212407_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:52454 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:24:14 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212414_767552.md
-2026-04-18 21:24:14 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212414_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:52462 - "POST /generate_report HTTP/1.1" 200 OK
-2026-04-18 21:24:21 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212421_767552.md
-2026-04-18 21:24:21 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260418_212421_767552.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:52467 - "POST /generate_report HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55937 - "POST /generate_report HTTP/1.1" 200 OK

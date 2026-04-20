@@ -44,14 +44,67 @@ except ImportError:
     FLOW_EXTRACTOR_AVAILABLE = False
 
 
-from fastapi import Header, HTTPException, Depends, Query
+from fastapi import Header, HTTPException, Depends, Query, Request
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import logging
 from collections import deque
+from Implementation.src.IDS.api_models import (
+    FlowRecord,
+    AutoRuleRequest,
+    LiveEvent,
+    AlertData,
+    to_plain_dict,
+)
+
+try:
+    from slowapi import Limiter
+    from slowapi.errors import RateLimitExceeded
+    from slowapi.util import get_remote_address
+    from slowapi.middleware import SlowAPIMiddleware
+    _SLOWAPI_AVAILABLE = True
+except ImportError:  # pragma: no cover - optional dep
+    _SLOWAPI_AVAILABLE = False
+
+    def get_remote_address(request):  # type: ignore[no-redef]
+        return "unknown"
+
+
+class _NoopLimiter:
+    """Fallback used when slowapi is not installed: disables rate limiting."""
+
+    def limit(self, _spec: str):
+        def decorator(func):
+            return func
+        return decorator
+
+
+limiter = Limiter(key_func=get_remote_address) if _SLOWAPI_AVAILABLE else _NoopLimiter()
+
+RATE_LIMIT_PREDICT = os.getenv("IDS_RATE_LIMIT_PREDICT", "60/minute")
+RATE_LIMIT_AUTO_RULES = os.getenv("IDS_RATE_LIMIT_AUTO_RULES", "10/minute")
+RATE_LIMIT_SANDBOX_CLEAR = os.getenv("IDS_RATE_LIMIT_SANDBOX_CLEAR", "3/minute")
 
 # Global Event Queue for Live Monitor
 live_events = deque(maxlen=50)
+
+# Quarantine queue — blocked flows + PENDING_HUMAN cases awaiting analyst decision
+quarantine_queue: deque = deque(maxlen=200)
+
+# Live capture state (mutated by /start-live-capture and /stop-live-capture)
+import threading as _threading
+
+_live_capture_state: Dict[str, Any] = {
+    "active": False,
+    "interface": None,
+    "source": "idle",  # idle | live | csv
+    "started_at": None,
+    "flows_processed": 0,
+    "last_error": None,
+}
+_live_capture_thread: Optional[_threading.Thread] = None
+_live_capture_stop = _threading.Event()
+_live_capture_lock = _threading.Lock()
 
 # Configure logging
 logging.basicConfig(
@@ -63,16 +116,45 @@ logger = logging.getLogger(__name__)
 # Calculate base directory relative to this file
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+# Drift monitor singleton (needs _BASE_DIR)
+from Implementation.src.IDS.metrics.drift import DriftMonitor
+
+_drift_baseline_path = os.path.join(_BASE_DIR, "Reports", "drift_baseline.json")
+_drift_monitor = DriftMonitor(
+    window_size=int(os.getenv("IDS_DRIFT_WINDOW", "500")),
+    baseline_path=_drift_baseline_path if os.path.exists(_drift_baseline_path) else None,
+)
+
+def _resolve_model_path() -> str:
+    """Prefer Models/manifest.json's `active_checkpoint`, fall back to default path."""
+    explicit = os.getenv("IDS_MODEL_PATH")
+    if explicit:
+        return explicit
+    models_dir = os.path.join(_BASE_DIR, "Models")
+    manifest_path = os.path.join(models_dir, "manifest.json")
+    if os.path.exists(manifest_path):
+        try:
+            with open(manifest_path, "r", encoding="utf-8") as fh:
+                active = json.load(fh).get("active_checkpoint")
+            if active:
+                return os.path.join(models_dir, active)
+        except (OSError, json.JSONDecodeError):
+            pass
+    return os.path.join(models_dir, "best_ids_model.pth")
+
+
 class IDSConfig:
     """Centralized configuration for IDS."""
-    MODEL_PATH = os.getenv("IDS_MODEL_PATH", os.path.join(_BASE_DIR, "Models", "best_ids_model.pth"))
+    MODEL_PATH = _resolve_model_path()
     ARTIFACTS_DIR = os.getenv("IDS_ARTIFACTS_DIR", os.path.join(_BASE_DIR, "Models"))
     API_KEY = os.getenv("IDS_API_KEY", "ids-secret-key")
+    ADMIN_API_KEY = os.getenv("IDS_ADMIN_API_KEY") or API_KEY
+    ALLOW_DEFAULT_KEY = os.getenv("IDS_ALLOW_DEFAULT_KEY", "false").lower() == "true"
     REPORTS_DIR = os.path.join(_BASE_DIR, "Reports")
     HOST = "0.0.0.0"
     PORT = 6050  # FIX: removed duplicate PORT assignment
-    # Queue SOC workflow when malicious class confidence is above this (0–1). Default: >50%.
-    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.5"))
+    # Queue SOC workflow when malicious class confidence is above this (0–1). Default: >85%.
+    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.85"))
     AUTO_WORKFLOW_COOLDOWN_SEC = float(os.getenv("IDS_AUTO_WORKFLOW_COOLDOWN_SEC", "10"))
     WORKFLOW_QUEUE_MAXSIZE = int(os.getenv("IDS_WORKFLOW_QUEUE_MAXSIZE", "200"))
     REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "5"))
@@ -568,6 +650,22 @@ def get_workflow():
 _auto_soc = None
 _auto_soc_lock = Lock()
 
+# Lazy singleton for IPBlockingManager (shared by /predict gate + quarantine endpoints)
+_ip_blocking_mgr = None
+_ip_blocking_mgr_lock = Lock()
+
+
+def get_ip_blocking_manager():
+    """Get or create the global IPBlockingManager instance."""
+    global _ip_blocking_mgr
+    if _ip_blocking_mgr is None:
+        with _ip_blocking_mgr_lock:
+            if _ip_blocking_mgr is None:
+                from Implementation.src.Agents.IPBlockingManager import IPBlockingManager
+                _ip_blocking_mgr = IPBlockingManager()
+                logger.info("IPBlockingManager initialised")
+    return _ip_blocking_mgr
+
 def get_auto_soc():
     """Get or create global AutoSOCRuleGenerator instance."""
     global _auto_soc
@@ -584,6 +682,40 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="AI-Powered Intrusion Detection System")
+
+if _SLOWAPI_AVAILABLE:
+    from starlette.responses import JSONResponse
+
+    async def _rate_limit_exceeded_handler(request, exc):  # type: ignore[unused-argument]
+        return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
+
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+    app.add_middleware(SlowAPIMiddleware)
+
+
+_BLOCKLIST_SWEEP_INTERVAL = float(os.getenv("IDS_BLOCKLIST_SWEEP_SEC", "60"))
+
+
+async def _blocklist_sweeper():
+    import asyncio
+    while True:
+        try:
+            generator = get_auto_soc()
+            evicted = generator.ip_manager.sweep_expired()
+            if evicted:
+                logger.info("[blocklist-sweep] expired=%d", len(evicted))
+        except Exception as exc:
+            logger.warning("[blocklist-sweep] error: %s", exc)
+        await asyncio.sleep(_BLOCKLIST_SWEEP_INTERVAL)
+
+
+@app.on_event("startup")
+async def _on_startup():
+    import asyncio
+    _ensure_boot_keys()
+    asyncio.create_task(_blocklist_sweeper())
+
 
 # Configure CORS
 app.add_middleware(
@@ -603,14 +735,40 @@ def health_check():
 # ---------------------------------------------------
 # Security Middleware
 # ---------------------------------------------------
+_DEFAULT_API_KEY = "ids-secret-key"
+
+
+def _ensure_boot_keys():
+    """Refuse to boot with the shipped default unless explicitly opted in."""
+    if IDSConfig.API_KEY == _DEFAULT_API_KEY and not IDSConfig.ALLOW_DEFAULT_KEY:
+        raise RuntimeError(
+            "IDS_API_KEY is set to the insecure default. Set IDS_API_KEY in the "
+            "environment, or IDS_ALLOW_DEFAULT_KEY=true for local dev only."
+        )
+    if IDSConfig.ADMIN_API_KEY == _DEFAULT_API_KEY and not IDSConfig.ALLOW_DEFAULT_KEY:
+        raise RuntimeError(
+            "IDS_ADMIN_API_KEY is set to the insecure default. Provide a distinct "
+            "admin key or set IDS_ALLOW_DEFAULT_KEY=true."
+        )
+
+
 async def verify_api_key(x_api_key: Optional[str] = Header(None, alias="X-API-Key")):
+    """Read-scope auth: any caller with the read key (or admin key) is allowed."""
     if not x_api_key:
-        logger.warning("Missing X-API-Key header")
-        return "public" # Allow public for health checks if needed, but the routes have dependency
-    
-    if x_api_key != IDSConfig.API_KEY:
-        logger.warning(f"Unauthorized access attempt with API Key: {x_api_key}")
+        raise HTTPException(status_code=401, detail="Missing X-API-Key header")
+    if x_api_key not in (IDSConfig.API_KEY, IDSConfig.ADMIN_API_KEY):
+        logger.warning("Unauthorized access attempt")
         raise HTTPException(status_code=403, detail="Could not validate credentials")
+    return x_api_key
+
+
+async def verify_admin_api_key(x_api_key: Optional[str] = Header(None, alias="X-API-Key")):
+    """Admin-scope auth: only the admin key may call enforcement endpoints."""
+    if not x_api_key:
+        raise HTTPException(status_code=401, detail="Missing X-API-Key header")
+    if x_api_key != IDSConfig.ADMIN_API_KEY:
+        logger.warning("Unauthorized admin access attempt")
+        raise HTTPException(status_code=403, detail="Admin credentials required")
     return x_api_key
 
 
@@ -666,9 +824,79 @@ def _dashboard_protocol_label(data: dict) -> str:
 # ---------------------------------------------------
 # API Routes
 # ---------------------------------------------------
+def _resolve_flow_src_ip(data: dict) -> str:
+    """Shared src-IP resolver for predict + live capture + quarantine gate."""
+    return _flow_endpoint_str(
+        data, "SourceIP", "Source IP", "src_ip",
+        "IPV4_SRC_ADDR", "ipv4_src_addr", "Src IP", "source_ip",
+    )
+
+
+def _quarantine_blocked_flow(src_ip: str, data: dict) -> dict:
+    """Record a drop for a flow whose source IP is on the active block list."""
+    entry = {
+        "id": str(uuid.uuid4()),
+        "ip": src_ip,
+        "reason": "Active block rule — traffic intercepted",
+        "timestamp": datetime.now().isoformat(),
+        "status": "BLOCKED",
+        "raw_flow": data,
+    }
+    quarantine_queue.appendleft(entry)
+    return entry
+
+
+def _maybe_pending_human(src_ip: str, predicted_label: str, confidence: float, data: dict) -> Optional[dict]:
+    """
+    For medium-confidence threats (0.6 <= c < 0.9) where IP reputation says RATE_LIMIT,
+    add a PENDING_HUMAN record and return it. Returns None if no human intervention needed.
+    """
+    if confidence < 0.6 or confidence >= 0.9 or predicted_label == "BENIGN":
+        return None
+    if not src_ip or src_ip == "Unknown":
+        return None
+    try:
+        ip_mgr = get_ip_blocking_manager()
+        should_block, reasoning = ip_mgr.should_block_ip(
+            src_ip,
+            {"Attack": predicted_label, "confidence": confidence},
+        )
+    except Exception as exc:
+        logger.debug("should_block_ip failed for %s: %s", src_ip, exc)
+        return None
+    if reasoning.get("decision") != "RATE_LIMIT":
+        return None
+    entry = {
+        "id": str(uuid.uuid4()),
+        "ip": src_ip,
+        "threat_label": predicted_label,
+        "confidence": confidence,
+        "reasoning": reasoning,
+        "timestamp": datetime.now().isoformat(),
+        "status": "PENDING_HUMAN",
+        "raw_flow": data,
+    }
+    quarantine_queue.appendleft(entry)
+    logger.info("Quarantined PENDING_HUMAN: %s (%s, %.2f)", src_ip, predicted_label, confidence)
+    return entry
+
+
 @app.post("/predict/", dependencies=[Depends(verify_api_key)])
-async def predict_api(data: dict):
+@limiter.limit(RATE_LIMIT_PREDICT)
+async def predict_api(request: Request, flow: FlowRecord):
     """Predict intrusion class from a JSON record (API endpoint)."""
+    data = to_plain_dict(flow)
+
+    # Blocked-IP gate — active firewall rules drop flows before inference
+    src_ip_early = _resolve_flow_src_ip(data)
+    if src_ip_early and src_ip_early != "Unknown":
+        try:
+            if get_ip_blocking_manager().is_ip_blocked(src_ip_early):
+                _quarantine_blocked_flow(src_ip_early, data)
+                return {"status": "blocked", "ip": src_ip_early, "reason": "Active firewall rule"}
+        except Exception as exc:
+            logger.warning("IP block lookup failed for %s: %s", src_ip_early, exc)
+
     predictor = get_predictor()
     result = predictor.predict(data)
     logger.info(f"Prediction: {result['predicted_label']} (Confidence: {result['confidence']:.4f})")
@@ -718,6 +946,17 @@ async def predict_api(data: dict):
     except Exception as e:
         logger.error(f"Critical: Failed to persist flow to history DB: {e}")
 
+    try:
+        _drift_monitor.observe({
+            k: v for k, v in data.items()
+            if isinstance(v, (int, float)) and not isinstance(v, bool)
+        })
+    except Exception as e:
+        logger.debug(f"Drift observe failed: {e}")
+
+    # Medium-confidence + RATE_LIMIT reputation -> park for human review
+    _maybe_pending_human(src, result['predicted_label'], result.get('confidence', 0.0), data)
+
     # Automated Response under load control: queue workflows and enforce cooldown.
     if result['predicted_label'] != 'BENIGN' and result['confidence'] > IDSConfig.AUTO_WORKFLOW_CONFIDENCE:
         now = time.monotonic()
@@ -747,17 +986,51 @@ async def predict_api(data: dict):
         _ensure_analytics_worker()
 
         # Update real-time flow stats
-        tracker.update_flow(data)
+        def _as_int(key, default=0):
+            try:
+                v = data.get(key, default)
+                return int(float(v)) if v is not None else default
+            except (TypeError, ValueError):
+                return default
 
-        # Update segment monitoring
-        segment_monitor.update_traffic(data)
+        src_ip = _flow_endpoint_str(data, "SourceIP", "Source IP", "src_ip", "IPV4_SRC_ADDR")
+        dst_ip = _flow_endpoint_str(data, "DestinationIP", "Destination IP", "dst_ip", "IPV4_DST_ADDR")
+        if src_ip and dst_ip and src_ip != "Unknown" and dst_ip != "Unknown":
+            tracker.add_or_update_flow(
+                src_ip=src_ip,
+                dst_ip=dst_ip,
+                src_port=_as_int("L4_SRC_PORT") or _as_int("src_port"),
+                dst_port=_as_int("L4_DST_PORT") or _as_int("dst_port"),
+                protocol=_dashboard_protocol_label(data),
+                packet_info={
+                    "size": _as_int("IN_BYTES"),
+                    "packets": _as_int("IN_PKTS"),
+                },
+            )
+
+        # Segment monitoring is interface-scoped; skip if no interface metadata in payload.
+        iface = data.get("interface") or data.get("NIC")
+        if iface and src_ip and dst_ip:
+            try:
+                segment_monitor.add_flow_update(
+                    interface_name=str(iface),
+                    src_ip=src_ip,
+                    dst_ip=dst_ip,
+                    src_port=_as_int("L4_SRC_PORT") or _as_int("src_port"),
+                    dst_port=_as_int("L4_DST_PORT") or _as_int("dst_port"),
+                    protocol=_dashboard_protocol_label(data),
+                    packet_info={"size": _as_int("IN_BYTES"), "packets": _as_int("IN_PKTS")},
+                )
+            except Exception:
+                pass
     except Exception as e:
         logger.error(f"Error updating advanced IDS components: {e}")
 
     return result
 
-@app.post("/workflow/process", dependencies=[Depends(verify_api_key)])
-async def process_workflow(alert_data: dict, sync: bool = Query(False)):
+@app.post("/workflow/process", dependencies=[Depends(verify_admin_api_key)])
+async def process_workflow(alert: AlertData, sync: bool = Query(False)):
+    alert_data = to_plain_dict(alert)
     """
     Process an alert through SOC workflow.
     - sync=true: run the workflow in-process. Tier 1 completes on the request thread; if the alert
@@ -854,12 +1127,101 @@ def get_events():
     """Get the latest live monitoring events."""
     return list(live_events)
 
+
+@app.get("/events/stream")
+async def events_stream(x_api_key: Optional[str] = Query(None), request: Request = None):
+    """
+    Server-Sent Events stream of dashboard state.
+
+    Emits a JSON payload every IDS_SSE_INTERVAL_SEC seconds containing:
+      - events: list(live_events)
+      - stats:  get_stats() shape
+      - sandbox: dashboard_ui_state()
+      - timeseries: last 30 min bucketed
+
+    API key is read from the `x_api_key` query string because EventSource
+    cannot set custom headers in the browser.
+    """
+    import asyncio
+    from starlette.responses import StreamingResponse
+
+    if x_api_key not in (IDSConfig.API_KEY, IDSConfig.ADMIN_API_KEY):
+        raise HTTPException(status_code=403, detail="Could not validate credentials")
+
+    interval = float(os.getenv("IDS_SSE_INTERVAL_SEC", "2"))
+
+    async def gen():
+        import json as _json
+        while True:
+            if request is not None and await request.is_disconnected():
+                break
+            try:
+                sandbox_state = get_auto_soc().sandbox.dashboard_ui_state()
+            except Exception:
+                sandbox_state = {"blocked_ips": [], "firewall_rules": [], "rate_limited_hosts": [], "total_actions": 0}
+            try:
+                remediation_logs = get_remediation_logs()
+            except Exception:
+                remediation_logs = []
+            try:
+                reports = list_reports()
+            except Exception:
+                reports = []
+            payload = {
+                "events": list(live_events),
+                "stats": get_stats(),
+                "sandbox": sandbox_state,
+                "timeseries": get_events_timeseries(1800, 6),
+                "remediation_logs": remediation_logs,
+                "reports": reports,
+                "ts": datetime.now().isoformat(),
+            }
+            yield f"data: {_json.dumps(payload)}\n\n"
+            await asyncio.sleep(interval)
+
+    return StreamingResponse(gen(), media_type="text/event-stream")
+
 @app.post("/events/add", dependencies=[Depends(verify_api_key)])
-def add_event(event: dict):
+def add_event(event: LiveEvent):
     """Add a new event from the live monitor."""
-    event['timestamp'] = datetime.now().isoformat()
-    live_events.appendleft(event)
+    payload = to_plain_dict(event)
+    payload['timestamp'] = datetime.now().isoformat()
+    live_events.appendleft(payload)
     return {"status": "success"}
+
+@app.get("/events/timeseries", dependencies=[Depends(verify_api_key)])
+def get_events_timeseries(window: int = 1800, buckets: int = 6):
+    """
+    Bucket the live_events deque into `buckets` equal time slices over the last
+    `window` seconds and return per-bucket flow counts for the dashboard chart.
+    """
+    window = max(60, min(int(window), 86400))
+    buckets = max(1, min(int(buckets), 60))
+    bucket_sec = window / buckets
+    now = datetime.now()
+    start = now.timestamp() - window
+
+    counts = [0] * buckets
+    for event in live_events:
+        ts = event.get("timestamp")
+        if not ts:
+            continue
+        try:
+            event_ts = datetime.fromisoformat(ts).timestamp()
+        except (ValueError, TypeError):
+            continue
+        if event_ts < start:
+            continue
+        idx = int((event_ts - start) / bucket_sec)
+        if 0 <= idx < buckets:
+            counts[idx] += 1
+
+    series = []
+    for i, flows in enumerate(counts):
+        bucket_end = now.timestamp() - (buckets - i - 1) * bucket_sec
+        label = datetime.fromtimestamp(bucket_end).strftime("%H:%M")
+        series.append({"name": label, "flows": flows})
+    return series
 
 @app.get("/events/stats", dependencies=[Depends(verify_api_key)])
 def get_stats():
@@ -890,6 +1252,38 @@ def get_stats():
         "active_agents": 5
     }
 
+@app.get("/metrics/drift", dependencies=[Depends(verify_api_key)])
+def get_drift_metrics():
+    """Current PSI report; empty if no baseline has been registered."""
+    return _drift_monitor.report()
+
+
+@app.get("/metrics/calibration", dependencies=[Depends(verify_api_key)])
+def get_calibration_metrics():
+    """Read the latest calibration report from Reports/calibration.json."""
+    path = os.path.join(IDSConfig.REPORTS_DIR, "calibration.json")
+    if not os.path.exists(path):
+        return {"status": "unavailable", "hint": "Run metrics.calibration to populate."}
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.get("/metrics/class-balance", dependencies=[Depends(verify_api_key)])
+def get_class_balance_metrics():
+    """Read the latest class-balance report from Reports/class_balance.json."""
+    path = os.path.join(IDSConfig.REPORTS_DIR, "class_balance.json")
+    if not os.path.exists(path):
+        return {"status": "unavailable", "hint": "Run metrics.class_balance to populate."}
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
 @app.get("/remediation/logs", dependencies=[Depends(verify_api_key)])
 def get_remediation_logs():
     """Retrieve the automated remediation execution logs."""
@@ -909,8 +1303,10 @@ def get_remediation_logs():
 # Autonomous SOC Rule Generator Routes
 # ---------------------------------------------------
 
-@app.post("/soc/auto-rules", dependencies=[Depends(verify_api_key)])
-async def soc_auto_rules(detection: dict):
+@app.post("/soc/auto-rules", dependencies=[Depends(verify_admin_api_key)])
+@limiter.limit(RATE_LIMIT_AUTO_RULES)
+async def soc_auto_rules(request: Request, payload: AutoRuleRequest):
+    detection = to_plain_dict(payload)
     """
     Run the AutoSOCRuleGenerator on an IDS detection dict and return
     the enforcement summary.  Accepts the same payload shape as /predict/.
@@ -959,8 +1355,9 @@ def get_sandbox_state():
         raise HTTPException(status_code=500, detail=str(exc))
 
 
-@app.post("/sandbox/clear", dependencies=[Depends(verify_api_key)])
-def clear_sandbox():
+@app.post("/sandbox/clear", dependencies=[Depends(verify_admin_api_key)])
+@limiter.limit(RATE_LIMIT_SANDBOX_CLEAR)
+def clear_sandbox(request: Request):
     """
     Reset the DefensiveActionSandbox to an empty state.
     Use during testing or after a drill exercise.
@@ -973,6 +1370,260 @@ def clear_sandbox():
     except Exception as exc:
         logger.error("[sandbox/clear] Error: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
+
+
+# ---------------------------------------------------
+# Live Capture Routes
+# ---------------------------------------------------
+def _process_flow_record(data: dict) -> Optional[Dict[str, Any]]:
+    """
+    Core inference + event/routing logic shared by /predict and live capture.
+    Returns the prediction dict, or None if the flow was dropped (blocked IP).
+    """
+    src_early = _resolve_flow_src_ip(data)
+    if src_early and src_early != "Unknown":
+        try:
+            if get_ip_blocking_manager().is_ip_blocked(src_early):
+                _quarantine_blocked_flow(src_early, data)
+                return None
+        except Exception as exc:
+            logger.warning("IP block lookup failed for %s: %s", src_early, exc)
+
+    predictor = get_predictor()
+    result = predictor.predict(data)
+    pred_label = result.get("predicted_label", "UNKNOWN")
+    confidence = float(result.get("confidence", 0.0))
+
+    src = src_early
+    dst = _flow_endpoint_str(
+        data, "DestinationIP", "Destination IP", "dst_ip",
+        "IPV4_DST_ADDR", "ipv4_dst_addr", "Dest IP", "destination_ip",
+    )
+    dashboard_event = {
+        "id": str(uuid.uuid4()),
+        "SourceIP": src,
+        "DestinationIP": dst,
+        "IPV4_SRC_ADDR": src,
+        "IPV4_DST_ADDR": dst,
+        "Protocol": _dashboard_protocol_label(data),
+        "Attack": "Benign" if pred_label == "BENIGN" else pred_label,
+        "confidence": confidence,
+        "timestamp": datetime.now().isoformat(),
+        "severity": "high" if pred_label != "BENIGN" else "low",
+    }
+    live_events.appendleft(dashboard_event)
+
+    try:
+        history_mgr = get_history_manager()
+        if history_mgr:
+            history_mgr.add_flow(data, pred_label, confidence)
+    except Exception as exc:
+        logger.debug("history add_flow failed: %s", exc)
+
+    try:
+        _drift_monitor.observe({
+            k: v for k, v in data.items()
+            if isinstance(v, (int, float)) and not isinstance(v, bool)
+        })
+    except Exception:
+        pass
+
+    _maybe_pending_human(src, pred_label, confidence, data)
+
+    if pred_label != "BENIGN" and confidence > IDSConfig.AUTO_WORKFLOW_CONFIDENCE:
+        now = time.monotonic()
+        should_queue = False
+        with _auto_workflow_lock:
+            global _last_auto_workflow_ts
+            if now - _last_auto_workflow_ts >= IDSConfig.AUTO_WORKFLOW_COOLDOWN_SEC:
+                _last_auto_workflow_ts = now
+                should_queue = True
+        if should_queue:
+            _queue_workflow({**data, **result}, "Live Capture Auto-Response")
+
+    return result
+
+
+def _live_capture_loop(interface: str, duration_per_cycle: int):
+    """Background thread: repeatedly call FlowExtractor.extract_live() and feed the predictor."""
+    try:
+        from Implementation.src.IDS.FlowExtractor import FlowExtractor
+    except Exception as exc:
+        logger.error("Live capture disabled — FlowExtractor import failed: %s", exc)
+        _live_capture_state["active"] = False
+        _live_capture_state["source"] = "idle"
+        _live_capture_state["last_error"] = f"import: {exc}"
+        return
+
+    extractor = FlowExtractor()
+    logger.info("Live capture loop started on %s (cycle=%ds)", interface, duration_per_cycle)
+
+    while not _live_capture_stop.is_set():
+        try:
+            flows_df = extractor.extract_live(interface=interface, duration=duration_per_cycle)
+            if flows_df is None or flows_df.empty:
+                continue
+            for _, row in flows_df.iterrows():
+                if _live_capture_stop.is_set():
+                    break
+                flow_dict = row.dropna().to_dict()
+                try:
+                    _process_flow_record(flow_dict)
+                    _live_capture_state["flows_processed"] += 1
+                except Exception as exc:
+                    logger.warning("Live flow processing error: %s", exc)
+        except Exception as exc:
+            logger.error("Live capture cycle failed: %s", exc)
+            _live_capture_state["last_error"] = str(exc)
+            _live_capture_stop.wait(timeout=2.0)
+
+    logger.info("Live capture loop exited for %s", interface)
+    _live_capture_state["active"] = False
+    _live_capture_state["source"] = "idle"
+
+
+@app.get("/interfaces", dependencies=[Depends(verify_api_key)])
+def list_interfaces():
+    """List available network interfaces for live capture."""
+    try:
+        from scapy.all import get_if_list
+        ifaces = get_if_list()
+    except ImportError:
+        raise HTTPException(status_code=501, detail="scapy not installed")
+    except Exception as exc:
+        logger.error("get_if_list failed: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+    return {"interfaces": ifaces}
+
+
+class _StartCaptureBody(BaseModel):
+    interface: str
+    duration_per_cycle: int = 5
+
+
+@app.post("/start-live-capture", dependencies=[Depends(verify_admin_api_key)])
+def start_live_capture(body: _StartCaptureBody):
+    """Begin continuous live capture on the given interface."""
+    global _live_capture_thread
+    with _live_capture_lock:
+        if _live_capture_state["active"]:
+            raise HTTPException(status_code=409, detail=f"capture already running on {_live_capture_state['interface']}")
+        _live_capture_stop.clear()
+        _live_capture_state.update({
+            "active": True,
+            "interface": body.interface,
+            "source": "live",
+            "started_at": datetime.now().isoformat(),
+            "flows_processed": 0,
+            "last_error": None,
+        })
+        _live_capture_thread = _threading.Thread(
+            target=_live_capture_loop,
+            args=(body.interface, max(1, int(body.duration_per_cycle))),
+            name=f"live-capture-{body.interface}",
+            daemon=True,
+        )
+        _live_capture_thread.start()
+    return {"status": "started", "interface": body.interface}
+
+
+@app.post("/stop-live-capture", dependencies=[Depends(verify_admin_api_key)])
+def stop_live_capture():
+    """Stop the active live-capture loop (if any)."""
+    global _live_capture_thread
+    with _live_capture_lock:
+        if not _live_capture_state["active"]:
+            return {"status": "idle"}
+        _live_capture_stop.set()
+        thread = _live_capture_thread
+    if thread is not None:
+        thread.join(timeout=10)
+    with _live_capture_lock:
+        _live_capture_state["active"] = False
+        _live_capture_state["source"] = "idle"
+        _live_capture_thread = None
+    return {"status": "stopped"}
+
+
+@app.get("/capture-status", dependencies=[Depends(verify_api_key)])
+def capture_status():
+    """Return current capture state (live | csv | idle)."""
+    return dict(_live_capture_state)
+
+
+# ---------------------------------------------------
+# Quarantine / Human Intervention Routes
+# ---------------------------------------------------
+def _pop_quarantine(ip: str) -> Optional[dict]:
+    """Remove the most recent quarantine entry for this IP and return it."""
+    for i, entry in enumerate(list(quarantine_queue)):
+        if entry.get("ip") == ip:
+            del quarantine_queue[i]
+            return entry
+    return None
+
+
+@app.get("/quarantine", dependencies=[Depends(verify_api_key)])
+def list_quarantine():
+    """Return all quarantine entries (BLOCKED + PENDING_HUMAN) newest-first."""
+    return list(quarantine_queue)
+
+
+@app.post("/quarantine/{ip}/allow", dependencies=[Depends(verify_admin_api_key)])
+def allow_quarantined_ip(ip: str):
+    """Analyst decision: whitelist the IP and drop the quarantine entry."""
+    entry = _pop_quarantine(ip)
+    try:
+        get_ip_blocking_manager().add_to_whitelist(ip, reason="Analyst ALLOW decision via /quarantine")
+    except Exception as exc:
+        logger.error("allow_quarantined_ip whitelist error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+    return {"status": "allowed", "ip": ip, "entry": entry}
+
+
+@app.post("/quarantine/{ip}/deny", dependencies=[Depends(verify_admin_api_key)])
+def deny_quarantined_ip(ip: str):
+    """Analyst decision: persist a block via IPBlockingManager + sandbox auto-pilot."""
+    entry = _pop_quarantine(ip) or {}
+    reason = entry.get("reason") or f"Analyst DENY decision for {entry.get('threat_label', 'unknown')}"
+    duration = "permanent"
+    severity = "high"
+    try:
+        ip_mgr = get_ip_blocking_manager()
+        ip_mgr.add_blocked_ip(ip=ip, reason=reason, duration=duration, threat_severity=severity)
+        sandbox = get_auto_soc().sandbox
+        sandbox_result = sandbox.execute_rule(
+            rule={"action": "BLOCK_IP", "target": ip, "reason": reason, "duration": duration},
+            threat_info={"confidence": entry.get("confidence", 0.99), "Attack": entry.get("threat_label", "UNKNOWN"), "SourceIP": ip},
+            auto_pilot=True,
+        )
+    except Exception as exc:
+        logger.error("deny_quarantined_ip error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+    return {"status": "blocked", "ip": ip, "entry": entry, "sandbox_result": sandbox_result}
+
+
+@app.get("/blocked-ips", dependencies=[Depends(verify_api_key)])
+def list_blocked_ips():
+    """Return the full IPBlockingManager block list (with expiry)."""
+    try:
+        return get_ip_blocking_manager().get_block_list()
+    except Exception as exc:
+        logger.error("list_blocked_ips error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.delete("/blocked-ips/{ip}", dependencies=[Depends(verify_admin_api_key)])
+def unblock_ip(ip: str):
+    """Manual unblock — removes the IP from IPBlockingManager's active list."""
+    try:
+        removed = get_ip_blocking_manager().remove_blocked_ip(ip)
+    except Exception as exc:
+        logger.error("unblock_ip error: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+    if not removed:
+        raise HTTPException(status_code=404, detail=f"IP {ip} not found in block list")
+    return {"status": "unblocked", "ip": ip}
 
 
 # ---------------------------------------------------

@@ -2,9 +2,16 @@ import requests
 import json
 import time
 import os
+from pathlib import Path
 
-API_URL = "http://127.0.0.1:6050"
-API_KEY = "ids-secret-key"
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+except ImportError:
+    pass
+
+API_URL = os.getenv("IDS_BASE_URL", "http://127.0.0.1:6050")
+API_KEY = os.getenv("IDS_ADMIN_API_KEY") or os.getenv("IDS_API_KEY") or "ids-secret-key"
 
 def test_ip_blocking():
     print("=== SOC IP Blocking Verification Test ===")

@@ -10,29 +10,38 @@
  *   - Historical incident ledger (sidebar)
  */
 
-import { Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText, ShieldAlert } from 'lucide-react';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Link } from 'react-router-dom';
-import { useSocDashboard, type Report } from '../hooks/useSocDashboard';
+import { useSocStream, type Report } from '../hooks/useSocStream';
+import { idsApi } from '../utils/api';
 import LiveMonitor from './LiveMonitor';
 import AgentFlow from './AgentFlow';
 import RemediationPanel from './RemediationPanel';
 import BlockedIpsTable from './BlockedIpsTable';
 import SandboxStatePanel from './SandboxStatePanel';
+import DispatchAlert from './DispatchAlert';
 import { StatCard } from './ui/StatCard';
 
-/** Placeholder data for the network traffic chart until live data is wired. */
-const MOCK_HISTORICAL_DATA = [
-  { name: '04:00', flows: 400 },
-  { name: '04:05', flows: 300 },
-  { name: '04:10', flows: 520 },
-  { name: '04:15', flows: 450 },
-  { name: '04:20', flows: 600 },
-  { name: '04:25', flows: 580 },
-];
-
 export default function Dashboard() {
-  const { reports, stats, latestReport, error } = useSocDashboard();
+  const { reports, stats, traffic, sandbox, remediationLogs, latestReport, error, connected } = useSocStream();
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    const fetchPending = async () => {
+      try {
+        const res = await idsApi.getQuarantine();
+        const list = Array.isArray(res.data) ? res.data : [];
+        setPendingCount(list.filter((e: any) => e.status === 'PENDING_HUMAN').length);
+      } catch {
+        // ignore — the header badge is non-critical
+      }
+    };
+    fetchPending();
+    const interval = setInterval(fetchPending, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen p-6 space-y-8 bg-transparent">
@@ -54,9 +63,22 @@ export default function Dashboard() {
         {/* System health status indicator */}
         <div className="flex flex-col items-end gap-2">
             <div className="flex items-center gap-4 text-[10px] font-mono">
+                <Link
+                    to="/quarantine"
+                    className={`flex items-center gap-1 border px-2 py-1 uppercase tracking-widest font-bold transition-colors ${
+                        pendingCount > 0
+                            ? 'text-warning border-warning/50 bg-warning/10 animate-pulse'
+                            : 'text-slate-500 border-white/10 hover:border-primary/40 hover:text-primary'
+                    }`}
+                >
+                    <ShieldAlert size={11} /> QUARANTINE
+                    <span className={`ml-1 px-1 ${pendingCount > 0 ? 'bg-warning text-black' : 'bg-slate-800 text-slate-400'}`}>
+                        {pendingCount}
+                    </span>
+                </Link>
                 <span className="text-slate-500 uppercase">System Status:</span>
-                <span className={error ? "text-malicious animate-pulse" : "text-benign"}>
-                    [{error ? "EXT_ERR" : "SECURED"}]
+                <span className={error ? "text-malicious animate-pulse" : connected ? "text-benign" : "text-warning"}>
+                    [{error ? "EXT_ERR" : connected ? "SECURED" : "CONNECTING"}]
                 </span>
             </div>
             {/* Mini progress bar (decorative health gauge) */}
@@ -111,7 +133,7 @@ export default function Dashboard() {
                </h3>
                <div className="h-[250px]">
                  <ResponsiveContainer width="100%" height="100%">
-                   <AreaChart data={MOCK_HISTORICAL_DATA}>
+                   <AreaChart data={traffic}>
                      <defs>
                        <linearGradient id="colorFlows" x1="0" y1="0" x2="0" y2="1">
                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
@@ -139,10 +161,13 @@ export default function Dashboard() {
           <LiveMonitor />
 
           {/* Full remediation action log table */}
-          <BlockedIpsTable />
+          <BlockedIpsTable logs={remediationLogs} />
 
           {/* Autonomous SOC – live sandbox state */}
-          <SandboxStatePanel />
+          <SandboxStatePanel sandbox={sandbox} />
+
+          {/* Manual dispatch trigger for /soc/auto-rules */}
+          <DispatchAlert />
 
           {/* Agent Reasoning Path – shows which tier processed the latest report */}
           <div className="hud-card border-primary/20">
