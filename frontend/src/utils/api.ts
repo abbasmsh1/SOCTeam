@@ -5,6 +5,7 @@ const BASE_URL = import.meta.env.VITE_IDS_BASE_URL ?? "http://localhost:6050";
 
 const api = axios.create({
   baseURL: BASE_URL,
+  timeout: 30_000, // 30s — prevents the UI spinner from hanging forever
   headers: {
     "X-API-Key": API_KEY,
     "Content-Type": "application/json",

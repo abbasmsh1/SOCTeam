@@ -232,7 +232,11 @@ class WarRoomWorkflow:
             incident_data: Contextual data about the security incident.
 
         Returns:
-            Combined outputs from Red, Blue, and Purple teams.
+            Combined outputs from Red, Blue, and Purple teams. Always returns
+            the full shape even on partial failure — downstream consumers
+            (report generator) need `attack_plan` / `defense_plan` /
+            `analysis_report` keys to be present so missing-data fallbacks
+            render something useful instead of "unavailable".
         """
         initial_state: WarRoomState = {
             "incident_data": incident_data,
@@ -241,10 +245,33 @@ class WarRoomWorkflow:
             "purple_report": {},
         }
 
-        result = self.app.invoke(initial_state)
+        result: Dict[str, Any] = {}
+        error_note: str = ""
+        if self.app is None:
+            error_note = "WarRoom LangGraph not compiled (no API key or init failure)."
+            logger.warning(error_note)
+        else:
+            try:
+                result = self.app.invoke(initial_state) or {}
+            except Exception as exc:
+                error_note = f"{type(exc).__name__}: {exc}"
+                logger.error("War Room simulation failed: %s", error_note)
+                result = {}
+
+        red = result.get("red_output") or {}
+        blue = result.get("blue_output") or {}
+        purple = result.get("purple_report") or {}
+
+        # Guarantee the keys the report generator expects.
+        if not red.get("attack_plan"):
+            red["attack_plan"] = red.get("attack_plan") or error_note or "Red team produced no attack plan."
+        if not blue.get("defense_plan"):
+            blue["defense_plan"] = blue.get("defense_plan") or error_note or "Blue team produced no defense plan."
+        if not purple.get("analysis_report"):
+            purple["analysis_report"] = purple.get("analysis_report") or error_note or "Purple team produced no analysis."
 
         return {
-            "red_team_plan": result["red_output"],
-            "blue_team_plan": result["blue_output"],
-            "purple_team_report": result["purple_report"],
+            "red_team_plan": red,
+            "blue_team_plan": blue,
+            "purple_team_report": purple,
         }

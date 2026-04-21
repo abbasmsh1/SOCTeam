@@ -3,6 +3,7 @@ try:
 except ImportError:  # pragma: no cover - optional in unit tests
     requests = None
 import logging
+import os
 from typing import Any, Callable, Dict, Optional
 
 logger = logging.getLogger(__name__)
@@ -62,11 +63,14 @@ class RemoteAgentClient:
         if requests is None:
             logger.error("requests dependency is not installed")
             return {}
+        # Split connect vs read: a down microservice should fail in ~2s, not block
+        # a worker thread for minutes before the local fallback kicks in.
+        timeout = (2.0, float(os.getenv("REMOTE_AGENT_TIMEOUT_SEC", "15")))
         try:
             response = requests.post(
                 f"{self.endpoint_url}{path}",
                 json={"input_data": data},
-                timeout=300
+                timeout=timeout,
             )
             response.raise_for_status()
             return response.json()

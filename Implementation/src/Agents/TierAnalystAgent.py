@@ -281,10 +281,17 @@ class TierAnalystAgent(BaseAgent):
                 messages = result.get("messages", [])
                 if messages:
                     msg = messages[-1]
-                    return msg.content if hasattr(msg, "content") else str(msg)
+                    content = msg.content if hasattr(msg, "content") else str(msg)
+                    # Guard: some models (Ollama + tool binding) return empty content
+                    # when they emit a tool_call token but no ToolNode handles it.
+                    # Fall through to the direct LLM path so the tier still gets text.
+                    if content and str(content).strip():
+                        return content
 
             if self.llm:
-                response = self.llm.invoke(
+                # Direct call without tool bindings so the model returns plain text.
+                llm = getattr(self.llm, "bound", self.llm) if hasattr(self.llm, "bound") else self.llm
+                response = llm.invoke(
                     [
                         {"role": "system", "content": self._get_system_message()},
                         {"role": "user", "content": prompt},

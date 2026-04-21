@@ -556,20 +556,36 @@ class HexstrikeClient:
 
     def check_ip_reputation(self, ip: str) -> Dict[str, Any]:
         """
-        Check IP reputation via threat intelligence services.
-        
-        Args:
-            ip: IP address to check
-            
-        Returns:
-            IP reputation data (abuse score, threat types, location, etc.)
+        Check IP reputation via the pluggable ReputationSource.
+
+        The HexStrike server does not expose an /api/intelligence/ip-reputation
+        endpoint, so we delegate to the project's ReputationSource (AbuseIPDB
+        adapter when ABUSEIPDB_API_KEY is set, simulated source otherwise).
+        Keeps the Tier 1 / RemediationAgent call sites working without 404s.
         """
-        payload = {
-            "tool": "ip_reputation",
-            "ip": ip,
-            "services": ["abuseipdb", "ip2location", "maxmind"]
-        }
-        return self._execute_command("/api/intelligence/ip-reputation", payload, use_cache=True)
+        try:
+            try:
+                from .IPBlockingManager import IPReputation
+                from .ReputationSource import build_reputation_source
+            except (ImportError, ValueError):
+                from IPBlockingManager import IPReputation  # type: ignore
+                from ReputationSource import build_reputation_source  # type: ignore
+            rep = build_reputation_source().fetch(ip, IPReputation(ip))
+            return {
+                "source": "ReputationSource",
+                "ip": ip,
+                "score": rep.abuse_score,
+                "total_reports": rep.total_reports,
+                "country": rep.country,
+                "isp": rep.isp,
+                "is_tor": rep.is_tor,
+                "is_vpn": rep.is_vpn,
+                "is_proxy": rep.is_proxy,
+                "threat_types": list(rep.threat_types),
+                "last_updated": rep.last_updated,
+            }
+        except Exception as exc:
+            return {"error": "reputation_failed", "message": str(exc), "ip": ip}
 
     def block_ip_firewall(self, ip: str, rule_name: str = None, duration: str = "permanent") -> Dict[str, Any]:
         """

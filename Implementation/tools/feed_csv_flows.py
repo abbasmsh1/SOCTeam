@@ -40,6 +40,75 @@ def normalize_flow_record(flow_row) -> dict:
     return out
 
 
+# Label columns we recognise (first hit wins)
+_LABEL_COLUMN_CANDIDATES = ("Attack", "attack_type", "Label", "label", "category")
+# Timestamp columns we recognise
+_TS_COLUMN_CANDIDATES = ("Timestamp", "timestamp", "flow_start", "FLOW_START", "TIMESTAMP")
+
+
+def _detect_label_col(df: pd.DataFrame):
+    for c in _LABEL_COLUMN_CANDIDATES:
+        if c in df.columns:
+            return c
+    return None
+
+
+def _detect_ts_col(df: pd.DataFrame):
+    for c in _TS_COLUMN_CANDIDATES:
+        if c in df.columns:
+            return c
+    return None
+
+
+def build_priority_schedule(df: pd.DataFrame, ratio: int = 3):
+    """
+    Produce an iterable of DataFrame rows ordered as (ratio * attack) : (1 * benign).
+
+    Recency: within each bucket, rows are sorted newest-first when a timestamp
+    column is detected, so the freshest threats fire first — closer to how a
+    real SIEM queues incoming alerts.
+
+    Falls back to original insertion order when the label column is missing
+    (so the feeder still works with any dataset shape).
+    """
+    label_col = _detect_label_col(df)
+    if label_col is None:
+        return list(df.itertuples(index=False))
+
+    ts_col = _detect_ts_col(df)
+    if ts_col is not None:
+        try:
+            parsed = pd.to_datetime(df[ts_col], errors="coerce")
+            df = df.assign(_ts=parsed).sort_values("_ts", ascending=False, na_position="last").drop(columns=["_ts"])
+        except Exception:
+            pass
+
+    labels = df[label_col].astype(str).str.upper().fillna("BENIGN")
+    is_attack = ~labels.isin({"BENIGN", "NORMAL", "", "NAN"})
+    attacks = df[is_attack]
+    benign = df[~is_attack]
+
+    print(f"[priority] detected label column '{label_col}' — {len(attacks)} attacks / {len(benign)} benign (ratio {ratio}:1)")
+
+    scheduled = []
+    a_iter = iter(attacks.itertuples(index=False))
+    b_iter = iter(benign.itertuples(index=False))
+    a_exhausted = b_exhausted = False
+    while not (a_exhausted and b_exhausted):
+        # ratio attacks then one benign
+        for _ in range(ratio):
+            try:
+                scheduled.append(next(a_iter))
+            except StopIteration:
+                a_exhausted = True
+                break
+        try:
+            scheduled.append(next(b_iter))
+        except StopIteration:
+            b_exhausted = True
+    return scheduled
+
+
 def send_prediction_to_api(flow_row, backend_url):
     """Send flow to IDS /predict/ endpoint for classification."""
     flow_dict = normalize_flow_record(flow_row)
@@ -69,6 +138,10 @@ def main():
     parser.add_argument('--frontend-port', type=int, default=5173, help='Frontend dashboard port (default: 5173)')
     parser.add_argument('--delay', type=float, default=2, help='Seconds between batches (default: 2)')
     parser.add_argument('--batch-size', type=int, default=5, help='Flows per batch (default: 5)')
+    parser.add_argument('--priority', action='store_true',
+                        help='Prioritise attack-classified flows (recency-first within buckets)')
+    parser.add_argument('--priority-ratio', type=int, default=3,
+                        help='When --priority: N attack flows per 1 benign (default: 3)')
     args = parser.parse_args()
     
     # Update configuration based on arguments
@@ -112,24 +185,35 @@ def main():
         print(f"[X] Failed to load CSV: {e}")
         sys.exit(1)
     
+    # Build the send schedule
+    if args.priority:
+        schedule = build_priority_schedule(df, ratio=args.priority_ratio)
+        print(f"[>>] Priority mode: {len(schedule)} flows scheduled (attacks first, {args.priority_ratio}:1 ratio)")
+    else:
+        schedule = list(df.itertuples(index=False))
+        print(f"[>>] Sequential mode: {len(schedule)} flows in CSV order")
+
     # Process flows in batches
-    print(f"[>>] Starting to feed flows to dashboard...")
     print(f"   Batch size: {args.batch_size} flows")
     print(f"   Delay: {args.delay} seconds between batches\n")
     print("="*60)
-    
+
     total_sent = 0
     total_attacks = 0
     total_workflows = 0
-    
-    for i in range(0, len(df), args.batch_size):
-        batch = df.iloc[i:i+args.batch_size]
+
+    def _row_to_series(row):
+        """namedtuple -> pandas-like dict-compatible .items()."""
+        return pd.Series(row._asdict())
+
+    for i in range(0, len(schedule), args.batch_size):
+        batch = schedule[i:i + args.batch_size]
         batch_num = (i // args.batch_size) + 1
-        
-        print(f"\n[Batch {batch_num}] (Flows {i+1}-{min(i+args.batch_size, len(df))}):")
-        
-        for idx, (_, flow) in enumerate(batch.iterrows(), 1):
-            # Get prediction from IDS
+
+        print(f"\n[Batch {batch_num}] (Flows {i+1}-{min(i+args.batch_size, len(schedule))}):")
+
+        for idx, row in enumerate(batch, 1):
+            flow = _row_to_series(row)
             prediction = send_prediction_to_api(flow, backend_url)
             
             if prediction:
@@ -181,7 +265,7 @@ def main():
                     total_attacks += 1
         
         # Wait before next batch
-        if i + args.batch_size < len(df):
+        if i + args.batch_size < len(schedule):
             print(f"\n   [...] Waiting {args.delay}s before next batch...")
             time.sleep(args.delay)
     

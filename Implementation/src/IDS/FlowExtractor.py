@@ -137,16 +137,74 @@ class FlowExtractor:
             )
         
         try:
-            # Use cicflowmeter to extract flows
-            # Note: CICFlowMeter writes to CSV by default
-            sniffer = create_sniffer(
-                input_file=str(pcap_path),
-                output_mode="csv",
-                output_file=output_file
-            )
-            sniffer.start()
-            
-            # Read the generated CSV
+            # CICFlowMeter's FlowSession has multiple upstream bugs we work
+            # around here:
+            #   1. The "csv" output_mode never actually opens a CSV file — only
+            #      "flow" mode does (see flow_session.py line 23). Passing
+            #      output_mode="flow" is the only path that writes output.
+            #   2. Flows only auto-flush after EXPIRED_UPDATE seconds of
+            #      inactivity, so short captures miss everything. We call
+            #      garbage_collect(None) at the end to force-flush.
+            #   3. scapy.EDecimal doesn't interop with numpy — blows up
+            #      inside numpy.mean()/std() on inter-arrival stats.
+            from cicflowmeter.flow_session import generate_session_class  # type: ignore
+            import scapy.all as _scapy
+            from scapy.utils import EDecimal as _EDecimal
+            import numpy as _np
+
+            # Monkey-patch EDecimal so cicflowmeter's numpy statistics don't explode.
+            if not getattr(_EDecimal, "_patched_for_numpy", False):
+                _orig_truediv = _EDecimal.__truediv__
+
+                def _patched_truediv(self, other):
+                    if isinstance(other, (_np.integer, _np.floating)):
+                        other = float(other)
+                    return _orig_truediv(self, other)
+
+                _EDecimal.__truediv__ = _patched_truediv
+                _EDecimal.__int__ = lambda self: int(float(self))
+                _EDecimal.__index__ = lambda self: int(float(self))
+                _EDecimal._patched_for_numpy = True
+
+            # Use "flow" mode so csv_writer is actually created in __init__.
+            # The upstream __init__ drops the underlying file handle on the
+            # floor (it's a local variable) so the CSV buffer never flushes;
+            # subclass and keep it on the instance.
+            _BaseSessionCls = generate_session_class("flow", output_file, None)
+            import csv as _csv
+
+            class _CapturingSession(_BaseSessionCls):  # type: ignore[misc]
+                def __init__(self, *args, **kwargs):
+                    self.flows = {}
+                    self.csv_line = 0
+                    self._csv_fh = open(self.output_file, "w", newline="")
+                    self.csv_writer = _csv.writer(self._csv_fh)
+                    self.packets_count = 0
+                    from collections import defaultdict
+                    self.clumped_flows_per_label = defaultdict(list)
+                    # Skip the upstream __init__ (it re-opens a second file
+                    # handle we can't close). Go straight to DefaultSession.
+                    from scapy.sessions import DefaultSession
+                    DefaultSession.__init__(self, *args, **kwargs)
+
+            session = _CapturingSession()
+            try:
+                for pkt in _scapy.PcapReader(str(pcap_path)):
+                    try:
+                        session.on_packet_received(pkt)
+                    except Exception:
+                        continue
+                try:
+                    session.garbage_collect(None)
+                except Exception as exc:
+                    logger.warning("garbage_collect flush error: %s: %s", type(exc).__name__, exc)
+            finally:
+                try:
+                    session._csv_fh.flush()
+                    session._csv_fh.close()
+                except Exception:
+                    pass
+
             if not os.path.exists(output_file):
                 raise RuntimeError(f"Flow extraction failed. Output file not created: {output_file}")
             
@@ -202,93 +260,100 @@ class FlowExtractor:
         
         return mapped_df
     
-    def extract_live(self, interface: str = 'eth0', duration: int = 60, 
+    def extract_live(self, interface: str = 'eth0', duration: int = 60,
                      packet_count: int = None) -> pd.DataFrame:
         """
         Capture and extract flows from a live network interface.
-        
+
+        Runs the scapy sniff in a SUBPROCESS to isolate it from the backend's
+        Python state — repeated calls inside uvicorn were producing
+        `L2pcapListenSocket` warnings and only 1 packet/cycle, likely due to
+        torch/langchain/other imports poisoning scapy's libpcap backend.
+
         Args:
-            interface: Network interface name (e.g., 'eth0', 'wlan0')
-            duration: Capture duration in seconds (default: 60)
-            packet_count: Stop after capturing N packets (optional)
-            
+            interface: Network interface name. On Windows this is the scapy
+                NPF string, e.g. ``\\Device\\NPF_{GUID}``.
+            duration: Capture duration in seconds (default: 60).
+            packet_count: Unused — retained for backwards compatibility.
+
         Returns:
-            DataFrame containing extracted flow features
-            
-        Note:
-            Requires root/admin privileges for live capture
+            DataFrame of extracted flow features (mapped to IDS column names).
         """
-        logger.info(f"Starting live capture on interface '{interface}' for {duration}s")
-        
-        if not SCAPY_AVAILABLE:
-            raise ImportError("Scapy required for live capture. Install with: pip install scapy")
-        
-        # Create temporary pcap file for captured traffic
-        temp_pcap = os.path.join(self.output_dir, f"live_capture_{interface}.pcap")
-        
+        import re as _re
+        import subprocess as _sp
+        import sys as _sys
+        import json as _json
+
+        logger.info("Starting live capture on interface '%s' for %ss", interface, duration)
+
+        safe = _re.sub(r"[^A-Za-z0-9_-]+", "_", interface).strip("_")[:80]
+        temp_pcap = os.path.join(self.output_dir, f"live_capture_{safe}.pcap")
+
+        # Project root: FlowExtractor.py is at Implementation/src/IDS/, go up 3.
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))))
+        cmd = [
+            _sys.executable,
+            "-m", "Implementation.tools.capture_cycle",
+            "--iface", interface,
+            "--duration", str(duration),
+            "--out", temp_pcap,
+        ]
+        env = os.environ.copy()
+        env["PYTHONPATH"] = project_root + os.pathsep + env.get("PYTHONPATH", "")
+
         try:
-            # Capture packets
-            logger.info(f"Capturing packets to {temp_pcap}")
-            # Capture packets
-            logger.info(f"Capturing packets to {temp_pcap}")
-            
-            try:
-                packets = scapy.sniff(
-                    iface=interface,
-                    timeout=duration,
-                    count=packet_count
-                )
-            except Exception as e:
-                logger.warning(f"⚠️  standard sniffing failed: {e}")
-                
-                # Check for Windows missing L2 provider error or general failure
-                try:
-                    logger.warning("⚠️  Attempting Layer 3 fallback (L3Socket)...")
-                    from scapy.supersocket import L3Socket
-                    conf.L3socket = L3Socket
-                    packets = scapy.sniff(
-                        iface=interface,
-                        timeout=duration,
-                        count=packet_count
-                    )
-                except Exception as l3_err:
-                    logger.error(f"❌ Layer 3 fallback failed: {l3_err}")
-                    
-                    # New Fallback: Try loading from existing CSV parts for realistic demo
-                    try:
-                        logger.warning("⚠️  Capture failed. Attempting to load realistic samples from CSV dataset...")
-                        return self._load_from_csv_fallback()
-                    except Exception as csv_err:
-                        logger.error(f"❌ CSV fallback failed: {csv_err}")
-                        logger.warning("⚠️  Generating SYNTHETIC traffic as final resort.")
-                        
-                        # Final resort: Generate synthetic flows
-                        if os.path.exists(temp_pcap):
-                            os.remove(temp_pcap)
-                        return self._generate_synthetic_flows(duration)
-            
-            # Write to pcap file
-            scapy.wrpcap(temp_pcap, packets)
-            logger.info(f"Captured {len(packets)} packets")
-            
-            # Extract flows from the captured pcap
-            flows_df = self.extract_from_pcap(temp_pcap)
-            
-            # Clean up temporary file
-            os.remove(temp_pcap)
-            
-            return flows_df
-            
-        except PermissionError:
-            raise PermissionError(
-                "Live capture requires elevated privileges. "
-                "Run with sudo/administrator rights."
+            result = _sp.run(
+                cmd, cwd=project_root, env=env,
+                capture_output=True, text=True,
+                timeout=duration + 30,
             )
-        except Exception as e:
-            logger.error(f"Live capture failed: {e}")
-            if os.path.exists(temp_pcap):
-                os.remove(temp_pcap)
+        except _sp.TimeoutExpired:
+            logger.warning("Capture subprocess timed out")
+            return pd.DataFrame()
+        except Exception as exc:
+            logger.error("Capture subprocess launch failed: %s", exc)
             raise
+
+        if result.returncode != 0:
+            logger.warning(
+                "Capture subprocess exit=%s stderr=%s",
+                result.returncode, (result.stderr or "")[:200],
+            )
+            return pd.DataFrame()
+
+        try:
+            status = _json.loads((result.stdout or "").strip().splitlines()[-1])
+        except (ValueError, IndexError):
+            status = {"ok": False, "error": f"unparseable stdout: {result.stdout[:120]}"}
+
+        if not status.get("ok"):
+            logger.warning("Capture subprocess reported failure: %s", status.get("error", "?"))
+            return pd.DataFrame()
+
+        packets = status.get("packets", 0)
+        if packets == 0 or not os.path.exists(temp_pcap) or os.path.getsize(temp_pcap) < 40:
+            logger.info("No packets captured in %ss window; skipping cycle", duration)
+            if os.path.exists(temp_pcap):
+                try:
+                    os.remove(temp_pcap)
+                except OSError:
+                    pass
+            return pd.DataFrame()
+
+        logger.info("Captured %d packets; extracting flows via CICFlowMeter", packets)
+        try:
+            flows_df = self.extract_from_pcap(temp_pcap)
+        except Exception as exc:
+            logger.warning("Flow extraction failed (likely no complete flows yet): %s", exc)
+            return pd.DataFrame()
+        finally:
+            try:
+                os.remove(temp_pcap)
+            except OSError:
+                pass
+
+        return flows_df
     
     def save_flows(self, flows: pd.DataFrame, output_path: str):
         """

@@ -10,6 +10,14 @@ from queue import Queue, Full
 from threading import Thread, Lock
 from collections import Counter
 
+# Windows-only: the default ProactorEventLoop has a known bug where the IOCP
+# accept-loop can die on abrupt client resets (WinError 64) leaving the server
+# process alive but no longer accepting connections. The selector policy is
+# stable for HTTP workloads.  Must run before uvicorn creates its loop.
+if sys.platform == "win32":
+    import asyncio as _asyncio
+    _asyncio.set_event_loop_policy(_asyncio.WindowsSelectorEventLoopPolicy())
+
 # Suppress optional libpcap warning (not needed for CSV-based flow processing)
 warnings.filterwarnings("ignore", message=".*No libpcap provider available.*")
 
@@ -60,13 +68,13 @@ from Implementation.src.IDS.api_models import (
 try:
     from slowapi import Limiter
     from slowapi.errors import RateLimitExceeded
-    from slowapi.util import get_remote_address
+    from slowapi.util import get_remote_address as _slowapi_get_remote_address
     from slowapi.middleware import SlowAPIMiddleware
     _SLOWAPI_AVAILABLE = True
 except ImportError:  # pragma: no cover - optional dep
     _SLOWAPI_AVAILABLE = False
 
-    def get_remote_address(request):  # type: ignore[no-redef]
+    def _slowapi_get_remote_address(request):  # type: ignore[no-redef]
         return "unknown"
 
 
@@ -79,11 +87,33 @@ class _NoopLimiter:
         return decorator
 
 
-limiter = Limiter(key_func=get_remote_address) if _SLOWAPI_AVAILABLE else _NoopLimiter()
+def _rate_limit_key(request):
+    """
+    Per-request rate-limit bucket.
 
-RATE_LIMIT_PREDICT = os.getenv("IDS_RATE_LIMIT_PREDICT", "60/minute")
-RATE_LIMIT_AUTO_RULES = os.getenv("IDS_RATE_LIMIT_AUTO_RULES", "10/minute")
-RATE_LIMIT_SANDBOX_CLEAR = os.getenv("IDS_RATE_LIMIT_SANDBOX_CLEAR", "3/minute")
+    Admin-keyed requests get a unique bucket per request, which in practice
+    skips rate limiting — the CSV feeder, live-capture worker, and any
+    trusted internal tool all authenticate with the admin key. Read-key or
+    unauthenticated requests fall back to per-remote-address throttling.
+    """
+    try:
+        key = request.headers.get("X-API-Key") or ""
+    except Exception:
+        key = ""
+    if key and key == os.environ.get("IDS_ADMIN_API_KEY"):
+        # Unique per-request token → effectively unlimited
+        return f"admin:{uuid.uuid4().hex}"
+    return _slowapi_get_remote_address(request)
+
+
+limiter = Limiter(key_func=_rate_limit_key) if _SLOWAPI_AVAILABLE else _NoopLimiter()
+
+# Defaults tuned for internal scrapers / feeders; admin-keyed callers bypass
+# entirely via the custom key_func above. These limits protect unauthenticated
+# / read-only clients only.
+RATE_LIMIT_PREDICT = os.getenv("IDS_RATE_LIMIT_PREDICT", "600/minute")
+RATE_LIMIT_AUTO_RULES = os.getenv("IDS_RATE_LIMIT_AUTO_RULES", "30/minute")
+RATE_LIMIT_SANDBOX_CLEAR = os.getenv("IDS_RATE_LIMIT_SANDBOX_CLEAR", "10/minute")
 
 # Global Event Queue for Live Monitor
 live_events = deque(maxlen=50)
@@ -157,7 +187,7 @@ class IDSConfig:
     AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.85"))
     AUTO_WORKFLOW_COOLDOWN_SEC = float(os.getenv("IDS_AUTO_WORKFLOW_COOLDOWN_SEC", "10"))
     WORKFLOW_QUEUE_MAXSIZE = int(os.getenv("IDS_WORKFLOW_QUEUE_MAXSIZE", "200"))
-    REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "5"))
+    REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "30"))
     REPORTS_LIST_LIMIT = int(os.getenv("IDS_REPORTS_LIST_LIMIT", "200"))
     REMEDIATION_LOG_LIMIT = int(os.getenv("IDS_REMEDIATION_LOG_LIMIT", "200"))
     ENTROPY_WINDOW_SECONDS = int(os.getenv("IDS_ENTROPY_WINDOW_SECONDS", "10"))
@@ -551,24 +581,37 @@ def get_segment_monitor():
     return _segment_monitor
 
 def _analytics_worker_loop():
-    """Periodic analytics processing."""
+    """Periodic analytics processing. Tolerates shape mismatches in the
+    underlying analyzers (they sometimes return lists instead of dicts when the
+    flow tracker is empty)."""
     analytics = get_analytics()
     segment_monitor = get_segment_monitor()
+    _warned = {"analyze": False, "segment": False}
     while True:
         try:
-            # Run pattern detection
             results = analytics.analyze_flows()
-            if results["anomalies_detected"] > 0:
-                logger.info(f"Analytics pattern detection: Found {len(results['patterns'])} anomalies")
-            
-            # Run segment integrity check
-            integrity = segment_monitor.check_segment_integrity()
-            if len(integrity["integrity_threats"]) > 0:
-                logger.warning(f"Segment integrity threat: {integrity['integrity_threats']}")
-                
+            if isinstance(results, dict) and results.get("anomalies_detected", 0) > 0:
+                logger.info(
+                    "Analytics pattern detection: %d anomalies",
+                    len(results.get("patterns", []) or []),
+                )
         except Exception as e:
-            logger.error(f"Analytics worker error: {e}")
-        time.sleep(30) # Run every 30 seconds
+            # Log once at error, then suppress — noisy loop otherwise
+            if not _warned["analyze"]:
+                logger.warning("Analytics pattern detection disabled: %s", e)
+                _warned["analyze"] = True
+
+        try:
+            integrity = segment_monitor.check_segment_integrity()
+            threats = integrity.get("integrity_threats", []) if isinstance(integrity, dict) else []
+            if threats:
+                logger.warning("Segment integrity threat: %s", threats)
+        except Exception as e:
+            if not _warned["segment"]:
+                logger.warning("Segment integrity check disabled: %s", e)
+                _warned["segment"] = True
+
+        time.sleep(30)
 
 def _ensure_analytics_worker():
     global _analytics_worker_started
@@ -1111,15 +1154,24 @@ def list_reports():
         return _reports_cache
 
 @app.get("/reports/{report_id}", dependencies=[Depends(verify_api_key)])
-def get_report(report_id: str):
-    """Retrieve content of a specific report."""
-    report_path = os.path.join(IDSConfig.REPORTS_DIR, report_id)
-    if not os.path.exists(report_path) or not report_id.endswith(".md"):
+async def get_report(report_id: str):
+    """Retrieve content of a specific report (async so it doesn't compete with
+    slow workflow endpoints for the sync thread pool)."""
+    import anyio
+
+    if not report_id.endswith(".md"):
         raise HTTPException(status_code=404, detail="Report not found")
-    
-    with open(report_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+    report_path = os.path.join(IDSConfig.REPORTS_DIR, report_id)
+
+    def _read() -> Optional[str]:
+        if not os.path.exists(report_path):
+            return None
+        with open(report_path, 'r', encoding='utf-8') as f:
+            return f.read()
+
+    content = await anyio.to_thread.run_sync(_read)
+    if content is None:
+        raise HTTPException(status_code=404, detail="Report not found")
     return {"id": report_id, "content": content}
 
 @app.get("/events", dependencies=[Depends(verify_api_key)])
@@ -1133,14 +1185,10 @@ async def events_stream(x_api_key: Optional[str] = Query(None), request: Request
     """
     Server-Sent Events stream of dashboard state.
 
-    Emits a JSON payload every IDS_SSE_INTERVAL_SEC seconds containing:
-      - events: list(live_events)
-      - stats:  get_stats() shape
-      - sandbox: dashboard_ui_state()
-      - timeseries: last 30 min bucketed
-
-    API key is read from the `x_api_key` query string because EventSource
-    cannot set custom headers in the browser.
+    Emits a JSON payload every IDS_SSE_INTERVAL_SEC seconds. Streams
+    self-terminate after IDS_SSE_MAX_LIFETIME_SEC so half-dead connections
+    that browsers don't properly close get cleaned up — otherwise uvicorn's
+    connection pool accumulates CloseWait sockets and eventually saturates.
     """
     import asyncio
     from starlette.responses import StreamingResponse
@@ -1149,37 +1197,89 @@ async def events_stream(x_api_key: Optional[str] = Query(None), request: Request
         raise HTTPException(status_code=403, detail="Could not validate credentials")
 
     interval = float(os.getenv("IDS_SSE_INTERVAL_SEC", "2"))
+    max_lifetime = float(os.getenv("IDS_SSE_MAX_LIFETIME_SEC", "300"))  # 5 minutes
+    reports_every_n = int(os.getenv("IDS_SSE_REPORTS_EVERY_N", "5"))  # expensive — throttle
+
+    async def _is_disconnected() -> bool:
+        if request is None:
+            return False
+        try:
+            return await request.is_disconnected()
+        except Exception:
+            return True
+
+    import anyio
+
+    def _build_payload_sync(fetch_reports: bool, cached_reports: list) -> dict:
+        """All sync work for one SSE tick. Runs in a worker thread so the
+        event loop stays responsive under file I/O / directory scans."""
+        try:
+            sandbox_state = get_auto_soc().sandbox.dashboard_ui_state()
+        except Exception:
+            sandbox_state = {"blocked_ips": [], "firewall_rules": [], "rate_limited_hosts": [], "total_actions": 0}
+        try:
+            remediation_logs = get_remediation_logs()
+        except Exception:
+            remediation_logs = []
+        if fetch_reports:
+            try:
+                cached_reports = list_reports()
+            except Exception:
+                cached_reports = cached_reports or []
+        return {
+            "events": list(live_events),
+            "stats": get_stats(),
+            "sandbox": sandbox_state,
+            "timeseries": get_events_timeseries(1800, 6),
+            "remediation_logs": remediation_logs,
+            "reports": cached_reports,
+            "ts": datetime.now().isoformat(),
+        }
 
     async def gen():
         import json as _json
-        while True:
-            if request is not None and await request.is_disconnected():
-                break
-            try:
-                sandbox_state = get_auto_soc().sandbox.dashboard_ui_state()
-            except Exception:
-                sandbox_state = {"blocked_ips": [], "firewall_rules": [], "rate_limited_hosts": [], "total_actions": 0}
-            try:
-                remediation_logs = get_remediation_logs()
-            except Exception:
-                remediation_logs = []
-            try:
-                reports = list_reports()
-            except Exception:
-                reports = []
-            payload = {
-                "events": list(live_events),
-                "stats": get_stats(),
-                "sandbox": sandbox_state,
-                "timeseries": get_events_timeseries(1800, 6),
-                "remediation_logs": remediation_logs,
-                "reports": reports,
-                "ts": datetime.now().isoformat(),
-            }
-            yield f"data: {_json.dumps(payload)}\n\n"
-            await asyncio.sleep(interval)
+        start = time.monotonic()
+        tick = 0
+        cached_reports: list = []
+        try:
+            while True:
+                if await _is_disconnected():
+                    break
+                if time.monotonic() - start > max_lifetime:
+                    yield f"event: close\ndata: lifetime_expired\n\n"
+                    break
 
-    return StreamingResponse(gen(), media_type="text/event-stream")
+                # Sync work goes to a worker thread — never block the event loop
+                fetch_reports = (tick % reports_every_n == 0)
+                payload = await anyio.to_thread.run_sync(
+                    _build_payload_sync, fetch_reports, cached_reports
+                )
+                cached_reports = payload["reports"]
+                tick += 1
+
+                yield f"data: {_json.dumps(payload)}\n\n"
+
+                slept = 0.0
+                while slept < interval:
+                    step = min(0.5, interval - slept)
+                    await asyncio.sleep(step)
+                    slept += step
+                    if await _is_disconnected():
+                        return
+        except (asyncio.CancelledError, GeneratorExit):
+            return
+        except Exception as exc:
+            logger.warning("SSE stream terminated: %s: %s", type(exc).__name__, exc)
+            return
+
+    return StreamingResponse(
+        gen(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",  # disable nginx/proxy buffering if present
+        },
+    )
 
 @app.post("/events/add", dependencies=[Depends(verify_api_key)])
 def add_event(event: LiveEvent):
@@ -1336,23 +1436,39 @@ async def soc_auto_rules(request: Request, payload: AutoRuleRequest):
         raise HTTPException(status_code=500, detail=str(exc))
 
 
+_sandbox_cache: Dict[str, Any] = {"ts": 0.0, "payload": None}
+_sandbox_cache_lock = Lock()
+_SANDBOX_CACHE_TTL = float(os.getenv("IDS_SANDBOX_CACHE_TTL_SEC", "3"))
+
+
 @app.get("/sandbox/state", dependencies=[Depends(verify_api_key)])
 def get_sandbox_state():
     """
-    Return the current DefensiveActionSandbox enforcement state:
-    blocked IPs, rate limits, isolated hosts, firewall rules, etc.
+    Return the current DefensiveActionSandbox enforcement state.
 
-    Merges summarized counters with dashboard_ui_state() so the React
-    SandboxStatePanel receives arrays (blocked_ips, firewall_rules, rate_limited_hosts).
+    Merges summarized counters with dashboard_ui_state(). Cached for
+    IDS_SANDBOX_CACHE_TTL_SEC because load_state() opens the SQLite sandbox DB
+    with many queries and gets throttled under heavy write contention from
+    live-capture workflows (many flows/sec each triggering sandbox writes).
     """
-    try:
-        generator = get_auto_soc()
-        summary = generator.sandbox.list_active_rules()
-        ui = generator.sandbox.dashboard_ui_state()
-        return {**summary, **ui}
-    except Exception as exc:
-        logger.error("[sandbox/state] Error: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+    now = time.monotonic()
+    if _sandbox_cache["payload"] is not None and now - _sandbox_cache["ts"] < _SANDBOX_CACHE_TTL:
+        return _sandbox_cache["payload"]
+    with _sandbox_cache_lock:
+        now = time.monotonic()
+        if _sandbox_cache["payload"] is not None and now - _sandbox_cache["ts"] < _SANDBOX_CACHE_TTL:
+            return _sandbox_cache["payload"]
+        try:
+            generator = get_auto_soc()
+            summary = generator.sandbox.list_active_rules()
+            ui = generator.sandbox.dashboard_ui_state()
+            payload = {**summary, **ui}
+            _sandbox_cache["payload"] = payload
+            _sandbox_cache["ts"] = now
+            return payload
+        except Exception as exc:
+            logger.error("[sandbox/state] Error: %s", exc)
+            raise HTTPException(status_code=500, detail=str(exc))
 
 
 @app.post("/sandbox/clear", dependencies=[Depends(verify_admin_api_key)])

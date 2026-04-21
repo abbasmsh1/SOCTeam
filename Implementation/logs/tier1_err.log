@@ -1,36 +1,4 @@
-INFO:     Started server process [24800]
+INFO:     Started server process [16828]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6051 (Press CTRL+C to quit)
-2026-04-20 12:36:19,525 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
-2026-04-20 12:36:19,527 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
-2026-04-20 12:36:19,527 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
-E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
-https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
-  warnings.warn(
-E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
-https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
-  warnings.warn(
-2026-04-20 12:36:19,562 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
-2026-04-20 12:36:19,565 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cpu
-2026-04-20 12:36:19,565 - AgentServer - INFO - tier1 agent initialized.
-2026-04-20 12:36:19,744 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 66.45.81.53
-2026-04-20 12:36:37,606 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:36:43,760 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-20 12:37:00,080 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-20 12:37:22,740 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:37:22,825 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-20 12:37:22,825 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-20 12:37:25,150 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:37:33,352 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
-2026-04-20 12:38:07,100 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:38:12,218 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-20 12:38:12,220 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-20 12:38:15,824 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:38:15,930 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-20 12:38:15,931 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-20 12:38:18,434 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:38:24,449 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.2
-2026-04-20 12:39:10,004 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
-2026-04-20 12:39:18,006 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
-2026-04-20 12:39:34,639 - httpx - INFO - HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"

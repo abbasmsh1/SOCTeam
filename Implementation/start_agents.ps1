@@ -1,4 +1,4 @@
-$env:PYTHONPATH = "E:\IMT\2nd Sem\Project"
+﻿$env:PYTHONPATH = "E:\IMT\2nd Sem\Project"
 
 # Load API key from .env
 $envFile = Join-Path $PSScriptRoot ".env"

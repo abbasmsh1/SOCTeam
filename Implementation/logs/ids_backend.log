@@ -1,496 +1,1717 @@
-2026-04-20 12:34:40 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54977 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54977 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58756 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57448 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53525 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58552 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56678 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53335 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:52213 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59448 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58209 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59450 - "GET / HTTP/1.1" 200 OK
-2026-04-20 12:36:04 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:59456 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59457 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59458 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-20 12:36:04 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-
-SOCWorkflow: Processing alert for Infilteration
-2026-04-20 12:36:04 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
-2026-04-20 12:36:04 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:36:37 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
-DEBUG: Tier 1 Complete. Severity: Medium
-DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-20 12:36:40 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:36:40 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
-2026-04-20 12:36:42 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123642_249920.md
-INFO:     127.0.0.1:59459 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-INFO:     127.0.0.1:59478 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58964 - "GET /sandbox/state HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-20 12:36:43 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
-DEBUG: Tier 1 Complete. Severity: High
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
-2026-04-20 12:37:22 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
-DEBUG: Tier 1 Complete. Severity: High
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
-INFO:     127.0.0.1:59480 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
-2026-04-20 12:37:25 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63947 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:54690 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:51675 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63951 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63952 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63953 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Analysis
-2026-04-20 12:37:32 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
-2026-04-20 12:37:32 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:38:04 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
-2026-04-20 12:38:07 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
-DEBUG: Tier 1 Complete. Severity: Medium
-DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-20 12:38:08 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:38:08 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
-2026-04-20 12:38:09 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123808_497920.md
-INFO:     127.0.0.1:63954 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-2026-04-20 12:38:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63996 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-20 12:38:11 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-INFO:     127.0.0.1:63998 - "POST /predict/ HTTP/1.1" 200 OK
-2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
-DEBUG: Executing Tier 1 Node...
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for DDoS
-2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
-2026-04-20 12:38:12 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
-DEBUG: Tier 1 Complete. Severity: High
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
-2026-04-20 12:38:15 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
-2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
-DEBUG: Tier 1 Complete. Severity: High
-2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
-2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
-2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
-2026-04-20 12:38:18 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
-INFO:     127.0.0.1:63999 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64007 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64009 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Shellcode
-2026-04-20 12:38:24 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Shellcode
-2026-04-20 12:38:24 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:38:34 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
-2026-04-20 12:38:34 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
-2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
-2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
-2026-04-20 12:38:36 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123836_498560.md
-2026-04-20 12:38:52 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
-2026-04-20 12:38:55 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
-2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
-2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
-2026-04-20 12:38:57 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123857_219264.md
-2026-04-20 12:39:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
-DEBUG: Tier 1 Complete. Severity: Medium
-DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
-2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123912_246144.md
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64010 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-2026-04-20 12:39:12 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49893 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59470 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49895 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58749 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
-2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
-2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
-2026-04-20 12:39:16 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123916_246336.md
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56875 - "POST /predict/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59755 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59307 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59755 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51675 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59307 - "OPTIONS /events HTTP/1.1" 200 OK
-
-SOCWorkflow: Processing alert for Generic
-2026-04-20 12:39:17 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
-2026-04-20 12:39:17 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-20 12:39:19 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
-2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
-2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
-2026-04-20 12:39:21 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123921_224832.md
-2026-04-20 12:39:34 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
-DEBUG: Tier 1 Complete. Severity: Medium
-DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
-DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
-2026-04-20 12:39:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260420_123936_224832.md
-INFO:     127.0.0.1:63155 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59310 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64853 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63155 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55932 - "POST /sandbox/clear HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54690 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64853 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:64853 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57266 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "OPTIONS /reports/SOC_Report_20260420_123857_219264.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58954 - "OPTIONS /reports/SOC_Report_20260420_123857_219264.md HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
-INFO:     127.0.0.1:58954 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+2026-04-21 16:27:09 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+INFO:     127.0.0.1:57388 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57122 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53718 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53718 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57388 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57122 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54243 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54243 - "POST /start-live-capture HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54243 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57122 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 26
+Garbage Collection Finished. Flows = 0
+2026-04-21 16:27:37 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+Garbage Collection Began. Flows = 17
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 24
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 27
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:54242 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54242 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+Garbage Collection Began. Flows = 22
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 17
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 17
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 90
+INFO:     127.0.0.1:50526 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55797 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58160 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55797 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+Garbage Collection Began. Flows = 35
+Garbage Collection Began. Flows = 33
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 19
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 35
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55327 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55327 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64710 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64710 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55327 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64710 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 53
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51777 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64710 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55327 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51777 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51777 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 36
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53118 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57134 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53118 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57134 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53118 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57134 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60131 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64739 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64739 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60131 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 25
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 22
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55662 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50753 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55662 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50753 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60281 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60281 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 33
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52835 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52835 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59130 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57994 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60281 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57994 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49822 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57827 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57827 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57827 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 47
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57827 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49822 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57827 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61270 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60777 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61270 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60777 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56003 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56003 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56003 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56003 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 27
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56003 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56003 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50160 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50160 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56003 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57817 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60302 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60302 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60302 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57817 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /quarantine HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 37
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57927 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 29
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57394 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57927 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 24
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 19
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59047 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55399 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 22
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55594 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51471 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 28
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55952 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62253 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55952 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62253 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 17
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 16
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 16
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:51379 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51379 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 32
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52809 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49709 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57606 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57606 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57974 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49709 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57974 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57974 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:60829 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57974 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60829 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49709 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57974 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60829 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49709 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57974 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57974 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57974 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 22
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 27
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55339 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61830 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61830 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61830 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55339 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61830 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64412 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64412 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 21
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:61397 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64412 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61397 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56955 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56955 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56955 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /quarantine HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 18
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52570 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53341 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64880 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 19
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64880 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55822 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55822 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55822 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55822 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52000 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52000 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 21
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62256 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62256 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62256 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 19
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:62256 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62256 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64586 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:53609 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53609 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53381 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52435 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 16
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52435 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59066 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52435 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59066 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:52435 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52435 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65245 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65245 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 15
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:65245 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65245 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59668 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55585 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 27
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:59668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59668 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59668 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59668 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56746 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55585 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:59668 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50526 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56746 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50526 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56746 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50526 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56746 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "GET /quarantine HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 28
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63433 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64287 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55967 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55967 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64559 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51701 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51701 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51701 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51701 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51701 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /quarantine HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51701 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64559 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51701 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64559 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "OPTIONS /sandbox/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /sandbox/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64559 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64559 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62906 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "OPTIONS /reports/SOC_Report_20260421_121250_201472.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "OPTIONS /reports/SOC_Report_20260421_121250_201472.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /reports/SOC_Report_20260421_121250_201472.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /reports/SOC_Report_20260421_121250_201472.md HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 27
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62906 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 28
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51045 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54031 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54031 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51045 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:54031 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:51045 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "GET /remediation/logs HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 23
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:63231 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63717 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:61447 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63231 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63868 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63717 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63717 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63868 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 24
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55596 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 60
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62075 - "GET /capture-status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62076 - "GET /events/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55990 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56726 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49780 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56040 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49780 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56726 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62077 - "GET /blocked-ips HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55990 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55596 - "POST /soc/auto-rules HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62078 - "GET /reports HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55596 - "GET /events HTTP/1.1" 200 OK

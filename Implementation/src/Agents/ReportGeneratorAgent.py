@@ -227,11 +227,46 @@ class ReportGeneratorAgent:
         if hexstrike:
             analysis = hexstrike.get("analysis", {}) if isinstance(hexstrike, dict) else {}
             reputation = hexstrike.get("reputation", {}) if isinstance(hexstrike, dict) else {}
-            recommended = analysis.get("recommended_tools_outputs", analysis.get("recommended_tools", "N/A")) if isinstance(analysis, dict) else "N/A"
-            open_services = analysis.get("open_services", analysis.get("services", analysis.get("ports", "N/A"))) if isinstance(analysis, dict) else "N/A"
-            port_scan = analysis.get("port_scan_results", analysis.get("scan_results", analysis.get("nmap", "N/A"))) if isinstance(analysis, dict) else "N/A"
-            rep_score = reputation.get("score", reputation.get("reputation_score", "N/A")) if isinstance(reputation, dict) else "N/A"
-            abuse = reputation.get("abuse_category", reputation.get("category", "N/A")) if isinstance(reputation, dict) else "N/A"
+            target_profile = analysis.get("target_profile", {}) if isinstance(analysis, dict) else {}
+            # HexStrike's /api/intelligence/analyze-target returns the AI
+            # intelligence_report text but an empty target_profile unless
+            # actual tools were also run. Surface the report text so the
+            # highlights aren't all "N/A" for private/unreachable targets.
+            intelligence_report = analysis.get("intelligence_report") if isinstance(analysis, dict) else None
+            recommended = (
+                analysis.get("recommended_tools_outputs")
+                or analysis.get("recommended_tools")
+                or target_profile.get("technologies")
+                or "N/A"
+            ) if isinstance(analysis, dict) else "N/A"
+            open_services = (
+                analysis.get("open_services")
+                or target_profile.get("services")
+                or target_profile.get("open_ports")
+                or "N/A"
+            ) if isinstance(analysis, dict) else "N/A"
+            port_scan = (
+                analysis.get("port_scan_results")
+                or analysis.get("scan_results")
+                or analysis.get("nmap")
+                or target_profile.get("open_ports")
+                or "N/A"
+            ) if isinstance(analysis, dict) else "N/A"
+            rep_score = (
+                reputation.get("score")
+                if reputation.get("score") is not None
+                else reputation.get("reputation_score", reputation.get("abuse_score", "N/A"))
+            ) if isinstance(reputation, dict) else "N/A"
+            threat_types = reputation.get("threat_types") if isinstance(reputation, dict) else None
+            abuse = (
+                reputation.get("abuse_category")
+                or reputation.get("category")
+                or (", ".join(threat_types) if threat_types else None)
+                or "N/A"
+            ) if isinstance(reputation, dict) else "N/A"
+            country = reputation.get("country", "N/A") if isinstance(reputation, dict) else "N/A"
+            risk_level = target_profile.get("risk_level", "N/A")
+            attack_surface = target_profile.get("attack_surface_score", "N/A")
 
             md.append("\n## HexStrike Forensic Intelligence")
             md.append("Structured enrichment (avoids `[object Object]` stringification):\n")
@@ -239,21 +274,50 @@ class ReportGeneratorAgent:
             md.append("\n**Highlights:**")
             md.append(f"- **Port scan / scan summary:** `{json.dumps(port_scan, default=str)[:2000]}`")
             md.append(f"- **IP reputation score:** `{rep_score}`")
-            md.append(f"- **Abuse category:** `{abuse}`")
+            md.append(f"- **Abuse category / threat types:** `{abuse}`")
+            md.append(f"- **Country:** `{country}`")
+            md.append(f"- **Risk level:** `{risk_level}` (attack-surface score `{attack_surface}`)")
             md.append(f"- **Open services / ports:** `{json.dumps(open_services, default=str)[:2000]}`")
             md.append(f"- **Recommended tool outputs:** `{json.dumps(recommended, default=str)[:2000]}`")
 
+            # Surface the AI intelligence narrative — it has real analysis
+            # content even when the structured scan outputs are empty (private
+            # IPs, unreachable targets, or when only the AI endpoint was hit).
+            if intelligence_report and str(intelligence_report).strip():
+                md.append("\n**AI intelligence narrative:**\n")
+                narrative = str(intelligence_report).strip()
+                if len(narrative) > 4000:
+                    narrative = narrative[:4000] + "\n\n*... narrative truncated ...*"
+                md.append(narrative)
+
         # War Room Details (if applicable)
         if data.get('war_room_triggered'):
+            def _war_room_section(key: str, inner_key: str, default_msg: str) -> str:
+                """Extract a War Room sub-plan, tolerating dict/string shapes."""
+                block = war_room.get(key) if isinstance(war_room, dict) else None
+                if isinstance(block, dict):
+                    val = block.get(inner_key)
+                    if val:
+                        return str(val)
+                    # Surface other informative keys if available
+                    for alt in ("plan", "report", "content", "message", "error"):
+                        if block.get(alt):
+                            return str(block[alt])
+                    if block:  # non-empty but no known keys
+                        return f"{inner_key} missing; raw payload: {json.dumps(block, default=str)[:800]}"
+                elif isinstance(block, str) and block.strip():
+                    return block
+                return default_msg
+
             md.append("\n## War Room Simulation")
             md.append("### Red Team (Attacker Simulation)")
-            md.append(f"> {war_room.get('red_team_plan', {}).get('attack_plan', 'Simulation data unavailable')}")
-            
+            md.append(f"> {_war_room_section('red_team_plan', 'attack_plan', 'Simulation data unavailable')}")
+
             md.append("\n### Blue Team (Defense Strategy)")
-            md.append(f"> {war_room.get('blue_team_plan', {}).get('defense_plan', 'Defense data unavailable')}")
-            
+            md.append(f"> {_war_room_section('blue_team_plan', 'defense_plan', 'Defense data unavailable')}")
+
             md.append("\n### Purple Team (Outcome & Improvements)")
-            md.append(f"> {war_room.get('purple_team_report', {}).get('analysis_report', 'Report unavailable')}")
+            md.append(f"> {_war_room_section('purple_team_report', 'analysis_report', 'Report unavailable')}")
 
         md.append("\n---")
         md.append("*Generated by Agentic SOC System*")

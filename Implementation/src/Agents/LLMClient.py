@@ -87,10 +87,16 @@ def _build_openai(temperature: float, api_key: Optional[str], callbacks: List[An
 
 
 def _build_ollama(temperature: float, _api_key: Optional[str], callbacks: List[Any]):
+    # Use the modern langchain-ollama package. The legacy path via
+    # langchain_community.chat_models.ChatOllama is deprecated in LangChain 0.3.1
+    # and slated for removal in 1.0.0; we refuse to silently fall back to it.
     try:
         from langchain_ollama import ChatOllama  # type: ignore
-    except ImportError:
-        from langchain_community.chat_models import ChatOllama  # type: ignore
+    except ImportError as exc:
+        raise ImportError(
+            "langchain-ollama is required for LLM_PROVIDER=ollama. "
+            "Install it with: pip install -U langchain-ollama"
+        ) from exc
 
     return ChatOllama(
         model=os.getenv("LLM_MODEL", "llama3.2"),

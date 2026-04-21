@@ -8,15 +8,25 @@ export default function AgentReportPage() {
   const { reportId } = useParams<{ reportId: string }>();
   const [report, setReport] = useState<{ content: string; name?: string; created_at?: string } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchReport = async () => {
       if (!reportId) return;
+      setError(null);
+      setLoading(true);
       try {
         const response = await idsApi.getReportById(reportId);
         setReport(response.data);
-      } catch (error) {
-        console.error('Failed to fetch report:', error);
+      } catch (err: any) {
+        console.error('Failed to fetch report:', err);
+        if (err?.code === 'ECONNABORTED') {
+          setError('Backend timed out while loading this report. Try again or check the backend load.');
+        } else if (err?.response?.status === 404) {
+          setError('Report not found — it may have been deleted or moved.');
+        } else {
+          setError(err?.message ?? 'Failed to load report');
+        }
       } finally {
         setLoading(false);
       }
@@ -65,8 +75,10 @@ export default function AgentReportPage() {
              </div>
            ) : (
              <div className="text-center py-12 text-slate-500">
-               <AlertCircle className="mx-auto mb-4 opacity-20" size={48} />
-               <p>Report content could not be loaded or is empty.</p>
+               <AlertCircle className="mx-auto mb-4 opacity-20 text-malicious" size={48} />
+               <p className="text-malicious font-mono text-sm">
+                 {error ?? 'Report content could not be loaded or is empty.'}
+               </p>
              </div>
            )}
         </div>

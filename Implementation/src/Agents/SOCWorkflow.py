@@ -723,9 +723,19 @@ class SOCWorkflow:
                 final_result["tier3_analysis"] = tier3_result
                 final_result["response_plan"] = tier3_result.get("response_plan", "N/A")
                 
-                if triggered_war_room and war_room_result:
-                    final_result["war_room_analysis"] = war_room_result
-                    final_result["purple_team_report"] = war_room_result.get("purple_team_report", {}).get("analysis_report", "N/A")
+                # Always surface war_room_analysis when the War Room was
+                # triggered — even if the simulation returned an empty/partial
+                # result — so the report generator can render a useful fallback
+                # instead of "Simulation data unavailable".
+                if triggered_war_room:
+                    final_result["war_room_analysis"] = war_room_result or {
+                        "red_team_plan": {"attack_plan": "War Room was triggered but the simulation returned no data."},
+                        "blue_team_plan": {"defense_plan": "War Room was triggered but the simulation returned no data."},
+                        "purple_team_report": {"analysis_report": "War Room was triggered but the simulation returned no data."},
+                    }
+                    final_result["purple_team_report"] = (
+                        (war_room_result or {}).get("purple_team_report", {}).get("analysis_report", "N/A")
+                    )
             
             # Add remediation to results if it ran
             if remediation_result:

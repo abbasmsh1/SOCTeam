@@ -1,12 +1,28 @@
 {
-  "blocked_ips": {},
+  "blocked_ips": {
+    "198.51.100.55": {
+      "duration": "permanent",
+      "reason": "Analyst DENY decision for unknown",
+      "added_at": "2026-04-20T12:13:14.867026"
+    },
+    "192.168.1.31": {
+      "duration": "1h",
+      "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+      "added_at": "2026-04-20T17:35:38.274407"
+    },
+    "175.45.176.1": {
+      "duration": "1h",
+      "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+      "added_at": "2026-04-21T09:54:54.445258"
+    }
+  },
   "blocked_subnets": {},
   "isolation_network": {},
   "rate_limits": {},
   "isolated_hosts": {},
-  "pending_enrichment": 0,
-  "pending_siem_tuning": 0,
+  "pending_enrichment": 10,
+  "pending_siem_tuning": 2,
   "threat_escalations": 0,
-  "history_count": 23,
-  "firewall_rules_count": 2
+  "history_count": 100,
+  "firewall_rules_count": 10
 }
