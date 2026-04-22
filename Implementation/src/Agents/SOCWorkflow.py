@@ -922,8 +922,35 @@ class SOCWorkflow:
             state = self._finalize_node(state)
             report_path = state.get("final_result", {}).get("report_path", "")
             logger.info("Background SOC pipeline complete. Report: %s", report_path)
-        except Exception:
+        except Exception as exc:
             logger.exception("Background SOC Tier 2+ pipeline failed")
+            # Flip the RL row so it doesn't linger as 'pending' when the
+            # background pipeline crashes before reaching _finalize_node.
+            self._rl_mark_workflow_failed(state.get("alert_data") or {}, str(exc)[:200])
+
+    def _rl_mark_workflow_failed(self, alert_data: Dict[str, Any], reason: str) -> None:
+        """
+        Flip the RL row to WORKFLOW_FAILED so it doesn't linger as 'pending'.
+        Safe to call from any exception handler — never throws.
+        """
+        try:
+            rl_alert_id = (alert_data or {}).get("rl_alert_id")
+            if not rl_alert_id:
+                return
+            predicted_label = (
+                (alert_data or {}).get("predicted_label")
+                or (alert_data or {}).get("Attack")
+                or ""
+            )
+            from Implementation.src.IDS.rl import FeedbackHook
+            FeedbackHook.instance().on_workflow_finalize(
+                alert_id=rl_alert_id,
+                predicted_label=predicted_label,
+                workflow_failed=True,
+                failure_reason=reason,
+            )
+        except Exception as exc:
+            logger.debug("RL failure hook swallowed: %s", exc)
 
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -1004,6 +1031,8 @@ class SOCWorkflow:
                 
                 return final_result
             except Exception as e:
+                logger.exception("LangGraph workflow failed")
+                self._rl_mark_workflow_failed(input_data.get("alert_data") or {}, str(e)[:200])
                 return {
                     "error": f"Workflow execution failed: {e}",
                     "timestamp": datetime.datetime.utcnow().isoformat()
@@ -1016,47 +1045,55 @@ class SOCWorkflow:
             )
             state = initial_state
 
-            print("DEBUG: Executing Tier 1 Node...")
-            state = self._tier1_node(state)
-            print(f"DEBUG: Tier 1 Complete. Severity: {state.get('tier1_result', {}).get('severity')}")
+            try:
+                print("DEBUG: Executing Tier 1 Node...")
+                state = self._tier1_node(state)
+                print(f"DEBUG: Tier 1 Complete. Severity: {state.get('tier1_result', {}).get('severity')}")
 
-            if self._should_escalate(state) != "escalate":
-                print("DEBUG: Finalizing Workflow (Tier 1 only)...")
+                if self._should_escalate(state) != "escalate":
+                    print("DEBUG: Finalizing Workflow (Tier 1 only)...")
+                    state = self._finalize_node(state)
+                    final_result = state.get("final_result", {})
+                    if "forensic_status" not in final_result:
+                        final_result["forensic_status"] = state.get("forensic_status", "IDLE")
+                    return final_result
+
+                if _TIER2_BACKGROUND:
+                    worker_state = self._shallow_state_for_background(state)
+                    self.executor.submit(self._background_tier2_pipeline, worker_state)
+                    logger.info("Tier 2+ scheduled on background thread (executor)")
+                    return self._immediate_result_tier1_escalation(state)
+
+                future = state.get("forensic_future")
+                if future:
+                    try:
+                        logger.info("Waiting for deep forensics to complete before Tier 2 analysis...")
+                        state["hexstrike_enrichment"] = future.result(timeout=60)
+                    except Exception as e:
+                        logger.error("Forensic thread failed/timed out: %s", e)
+                        state["hexstrike_enrichment"] = {"error": str(e)}
+
+                print("DEBUG: Escalating to Tier 2 (blocking)...")
+                state = self._tier2_node(state)
+                print("DEBUG: Tier 2 Complete.")
+
+                if self._should_escalate_to_tier3(state) == "escalate_tier3":
+                    state = self._tier3_node(state)
+                    if self._should_trigger_war_room(state) == "trigger_war_room":
+                        state = self._war_room_node(state)
+                    if state.get("tier3_result") or state.get("war_room_result"):
+                        print("DEBUG: Executing Remediation Node...")
+                        state = self._remediation_node(state)
+
+                print("DEBUG: Finalizing Workflow...")
                 state = self._finalize_node(state)
-                final_result = state.get("final_result", {})
-                if "forensic_status" not in final_result:
-                    final_result["forensic_status"] = state.get("forensic_status", "IDLE")
-                return final_result
-
-            if _TIER2_BACKGROUND:
-                worker_state = self._shallow_state_for_background(state)
-                self.executor.submit(self._background_tier2_pipeline, worker_state)
-                logger.info("Tier 2+ scheduled on background thread (executor)")
-                return self._immediate_result_tier1_escalation(state)
-
-            future = state.get("forensic_future")
-            if future:
-                try:
-                    logger.info("Waiting for deep forensics to complete before Tier 2 analysis...")
-                    state["hexstrike_enrichment"] = future.result(timeout=60)
-                except Exception as e:
-                    logger.error("Forensic thread failed/timed out: %s", e)
-                    state["hexstrike_enrichment"] = {"error": str(e)}
-
-            print("DEBUG: Escalating to Tier 2 (blocking)...")
-            state = self._tier2_node(state)
-            print("DEBUG: Tier 2 Complete.")
-
-            if self._should_escalate_to_tier3(state) == "escalate_tier3":
-                state = self._tier3_node(state)
-                if self._should_trigger_war_room(state) == "trigger_war_room":
-                    state = self._war_room_node(state)
-                if state.get("tier3_result") or state.get("war_room_result"):
-                    print("DEBUG: Executing Remediation Node...")
-                    state = self._remediation_node(state)
-
-            print("DEBUG: Finalizing Workflow...")
-            state = self._finalize_node(state)
+            except Exception as exc:
+                logger.exception("Direct-mode workflow failed")
+                self._rl_mark_workflow_failed(state.get("alert_data") or {}, str(exc)[:200])
+                return {
+                    "error": f"Workflow execution failed: {exc}",
+                    "timestamp": datetime.datetime.utcnow().isoformat(),
+                }
             print("DEBUG: Finalize Complete.")
 
             final_result = state.get("final_result", {})
@@ -1076,42 +1113,129 @@ class SOCWorkflow:
         return self.process({"alert_data": alert_data})
 
     def _execute_forensic_background(self, alert_data: Dict[str, Any], force_forensics: bool = False) -> Optional[Any]:
-        """Helper to spawn background forensic threads."""
+        """
+        Spawn the background forensic thread when the alert meets the severity
+        gate. Two knobs relax the default, both via env var:
+          - FORCE_FORENSICS=true             — always run forensics
+          - IDS_FORENSIC_MIN_SEVERITY=medium — lower floor (default: medium)
+        """
         if os.getenv("FORCE_FORENSICS", "").lower() in ("1", "true", "yes"):
             force_forensics = True
         src_ip = FlowHistoryManager.resolve_src_ip(alert_data)
-        if force_forensics or self._is_external_ip(src_ip):
-            severity = str(alert_data.get("Priority", alert_data.get("severity", "low"))).lower()
-            if force_forensics or severity in ["high", "critical"] or "ddos" in str(alert_data).lower():
-                logger.info("Spawning background forensic thread for %s", src_ip)
-                return self.executor.submit(self._fetch_forensics, src_ip)
+        if not (force_forensics or self._is_scannable_ip(src_ip)):
+            return None
+
+        severity = str(alert_data.get("Priority", alert_data.get("severity", "low"))).lower()
+        min_sev = os.getenv("IDS_FORENSIC_MIN_SEVERITY", "medium").lower()
+        allowed = {"low", "medium", "high", "critical"}
+        rank = {"low": 0, "medium": 1, "high": 2, "critical": 3}
+        min_rank = rank.get(min_sev, 1)
+        sev_ok = severity in allowed and rank.get(severity, 0) >= min_rank
+        if force_forensics or sev_ok or "ddos" in str(alert_data).lower():
+            logger.info("Spawning background forensic thread for %s (severity=%s, min=%s)",
+                        src_ip, severity, min_sev)
+            return self.executor.submit(self._fetch_forensics, src_ip)
         return None
 
+    def _is_scannable_ip(self, ip: str) -> bool:
+        """
+        Can we target this IP for a forensic scan? Historically we excluded all
+        RFC1918 ranges, which silently disabled forensics for every CSV-fed
+        test case and most lab setups. Now we only block IPs that are literally
+        pointless to scan: loopback, link-local, unspecified. Private RFC1918
+        is allowed (operators usually *do* want to scan their own internal
+        suspicious hosts).
+
+        Set IDS_FORENSIC_EXCLUDE_PRIVATE=true to restore the stricter behaviour.
+        """
+        if not ip or ip == "Unknown":
+            return False
+        try:
+            import ipaddress
+            addr = ipaddress.ip_address(ip)
+            # Always-skip cases
+            if addr.is_loopback or addr.is_link_local or addr.is_unspecified or addr.is_multicast:
+                return False
+            if os.getenv("IDS_FORENSIC_EXCLUDE_PRIVATE", "").lower() in ("1", "true", "yes"):
+                return not addr.is_private
+            return True
+        except ValueError:
+            # Not a valid IP literal (hostname, garbage) — let HexStrike decide
+            return True
+
+    # Back-compat shim — older callers still use _is_external_ip.
     def _is_external_ip(self, ip: str) -> bool:
-        """Standard whitelist check (internal IPs)."""
-        import re
-        private_patterns = [
-            r"^127\.", r"^10\.", r"^192\.168\.", r"^172\.(1[6-9]|2[0-9]|3[0-1])\."
-        ]
-        return not any(re.match(p, ip) for p in private_patterns)
+        return self._is_scannable_ip(ip)
 
     def _fetch_forensics(self, ip: str) -> Dict[str, Any]:
-        """Deep enrichment from HexStrike."""
-        # Note: This runs in a separate thread
+        """Deep enrichment from HexStrike.
+
+        Collects three complementary signals in parallel:
+          - analyze_target : AI decision-engine profile (risk_level, attack_surface_score)
+          - nmap_scan      : actual port-scan + service-version output
+          - check_ip_reputation : AbuseIPDB-backed reputation (country, abuse_score, tor/vpn)
+
+        Runs in a worker thread spawned from _execute_forensic_background.
+        """
         try:
             logger.info("Deep forensics started for %s", ip)
-            # Re-initialize client if url is available - using self.hexstrike_url
             from .HexstrikeClient import HexstrikeClient
             client = HexstrikeClient(base_url=self.hexstrike_url)
-            
-            analysis = client.analyze_target(ip, analysis_type="comprehensive")
-            reputation = client.check_ip_reputation(ip)
-            
+
+            # 1. AI profile — cheap, pure reasoning, always runs
+            try:
+                analysis = client.analyze_target(ip, analysis_type="comprehensive") or {}
+            except Exception as exc:
+                analysis = {"error": f"analyze_target failed: {exc}"}
+
+            # 2. Real nmap scan — quick TCP-connect on a sensible port set.
+            #    -sT works without admin/root on Windows; -Pn skips ping (many
+            #    test hosts don't respond to ping). Output stapled onto the
+            #    analysis dict so ReportGeneratorAgent surfaces it under
+            #    "Port scan / scan summary".
+            try:
+                nmap_ports = os.getenv("IDS_FORENSIC_NMAP_PORTS", "21,22,23,25,53,80,110,139,143,443,445,3389,8080,8443")
+                nmap_flags = os.getenv("IDS_FORENSIC_NMAP_FLAGS", "-sT -sV")
+                scan = client.nmap_scan(ip, scan_type=nmap_flags, ports=nmap_ports) or {}
+                scan_stdout = scan.get("stdout") or scan.get("output") or ""
+                open_lines = [ln for ln in scan_stdout.splitlines() if "/tcp" in ln and "open" in ln]
+                analysis["nmap"] = {
+                    "command_flags": nmap_flags,
+                    "ports_probed": nmap_ports,
+                    "return_code": scan.get("return_code"),
+                    "success": scan.get("success"),
+                    "stdout_tail": scan_stdout[-3000:],   # cap to keep reports bounded
+                    "open_ports_summary": open_lines[:20],
+                    "stderr_tail": (scan.get("stderr") or "")[-400:],
+                }
+                # Denormalise so the report's existing lookup keys resolve
+                if open_lines:
+                    analysis["port_scan_results"] = open_lines
+                    analysis["open_services"] = open_lines
+            except Exception as exc:
+                logger.warning("nmap_scan failed for %s: %s", ip, exc)
+                analysis["nmap"] = {"error": str(exc)}
+
+            # 3. Reputation
+            try:
+                reputation = client.check_ip_reputation(ip) or {}
+            except Exception as exc:
+                reputation = {"error": f"reputation failed: {exc}"}
+
+            # 4. Convenience: the decision engine already names preferred tools;
+            #    copy that into recommended_tools_outputs so the report surfaces
+            #    it even when we haven't executed those tools ourselves.
+            target_profile = analysis.get("target_profile") or {}
+            if isinstance(target_profile, dict):
+                rec = target_profile.get("recommended_tools") or target_profile.get("tools")
+                if rec and not analysis.get("recommended_tools_outputs"):
+                    analysis["recommended_tools_outputs"] = rec
+
             return {
                 "source": "HexStrike-AI (Deep Forensics)",
                 "analysis": analysis,
                 "reputation": reputation,
-                "completed_at": datetime.datetime.utcnow().isoformat()
+                "completed_at": datetime.datetime.utcnow().isoformat(),
             }
         except Exception as e:
             logger.error("HexStrike deep forensics failed: %s", e)

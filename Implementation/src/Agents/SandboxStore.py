@@ -29,6 +29,19 @@ import sqlite3
 import threading
 from typing import Any, Dict, List, Optional
 
+
+def _fw_rule_key(rule: Dict[str, Any]) -> tuple:
+    """Semantic dedup key for a firewall rule. Must match the definition in
+    DefensiveActionSandbox._handle_firewall_rule so load-path and write-path
+    collapse against the same canonical form."""
+    return (
+        str(rule.get("action", "")).upper(),
+        str(rule.get("src_ip", "ANY")).lower(),
+        str(rule.get("dst_ip", "ANY")).lower(),
+        str(rule.get("port", "ANY")),
+        str(rule.get("protocol", "ANY")).upper(),
+    )
+
 _MAP_KINDS = (
     "blocked_ips",
     "blocked_subnets",
@@ -94,6 +107,15 @@ class SandboxStore:
             state[q] = []
         state["history"] = []
 
+        # Dedupe firewall rules on load. Historically we blindly appended on
+        # every auto-rules invocation, producing dozens of semantically identical
+        # rows (action/src_ip/dst_ip/port/protocol all equal). We collapse them
+        # here, keeping the oldest one, summing hit_count, and stamping
+        # last_touched_at from the latest. Persist the collapsed set back so
+        # subsequent saves don't re-bloat the entities table.
+        dedup: Dict[tuple, Dict[str, Any]] = {}
+        redundant_ids: List[str] = []
+
         with self._lock, self._connect() as c:
             for row in c.execute("SELECT kind, id, data FROM entities"):
                 data = json.loads(row["data"])
@@ -101,7 +123,26 @@ class SandboxStore:
                 if kind in _MAP_KINDS:
                     state[kind][row["id"]] = data
                 elif kind == "firewall_rules":
-                    state["firewall_rules"].append(data)
+                    key = _fw_rule_key(data)
+                    if key in dedup:
+                        canonical = dedup[key]
+                        canonical["hit_count"] = int(canonical.get("hit_count", 1)) + int(data.get("hit_count", 1))
+                        # keep the earlier added_at as the canonical, stamp latest on last_touched_at
+                        canonical_added = canonical.get("added_at") or ""
+                        incoming_added = data.get("added_at") or ""
+                        if incoming_added < canonical_added:
+                            # swap — this one is older
+                            canonical["added_at"] = incoming_added
+                            canonical["last_touched_at"] = canonical.get("last_touched_at") or canonical_added
+                        else:
+                            canonical["last_touched_at"] = max(
+                                canonical.get("last_touched_at") or "",
+                                incoming_added,
+                            )
+                        redundant_ids.append(row["id"])
+                    else:
+                        dedup[key] = data
+                        state["firewall_rules"].append(data)
             for q in _QUEUE_KINDS:
                 cur = c.execute(
                     "SELECT data FROM history WHERE kind = ? ORDER BY seq ASC",
@@ -113,6 +154,27 @@ class SandboxStore:
                 ("action",),
             )
             state["history"] = list(reversed([json.loads(r["data"]) for r in cur.fetchall()]))
+
+            # Persist the collapsed rule set if we actually removed anything.
+            # Guarded so a read-only situation (e.g. test DB) degrades silently.
+            if redundant_ids:
+                try:
+                    c.execute("BEGIN")
+                    placeholders = ",".join("?" for _ in redundant_ids)
+                    c.execute(
+                        f"DELETE FROM entities WHERE kind = 'firewall_rules' AND id IN ({placeholders})",
+                        tuple(redundant_ids),
+                    )
+                    # Rewrite the survivors with updated hit_count / last_touched_at
+                    for canonical in dedup.values():
+                        c.execute(
+                            "INSERT OR REPLACE INTO entities(kind, id, data) VALUES('firewall_rules', ?, ?)",
+                            (canonical.get("id", f"rule-{id(canonical)}"), json.dumps(canonical)),
+                        )
+                    c.execute("COMMIT")
+                except Exception:
+                    try: c.execute("ROLLBACK")
+                    except Exception: pass
 
         state["firewall_rules"].sort(key=lambda x: x.get("priority", 100))
         return state

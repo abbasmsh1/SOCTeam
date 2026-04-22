@@ -1,4 +1,4 @@
-INFO:     Started server process [15536]
+INFO:     Started server process [29192]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6053 (Press CTRL+C to quit)
@@ -7,7 +7,5 @@ Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorize
 Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
 Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
 Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [15536]
+Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+Tier3Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}

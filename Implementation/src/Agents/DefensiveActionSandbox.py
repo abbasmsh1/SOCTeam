@@ -23,6 +23,22 @@ except (ImportError, ValueError):
     from SandboxStore import SandboxStore  # type: ignore
 
 
+def _fw_rule_key(rule: Dict[str, Any]) -> tuple:
+    """Canonical semantic key used to dedupe firewall rules.
+
+    Intentionally excludes `id`, `added_at`, `reason`, `hit_count` — those are
+    metadata that shouldn't prevent a "same rule" match. Action and endpoints
+    are upper-cased for case-insensitive comparison.
+    """
+    return (
+        str(rule.get("action", "")).upper(),
+        str(rule.get("src_ip", "ANY")).lower(),
+        str(rule.get("dst_ip", "ANY")).lower(),
+        str(rule.get("port", "ANY")),
+        str(rule.get("protocol", "ANY")).upper(),
+    )
+
+
 class DefensiveActionSandbox:
     """Stateful sandbox for defensive actions against suspicious entities."""
 
@@ -319,10 +335,16 @@ class DefensiveActionSandbox:
         return {"status": "ENFORCED", "effect": "SUBNET_BLOCKED"}
 
     def _handle_firewall_rule(self, rule: Dict[str, Any], threat_info: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
-        """Add a granular firewall rule (Tier 1/2/3)."""
+        """Add a granular firewall rule (Tier 1/2/3).
+
+        Deduplicated on the semantic key (action, src_ip, dst_ip, port, protocol).
+        Hitting an already-existing rule refreshes its last_touched_at and bumps
+        hit_count rather than inserting another copy — without this, every
+        repeated malicious flow from the same IP dropped a fresh rule-N row.
+        """
         if "firewall_rules" not in state:
             state["firewall_rules"] = []
-        
+
         new_rule = {
             "id": rule.get("id", f"rule-{len(state['firewall_rules']) + 1}"),
             "priority": rule.get("priority", 100),
@@ -333,11 +355,25 @@ class DefensiveActionSandbox:
             "protocol": rule.get("protocol", "ANY"),
             "reason": rule.get("reason", "Custom firewall policy"),
             "added_at": dt.datetime.utcnow().isoformat(),
+            "hit_count": 1,
         }
+        key = _fw_rule_key(new_rule)
+        for existing in state["firewall_rules"]:
+            if _fw_rule_key(existing) == key:
+                existing["hit_count"] = int(existing.get("hit_count", 1)) + 1
+                existing["last_touched_at"] = new_rule["added_at"]
+                # Preserve the lower priority (higher-priority rule wins)
+                existing["priority"] = min(int(existing.get("priority", 100)), int(new_rule["priority"]))
+                return {
+                    "status": "ENFORCED",
+                    "effect": "FIREWALL_RULE_REFRESHED",
+                    "rule_id": existing["id"],
+                    "hit_count": existing["hit_count"],
+                }
+
         state["firewall_rules"].append(new_rule)
-        # Keep rules sorted by priority
         state["firewall_rules"].sort(key=lambda x: x["priority"])
-        
+
         return {"status": "ENFORCED", "effect": "FIREWALL_RULE_ADDED", "rule_id": new_rule["id"]}
 
     def _append_history(self, state: Dict[str, Any], result: Dict[str, Any]) -> None:

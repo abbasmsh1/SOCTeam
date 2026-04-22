@@ -61,9 +61,23 @@ class IPBlockingManager:
     ABUSE_SCORE_HIGH = 50      # High: Investigate before blocking
     ABUSE_SCORE_MEDIUM = 25    # Medium: Monitor/rate limit
     
+    # Canonical critical-attack set. Aliases at the bottom handle ANN label
+    # spellings that don't match the "ideal" form — the ANN emits CIC-IDS
+    # labels verbatim, including "Infilteration" (dataset typo), "Bot"
+    # (shorter than BOTNET), "Exploits" (plural), etc. Without these, ~30% of
+    # non-benign predictions scored too low to enter the RATE_LIMIT band and
+    # never reached PENDING_HUMAN.
     CRITICAL_ATTACK_TYPES = {
-        "DDOS", "BOTNET", "CRYPTOMINING", "RANSOMWARE", 
-        "EXPLOIT", "INFILTRATION", "C2", "APT"
+        "DDOS", "BOTNET", "CRYPTOMINING", "RANSOMWARE",
+        "EXPLOIT", "INFILTRATION", "C2", "APT",
+        # aliases — ANN / CIC-IDS spellings
+        "INFILTERATION",   # CIC-IDS dataset typo (one 't')
+        "BOT",             # short form emitted by the model
+        "EXPLOITS",        # plural
+        "DOS",             # sometimes emitted instead of DDOS
+        "BRUTE FORCE",     # with space
+        "BRUTEFORCE",      # without space
+        "BACKDOOR",        # backdoor traffic
     }
     
     def __init__(

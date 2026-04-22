@@ -1,11 +1,13 @@
-2026-04-22 18:58:53 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
-INFO:     127.0.0.1:26814 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:38788 - "GET /health HTTP/1.1" 200 OK
-2026-04-22 19:02:06 - AgentServer - INFO - Lazy initializing tier3 agent...
-2026-04-22 19:02:09 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-2026-04-22 19:02:22 - AgentServer - INFO - tier3 agent initialized.
-INFO:     127.0.0.1:54251 - "POST /process HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61013 - "POST /process HTTP/1.1" 200 OK
-INFO:     127.0.0.1:26348 - "POST /process HTTP/1.1" 200 OK
-INFO:     127.0.0.1:48312 - "POST /process HTTP/1.1" 200 OK
-INFO:     127.0.0.1:10028 - "POST /process HTTP/1.1" 200 OK
+2026-04-22 22:06:58 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
+INFO:     127.0.0.1:53000 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52574 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 22:10:05 - AgentServer - INFO - Lazy initializing tier3 agent...
+2026-04-22 22:10:07 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 22:10:20 - AgentServer - INFO - tier3 agent initialized.
+INFO:     127.0.0.1:51484 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12377 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46027 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63528 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48089 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3796 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42791 - "POST /process HTTP/1.1" 200 OK

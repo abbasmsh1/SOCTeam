@@ -118,8 +118,12 @@ RATE_LIMIT_SANDBOX_CLEAR = os.getenv("IDS_RATE_LIMIT_SANDBOX_CLEAR", "10/minute"
 # Global Event Queue for Live Monitor
 live_events = deque(maxlen=50)
 
-# Quarantine queue — blocked flows + PENDING_HUMAN cases awaiting analyst decision
+# Quarantine queue — blocked flows + PENDING_HUMAN cases awaiting analyst decision.
+# Persisted to Reports/quarantine_queue.json so backend restarts don't blow away
+# pending-review items (which used to cause "dashboard shows N, /quarantine page
+# shows empty" after any restart).
 quarantine_queue: deque = deque(maxlen=200)
+_quarantine_persist_lock = Lock()
 
 # Live capture state (mutated by /start-live-capture and /stop-live-capture)
 import threading as _threading
@@ -817,6 +821,16 @@ async def _on_startup():
     _ensure_boot_keys()
     asyncio.create_task(_blocklist_sweeper())
 
+    # Hydrate the quarantine queue from disk so pending-human reviews survive
+    # a backend restart (otherwise the dashboard badge goes stale against an
+    # empty in-memory deque).
+    try:
+        n = _load_quarantine_queue()
+        if n:
+            logger.info("Restored %d quarantine queue entries from disk", n)
+    except Exception as exc:
+        logger.warning("quarantine queue hydration failed: %s", exc)
+
     # Keep the local Ollama model resident so LLM-heavy SOC steps don't eat a
     # 10-30s cold-reload every time a burst of alerts lands.
     global _OLLAMA_WARMER
@@ -970,6 +984,46 @@ def _resolve_flow_src_ip(data: dict) -> str:
     )
 
 
+def _quarantine_persist_path() -> str:
+    return os.path.join(IDSConfig.REPORTS_DIR, "quarantine_queue.json")
+
+
+def _save_quarantine_queue() -> None:
+    """Write the full deque to disk. Called on every mutation so restart state is correct.
+
+    JSON serialisation only keeps dict-like entries; raw_flow is bounded by
+    /predict paths so payloads stay small (well under the 200-entry maxlen).
+    """
+    try:
+        with _quarantine_persist_lock:
+            with open(_quarantine_persist_path(), "w", encoding="utf-8") as f:
+                json.dump(list(quarantine_queue), f)
+    except Exception as exc:
+        logger.debug("quarantine queue persist failed: %s", exc)
+
+
+def _load_quarantine_queue() -> int:
+    """Hydrate the in-memory deque from disk at startup. Returns rows loaded."""
+    path = _quarantine_persist_path()
+    if not os.path.exists(path):
+        return 0
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            items = json.load(f)
+    except Exception as exc:
+        logger.warning("quarantine queue load failed: %s", exc)
+        return 0
+    if not isinstance(items, list):
+        return 0
+    # Newest first matches appendleft insertion order on write.
+    with _quarantine_persist_lock:
+        quarantine_queue.clear()
+        for item in items[: quarantine_queue.maxlen or 200]:
+            if isinstance(item, dict):
+                quarantine_queue.append(item)
+    return len(quarantine_queue)
+
+
 def _quarantine_blocked_flow(src_ip: str, data: dict) -> dict:
     """Record a drop for a flow whose source IP is on the active block list."""
     entry = {
@@ -981,6 +1035,7 @@ def _quarantine_blocked_flow(src_ip: str, data: dict) -> dict:
         "raw_flow": data,
     }
     quarantine_queue.appendleft(entry)
+    _save_quarantine_queue()
     return entry
 
 
@@ -1017,6 +1072,7 @@ def _maybe_pending_human(src_ip: str, predicted_label: str, confidence: float, d
         "raw_flow": data,
     }
     quarantine_queue.appendleft(entry)
+    _save_quarantine_queue()
     logger.info("Quarantined PENDING_HUMAN: %s (%s, %.2f)", src_ip, predicted_label, confidence)
     return entry
 
@@ -1801,27 +1857,32 @@ class _RLTrainBody(BaseModel):
     dry_run: bool = False
 
 
-@app.post("/rl/train", dependencies=[Depends(verify_admin_api_key)])
-def rl_trigger_training(body: _RLTrainBody):
+def _run_rl_trainer_subprocess(
+    limit: int = 500,
+    epochs: int = 3,
+    lr: float = 1e-4,
+    dry_run: bool = False,
+    timeout_sec: int = 900,
+) -> Dict[str, Any]:
     """
-    Run the offline fine-tuning loop. Spawns a subprocess so it doesn't block
-    the event loop. Returns the subprocess result as parsed JSON.
+    Shared trainer-subprocess invocation. Used by the /rl/train endpoint and
+    the auto-train watcher so both produce identical output schema.
+
+    Returns a dict with {exit, result, stderr_tail}. On timeout raises
+    subprocess.TimeoutExpired so callers can convert to HTTP 504 if they need.
     """
     import subprocess as _sp
+
     cmd = [
         sys.executable, "-m", "Implementation.src.IDS.rl.trainer",
-        "--limit", str(body.limit),
-        "--epochs", str(body.epochs),
-        "--lr", str(body.lr),
+        "--limit", str(limit),
+        "--epochs", str(epochs),
+        "--lr", str(lr),
     ]
-    if body.dry_run:
+    if dry_run:
         cmd.append("--dry-run")
-    try:
-        proc = _sp.run(
-            cmd, cwd=_BASE_DIR, capture_output=True, text=True, timeout=900,
-        )
-    except _sp.TimeoutExpired:
-        raise HTTPException(status_code=504, detail="RL training subprocess timed out after 15m")
+
+    proc = _sp.run(cmd, cwd=_BASE_DIR, capture_output=True, text=True, timeout=timeout_sec)
     stdout = (proc.stdout or "").strip()
     try:
         parsed = json.loads(stdout.splitlines()[-1]) if stdout else {}
@@ -1832,6 +1893,24 @@ def rl_trigger_training(body: _RLTrainBody):
         "result": parsed,
         "stderr_tail": (proc.stderr or "")[-1500:],
     }
+
+
+@app.post("/rl/train", dependencies=[Depends(verify_admin_api_key)])
+def rl_trigger_training(body: _RLTrainBody):
+    """
+    Run the offline fine-tuning loop. Spawns a subprocess so it doesn't block
+    the event loop. Returns the subprocess result as parsed JSON.
+    """
+    import subprocess as _sp
+    try:
+        return _run_rl_trainer_subprocess(
+            limit=body.limit,
+            epochs=body.epochs,
+            lr=body.lr,
+            dry_run=body.dry_run,
+        )
+    except _sp.TimeoutExpired:
+        raise HTTPException(status_code=504, detail="RL training subprocess timed out after 15m")
 
 
 @app.get("/rl/policy")
@@ -1848,7 +1927,12 @@ def rl_policy_snapshot():
 # reputation signals so the RL buffer doesn't pile up with un-trainable data
 # when no workflow fires and no human touches the quarantine page.
 # ---------------------------------------------------------------------------
-def _run_heuristic_sweep(max_age_days: Optional[int] = 7, max_rows: int = 500) -> Dict[str, Any]:
+def _run_heuristic_sweep(
+    max_age_days: Optional[int] = 7,
+    max_rows: int = 500,
+    use_class_priors: bool = True,
+    min_conf_for_class_prior: float = 0.5,
+) -> Dict[str, Any]:
     """Compose the signals and call FeedbackHook.heuristic_sweep."""
     from Implementation.src.IDS.rl import FeedbackHook
 
@@ -1897,6 +1981,8 @@ def _run_heuristic_sweep(max_age_days: Optional[int] = 7, max_rows: int = 500) -
         reputation_lookup=reputation_lookup,
         max_age_days=max_age_days,
         max_rows=max_rows,
+        use_class_priors=use_class_priors,
+        min_conf_for_class_prior=min_conf_for_class_prior,
     )
     return {
         "status": "ok",
@@ -1907,6 +1993,8 @@ def _run_heuristic_sweep(max_age_days: Optional[int] = 7, max_rows: int = 500) -
             "reputation_enabled": reputation_lookup is not None,
             "max_age_days": max_age_days,
             "max_rows": max_rows,
+            "use_class_priors": use_class_priors,
+            "min_conf_for_class_prior": min_conf_for_class_prior,
         },
     }
 
@@ -1914,16 +2002,29 @@ def _run_heuristic_sweep(max_age_days: Optional[int] = 7, max_rows: int = 500) -
 class _RLSweepBody(BaseModel):
     max_age_days: Optional[int] = 7
     max_rows: int = 500
+    use_class_priors: bool = True
+    min_conf_for_class_prior: float = 0.5
 
 
 @app.post("/rl/sweep", dependencies=[Depends(verify_admin_api_key)])
 def rl_trigger_sweep(body: _RLSweepBody):
     """
-    Auto-label pending RL buffer rows using whitelist/blocklist/reputation
-    heuristics. Returns per-bucket counts of how many rows were re-labeled.
+    Auto-label pending RL buffer rows using the cascade:
+      1. whitelist → false positive
+      2. blocklist → true positive
+      3. AbuseIPDB high score → true positive
+      4. abandoned (old + no signal)
+      5. class-prior (ANN class + confidence only) — default on, small rewards
+
+    Returns per-bucket counts of how many rows were re-labeled.
     """
     try:
-        return _run_heuristic_sweep(max_age_days=body.max_age_days, max_rows=body.max_rows)
+        return _run_heuristic_sweep(
+            max_age_days=body.max_age_days,
+            max_rows=body.max_rows,
+            use_class_priors=body.use_class_priors,
+            min_conf_for_class_prior=body.min_conf_for_class_prior,
+        )
     except Exception as exc:
         logger.error("[/rl/sweep] failed: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
@@ -1952,6 +2053,167 @@ def _rl_sweep_worker() -> None:
 if _RL_SWEEP_SEC > 0:
     _rl_sweep_thread = Thread(target=_rl_sweep_worker, name="rl-heuristic-sweeper", daemon=True)
     _rl_sweep_thread.start()
+
+
+# ---------------------------------------------------------------------------
+# Auto-train trigger — fires RL fine-tuning when labeled-row count crosses a
+# configurable threshold. Opt in with IDS_RL_AUTO_TRAIN_THRESHOLD=500 (default
+# 0 = off). Polls FeedbackHook.stats() every IDS_RL_AUTO_TRAIN_CHECK_SEC
+# seconds (default 60); respects IDS_RL_AUTO_TRAIN_COOLDOWN_SEC (default
+# 1800) so a slow / failing trainer doesn't retrigger continuously.
+# ---------------------------------------------------------------------------
+_RL_AUTO_TRAIN_THRESHOLD = int(os.getenv("IDS_RL_AUTO_TRAIN_THRESHOLD", "0"))
+_RL_AUTO_TRAIN_CHECK_SEC = max(10.0, float(os.getenv("IDS_RL_AUTO_TRAIN_CHECK_SEC", "60")))
+_RL_AUTO_TRAIN_COOLDOWN_SEC = max(120.0, float(os.getenv("IDS_RL_AUTO_TRAIN_COOLDOWN_SEC", "1800")))
+_RL_AUTO_TRAIN_EPOCHS = int(os.getenv("IDS_RL_AUTO_TRAIN_EPOCHS", "3"))
+_RL_AUTO_TRAIN_LIMIT = int(os.getenv("IDS_RL_AUTO_TRAIN_LIMIT", "500"))
+_RL_AUTO_TRAIN_LR = float(os.getenv("IDS_RL_AUTO_TRAIN_LR", "1e-4"))
+
+_auto_train_lock = Lock()
+_auto_train_state: Dict[str, Any] = {
+    "threshold": _RL_AUTO_TRAIN_THRESHOLD,
+    "enabled": _RL_AUTO_TRAIN_THRESHOLD > 0,
+    "is_running": False,
+    "last_run_ts": None,          # ISO timestamp of most recent run
+    "last_run_monotonic": 0.0,    # monotonic clock for cooldown math
+    "last_trigger_count": None,   # labeled count that triggered the run
+    "last_exit": None,            # subprocess exit code
+    "last_result": None,          # parsed trainer output
+    "last_error": None,
+    "total_runs": 0,
+}
+
+
+def _auto_train_should_fire() -> Optional[int]:
+    """Returns the current labeled count if conditions to fire are met, else None.
+
+    Conditions:
+      - Threshold configured (>0)
+      - No concurrent run in progress
+      - Cooldown elapsed since last attempt
+      - labeled >= threshold
+    """
+    if _RL_AUTO_TRAIN_THRESHOLD <= 0:
+        return None
+    if _auto_train_state["is_running"]:
+        return None
+    last_mono = _auto_train_state["last_run_monotonic"] or 0.0
+    if last_mono and (time.monotonic() - last_mono) < _RL_AUTO_TRAIN_COOLDOWN_SEC:
+        return None
+
+    try:
+        from Implementation.src.IDS.rl import FeedbackHook
+        stats = FeedbackHook.instance().stats()
+        labeled = int((stats.get("by_status") or {}).get("labeled") or 0)
+    except Exception as exc:
+        logger.debug("auto-train: stats read failed: %s", exc)
+        return None
+
+    if labeled >= _RL_AUTO_TRAIN_THRESHOLD:
+        return labeled
+    return None
+
+
+def _auto_train_run(trigger_count: int) -> None:
+    """Execute one training subprocess call; safe to invoke from a worker thread."""
+    import subprocess as _sp
+
+    with _auto_train_lock:
+        if _auto_train_state["is_running"]:
+            return
+        _auto_train_state["is_running"] = True
+        _auto_train_state["last_trigger_count"] = trigger_count
+        _auto_train_state["last_error"] = None
+
+    started = datetime.now()
+    logger.warning(
+        "[auto-train] Threshold reached (labeled=%d >= %d); starting trainer subprocess",
+        trigger_count, _RL_AUTO_TRAIN_THRESHOLD,
+    )
+    try:
+        out = _run_rl_trainer_subprocess(
+            limit=_RL_AUTO_TRAIN_LIMIT,
+            epochs=_RL_AUTO_TRAIN_EPOCHS,
+            lr=_RL_AUTO_TRAIN_LR,
+            dry_run=False,
+            timeout_sec=1800,  # 30m ceiling for background runs
+        )
+        _auto_train_state["last_exit"] = out.get("exit")
+        _auto_train_state["last_result"] = out.get("result")
+        elapsed = (datetime.now() - started).total_seconds()
+        logger.warning(
+            "[auto-train] Completed in %.1fs  exit=%s  trained=%s",
+            elapsed, out.get("exit"),
+            (out.get("result") or {}).get("trained") if isinstance(out.get("result"), dict) else "?",
+        )
+    except _sp.TimeoutExpired:
+        _auto_train_state["last_error"] = "timeout (>30m)"
+        logger.error("[auto-train] Trainer subprocess timed out after 30m")
+    except Exception as exc:
+        _auto_train_state["last_error"] = str(exc)[:300]
+        logger.exception("[auto-train] Trainer subprocess failed")
+    finally:
+        _auto_train_state["is_running"] = False
+        _auto_train_state["last_run_ts"] = datetime.now().isoformat()
+        _auto_train_state["last_run_monotonic"] = time.monotonic()
+        _auto_train_state["total_runs"] += 1
+
+
+def _auto_train_worker() -> None:
+    """Daemon loop: poll labeled count and fire the trainer when threshold is crossed."""
+    logger.info(
+        "RL auto-train watcher started; threshold=%d  check_interval=%.0fs  cooldown=%.0fs",
+        _RL_AUTO_TRAIN_THRESHOLD, _RL_AUTO_TRAIN_CHECK_SEC, _RL_AUTO_TRAIN_COOLDOWN_SEC,
+    )
+    while True:
+        try:
+            time.sleep(_RL_AUTO_TRAIN_CHECK_SEC)
+            n = _auto_train_should_fire()
+            if n is not None:
+                # Run the trainer in a child thread so the watcher loop keeps
+                # polling and we don't serialise multiple potential triggers.
+                Thread(
+                    target=_auto_train_run,
+                    args=(n,),
+                    name="rl-auto-train-run",
+                    daemon=True,
+                ).start()
+        except Exception as exc:
+            logger.warning("auto-train watcher error (will retry): %s", exc)
+
+
+_rl_auto_train_thread: Optional[Thread] = None
+if _RL_AUTO_TRAIN_THRESHOLD > 0:
+    _rl_auto_train_thread = Thread(target=_auto_train_worker, name="rl-auto-train-watcher", daemon=True)
+    _rl_auto_train_thread.start()
+
+
+@app.get("/rl/auto-train/status")
+def rl_auto_train_status():
+    """Inspect the auto-train watcher state (enabled, last run, threshold, etc.)."""
+    out = dict(_auto_train_state)
+    # enrich with current labeled count and cooldown remaining
+    try:
+        from Implementation.src.IDS.rl import FeedbackHook
+        stats = FeedbackHook.instance().stats()
+        out["current_labeled"] = int((stats.get("by_status") or {}).get("labeled") or 0)
+    except Exception as exc:
+        out["current_labeled_error"] = str(exc)[:200]
+    last_mono = _auto_train_state["last_run_monotonic"] or 0.0
+    if last_mono:
+        remaining = max(0.0, _RL_AUTO_TRAIN_COOLDOWN_SEC - (time.monotonic() - last_mono))
+        out["cooldown_remaining_sec"] = round(remaining, 1)
+    else:
+        out["cooldown_remaining_sec"] = 0.0
+    out["config"] = {
+        "threshold": _RL_AUTO_TRAIN_THRESHOLD,
+        "check_interval_sec": _RL_AUTO_TRAIN_CHECK_SEC,
+        "cooldown_sec": _RL_AUTO_TRAIN_COOLDOWN_SEC,
+        "limit": _RL_AUTO_TRAIN_LIMIT,
+        "epochs": _RL_AUTO_TRAIN_EPOCHS,
+        "lr": _RL_AUTO_TRAIN_LR,
+    }
+    return out
 
 
 # ---------------------------------------------------
@@ -2301,11 +2563,15 @@ def self_ips_refresh():
 # ---------------------------------------------------
 def _pop_quarantine(ip: str) -> Optional[dict]:
     """Remove the most recent quarantine entry for this IP and return it."""
+    found: Optional[dict] = None
     for i, entry in enumerate(list(quarantine_queue)):
         if entry.get("ip") == ip:
             del quarantine_queue[i]
-            return entry
-    return None
+            found = entry
+            break
+    if found is not None:
+        _save_quarantine_queue()
+    return found
 
 
 @app.get("/quarantine", dependencies=[Depends(verify_api_key)])

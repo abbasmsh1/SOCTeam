@@ -199,6 +199,43 @@ class ExperienceBuffer:
             )
             return len(ids)
 
+    # Class-prior table used by heuristic_sweep when no external signal applies.
+    # Each entry is (verdict, reward) where verdict is the agent_label we'll stamp
+    # onto the row and reward is an HONEST magnitude reflecting how confident we
+    # are in the verdict without corroboration. Values are intentionally small so
+    # the trainer doesn't treat these as gold labels. Empty string matches any
+    # label not explicitly listed.
+    CLASS_PRIORS: Dict[str, tuple] = {
+        # high-confidence attack classes → tentative TP, small positive reward
+        "DDOS":             ("DDoS",           0.20),
+        "DOS":              ("DoS",            0.20),
+        "BOT":              ("Bot",            0.20),
+        "BOTNET":           ("Botnet",         0.20),
+        "PORTSCAN":         ("PortScan",       0.15),
+        "BRUTE FORCE":      ("BruteForce",     0.15),
+        "BRUTEFORCE":       ("BruteForce",     0.15),
+        "PASSWORD":         ("BruteForce",     0.15),
+        "EXPLOIT":          ("Exploit",        0.15),
+        "EXPLOITS":         ("Exploit",        0.15),
+        "HEARTBLEED":       ("Heartbleed",     0.20),
+        "XSS":              ("XSS",            0.10),
+        "SQL":              ("SQLi",           0.10),
+        "INJECTION":        ("Injection",      0.10),
+        "INFILTRATION":     ("Infiltration",   0.15),
+        "INFILTERATION":    ("Infiltration",   0.15),
+        "BACKDOOR":         ("Backdoor",       0.15),
+        "WEB ATTACK":       ("WebAttack",      0.10),
+        "LDAP":             ("LDAP",           0.10),
+        "FTP-PATATOR":      ("FTP-BruteForce", 0.15),
+        # ambiguous / recon-ish classes — no directional reward, just clear from pending
+        "FUZZERS":          ("INCONCLUSIVE",   0.0),
+        "ANALYSIS":         ("INCONCLUSIVE",   0.0),
+        "RECONNAISSANCE":   ("INCONCLUSIVE",   0.0),
+        "GENERIC":          ("INCONCLUSIVE",   0.0),
+        "SHELLCODE":        ("INCONCLUSIVE",   0.0),
+        "WORMS":            ("INCONCLUSIVE",   0.0),
+    }
+
     def heuristic_sweep(
         self,
         *,
@@ -207,6 +244,8 @@ class ExperienceBuffer:
         reputation_lookup: Optional[Any] = None,    # callable: ip -> reputation obj w/ .abuse_score
         max_age_days: Optional[int] = None,
         max_rows: int = 500,
+        use_class_priors: bool = True,
+        min_conf_for_class_prior: float = 0.5,
     ) -> Dict[str, int]:
         """
         Auto-label pending rows based on side-signal heuristics — a cheap,
@@ -231,7 +270,17 @@ class ExperienceBuffer:
         reward_wl = -0.4
         reward_bl = 0.4
         reward_rep_high = 0.3
-        counts = {"whitelist_fp": 0, "blocklist_tp": 0, "reputation_tp": 0, "abandoned": 0, "skipped": 0}
+        counts = {
+            "whitelist_fp": 0,
+            "blocklist_tp": 0,
+            "reputation_tp": 0,
+            "abandoned": 0,
+            "class_prior_tp": 0,
+            "class_prior_inconclusive": 0,
+            "class_prior_low_conf_fp": 0,
+            "class_prior_gray_zone": 0,
+            "skipped": 0,
+        }
 
         wl = set(whitelist_ips or [])
         bl = set(blocklist_ips or [])
@@ -312,6 +361,61 @@ class ExperienceBuffer:
                     counts["abandoned"] += 1
                     continue
 
+                # 5. Class-prior labeling (no external signals needed).
+                # Only runs when use_class_priors=True. Uses SMALL rewards to
+                # reflect that these verdicts are educated guesses, not gold.
+                # Skips BENIGN (already auto-labeled on insert) and any label
+                # not in CLASS_PRIORS — those fall through to "skipped".
+                if use_class_priors:
+                    label = str(row["predicted_label"] or "").strip()
+                    conf = float(row["predicted_confidence"] or 0.0)
+                    upper = label.upper()
+                    if upper and upper != "BENIGN":
+                        prior = self.CLASS_PRIORS.get(upper)
+                        # Low-confidence non-benign → likely noise → tentative FP
+                        if conf < 0.3:
+                            c.execute(
+                                "UPDATE experience SET agent_label = ?, is_false_positive = 1, "
+                                "reward = -0.1, status = 'labeled', updated_ts = ?, "
+                                "human_decision = COALESCE(human_decision, 'heuristic_class_prior_low_conf') "
+                                "WHERE id = ?",
+                                (label, now_iso, rid),
+                            )
+                            counts["class_prior_low_conf_fp"] += 1
+                            continue
+                        # Known class, confident enough → tentative TP
+                        if prior and conf >= min_conf_for_class_prior:
+                            verdict, reward = prior
+                            is_fp = 0 if reward > 0 else 1 if reward < 0 else None
+                            c.execute(
+                                "UPDATE experience SET agent_label = ?, is_false_positive = ?, "
+                                "reward = ?, status = 'labeled', updated_ts = ?, "
+                                "human_decision = COALESCE(human_decision, 'heuristic_class_prior') "
+                                "WHERE id = ?",
+                                (verdict, is_fp, reward, now_iso, rid),
+                            )
+                            if verdict == "INCONCLUSIVE":
+                                counts["class_prior_inconclusive"] += 1
+                            else:
+                                counts["class_prior_tp"] += 1
+                            continue
+
+                        # Gray zone: 0.3 <= conf < min_conf_for_class_prior.
+                        # The ANN is neither confident enough to call it a
+                        # positive nor low enough to be noise. Honest verdict:
+                        # INCONCLUSIVE with reward 0 — row is cleared from
+                        # pending but the trainer sees no directional signal.
+                        if 0.3 <= conf < min_conf_for_class_prior:
+                            c.execute(
+                                "UPDATE experience SET agent_label = 'INCONCLUSIVE', "
+                                "is_false_positive = NULL, reward = 0, status = 'labeled', "
+                                "updated_ts = ?, human_decision = COALESCE(human_decision, 'heuristic_class_prior_gray') "
+                                "WHERE id = ?",
+                                (now_iso, rid),
+                            )
+                            counts["class_prior_gray_zone"] += 1
+                            continue
+
                 counts["skipped"] += 1
 
         return counts
@@ -374,13 +478,18 @@ class ExperienceBuffer:
 
     def fetch_training_batch(self, limit: int = 500) -> List[Dict[str, Any]]:
         """
-        Pull labeled rows ready for training. Prefers rows with an explicit
-        agent_label, falling back to reward-only rows (training target inferred
-        from is_false_positive + predicted_label).
+        Pull labeled rows ready for training. Excludes rows with no
+        directional signal — INCONCLUSIVE/ABANDONED verdicts and zero-reward
+        rows would otherwise outnumber high-quality labels and dilute the
+        gradient. Prefers rows with an explicit agent_label, falling back to
+        reward-only rows (training target inferred from is_false_positive +
+        predicted_label).
         """
         with self._lock, self._connect() as c:
             rows = c.execute(
                 "SELECT * FROM experience WHERE status = 'labeled' "
+                "AND (agent_label IS NULL OR agent_label NOT IN ('INCONCLUSIVE', 'ABANDONED')) "
+                "AND (reward IS NULL OR reward != 0.0) "
                 "ORDER BY id DESC LIMIT ?",
                 (limit,),
             ).fetchall()

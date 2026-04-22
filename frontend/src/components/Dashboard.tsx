@@ -68,12 +68,14 @@ export default function Dashboard() {
   const tickerItems: TickerItem[] = [
     { label: 'UPLINK',       value: linkState.text, tone: connected ? 'phosphor' : 'radar' },
     { label: 'THROUGHPUT',   value: `${stats.packets_per_second.toLocaleString()} P/S`, tone: 'default' },
-    { label: 'BACKLOG',      value: stats.pending_alerts, tone: stats.pending_alerts > 0 ? 'radar' : 'default' },
+    // NOTE: `EVENTS·WINDOW` is live-event queue depth from /events/stats —
+    // this is NOT the quarantine count. Quarantine lives in `REVIEW·PENDING`.
+    { label: 'EVENTS·WINDOW', value: stats.pending_alerts, tone: stats.pending_alerts > 0 ? 'radar' : 'default' },
     { label: 'INCURSIONS',   value: stats.confirmed_threats, tone: stats.confirmed_threats > 0 ? 'arterial' : 'default' },
     { label: 'NODES',        value: stats.active_agents, tone: 'ember' },
     { label: 'BLOCKED',      value: sandbox.blocked_ips.length, tone: 'phosphor' },
     { label: 'RULES',        value: sandbox.firewall_rules.length, tone: 'default' },
-    { label: 'PENDING·HUMAN',value: pendingCount, tone: pendingCount > 0 ? 'arterial' : 'default' },
+    { label: 'REVIEW·PENDING', value: pendingCount, tone: pendingCount > 0 ? 'arterial' : 'default' },
     { label: 'UTC',          value: clock.toISOString().slice(11, 19), tone: 'default' },
   ];
 

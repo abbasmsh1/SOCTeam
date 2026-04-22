@@ -90,15 +90,51 @@ class FeedbackHook:
         predicted_label: str,
         tier1: Optional[Dict[str, Any]] = None,
         tier2: Optional[Dict[str, Any]] = None,
+        workflow_failed: bool = False,
+        failure_reason: Optional[str] = None,
     ) -> Optional[Dict[str, Any]]:
+        """Flip a pending RL row based on workflow verdict.
+
+        workflow_failed=True is the escape hatch for "workflow crashed before
+        producing any tier output". Without it, crashed workflows left their
+        RL rows pending forever (observed pattern: 18 Brute Force rows at
+        conf=1.0 stuck pending after Mistral 401s in DevSecOps sub-steps).
+        Sets agent_label="WORKFLOW_FAILED", reward=-0.1 so the trainer sees
+        a weak negative signal rather than silence.
+        """
         if not self.enabled or not alert_id:
             return None
         try:
+            if workflow_failed:
+                self.buffer.label_by_alert(
+                    alert_id=alert_id,
+                    agent_label="WORKFLOW_FAILED",
+                    agent_severity=None,
+                    is_false_positive=None,
+                    reward=-0.1,
+                )
+                logger.info(
+                    "RL feedback: workflow failed for alert_id=%s (%s)  reason=%s",
+                    alert_id, predicted_label, failure_reason or "unknown",
+                )
+                return {"status": "workflow_failed", "reward": -0.1, "alert_id": alert_id}
+
             signal = self.calc.from_workflow(predicted_label, tier1=tier1, tier2=tier2)
             if signal.reward == 0.0 and signal.true_label is None and signal.false_positive is None:
-                # Too weak to store — leave row pending so a later decision
-                # (human allow/deny) can still fill it in.
-                return None
+                # Tier outputs were missing/malformed but workflow reached
+                # finalize. Previously we left the row pending; now we flip
+                # it to labeled with a very weak signal so the trainer sees
+                # the outcome (agent produced nothing useful) rather than
+                # the row lingering forever. Downstream human quarantine
+                # allow/deny can still override this via label_by_src_ip.
+                self.buffer.label_by_alert(
+                    alert_id=alert_id,
+                    agent_label="NO_TIER_OUTPUT",
+                    agent_severity=None,
+                    is_false_positive=None,
+                    reward=0.0,
+                )
+                return {"status": "no_tier_output", "reward": 0.0, "alert_id": alert_id}
             self.buffer.label_by_alert(
                 alert_id=alert_id,
                 agent_label=signal.true_label,

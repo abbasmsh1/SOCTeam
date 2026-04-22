@@ -1,178 +1,340 @@
-INFO:     Started server process [28380]
+INFO:     Started server process [24800]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:6051 (Press CTRL+C to quit)
-2026-04-22 18:59:37,825 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
-2026-04-22 18:59:37,826 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
-2026-04-22 18:59:37,826 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
+2026-04-22 22:07:47,129 - Implementation.src.IDS.IDS - INFO - RL heuristic sweeper started; interval=300.0s
+2026-04-22 22:07:47,154 - Implementation.src.IDS.IDS - INFO - Loading IDS model and artifacts...
+2026-04-22 22:07:47,154 - Implementation.src.IDS.IDS - INFO -   Artifacts directory: E:\IMT\2nd Sem\Project\Models
+2026-04-22 22:07:47,154 - Implementation.src.IDS.IDS - INFO -   Model path: E:\IMT\2nd Sem\Project\Models\best_ids_model.pth
 E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
 https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
   warnings.warn(
 E:\IMT\2nd Sem\Project\venv\lib\site-packages\sklearn\base.py:442: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.6.1 when using version 1.7.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
 https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
   warnings.warn(
-2026-04-22 18:59:37,863 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
-2026-04-22 18:59:37,863 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cpu
-2026-04-22 18:59:37,865 - AgentServer - INFO - tier1 agent initialized.
-2026-04-22 18:59:38,055 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 66.45.81.53
-2026-04-22 18:59:50,954 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 18:59:50,957 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 18:59:51,179 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:00:15,741 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:00:15,743 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:00:15,807 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-22 19:00:38,639 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-22 19:01:02,901 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:01:02,903 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:01:02,965 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-22 19:01:02,965 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-22 19:01:03,003 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:01:03,005 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:01:39,862 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:01:39,966 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:01:39,967 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:01:40,396 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
-2026-04-22 19:02:14,014 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:02:14,017 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:02:14,235 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:02:14,272 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:02:14,273 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:02:14,506 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.90
-2026-04-22 19:02:49,779 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:02:49,781 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:02:49,817 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-22 19:02:49,817 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-22 19:02:49,861 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:02:49,862 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:02:49,911 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
-2026-04-22 19:02:49,911 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
-2026-04-22 19:02:49,946 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:02:49,947 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:03:09,867 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:03:10,003 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:03:10,007 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:03:15,337 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
-2026-04-22 19:03:33,243 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:03:33,245 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:03:40,590 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:03:40,706 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:03:40,709 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:03:49,050 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
-2026-04-22 19:03:49,149 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:03:49,151 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:03:51,692 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.69.8
-2026-04-22 19:04:07,054 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:07,056 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:04:10,173 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:04:10,218 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:10,220 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:04:23,197 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.67.109
-2026-04-22 19:04:35,934 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:35,936 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:04:38,542 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:04:38,581 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:38,582 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:04:39,021 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.69.13
-2026-04-22 19:04:51,809 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:51,811 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:04:54,094 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
-2026-04-22 19:04:54,134 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:04:54,135 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:05:01,353 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
-2026-04-22 19:05:01,487 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:05:01,489 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:05:03,518 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
-2026-04-22 19:05:15,835 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:05:15,837 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:05:16,027 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:05:28,220 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:05:28,221 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:05:28,247 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.148
-2026-04-22 19:05:40,909 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.148
-2026-04-22 19:06:00,974 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:06:00,977 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:06:01,181 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:06:01,225 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:06:01,227 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:06:22,115 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:06:22,224 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:06:22,226 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:06:41,173 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:06:41,305 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:06:41,308 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:07:12,138 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:07:12,247 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:07:12,249 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:07:41,926 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:07:42,036 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:07:42,038 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:08:11,489 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:08:11,602 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:08:11,604 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:08:42,125 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:08:42,246 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:08:42,248 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:09:12,695 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:09:12,795 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:09:12,797 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:09:42,164 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:09:42,271 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:09:42,273 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:10:11,183 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:10:11,279 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:10:11,283 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:10:39,494 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:10:52,593 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:10:52,595 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:11:06,734 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:11:06,830 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:11:06,831 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:11:48,028 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.90
-2026-04-22 19:11:59,025 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:11:59,029 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:12:01,727 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.90
-2026-04-22 19:12:01,768 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:12:01,769 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:12:15,583 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:12:15,694 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:12:15,696 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:12:42,826 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:12:42,949 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:12:42,951 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:13:10,953 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:13:11,049 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:13:11,051 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:13:39,325 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:13:39,441 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:13:39,443 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:14:07,326 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:14:07,428 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:14:07,430 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:15:16,778 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:15:16,877 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:15:16,879 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:15:46,639 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:15:46,744 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:15:46,746 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:16:16,026 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:16:27,065 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:16:27,070 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:17:19,882 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:17:19,994 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:17:19,996 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:17:40,481 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:17:40,603 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:17:40,607 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:18:08,965 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:18:09,063 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:18:09,066 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:18:40,403 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:18:40,496 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:18:40,498 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-2026-04-22 19:19:11,346 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
-2026-04-22 19:19:11,450 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
-2026-04-22 19:19:11,452 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [28380]
+2026-04-22 22:07:47,215 - Implementation.src.IDS.IDS - INFO -   Loading model from checkpoint (Epoch 12, Val Acc: 54.99208925477247%)
+2026-04-22 22:07:47,217 - Implementation.src.IDS.IDS - INFO - IDS model loaded successfully. Using device: cpu
+2026-04-22 22:07:47,219 - AgentServer - INFO - tier1 agent initialized.
+2026-04-22 22:07:47,417 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 66.45.81.53
+2026-04-22 22:08:00,519 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:08:00,521 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:08:00,732 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:08:21,654 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:08:21,655 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:08:21,741 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
+2026-04-22 22:08:46,360 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
+2026-04-22 22:09:08,954 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:08,957 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:09:09,190 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:09:09,228 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:09,229 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:09:09,459 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:09:09,498 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:09,500 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:09:21,478 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:09:21,589 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:21,589 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:09:30,939 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:09:50,165 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:50,167 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:09:53,208 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:09:53,246 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:09:53,248 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:10:06,061 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
+2026-04-22 22:10:06,061 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
+2026-04-22 22:10:06,192 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:10:06,194 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:10:06,259 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
+2026-04-22 22:10:06,259 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.150
+2026-04-22 22:10:06,296 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:10:06,298 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:10:14,585 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.2
+2026-04-22 22:10:47,135 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:10:47,136 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:10:47,376 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:10:47,411 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:10:47,412 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:10:56,308 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:10:56,425 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:10:56,425 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:11:11,119 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:11:23,933 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:11:23,933 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:11:25,532 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:11:25,569 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:11:25,569 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:11:29,411 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:11:29,449 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:11:29,451 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:11:33,133 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.69.8
+2026-04-22 22:11:51,586 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:11:51,589 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:11:56,383 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:11:56,425 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:11:56,426 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:12,901 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.67.109
+2026-04-22 22:12:26,251 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:12:26,251 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:32,974 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.69.13
+2026-04-22 22:12:45,731 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:12:45,733 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:47,152 - Implementation.src.IDS.IDS - INFO - IPBlockingManager initialised
+2026-04-22 22:12:47,157 - Implementation.src.IDS.rl.feedback - INFO - FeedbackHook initialised: enabled=True db=E:\IMT\2nd Sem\Project\Reports\rl_experience.db
+2026-04-22 22:12:47,341 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 172.31.69.13: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=172.31.69.13&maxAgeInDays=90
+2026-04-22 22:12:47,491 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 175.45.176.2: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=175.45.176.2&maxAgeInDays=90
+2026-04-22 22:12:47,641 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 172.31.67.109: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=172.31.67.109&maxAgeInDays=90
+2026-04-22 22:12:47,782 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 192.168.100.149: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=192.168.100.149&maxAgeInDays=90
+2026-04-22 22:12:47,933 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 192.168.100.147: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=192.168.100.147&maxAgeInDays=90
+2026-04-22 22:12:47,943 - Implementation.src.IDS.IDS - INFO - RL sweep: {'whitelist_fp': 0, 'blocklist_tp': 0, 'reputation_tp': 0, 'abandoned': 0, 'class_prior_tp': 2, 'class_prior_inconclusive': 0, 'class_prior_low_conf_fp': 0, 'class_prior_gray_zone': 3, 'skipped': 0}
+2026-04-22 22:12:48,291 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:12:48,327 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:12:48,329 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:53,203 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:12:53,237 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:12:53,237 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:55,380 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:12:55,415 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:12:55,418 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:12:55,750 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:13:09,276 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:13:09,278 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:13:11,746 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.148
+2026-04-22 22:13:25,329 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.148
+2026-04-22 22:13:37,103 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:13:37,106 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:13:37,148 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.148
+2026-04-22 22:13:37,149 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.148
+2026-04-22 22:13:37,193 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:13:37,195 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:14:09,645 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:14:38,688 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:14:38,692 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:14:38,730 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.35
+2026-04-22 22:15:24,174 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:24,176 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:24,384 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:15:24,421 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:24,422 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:24,461 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.35
+2026-04-22 22:15:24,497 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:24,498 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:24,682 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:15:24,717 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:24,718 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:29,515 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:15:43,029 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:43,029 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:43,217 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:15:43,253 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:43,253 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:45,826 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.35
+2026-04-22 22:15:45,865 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:45,865 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:47,811 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:15:47,845 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:15:47,847 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:15:49,712 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.33
+2026-04-22 22:16:00,666 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:16:00,666 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:16:00,846 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:16:00,881 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:16:00,882 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:18:52,258 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:18:52,358 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:18:52,359 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:18:57,736 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.147
+2026-04-22 22:19:11,639 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 192.168.100.147
+2026-04-22 22:19:22,178 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:19:22,180 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:19:22,375 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:19:22,409 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:19:22,409 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:19:51,758 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:19:51,868 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:19:51,871 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:20:18,362 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:20:30,700 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:20:30,701 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:20:30,881 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:20:44,767 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:20:44,769 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:20:45,201 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 13.58.98.64
+2026-04-22 22:21:05,887 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:21:05,889 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:21:06,114 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 13.58.98.64
+2026-04-22 22:21:06,161 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:21:06,163 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:21:12,065 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:21:12,178 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:21:12,181 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:21:21,529 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:21:21,633 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:21:21,635 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:21:24,965 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:21:36,116 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:21:36,117 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:21:41,145 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 18.218.11.51
+2026-04-22 22:22:11,197 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 18.218.11.51
+2026-04-22 22:22:28,069 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:22:28,070 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:22:55,497 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:22:56,171 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:22:56,171 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:23:19,983 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.35
+2026-04-22 22:23:33,060 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:23:33,063 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:23:33,242 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:23:33,277 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:23:33,279 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:23:37,057 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:23:49,214 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:23:49,216 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:23:52,293 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.2
+2026-04-22 22:24:04,125 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:04,126 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:04,322 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:24:04,358 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:04,359 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:09,043 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:24:22,944 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:22,946 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:25,308 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:24:25,373 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:25,374 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:26,480 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:24:26,516 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:26,517 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:28,121 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:24:28,157 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:28,157 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:34,117 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 13.58.98.64
+2026-04-22 22:24:34,214 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:34,215 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:38,270 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:24:38,304 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:38,305 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:24:54,741 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:24:54,872 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:24:54,874 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:03,805 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:25:07,069 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:07,070 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:09,219 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:25:09,257 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:09,258 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:13,574 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:25:13,608 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:13,609 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:15,361 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:25:15,481 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:15,482 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:17,369 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:25:17,409 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:17,410 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:19,704 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:25:19,739 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:19,740 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:22,751 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:25:22,789 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:22,790 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:23,909 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:25:23,945 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:23,946 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:29,012 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:25:29,126 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:29,127 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:30,990 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.35
+2026-04-22 22:25:31,027 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:31,028 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:34,846 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:25:49,122 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:25:49,124 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:25:50,459 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:26:04,436 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:04,438 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:26:04,476 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:26:04,513 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:04,515 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:26:10,717 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:26:10,815 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:10,817 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:26:16,785 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
+2026-04-22 22:26:32,325 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:32,328 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:26:32,363 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.150
+2026-04-22 22:26:32,398 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:32,399 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:26:51,841 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:26:51,956 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:26:51,958 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:27:03,622 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.0
+2026-04-22 22:27:17,891 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:27:17,893 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:27:20,985 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.1
+2026-04-22 22:27:21,028 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:27:21,029 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:27:27,629 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.32
+2026-04-22 22:27:42,758 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Nuclei quick scan on 176.28.50.165
+2026-04-22 22:27:45,956 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:27:45,959 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:27:46,175 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:27:46,214 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:27:46,215 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:27:48,180 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 192.168.1.32: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=192.168.1.32&maxAgeInDays=90
+2026-04-22 22:27:48,368 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 175.45.176.1: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=175.45.176.1&maxAgeInDays=90
+2026-04-22 22:27:48,530 - Implementation.src.Agents.ReputationSource - WARNING - [AbuseIPDB] fetch failed for 192.168.1.193: 429 Client Error: Too Many Requests for url: https://api.abuseipdb.com/api/v2/check?ipAddress=192.168.1.193&maxAgeInDays=90
+2026-04-22 22:27:48,542 - Implementation.src.IDS.IDS - INFO - RL sweep: {'whitelist_fp': 0, 'blocklist_tp': 0, 'reputation_tp': 0, 'abandoned': 0, 'class_prior_tp': 1, 'class_prior_inconclusive': 1, 'class_prior_low_conf_fp': 1, 'class_prior_gray_zone': 0, 'skipped': 0}
+2026-04-22 22:28:14,148 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:28:15,741 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:28:15,743 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:28:21,111 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:28:21,211 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:28:21,212 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:28:36,634 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 18.219.5.43
+2026-04-22 22:29:08,364 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Getting threat intel for 18.219.5.43
+2026-04-22 22:29:36,689 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:29:36,690 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:29:36,927 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:29:36,966 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:29:36,968 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:29:37,193 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:29:37,258 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:29:37,260 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:30:01,860 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.31
+2026-04-22 22:30:16,788 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:30:16,791 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:30:18,021 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:30:18,060 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:30:18,061 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:30:21,452 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 175.45.176.3
+2026-04-22 22:30:38,307 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:30:38,308 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:30:51,368 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:30:51,489 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:30:51,490 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:31:23,907 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.100.149
+2026-04-22 22:31:46,955 - Implementation.src.Agents.HexstrikeClient - WARNING - Request to /api/intelligence/analyze-target timed out (attempt 1/3). Retrying in 1.0s...
+2026-04-22 22:32:05,273 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:32:05,275 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:32:05,464 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:32:37,467 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:32:37,469 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:32:37,695 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:32:37,735 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:32:37,736 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:32:37,981 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 13.58.98.64
+2026-04-22 22:33:15,876 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:33:15,877 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:33:16,055 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 13.58.98.64
+2026-04-22 22:33:16,086 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:33:16,087 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:33:16,266 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:33:16,301 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:33:16,302 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:33:16,503 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 222.245.245.46
+2026-04-22 22:33:56,166 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:33:56,169 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:33:56,432 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 192.168.1.1
+2026-04-22 22:33:56,471 - httpx - INFO - HTTP Request: POST https://ragarenn.eskemm-numerique.fr/sso/ch@t/api/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-04-22 22:33:56,473 - Implementation.src.Agents.BaseAgent - ERROR - Tier1Analyst: Error calling model: Error code: 401 - {'detail': '401 Unauthorized'}
+2026-04-22 22:33:56,593 - Implementation.src.Agents.TierAnalystAgent - INFO - Tier 1: Running Hexstrike AI analysis on 172.31.69.13

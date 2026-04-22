@@ -72,3 +72,7 @@ Reports/sandbox_state.db*
 Implementation/logs/*
 *.log
 .gitignore
+.cache/*
+.agent/*
+.pytest_cache/*
+.kiro/*
