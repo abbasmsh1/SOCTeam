@@ -146,12 +146,23 @@ class FeedbackHook:
         except Exception as exc:
             return {"enabled": self.enabled, "error": str(exc)}
 
+    def heuristic_sweep(self, **kwargs: Any) -> Dict[str, int]:
+        """Proxy to ExperienceBuffer.heuristic_sweep; returns {} when disabled."""
+        if not self.enabled:
+            return {}
+        try:
+            return self.buffer.heuristic_sweep(**kwargs)
+        except Exception as exc:
+            logger.warning("FeedbackHook.heuristic_sweep failed: %s", exc)
+            return {"error": 1}
+
 
 class _NoopBuffer:
     """Drop-in when RL is disabled — every call is a no-op."""
     def record_prediction(self, **_: Any) -> Optional[int]: return None
     def label_by_alert(self, **_: Any) -> int: return 0
     def label_by_src_ip(self, **_: Any) -> int: return 0
+    def heuristic_sweep(self, **_: Any) -> Dict[str, int]: return {}
     def stats(self) -> Dict[str, Any]: return {"disabled": True}
     def fetch_training_batch(self, limit: int = 500) -> list: return []
     def mark_trained(self, ids: Any) -> int: return 0

@@ -96,20 +96,39 @@ class ExperienceBuffer:
         dst_ip: Optional[str] = None,
         alert_id: Optional[str] = None,
     ) -> int:
-        """Insert a pending experience row. Returns its id."""
+        """Insert an experience row. Returns its id.
+
+        BENIGN predictions are auto-labeled on insert (status='labeled',
+        agent_label='BENIGN', is_false_positive=0, reward=0) so that the
+        trainer has a clean negative class without waiting for a workflow
+        or human to touch them. Disable with IDS_RL_AUTO_LABEL_BENIGN=false.
+        """
         now = _dt.datetime.utcnow().isoformat()
+        auto_label_benign = os.getenv("IDS_RL_AUTO_LABEL_BENIGN", "true").lower() not in ("false", "0", "no")
+        is_benign = auto_label_benign and str(predicted_label).upper() == "BENIGN"
+
+        status = "labeled" if is_benign else "pending"
+        agent_label = "BENIGN" if is_benign else None
+        is_fp = 0 if is_benign else None      # correct BENIGN is a TRUE NEGATIVE, not FP
+        reward = 0.0 if is_benign else None   # zero-reward anchor; trainer can re-weight
+
         with self._lock, self._connect() as c:
             cur = c.execute(
                 "INSERT INTO experience("
                 "ts, alert_id, src_ip, dst_ip, features, predicted_label, "
-                "predicted_idx, predicted_confidence, status, updated_ts) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)",
+                "predicted_idx, predicted_confidence, agent_label, "
+                "is_false_positive, reward, status, updated_ts) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     now, alert_id, src_ip, dst_ip,
                     json.dumps(self._json_safe(features)),
                     predicted_label,
                     predicted_idx,
                     float(predicted_confidence or 0.0),
+                    agent_label,
+                    is_fp,
+                    reward,
+                    status,
                     now,
                 ),
             )
@@ -179,6 +198,123 @@ class ExperienceBuffer:
                 (human_decision, reward, now, *ids),
             )
             return len(ids)
+
+    def heuristic_sweep(
+        self,
+        *,
+        whitelist_ips: Optional[Iterable[str]] = None,
+        blocklist_ips: Optional[Iterable[str]] = None,
+        reputation_lookup: Optional[Any] = None,    # callable: ip -> reputation obj w/ .abuse_score
+        max_age_days: Optional[int] = None,
+        max_rows: int = 500,
+    ) -> Dict[str, int]:
+        """
+        Auto-label pending rows based on side-signal heuristics — a cheap,
+        low-quality fallback for when no SOC workflow fires and no human
+        touches the quarantine page. The signals, in priority order:
+
+          1. src_ip in `whitelist_ips`  → true positive? No — whitelist is
+             operator-attested benign, so the prediction was a FALSE POSITIVE.
+             reward = -0.4 (negative: model was wrong).
+          2. src_ip in `blocklist_ips`  → operator-attested malicious, so
+             the prediction (whatever the label) is a true positive on the
+             flow being bad. reward = +0.4.
+          3. reputation_lookup(ip).abuse_score >= 75 (AbuseIPDB-high) →
+             strong external signal the IP is malicious. reward = +0.3.
+          4. reputation_lookup(ip).abuse_score < 10 AND row older than
+             `max_age_days`  → probably a benign noise row that nothing
+             ever cared about. reward = 0. Label as 'abandoned' via
+             agent_label so the trainer can optionally exclude it.
+
+        Returns per-bucket counts. Rows already labeled are never touched.
+        """
+        reward_wl = -0.4
+        reward_bl = 0.4
+        reward_rep_high = 0.3
+        counts = {"whitelist_fp": 0, "blocklist_tp": 0, "reputation_tp": 0, "abandoned": 0, "skipped": 0}
+
+        wl = set(whitelist_ips or [])
+        bl = set(blocklist_ips or [])
+        now = _dt.datetime.utcnow()
+        now_iso = now.isoformat()
+        cutoff_iso = (
+            (now - _dt.timedelta(days=max_age_days)).isoformat()
+            if max_age_days is not None
+            else None
+        )
+
+        with self._lock, self._connect() as c:
+            pending = c.execute(
+                "SELECT id, src_ip, predicted_label, predicted_confidence, ts "
+                "FROM experience WHERE status = 'pending' "
+                "ORDER BY id DESC LIMIT ?",
+                (max_rows,),
+            ).fetchall()
+
+            for row in pending:
+                rid = row["id"]
+                ip = (row["src_ip"] or "").strip()
+                updated = False
+
+                # 1. Whitelist → false positive
+                if ip and ip in wl:
+                    c.execute(
+                        "UPDATE experience SET agent_label = ?, is_false_positive = 1, "
+                        "reward = ?, status = 'labeled', updated_ts = ?, "
+                        "human_decision = COALESCE(human_decision, 'heuristic_whitelist') "
+                        "WHERE id = ?",
+                        ("BENIGN", reward_wl, now_iso, rid),
+                    )
+                    counts["whitelist_fp"] += 1
+                    continue
+
+                # 2. Blocklist → true positive
+                if ip and ip in bl:
+                    c.execute(
+                        "UPDATE experience SET agent_label = ?, is_false_positive = 0, "
+                        "reward = ?, status = 'labeled', updated_ts = ?, "
+                        "human_decision = COALESCE(human_decision, 'heuristic_blocklist') "
+                        "WHERE id = ?",
+                        (row["predicted_label"], reward_bl, now_iso, rid),
+                    )
+                    counts["blocklist_tp"] += 1
+                    continue
+
+                # 3. External reputation
+                score = None
+                if reputation_lookup and ip:
+                    try:
+                        rep = reputation_lookup(ip)
+                        score = getattr(rep, "abuse_score", None)
+                    except Exception:
+                        score = None
+
+                if score is not None and score >= 75:
+                    c.execute(
+                        "UPDATE experience SET agent_label = ?, is_false_positive = 0, "
+                        "reward = ?, status = 'labeled', updated_ts = ?, "
+                        "human_decision = COALESCE(human_decision, 'heuristic_reputation') "
+                        "WHERE id = ?",
+                        (row["predicted_label"], reward_rep_high, now_iso, rid),
+                    )
+                    counts["reputation_tp"] += 1
+                    continue
+
+                # 4. Abandonment — benign-ish and old enough
+                if cutoff_iso and row["ts"] < cutoff_iso and (score is None or score < 10):
+                    c.execute(
+                        "UPDATE experience SET agent_label = ?, is_false_positive = 1, "
+                        "reward = 0, status = 'labeled', updated_ts = ?, "
+                        "human_decision = COALESCE(human_decision, 'heuristic_abandoned') "
+                        "WHERE id = ?",
+                        ("ABANDONED", now_iso, rid),
+                    )
+                    counts["abandoned"] += 1
+                    continue
+
+                counts["skipped"] += 1
+
+        return counts
 
     def mark_trained(self, row_ids: Iterable[int]) -> int:
         now = _dt.datetime.utcnow().isoformat()

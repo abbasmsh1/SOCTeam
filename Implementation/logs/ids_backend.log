@@ -1,136 +1,1860 @@
-2026-04-22 18:07:23 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-INFO:     127.0.0.1:53523 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53523 - "POST /start-live-capture HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53523 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53523 - "GET /metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53523 - "GET /graph/summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59835 - "OPTIONS /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51239 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57876 - "OPTIONS /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56799 - "OPTIONS /rl/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50314 - "OPTIONS /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56799 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57876 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50314 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59835 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:51239 - "GET /rl/stats HTTP/1.1" 200 OK
-Garbage Collection Began. Flows = 1
-Garbage Collection Finished. Flows = 0
-Garbage Collection Began. Flows = 6
-Garbage Collection Finished. Flows = 0
-2026-04-22 18:08:07 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
-2026-04-22 18:08:07 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 18:58:59 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+INFO:     127.0.0.1:38780 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43174 - "OPTIONS /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43174 - "OPTIONS /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43174 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43174 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "OPTIONS /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "OPTIONS /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38779 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38780 - "POST /start-live-capture HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38780 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38780 - "GET /metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38780 - "GET /graph/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38792 - "GET / HTTP/1.1" 200 OK
+2026-04-22 18:59:19 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+INFO:     127.0.0.1:38793 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38794 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38795 - "POST /predict/ HTTP/1.1" 200 OK
+2026-04-22 18:59:19 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
 
-SOCWorkflow: Processing alert for Unknown
-2026-04-22 18:08:07 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
-2026-04-22 18:08:07 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+SOCWorkflow: Processing alert for Infilteration
+2026-04-22 18:59:19 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-22 18:59:19 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-Garbage Collection Began. Flows = 6
+Garbage Collection Began. Flows = 4
 Garbage Collection Finished. Flows = 0
-2026-04-22 18:08:22 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 18:59:34 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
 Garbage Collection Began. Flows = 8
 Garbage Collection Finished. Flows = 0
-Garbage Collection Began. Flows = 6
-Garbage Collection Finished. Flows = 0
-INFO:     127.0.0.1:60011 - "GET /events HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "GET /remediation/logs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "GET /rl/stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "GET /quarantine HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61600 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53230 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49263 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60011 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
-2026-04-22 18:08:48 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
-DEBUG: Tier 1 Complete. Severity: Medium
-DEBUG: Finalizing Workflow (Tier 1 only)...
-
-[SOC] --- Agent Defence Plan -------------------------
-Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:61600 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-
-[SOC] --- Agent Defence Plan -------------------------
-Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-2026-04-22 18:08:49 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-22 18:08:49 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
-DEBUG: Finalizing node - Generating report...
-
-[SOC] --- Agent Defence Plan -------------------------
-Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:60011 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49263 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-
-[SOC] --- Agent Defence Plan -------------------------
-Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
-[SOC] --------------------------------------------------
-
-[SOC] * 2 unique rule(s) queued for enforcement.
-  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
-  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
-
-[SOC] Enforcement complete - 0 enforced, 2 failed.
-INFO:     127.0.0.1:53230 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54617 - "POST /soc/auto-rules HTTP/1.1" 200 OK
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180850_062656.md
-2026-04-22 18:08:50 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180850_062656.md
 
 SOCWorkflow: Processing alert for Unknown
-2026-04-22 18:08:50 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
-2026-04-22 18:08:50 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 18:59:42 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 18:59:42 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
 DEBUG: Executing Tier 1 Node...
-2026-04-22 18:08:51 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:00:03 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
 DEBUG: Tier 1 Complete. Severity: Medium
 DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-22 18:08:51 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-22 18:08:51 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+2026-04-22 19:00:06 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:00:06 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180851_037440.md
-2026-04-22 18:08:51 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180851_037440.md
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190009_144640.md
+2026-04-22 19:00:09 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190009_144640.md
+INFO:     127.0.0.1:38796 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9448 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1542 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:15147 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:21722 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1542 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:15147 - "GET /events HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for DDoS
+2026-04-22 19:00:09 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 19:00:09 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:00:27 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:00:28 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:00:28 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190028_491584.md
+2026-04-22 19:00:28 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190028_491584.md
+
+SOCWorkflow: Processing alert for DDoS
+2026-04-22 19:00:28 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 19:00:28 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 19:01:28 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+INFO:     127.0.0.1:9425 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:32522 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65531 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33723 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1246 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "OPTIONS /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64205 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1246 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55746 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:52828 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:1246 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55746 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61212 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:32195 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:32196 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55746 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61212 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:52828 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32195 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61212 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32197 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55746 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52828 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32198 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61212 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55746 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:52828 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32195 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47284 - "GET /quarantine HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Analysis
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:01:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:01:41 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:01:41 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190141_514240.md
+2026-04-22 19:01:41 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190141_514240.md
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:01:41 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:01:41 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:01:56 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:01:57 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:01:57 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190157_517440.md
+2026-04-22 19:01:57 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190157_517440.md
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:01:57 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:01:57 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:02:06 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 19:02:06 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 19:02:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+Garbage Collection Began. Flows = 16
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:02:21 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 19:02:22 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 19:02:23 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:02:23 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190223_076736.md
+2026-04-22 19:02:23 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190223_076736.md
+2026-04-22 19:02:23 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190223_076736.md
+2026-04-22 19:02:26 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:02:27 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:02:27 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190227_066880.md
+2026-04-22 19:02:27 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190227_066880.md
+INFO:     127.0.0.1:32199 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+2026-04-22 19:02:34 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+Garbage Collection Began. Flows = 12
+Garbage Collection Finished. Flows = 0
+INFO:     127.0.0.1:38702 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38853 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40270 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46264 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38853 - "GET /rl/stats HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for DDoS
+2026-04-22 19:02:37 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 19:02:37 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:02:37 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:02:37 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190237_071744.md
+2026-04-22 19:02:38 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190237_071744.md
+2026-04-22 19:02:38 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190237_071744.md
+2026-04-22 19:02:38 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190239_520128.md
+2026-04-22 19:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190239_520128.md
+
+SOCWorkflow: Processing alert for DDoS
+2026-04-22 19:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 19:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+INFO:     127.0.0.1:40271 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+INFO:     127.0.0.1:40268 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /rl/stats HTTP/1.1" 200 OK
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+INFO:     127.0.0.1:20628 - "GET /quarantine HTTP/1.1" 200 OK
+DEBUG: Tier 1 Complete. Severity: High
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+INFO:     127.0.0.1:20628 - "GET /quarantine HTTP/1.1" 200 OK
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 19:02:49 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:40268 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /remediation/logs HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:20628 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:40268 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:2691 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2696 - "POST /predict/ HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:20628 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:40268 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:20628 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:40268 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:2691 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:20628 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /rl/stats HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:40268 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26337 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+2026-04-22 19:03:06 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+2026-04-22 19:03:06 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 19:03:07 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:07 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190307_143360.md
+2026-04-22 19:03:07 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190307_143360.md
+2026-04-22 19:03:07 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190307_143360.md
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2691 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40268 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:03:09 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:03:09 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:03:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:20628 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+2026-04-22 19:03:11 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:11 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190311_528192.md
+2026-04-22 19:03:11 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190311_528192.md
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:20628 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48299 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48300 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48301 - "POST /predict/ HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Generic
+2026-04-22 19:03:14 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
+2026-04-22 19:03:14 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:03:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 19:03:18 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 19:03:19 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:19 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190319_070656.md
+2026-04-22 19:03:19 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190319_070656.md
+2026-04-22 19:03:19 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190319_070656.md
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 9
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:03:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:03:40 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:03:40 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:03:41 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:41 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190341_118912.md
+2026-04-22 19:03:41 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190341_118912.md
+2026-04-22 19:03:44 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:03:45 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:45 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190345_120960.md
+2026-04-22 19:03:45 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190345_120960.md
+INFO:     127.0.0.1:48302 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:19323 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /remediation/logs HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:33176 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:19323 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:48298 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33176 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33177 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33176 - "GET /events HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Worms
+2026-04-22 19:03:48 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Worms
+2026-04-22 19:03:48 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:03:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:03:49 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:03:49 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190349_124352.md
+2026-04-22 19:03:49 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190349_124352.md
+INFO:     127.0.0.1:19323 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33178 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33176 - "OPTIONS /reports/SOC_Report_20260422_190237_071744.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40994 - "OPTIONS /reports/SOC_Report_20260422_190237_071744.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:33176 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40994 - "GET /reports/SOC_Report_20260422_190237_071744.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29459 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40995 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48298 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33176 - "GET /reports/SOC_Report_20260422_190237_071744.md HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45802 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19323 - "GET /remediation/logs HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+SOCWorkflow: Processing alert for Infilteration
+2026-04-22 19:03:51 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-22 19:03:51 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 9
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:04:09 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:04:09 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:04:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:04:11 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:11 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190411_493248.md
+2026-04-22 19:04:11 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190411_493248.md
+2026-04-22 19:04:21 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:04:21 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:21 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190421_487488.md
+2026-04-22 19:04:21 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190421_487488.md
+INFO:     127.0.0.1:33176 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40996 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51645 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51646 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51647 - "POST /predict/ HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Benign
+2026-04-22 19:04:23 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Benign
+2026-04-22 19:04:23 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:04:35 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:04:36 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:36 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190436_122880.md
+2026-04-22 19:04:36 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190436_122880.md
+INFO:     127.0.0.1:51648 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:04:38 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:04:38 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:04:38 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+INFO:     127.0.0.1:51660 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51661 - "POST /predict/ HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Infilteration
+2026-04-22 19:04:38 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-22 19:04:38 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:04:39 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:39 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190439_113920.md
+2026-04-22 19:04:39 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190439_113920.md
+2026-04-22 19:04:51 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:04:52 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:52 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190452_118528.md
+2026-04-22 19:04:52 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190452_118528.md
+INFO:     127.0.0.1:51662 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13997 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:22402 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /remediation/logs HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Generic
+2026-04-22 19:04:53 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
+2026-04-22 19:04:53 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:04:54 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:04:54 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:04:54 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190454_119616.md
+2026-04-22 19:04:54 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190454_119616.md
+INFO:     127.0.0.1:13998 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:1651 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:22402 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:39697 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:49285 - "POST /predict/ HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:1651 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:22402 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:39697 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49286 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:39697 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:39697 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:39697 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49287 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49288 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /events HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for Exploits
+2026-04-22 19:05:00 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Exploits
+2026-04-22 19:05:00 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:05:01 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:05:02 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:05:02 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190502_125312.md
+2026-04-22 19:05:02 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190502_125312.md
+INFO:     127.0.0.1:49289 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:1651 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49296 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /quarantine HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for injection
+2026-04-22 19:05:03 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: injection
+2026-04-22 19:05:03 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:05:08 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:05:08 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:05:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:05:16 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:05:16 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190516_128768.md
+2026-04-22 19:05:16 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190516_128768.md
+INFO:     127.0.0.1:49300 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:25474 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49314 - "POST /predict/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:25474 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39697 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1651 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:31791 - "GET /events HTTP/1.1" 200 OK
+
+SOCWorkflow: Processing alert for DDoS
+2026-04-22 19:05:17 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 19:05:17 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:05:23 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:05:24 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:05:24 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190524_584192.md
+2026-04-22 19:05:24 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190524_584192.md
+Garbage Collection Began. Flows = 9
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:05:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:05:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 11
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+DEBUG: Tier 1 Complete. Severity: High
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.148
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 19:06:10 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.148
+INFO:     127.0.0.1:49316 - "POST /workflow/process?sync=True HTTP/1.1" 200 OK
+INFO:     127.0.0.1:22402 - "GET /quarantine HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190621_589440.md
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190621_589440.md
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:06:21 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:06:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:06:23 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:06:23 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190623_488000.md
+2026-04-22 19:06:23 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190623_488000.md
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:06:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:06:40 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:06:41 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:06:42 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:06:42 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190642_515392.md
+2026-04-22 19:06:42 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190642_515392.md
+2026-04-22 19:06:49 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 19:06:49 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 19:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190650_108672.md
+2026-04-22 19:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190650_108672.md
+2026-04-22 19:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190650_108672.md
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:07:11 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:07:11 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:07:12 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:07:13 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:07:13 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190713_519168.md
+2026-04-22 19:07:13 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190713_519168.md
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:07:41 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:07:41 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:07:42 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:07:42 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:07:42 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190742_588864.md
+2026-04-22 19:07:42 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190742_588864.md
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 12
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:08:11 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:08:11 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:08:11 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:08:12 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:08:12 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190812_579776.md
+2026-04-22 19:08:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190812_579776.md
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:08:41 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:08:41 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:08:42 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:08:43 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:08:43 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190843_585728.md
+2026-04-22 19:08:43 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190843_585728.md
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:09:12 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:09:12 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:09:12 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190913_589184.md
+2026-04-22 19:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190913_589184.md
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:09:41 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:09:41 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:09:42 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:09:43 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:09:43 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190943_591808.md
+2026-04-22 19:09:43 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_190943_591808.md
+INFO:     127.0.0.1:29668 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "OPTIONS /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /threats/top?window=3600&limit=8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /rl/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /quarantine HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /events HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+
+[SOC] --- Agent Defence Plan -------------------------
+Error: Error code: 401 - {'detail': 'Your session has expired or the token is invalid. Please sign in again.'}
+[SOC] --------------------------------------------------
+
+[SOC] * 2 unique rule(s) queued for enforcement.
+  [X] ENRICH_TARGET -> UNKNOWN | REJECTED:INVALID_TARGET
+  [X] RATE_LIMIT -> UNKNOWN | REJECTED:INVALID_TARGET
+
+[SOC] Enforcement complete - 0 enforced, 2 failed.
+INFO:     127.0.0.1:29668 - "POST /soc/auto-rules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /events HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /remediation/logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29668 - "GET /events/stream?x_api_key=pQcQXpqyhBf6A7dFVn1fMf4J40C8Pk84 HTTP/1.1" 200 OK
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:10:10 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:10:10 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:10:11 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:10:12 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:10:12 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191012_594240.md
+2026-04-22 19:10:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191012_594240.md
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:10:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:10:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:10:52 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:10:53 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:10:53 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191053_613312.md
+2026-04-22 19:10:53 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191053_613312.md
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:11:06 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:11:06 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:11:06 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:11:07 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:11:07 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191107_122496.md
+2026-04-22 19:11:07 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191107_122496.md
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:11:47 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:11:47 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:11:59 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:11:59 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:11:59 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191159_107456.md
+2026-04-22 19:11:59 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191159_107456.md
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:12:01 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:12:01 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:12:01 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:12:02 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:12:02 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191202_144704.md
+2026-04-22 19:12:02 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191202_144704.md
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:12:15 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:12:15 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:12:15 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:12:16 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:12:16 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191216_130688.md
+2026-04-22 19:12:16 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191216_130688.md
+Garbage Collection Began. Flows = 4
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:12:42 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:12:42 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:12:42 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:12:43 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:12:43 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191243_136832.md
+2026-04-22 19:12:43 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191243_136832.md
+Garbage Collection Began. Flows = 5
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 15
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:13:10 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:13:10 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:13:11 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:13:11 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:13:11 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191311_322176.md
+2026-04-22 19:13:11 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191311_322176.md
+Garbage Collection Began. Flows = 12
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 10
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:13:39 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:13:39 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:13:39 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:13:40 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:13:40 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191340_494336.md
+2026-04-22 19:13:40 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191340_494336.md
+Garbage Collection Began. Flows = 9
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 16
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:14:07 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:14:07 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:14:07 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:14:08 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:14:08 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191408_488384.md
+2026-04-22 19:14:08 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191408_488384.md
+Garbage Collection Began. Flows = 7
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 20
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:15:16 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:15:16 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:15:16 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:15:17 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:15:17 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191517_612544.md
+2026-04-22 19:15:17 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191517_612544.md
+Garbage Collection Began. Flows = 10
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 14
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:15:46 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:15:46 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:15:46 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:15:49 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:15:49 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191549_587328.md
+2026-04-22 19:15:49 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191549_587328.md
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 6
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:16:15 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:16:15 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:16:27 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:16:29 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:16:29 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191629_587328.md
+2026-04-22 19:16:29 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191629_587328.md
+Garbage Collection Began. Flows = 9
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:16:43 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:16:43 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
 Garbage Collection Began. Flows = 10
 Garbage Collection Finished. Flows = 0
 Garbage Collection Began. Flows = 8
-
-SOCWorkflow: Processing alert for Unknown
-2026-04-22 18:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
-2026-04-22 18:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
-DEBUG: Executing Tier 1 Node...
-2026-04-22 18:09:13 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+Garbage Collection Finished. Flows = 0
+2026-04-22 19:17:18 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
 DEBUG: Tier 1 Complete. Severity: Medium
 DEBUG: Finalizing Workflow (Tier 1 only)...
-2026-04-22 18:09:14 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
-2026-04-22 18:09:14 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+2026-04-22 19:17:19 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:17:19 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
 DEBUG: Finalizing node - Generating report...
-DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180914_041024.md
-2026-04-22 18:09:14 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_180914_041024.md
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191719_623040.md
+2026-04-22 19:17:19 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191719_623040.md
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:17:19 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:17:19 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:17:20 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:17:20 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:17:20 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191720_554176.md
+2026-04-22 19:17:20 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191720_554176.md
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 8
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:17:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:17:40 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:17:40 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:17:41 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:17:41 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191741_519168.md
+2026-04-22 19:17:41 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191741_519168.md
+Garbage Collection Began. Flows = 10
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 13
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:18:08 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:18:08 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:18:09 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:18:10 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:18:10 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191810_515712.md
+2026-04-22 19:18:10 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191810_515712.md
+Garbage Collection Began. Flows = 53
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 43
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:18:40 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:18:40 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:18:40 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:18:41 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:18:41 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191841_517888.md
+2026-04-22 19:18:41 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191841_517888.md
+Garbage Collection Began. Flows = 12
+Garbage Collection Finished. Flows = 0
+Garbage Collection Began. Flows = 12
+Garbage Collection Finished. Flows = 0
+
+SOCWorkflow: Processing alert for Unknown
+2026-04-22 19:19:11 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Unknown
+2026-04-22 19:19:11 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+DEBUG: Executing Tier 1 Node...
+2026-04-22 19:19:11 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Medium, Escalate=False
+DEBUG: Tier 1 Complete. Severity: Medium
+DEBUG: Finalizing Workflow (Tier 1 only)...
+2026-04-22 19:19:12 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 19:19:12 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+DEBUG: Finalizing node - Generating report...
+DEBUG: Report generated: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191912_622720.md
+2026-04-22 19:19:12 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_191912_622720.md

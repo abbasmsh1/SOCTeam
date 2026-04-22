@@ -223,25 +223,23 @@ class HexstrikeClient:
 
     # ==================== Network Reconnaissance ====================
 
-    def nmap_scan(self, target: str, scan_type: str = "default", ports: str = None) -> Dict[str, Any]:
+    def nmap_scan(self, target: str, scan_type: str = "-sCV", ports: str = None) -> Dict[str, Any]:
         """
-        Execute Nmap scan.
-        
+        Execute Nmap scan via HexStrike's dedicated /api/tools/nmap endpoint.
+
         Args:
             target: Target IP or hostname
-            scan_type: Scan type (default, aggressive, stealth, full)
+            scan_type: Raw nmap flag string (e.g. "-sCV", "-sS", "-A", "-sT").
+                       Default is "-sCV" (service/version detection).
             ports: Port specification (e.g., "1-1000", "80,443,8080")
-            
+
         Returns:
             Nmap scan results
         """
-        payload = {
-            "tool": "nmap",
-            "target": target,
-            "scan_type": scan_type,
-            "ports": ports
-        }
-        return self._execute_command("/api/command", payload)
+        payload: Dict[str, Any] = {"target": target, "scan_type": scan_type}
+        if ports:
+            payload["ports"] = ports
+        return self._execute_command("/api/tools/nmap", payload)
 
     def rustscan_scan(self, target: str, ports: str = "1-65535") -> Dict[str, Any]:
         """
@@ -254,12 +252,8 @@ class HexstrikeClient:
         Returns:
             RustScan results
         """
-        payload = {
-            "tool": "rustscan",
-            "target": target,
-            "ports": ports
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "ports": ports}
+        return self._execute_command("/api/tools/rustscan", payload)
 
     def masscan_scan(self, target: str, ports: str = "1-65535", rate: int = 1000) -> Dict[str, Any]:
         """
@@ -273,13 +267,8 @@ class HexstrikeClient:
         Returns:
             Masscan results
         """
-        payload = {
-            "tool": "masscan",
-            "target": target,
-            "ports": ports,
-            "rate": rate
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "ports": ports, "rate": rate}
+        return self._execute_command("/api/tools/masscan", payload)
 
     def amass_enum(self, domain: str, passive: bool = True) -> Dict[str, Any]:
         """
@@ -292,12 +281,8 @@ class HexstrikeClient:
         Returns:
             Amass enumeration results
         """
-        payload = {
-            "tool": "amass",
-            "domain": domain,
-            "mode": "passive" if passive else "active"
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"domain": domain, "mode": "passive" if passive else "active"}
+        return self._execute_command("/api/tools/amass", payload)
 
     def subfinder_enum(self, domain: str) -> Dict[str, Any]:
         """
@@ -309,11 +294,8 @@ class HexstrikeClient:
         Returns:
             Subfinder results
         """
-        payload = {
-            "tool": "subfinder",
-            "domain": domain
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"domain": domain}
+        return self._execute_command("/api/tools/subfinder", payload)
 
     # ==================== Web Application Security ====================
 
@@ -329,13 +311,8 @@ class HexstrikeClient:
         Returns:
             Nuclei scan results
         """
-        payload = {
-            "tool": "nuclei",
-            "target": target,
-            "templates": templates or [],
-            "severity": severity
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "templates": templates or [], "severity": severity}
+        return self._execute_command("/api/tools/nuclei", payload)
 
     def sqlmap_scan(self, target: str, data: str = None, risk: int = 1, level: int = 1) -> Dict[str, Any]:
         """
@@ -350,14 +327,8 @@ class HexstrikeClient:
         Returns:
             SQLMap results
         """
-        payload = {
-            "tool": "sqlmap",
-            "target": target,
-            "data": data,
-            "risk": risk,
-            "level": level
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "data": data, "risk": risk, "level": level}
+        return self._execute_command("/api/tools/sqlmap", payload)
 
     def nikto_scan(self, target: str, ssl: bool = False) -> Dict[str, Any]:
         """
@@ -370,12 +341,8 @@ class HexstrikeClient:
         Returns:
             Nikto scan results
         """
-        payload = {
-            "tool": "nikto",
-            "target": target,
-            "ssl": ssl
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "ssl": ssl}
+        return self._execute_command("/api/tools/nikto", payload)
 
     def gobuster_scan(self, target: str, wordlist: str = None, extensions: List[str] = None) -> Dict[str, Any]:
         """
@@ -389,13 +356,8 @@ class HexstrikeClient:
         Returns:
             Gobuster results
         """
-        payload = {
-            "tool": "gobuster",
-            "target": target,
-            "wordlist": wordlist,
-            "extensions": extensions or []
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "wordlist": wordlist, "extensions": extensions or []}
+        return self._execute_command("/api/tools/gobuster", payload)
 
     def feroxbuster_scan(self, target: str, wordlist: str = None, depth: int = 4) -> Dict[str, Any]:
         """
@@ -409,13 +371,8 @@ class HexstrikeClient:
         Returns:
             Feroxbuster results
         """
-        payload = {
-            "tool": "feroxbuster",
-            "target": target,
-            "wordlist": wordlist,
-            "depth": depth
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "wordlist": wordlist, "depth": depth}
+        return self._execute_command("/api/tools/feroxbuster", payload)
 
     def ffuf_scan(self, target: str, wordlist: str = None, keyword: str = "FUZZ") -> Dict[str, Any]:
         """
@@ -429,13 +386,8 @@ class HexstrikeClient:
         Returns:
             FFuf results
         """
-        payload = {
-            "tool": "ffuf",
-            "target": target,
-            "wordlist": wordlist,
-            "keyword": keyword
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "wordlist": wordlist, "keyword": keyword}
+        return self._execute_command("/api/tools/ffuf", payload)
 
     def wpscan_scan(self, target: str, enumerate: str = "vp,vt,u") -> Dict[str, Any]:
         """
@@ -448,12 +400,8 @@ class HexstrikeClient:
         Returns:
             WPScan results
         """
-        payload = {
-            "tool": "wpscan",
-            "target": target,
-            "enumerate": enumerate
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "enumerate": enumerate}
+        return self._execute_command("/api/tools/wpscan", payload)
 
     # ==================== Password & Authentication ====================
 
@@ -472,13 +420,12 @@ class HexstrikeClient:
             Hydra results
         """
         payload = {
-            "tool": "hydra",
             "target": target,
             "service": service,
             "username": username,
-            "password_list": password_list
+            "password_list": password_list,
         }
-        return self._execute_command("/api/command", payload)
+        return self._execute_command("/api/tools/hydra", payload)
 
     # ==================== Cloud Security ====================
 
@@ -493,12 +440,8 @@ class HexstrikeClient:
         Returns:
             Trivy scan results
         """
-        payload = {
-            "tool": "trivy",
-            "target": target,
-            "scan_type": scan_type
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"target": target, "scan_type": scan_type}
+        return self._execute_command("/api/tools/trivy", payload)
 
     def kube_hunter_scan(self, remote: str = None) -> Dict[str, Any]:
         """
@@ -510,11 +453,8 @@ class HexstrikeClient:
         Returns:
             Kube-hunter results
         """
-        payload = {
-            "tool": "kube-hunter",
-            "remote": remote
-        }
-        return self._execute_command("/api/command", payload)
+        payload = {"remote": remote}
+        return self._execute_command("/api/tools/kube-hunter", payload)
 
     # ==================== AI Intelligence ====================
 

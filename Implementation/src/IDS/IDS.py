@@ -54,7 +54,7 @@ except ImportError:
 
 from fastapi import Header, HTTPException, Depends, Query, Request
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional, Set
+from typing import List, Dict, Any, Optional, Set, Iterable
 import logging
 from collections import deque
 from Implementation.src.IDS.api_models import (
@@ -1841,6 +1841,117 @@ def rl_policy_snapshot():
         return _rl_policy().snapshot()
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
+
+
+# ---------------------------------------------------------------------------
+# Heuristic sweeper — auto-label pending rows using whitelist/blocklist/
+# reputation signals so the RL buffer doesn't pile up with un-trainable data
+# when no workflow fires and no human touches the quarantine page.
+# ---------------------------------------------------------------------------
+def _run_heuristic_sweep(max_age_days: Optional[int] = 7, max_rows: int = 500) -> Dict[str, Any]:
+    """Compose the signals and call FeedbackHook.heuristic_sweep."""
+    from Implementation.src.IDS.rl import FeedbackHook
+
+    ip_mgr = None
+    whitelist: Iterable[str] = ()
+    blocklist: Iterable[str] = ()
+    reputation_lookup = None
+
+    try:
+        ip_mgr = get_ip_blocking_manager()
+        whitelist = list(getattr(ip_mgr, "whitelist", set()) or set())
+        # IPBlockingManager stores the active block list as a dict keyed by IP
+        # (`self.blocked_ips: Dict[str, BlockRecord]`). Expired blocks are
+        # lazily evicted on lookup, so snapshotting .keys() is good enough.
+        blocked = getattr(ip_mgr, "blocked_ips", {}) or {}
+        blocklist = list(blocked.keys())
+    except Exception as exc:
+        logger.debug("heuristic_sweep: IPBlockingManager unavailable (%s)", exc)
+
+    try:
+        from Implementation.src.Agents.ReputationSource import build_reputation_source
+        rep_source = build_reputation_source()
+
+        class _Rep:
+            abuse_score = 0.0
+            total_reports = 0
+            country = ""
+            isp = ""
+            is_tor = False
+            is_vpn = False
+            is_proxy = False
+
+        def reputation_lookup(ip: str):
+            rep = _Rep()
+            try:
+                return rep_source.fetch(ip, rep)
+            except Exception:
+                return rep
+    except Exception as exc:
+        logger.debug("heuristic_sweep: reputation source unavailable (%s)", exc)
+        reputation_lookup = None
+
+    counts = FeedbackHook.instance().heuristic_sweep(
+        whitelist_ips=whitelist,
+        blocklist_ips=blocklist,
+        reputation_lookup=reputation_lookup,
+        max_age_days=max_age_days,
+        max_rows=max_rows,
+    )
+    return {
+        "status": "ok",
+        "counts": counts,
+        "inputs": {
+            "whitelist_size": len(list(whitelist)),
+            "blocklist_size": len(list(blocklist)),
+            "reputation_enabled": reputation_lookup is not None,
+            "max_age_days": max_age_days,
+            "max_rows": max_rows,
+        },
+    }
+
+
+class _RLSweepBody(BaseModel):
+    max_age_days: Optional[int] = 7
+    max_rows: int = 500
+
+
+@app.post("/rl/sweep", dependencies=[Depends(verify_admin_api_key)])
+def rl_trigger_sweep(body: _RLSweepBody):
+    """
+    Auto-label pending RL buffer rows using whitelist/blocklist/reputation
+    heuristics. Returns per-bucket counts of how many rows were re-labeled.
+    """
+    try:
+        return _run_heuristic_sweep(max_age_days=body.max_age_days, max_rows=body.max_rows)
+    except Exception as exc:
+        logger.error("[/rl/sweep] failed: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# Periodic background sweeper — opt in via IDS_RL_SWEEP_SEC (default 0 = off).
+# Run in a daemon thread so it dies with the process.
+_RL_SWEEP_SEC = float(os.getenv("IDS_RL_SWEEP_SEC", "0"))
+_rl_sweep_thread: Optional[Thread] = None
+
+
+def _rl_sweep_worker() -> None:
+    interval = max(30.0, _RL_SWEEP_SEC)  # clamp — sub-30s sweeps hammer reputation APIs
+    logger.info("RL heuristic sweeper started; interval=%ss", interval)
+    while True:
+        try:
+            time.sleep(interval)
+            result = _run_heuristic_sweep(max_age_days=7, max_rows=200)
+            counts = result.get("counts") or {}
+            if any(v for k, v in counts.items() if k != "skipped"):
+                logger.info("RL sweep: %s", counts)
+        except Exception as exc:
+            logger.warning("RL sweep worker error (will retry): %s", exc)
+
+
+if _RL_SWEEP_SEC > 0:
+    _rl_sweep_thread = Thread(target=_rl_sweep_worker, name="rl-heuristic-sweeper", daemon=True)
+    _rl_sweep_thread.start()
 
 
 # ---------------------------------------------------

@@ -8,11 +8,6 @@ try:
 except ImportError:
     from .runtime_compat import StateGraph, START, END
 
-try:
-    from langchain_mistralai import ChatMistralAI
-except ImportError:
-    from .runtime_compat import ChatMistralAI
-
 from typing import Dict, Any, TypedDict
 import os
 import json
@@ -20,6 +15,12 @@ import uuid
 import logging
 from .runtime_compat import MessagesState # Ensure we use protected state if needed
 from dotenv import load_dotenv
+
+# Route through the shared LLM factory so this workflow respects
+# LLM_PROVIDER (ollama / ragarenn / mistral / ...) like every other tier.
+# Previously hardcoded to ChatMistralAI → 401s whenever the project wasn't
+# on mistral, silently breaking the DevSecOps sub-workflow.
+from .LLMClient import build_llm
 
 logger = logging.getLogger(__name__)
 
@@ -54,27 +55,30 @@ class DevSecOpsWorkflow:
     """
 
     def __init__(self, api_key: str = None):
-        """Initialize DevSecOps workflow."""
-        self.api_key = api_key or os.getenv('MISTRAL_API_KEY')
-        
-        # Initialize LLMs
-        if self.api_key:
-            self.llm_generator = ChatMistralAI(
-                model=config.get('Model', 'mistral-large-latest'),
-                api_key=self.api_key,
-                temperature=0.2,  # Low for code generation
-                timeout=60,
+        """Initialize DevSecOps workflow.
+
+        The `api_key` arg is kept for backwards compatibility but is no longer
+        required — the active provider is whatever LLM_PROVIDER points at.
+        Per-role overrides via IDS_CODEGENERATOR_MODEL / IDS_CODEREVIEWER_MODEL.
+        """
+        self.api_key = api_key  # retained for backcompat, unused
+
+        try:
+            self.llm_generator = build_llm(
+                temperature=0.2,  # low for code generation
+                api_key=api_key,  # passed through to the provider that wants it
+                role="CodeGenerator",
             )
-            self.llm_reviewer = ChatMistralAI(
-                model=config.get('Model', 'mistral-large-latest'),
-                api_key=self.api_key,
-                temperature=0.1,  # Very low for analysis
-                timeout=60,
+            self.llm_reviewer = build_llm(
+                temperature=0.1,  # very low for analysis
+                api_key=api_key,
+                role="CodeReviewer",
             )
-        else:
+        except Exception as exc:
+            logger.warning("DevSecOpsWorkflow LLM init failed: %s — workflow will run in fallback mode.", exc)
             self.llm_generator = None
             self.llm_reviewer = None
-        
+
         self.graph = self._create_graph()
         self.app = self.graph.compile()
 

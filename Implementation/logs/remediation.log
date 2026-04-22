@@ -1,7 +1,55 @@
-2026-04-22 18:07:18 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
-INFO:     127.0.0.1:49718 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53533 - "GET /health HTTP/1.1" 200 OK
-2026-04-22 18:08:48 - AgentServer - INFO - Lazy initializing remediation agent...
-2026-04-22 18:08:49 - AgentServer - INFO - remediation agent initialized.
-INFO:     127.0.0.1:54621 - "POST /process HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54628 - "POST /process HTTP/1.1" 200 OK
+2026-04-22 18:58:53 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
+INFO:     127.0.0.1:26817 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38791 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 19:00:03 - AgentServer - INFO - Lazy initializing remediation agent...
+2026-04-22 19:00:05 - AgentServer - INFO - remediation agent initialized.
+INFO:     127.0.0.1:57079 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1251 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32208 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:17079 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54226 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43004 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40269 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4336 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26350 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:26357 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48314 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19994 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:19997 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33183 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8739 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51643 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51655 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51659 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13995 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49283 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49294 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49310 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49323 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39210 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:23765 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36718 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10030 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46029 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46054 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12141 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3868 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10030 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42954 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1995 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33067 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37487 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10330 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61420 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44121 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:29325 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53041 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:16108 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40241 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61864 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1744 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1751 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38499 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12107 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36802 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61323 - "POST /process HTTP/1.1" 200 OK
