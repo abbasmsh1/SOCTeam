@@ -69,43 +69,52 @@ class FlowExtractor:
         Returns:
             Dictionary mapping CICFlowMeter columns to IDS columns
         """
-        # This mapping may need to be adjusted based on your specific IDS model
-        # CICFlowMeter typically outputs ~80 features
+        # CICFlowMeter (the Python package at pypi cicflowmeter) emits ~80
+        # columns with *short* snake_case names (e.g. `tot_fwd_pkts`, not
+        # `total_fwd_packets`). Earlier versions of this mapping used the
+        # long CIC-IDS dataset names — every run logged 9 "Feature X not
+        # found" warnings and those features were silently zero-filled,
+        # which tanked classifier accuracy on live captures.
+        #
+        # The canonical source of truth is the CSV header written by
+        # cicflowmeter.flow_session; see Temp/*_flows.csv from any live
+        # capture run for the exact names.
         mapping = {
             # Flow basics
-            'src_ip': 'IPV4_SRC_ADDR',
-            'dst_ip': 'IPV4_DST_ADDR',
-            'src_port': 'L4_SRC_PORT',
-            'dst_port': 'L4_DST_PORT',
-            'protocol': 'PROTOCOL',
-            
+            'src_ip':            'IPV4_SRC_ADDR',
+            'dst_ip':            'IPV4_DST_ADDR',
+            'src_port':          'L4_SRC_PORT',
+            'dst_port':          'L4_DST_PORT',
+            'protocol':          'PROTOCOL',
+
             # Flow duration and packet counts
-            'flow_duration': 'FLOW_DURATION_MILLISECONDS',
-            'total_fwd_packets': 'IN_PKTS',
-            'total_bwd_packets': 'OUT_PKTS',
-            
+            'flow_duration':     'FLOW_DURATION_MILLISECONDS',
+            'tot_fwd_pkts':      'IN_PKTS',
+            'tot_bwd_pkts':      'OUT_PKTS',
+
             # Packet sizes
-            'total_length_fwd_packets': 'IN_BYTES',
-            'total_length_bwd_packets': 'OUT_BYTES',
-            'fwd_packet_length_max': 'MAX_IP_PKT_LEN',
-            'fwd_packet_length_min': 'MIN_IP_PKT_LEN',
-            'fwd_packet_length_mean': 'MEAN_IP_PKT_LEN',
-            
-            # Flow statistics
-            'flow_bytes_per_s': 'BYTES_PER_SECOND',
-            'flow_packets_per_s': 'PKTS_PER_SECOND',
-            
-            # TCP flags
-            'fwd_psh_flags': 'TCP_FLAGS',
-            'fwd_urg_flags': 'TCP_FLAGS',
-            
+            'totlen_fwd_pkts':   'IN_BYTES',
+            'totlen_bwd_pkts':   'OUT_BYTES',
+            'fwd_pkt_len_max':   'MAX_IP_PKT_LEN',
+            'fwd_pkt_len_min':   'MIN_IP_PKT_LEN',
+            'fwd_pkt_len_mean':  'MEAN_IP_PKT_LEN',
+
+            # Flow rates
+            'flow_byts_s':       'BYTES_PER_SECOND',
+            'flow_pkts_s':       'PKTS_PER_SECOND',
+
+            # TCP flags (both columns map to the same model feature; the
+            # extractor picks whichever is non-zero — this is intentional)
+            'fwd_psh_flags':     'TCP_FLAGS',
+            'fwd_urg_flags':     'TCP_FLAGS',
+
             # Inter-arrival times
-            'flow_iat_mean': 'FLOW_IAT_MEAN',
-            'flow_iat_std': 'FLOW_IAT_STD',
-            'flow_iat_max': 'FLOW_IAT_MAX',
-            'flow_iat_min': 'FLOW_IAT_MIN',
+            'flow_iat_mean':     'FLOW_IAT_MEAN',
+            'flow_iat_std':      'FLOW_IAT_STD',
+            'flow_iat_max':      'FLOW_IAT_MAX',
+            'flow_iat_min':      'FLOW_IAT_MIN',
         }
-        
+
         return mapping
     
     def extract_from_pcap(self, pcap_path: str, output_file: str = None) -> pd.DataFrame:

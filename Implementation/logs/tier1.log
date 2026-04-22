@@ -1,3 +1,11 @@
-2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
-INFO:     127.0.0.1:60616 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60665 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 17:44:08 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
+INFO:     127.0.0.1:64364 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50682 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 17:44:42 - AgentServer - INFO - Lazy initializing tier1 agent...
+2026-04-22 17:44:43 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 17:45:00 - AgentServer - INFO - tier1 agent initialized.
+INFO:     127.0.0.1:50688 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50287 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50236 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52227 - "POST /process HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49678 - "POST /process HTTP/1.1" 200 OK

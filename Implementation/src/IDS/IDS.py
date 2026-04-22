@@ -54,7 +54,7 @@ except ImportError:
 
 from fastapi import Header, HTTPException, Depends, Query, Request
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 import logging
 from collections import deque
 from Implementation.src.IDS.api_models import (
@@ -187,8 +187,8 @@ class IDSConfig:
     REPORTS_DIR = os.path.join(_BASE_DIR, "Reports")
     HOST = "0.0.0.0"
     PORT = 6050  # FIX: removed duplicate PORT assignment
-    # Queue SOC workflow when malicious class confidence is above this (0–1). Default: >85%.
-    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.85"))
+    # Queue SOC workflow when malicious class confidence is above this (0–1). Default: >90%.
+    AUTO_WORKFLOW_CONFIDENCE = float(os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.90"))
     AUTO_WORKFLOW_COOLDOWN_SEC = float(os.getenv("IDS_AUTO_WORKFLOW_COOLDOWN_SEC", "10"))
     WORKFLOW_QUEUE_MAXSIZE = int(os.getenv("IDS_WORKFLOW_QUEUE_MAXSIZE", "200"))
     REPORTS_CACHE_TTL_SEC = float(os.getenv("IDS_REPORTS_CACHE_TTL_SEC", "30"))
@@ -986,10 +986,12 @@ def _quarantine_blocked_flow(src_ip: str, data: dict) -> dict:
 
 def _maybe_pending_human(src_ip: str, predicted_label: str, confidence: float, data: dict) -> Optional[dict]:
     """
-    For medium-confidence threats (0.6 <= c < 0.9) where IP reputation says RATE_LIMIT,
-    add a PENDING_HUMAN record and return it. Returns None if no human intervention needed.
+    For medium-confidence threats (0.6 <= c < AUTO_WORKFLOW_CONFIDENCE) where IP
+    reputation says RATE_LIMIT, add a PENDING_HUMAN record and return it. The upper
+    bound tracks the workflow-trigger threshold so the two bands never overlap.
+    Returns None if no human intervention needed.
     """
-    if confidence < 0.6 or confidence >= 0.9 or predicted_label == "BENIGN":
+    if confidence < 0.6 or confidence >= IDSConfig.AUTO_WORKFLOW_CONFIDENCE or predicted_label == "BENIGN":
         return None
     if not src_ip or src_ip == "Unknown":
         return None
@@ -1019,6 +1021,93 @@ def _maybe_pending_human(src_ip: str, predicted_label: str, confidence: float, d
     return entry
 
 
+# ---------------------------------------------------------------------------
+# Self-IP allowlist — flows originating from this host are never flagged.
+# ---------------------------------------------------------------------------
+# Operators running offensive tools from their own workstation (nmap, burp, etc.)
+# would otherwise trigger the IDS on every probe. This gate short-circuits those
+# flows to BENIGN before inference, skips the SOC workflow, and still emits a
+# muted dashboard event tagged `self_origin=True` for visibility.
+#
+# Set IDS_SELF_IPS="10.0.0.5,192.168.1.10" to pin extra addresses. Auto-
+# detection of local interface addresses via psutil runs every
+# IDS_SELF_IPS_REFRESH_SEC seconds (default 60) to keep up with DHCP/VPN churn.
+
+_SELF_IPS_REFRESH_SEC = float(os.getenv("IDS_SELF_IPS_REFRESH_SEC", "60"))
+_self_ip_state: Dict[str, Any] = {"ips": None, "ts": 0.0}
+_self_ip_lock = Lock()
+
+
+def _configured_self_ips() -> Set[str]:
+    """IPs explicitly pinned by the operator via IDS_SELF_IPS (comma-separated)."""
+    raw = os.getenv("IDS_SELF_IPS", "")
+    return {ip.strip() for ip in raw.split(",") if ip.strip()}
+
+
+def _detect_local_ips() -> Set[str]:
+    """Enumerate IPv4/IPv6 addresses bound to any local interface."""
+    ips: Set[str] = {"127.0.0.1", "::1", "0.0.0.0"}
+    if os.getenv("IDS_AUTODETECT_SELF_IPS", "true").lower() in ("false", "0", "no"):
+        return ips
+    try:
+        import psutil  # type: ignore
+        import socket as _socket
+        for _iface, snics in psutil.net_if_addrs().items():
+            for snic in snics:
+                if snic.family in (_socket.AF_INET, getattr(_socket, "AF_INET6", -1)) and snic.address:
+                    # Strip IPv6 zone id ("fe80::1%eth0") — scapy/capture strips it too.
+                    addr = snic.address.split("%", 1)[0]
+                    ips.add(addr)
+    except Exception as exc:
+        logger.debug("self-IP autodetection failed: %s", exc)
+    return ips
+
+
+def get_self_ips(force: bool = False) -> Set[str]:
+    """Cached union of configured + auto-detected local IPs."""
+    now = time.monotonic()
+    st = _self_ip_state
+    if not force and st["ips"] is not None and (now - st["ts"]) < _SELF_IPS_REFRESH_SEC:
+        return st["ips"]
+    with _self_ip_lock:
+        if not force and st["ips"] is not None and (now - st["ts"]) < _SELF_IPS_REFRESH_SEC:
+            return st["ips"]
+        ips = _configured_self_ips() | _detect_local_ips()
+        st["ips"] = ips
+        st["ts"] = now
+        return ips
+
+
+def is_self_source_ip(ip: Optional[str]) -> bool:
+    """True iff `ip` is a known local-host address (unknown/empty is not self)."""
+    if not ip or ip == "Unknown":
+        return False
+    return ip in get_self_ips()
+
+
+def _emit_self_origin_event(data: dict, src_ip: str) -> dict:
+    """Push a muted 'self-origin' flow onto the live events deque."""
+    dst = _flow_endpoint_str(
+        data, "DestinationIP", "Destination IP", "dst_ip",
+        "IPV4_DST_ADDR", "ipv4_dst_addr", "Dest IP", "destination_ip",
+    )
+    event = {
+        "id": str(uuid.uuid4()),
+        "SourceIP": src_ip,
+        "DestinationIP": dst,
+        "IPV4_SRC_ADDR": src_ip,
+        "IPV4_DST_ADDR": dst,
+        "Protocol": _dashboard_protocol_label(data),
+        "Attack": "Benign",
+        "confidence": 1.0,
+        "self_origin": True,
+        "timestamp": datetime.now().isoformat(),
+        "severity": "info",
+    }
+    live_events.appendleft(event)
+    return event
+
+
 @app.post("/predict/", dependencies=[Depends(verify_api_key)])
 @limiter.limit(RATE_LIMIT_PREDICT)
 async def predict_api(request: Request, flow: FlowRecord):
@@ -1036,6 +1125,21 @@ async def predict_api(request: Request, flow: FlowRecord):
                 return {"status": "blocked", "ip": src_ip_early, "reason": "Active firewall rule"}
         except Exception as exc:
             logger.warning("IP block lookup failed for %s: %s", src_ip_early, exc)
+
+    # Self-origin gate — traffic FROM this host never gets flagged. Skips inference,
+    # RL feedback, and SOC workflow. Still surfaces a muted event on the dashboard
+    # so the operator can see their own traffic, tagged self_origin=True.
+    if is_self_source_ip(src_ip_early):
+        logger.debug("Self-origin flow from %s — skipping inference", src_ip_early)
+        _emit_self_origin_event(data, src_ip_early)
+        return {
+            "status": "self_origin",
+            "predicted_label": "BENIGN",
+            "predicted_index": 0,
+            "confidence": 1.0,
+            "self_origin": True,
+            "source_ip": src_ip_early,
+        }
 
     predictor = get_predictor()
     with _prom_predict_latency.time():
@@ -1574,13 +1678,19 @@ def get_overview(threats_window: int = Query(3600, ge=60, le=86400), threats_lim
     }
 
 
-@app.get("/metrics/drift", dependencies=[Depends(verify_api_key)])
+@app.get("/metrics/drift")
 def get_drift_metrics():
-    """Current PSI report; empty if no baseline has been registered."""
+    """Current PSI report; empty if no baseline has been registered.
+
+    Public (no X-API-Key) — matches the /metrics Prometheus endpoint so that
+    scrapers and dashboards can pull drift stats without credentials. Sensitive
+    endpoints (POST /rl/train, POST /rl/feedback, /workflow/process, etc.)
+    remain admin-gated.
+    """
     return _drift_monitor.report()
 
 
-@app.get("/metrics/calibration", dependencies=[Depends(verify_api_key)])
+@app.get("/metrics/calibration")
 def get_calibration_metrics():
     """Read the latest calibration report from Reports/calibration.json."""
     path = os.path.join(IDSConfig.REPORTS_DIR, "calibration.json")
@@ -1644,7 +1754,7 @@ def get_class_balance_metrics():
 # ---------------------------------------------------
 # RL feedback pipeline
 # ---------------------------------------------------
-@app.get("/rl/stats", dependencies=[Depends(verify_api_key)])
+@app.get("/rl/stats")
 def rl_stats():
     """Current RL experience-buffer state + per-class FP rates + thresholds."""
     from Implementation.src.IDS.rl import FeedbackHook
@@ -1724,7 +1834,7 @@ def rl_trigger_training(body: _RLTrainBody):
     }
 
 
-@app.get("/rl/policy", dependencies=[Depends(verify_api_key)])
+@app.get("/rl/policy")
 def rl_policy_snapshot():
     """Read-only snapshot of the adaptive confidence-threshold policy."""
     try:
@@ -1736,7 +1846,7 @@ def rl_policy_snapshot():
 # ---------------------------------------------------
 # Incident graph
 # ---------------------------------------------------
-@app.get("/graph/summary", dependencies=[Depends(verify_api_key)])
+@app.get("/graph/summary")
 def graph_summary():
     from Implementation.src.IDS.incident_graph import get_incident_graph
     try:
@@ -1745,7 +1855,7 @@ def graph_summary():
         raise HTTPException(status_code=500, detail=str(exc))
 
 
-@app.get("/graph/ip/{ip}", dependencies=[Depends(verify_api_key)])
+@app.get("/graph/ip/{ip}")
 def graph_ip(ip: str, limit: int = 25):
     from Implementation.src.IDS.incident_graph import get_incident_graph
     try:
@@ -1754,7 +1864,7 @@ def graph_ip(ip: str, limit: int = 25):
         raise HTTPException(status_code=500, detail=str(exc))
 
 
-@app.get("/graph/attack/{attack_type}", dependencies=[Depends(verify_api_key)])
+@app.get("/graph/attack/{attack_type}")
 def graph_attack(attack_type: str, limit: int = 25):
     from Implementation.src.IDS.incident_graph import get_incident_graph
     try:
@@ -1883,6 +1993,13 @@ def _process_flow_record(data: dict) -> Optional[Dict[str, Any]]:
                 return None
         except Exception as exc:
             logger.warning("IP block lookup failed for %s: %s", src_early, exc)
+
+    # Self-origin gate — same semantics as the /predict endpoint, applied to
+    # the live-capture path so interface-sniffed flows from this host are also
+    # suppressed.
+    if is_self_source_ip(src_early):
+        _emit_self_origin_event(data, src_early)
+        return None
 
     predictor = get_predictor()
     result = predictor.predict(data)
@@ -2044,6 +2161,28 @@ def stop_live_capture():
 def capture_status():
     """Return current capture state (live | csv | idle)."""
     return dict(_live_capture_state)
+
+
+@app.get("/self-ips", dependencies=[Depends(verify_api_key)])
+def self_ips_status():
+    """Inspect the active self-IP allowlist (flows FROM these addresses are never flagged)."""
+    configured = sorted(_configured_self_ips())
+    effective = sorted(get_self_ips())
+    autodetect = os.getenv("IDS_AUTODETECT_SELF_IPS", "true").lower() not in ("false", "0", "no")
+    return {
+        "configured": configured,
+        "effective": effective,
+        "autodetect_enabled": autodetect,
+        "refresh_sec": _SELF_IPS_REFRESH_SEC,
+        "refreshed_at_monotonic": _self_ip_state["ts"],
+    }
+
+
+@app.post("/self-ips/refresh", dependencies=[Depends(verify_admin_api_key)])
+def self_ips_refresh():
+    """Force re-detection of local interface IPs (e.g. after VPN connect)."""
+    ips = get_self_ips(force=True)
+    return {"status": "refreshed", "count": len(ips), "effective": sorted(ips)}
 
 
 # ---------------------------------------------------

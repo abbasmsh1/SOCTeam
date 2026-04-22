@@ -30,9 +30,9 @@ from ...utils.Logger import setup_logger
 
 logger = setup_logger(__name__)
 
-# Auto-pilot / enforcement threshold (0–1). Defaults to >50%; can override via env.
+# Auto-pilot / enforcement threshold (0–1). Defaults to >90%; can override via env.
 _REMEDIATION_AUTO_MIN = float(
-    os.getenv("IDS_REMEDIATION_AUTO_MIN_CONFIDENCE", os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.5"))
+    os.getenv("IDS_REMEDIATION_AUTO_MIN_CONFIDENCE", os.getenv("IDS_AUTO_WORKFLOW_CONFIDENCE", "0.9"))
 )
 # When true (default), Tier 2+ runs on a worker thread so the caller returns after Tier 1 (direct mode / microservices).
 _TIER2_BACKGROUND = os.getenv("SOC_WORKFLOW_TIER2_BACKGROUND", "true").strip().lower() in (

@@ -1,3 +1,6 @@
-2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
-INFO:     127.0.0.1:60621 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60670 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 17:44:08 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
+INFO:     127.0.0.1:53032 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50687 - "GET /health HTTP/1.1" 200 OK
+2026-04-22 17:46:03 - AgentServer - INFO - Lazy initializing remediation agent...
+2026-04-22 17:46:05 - AgentServer - INFO - remediation agent initialized.
+INFO:     127.0.0.1:60047 - "POST /process HTTP/1.1" 200 OK

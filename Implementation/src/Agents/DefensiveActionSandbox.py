@@ -205,7 +205,7 @@ class DefensiveActionSandbox:
             if not self._is_internal_ip(target):
                 return "ISOLATE_HOST_REQUIRES_INTERNAL_IP"
 
-        if action == "BLOCK_IP" and malicious_confidence < 0.5 and attack_name not in {"DDOS", "BOTNET", "BRUTEFORCE"}:
+        if action == "BLOCK_IP" and malicious_confidence < 0.9 and attack_name not in {"DDOS", "BOTNET", "BRUTEFORCE"}:
             return "LOW_CONFIDENCE_BLOCK"
 
         return None

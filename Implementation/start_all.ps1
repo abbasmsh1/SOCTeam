@@ -38,6 +38,20 @@
     Scapy NPF interface name to capture on (default: Wi-Fi).
 .PARAMETER CaptureCycleSec
     Live-capture cycle length in seconds (default: 12).
+.PARAMETER Llm
+    LLM backend for every agent tier. One of: ollama, ragarenn, mistral,
+    openai, anthropic. Overrides LLM_PROVIDER from .env. Leave blank to
+    inherit whatever .env says.
+
+    Examples:
+      ./start_all.ps1 -Llm ollama                # local, free, offline-safe
+      ./start_all.ps1 -Llm ragarenn              # hosted, better JSON adherence
+      ./start_all.ps1 -Llm ollama -LlmModel mistral
+.PARAMETER LlmModel
+    Model name override. Applied on top of -Llm (or the current provider if
+    -Llm is not given). Defaults per provider: ollama->llama3.2,
+    ragarenn->mistral-small, mistral->mistral-small, openai->gpt-4o-mini,
+    anthropic->claude-3-5-haiku-latest.
 #>
 param(
     [switch]$SkipAgents,
@@ -54,7 +68,15 @@ param(
     [switch]$RunContractTests,
     [string]$CorsOrigins = "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:4173,http://localhost:4173",
     [string]$CaptureInterface = '\Device\NPF_{B62790C3-44DC-4D2B-9748-4E5D3472D2D4}',
-    [int]$CaptureCycleSec = 12
+    [int]$CaptureCycleSec = 12,
+    # --- LLM provider switch -------------------------------------------------
+    # Pick which backend every agent tier (Tier1/2/3 + WarRoom) talks to.
+    # Leave blank to inherit LLM_PROVIDER from .env.
+    [ValidateSet("", "ollama", "ragarenn", "mistral", "openai", "anthropic")]
+    [string]$Llm = "",
+    # Optional model override. If blank, a provider-appropriate default is used
+    # when -Llm is set; otherwise whatever LLM_MODEL in .env says.
+    [string]$LlmModel = ""
 )
 
 # ---------------------------------------------------------------------------
@@ -88,6 +110,83 @@ if (Test-Path $envFile) {
 # Always start clean: never inherit stale TIER*_URL envs from the parent shell.
 # These are only set below if the matching microservice actually comes up.
 Remove-Item Env:TIER1_URL, Env:TIER2_URL, Env:TIER3_URL, Env:WARROOM_URL, Env:REPORTER_URL, Env:REMEDIATION_URL -ErrorAction SilentlyContinue
+
+# ---------------------------------------------------------------------------
+# LLM provider switch (-Llm ollama | ragarenn | ...)
+# ---------------------------------------------------------------------------
+# When -Llm is specified on the command line it overrides LLM_PROVIDER from
+# .env. A per-provider default model is applied unless -LlmModel was supplied
+# or LLM_MODEL is already set in .env.
+$DefaultLlmModel = @{
+    "ollama"    = "llama3.2"
+    "ragarenn"  = "mistral-small"
+    "mistral"   = "mistral-small"
+    "openai"    = "gpt-4o-mini"
+    "anthropic" = "claude-3-5-haiku-latest"
+}
+
+if ($Llm) {
+    $env:LLM_PROVIDER = $Llm
+    if ($LlmModel) {
+        $env:LLM_MODEL = $LlmModel
+    }
+    elseif ($DefaultLlmModel.ContainsKey($Llm)) {
+        $env:LLM_MODEL = $DefaultLlmModel[$Llm]
+    }
+}
+elseif ($LlmModel) {
+    # -LlmModel without -Llm: keep the .env-provided provider but override the model.
+    $env:LLM_MODEL = $LlmModel
+}
+
+# Fallbacks so the banner is never blank
+if (-not $env:LLM_PROVIDER) { $env:LLM_PROVIDER = "ragarenn" }
+if (-not $env:LLM_MODEL)    { $env:LLM_MODEL    = $DefaultLlmModel[$env:LLM_PROVIDER] }
+
+# Per-provider sanity: warn early if required credentials / services are missing.
+$activeProvider = $env:LLM_PROVIDER.ToLower()
+$providerEndpoint = ""
+$providerHealthy = $true
+$providerHint = ""
+
+switch ($activeProvider) {
+    "ollama" {
+        $providerEndpoint = if ($env:OLLAMA_BASE_URL) { $env:OLLAMA_BASE_URL } else { "http://localhost:11434" }
+        try {
+            $null = Invoke-WebRequest -Uri "$providerEndpoint/api/tags" -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop
+        }
+        catch {
+            $providerHealthy = $false
+            $providerHint = "Ollama server not reachable at $providerEndpoint — run 'ollama serve' or pass -Llm ragarenn."
+        }
+    }
+    "ragarenn" {
+        $providerEndpoint = if ($env:RAGARENN_API_BASE) { $env:RAGARENN_API_BASE } else { "(not set)" }
+        if (-not $env:RAGARENN_API_KEY) {
+            $providerHealthy = $false
+            $providerHint = "RAGARENN_API_KEY is not set in .env — add it or pass -Llm ollama."
+        }
+    }
+    "mistral"   { if (-not $env:MISTRAL_API_KEY)   { $providerHealthy = $false; $providerHint = "MISTRAL_API_KEY not set." } }
+    "openai"    { if (-not $env:OPENAI_API_KEY)    { $providerHealthy = $false; $providerHint = "OPENAI_API_KEY not set." } }
+    "anthropic" { if (-not $env:ANTHROPIC_API_KEY) { $providerHealthy = $false; $providerHint = "ANTHROPIC_API_KEY not set." } }
+}
+
+Write-Host ""
+Write-Host ("=" * 60) -ForegroundColor Magenta
+Write-Host "  LLM Provider" -ForegroundColor Magenta
+Write-Host ("=" * 60) -ForegroundColor Magenta
+$providerColor = if ($providerHealthy) { "Green" } else { "Yellow" }
+Write-Host ("  Provider : {0}" -f $env:LLM_PROVIDER) -ForegroundColor $providerColor
+Write-Host ("  Model    : {0}" -f $env:LLM_MODEL)    -ForegroundColor $providerColor
+if ($providerEndpoint) {
+    Write-Host ("  Endpoint : {0}" -f $providerEndpoint) -ForegroundColor DarkGray
+}
+if (-not $providerHealthy) {
+    Write-Host ("  [!] {0}" -f $providerHint) -ForegroundColor Yellow
+    Write-Host "      Agents will fall back to deterministic responses." -ForegroundColor DarkGray
+}
+Write-Host ""
 
 # ---------------------------------------------------------------------------
 # Feature toggles (env vars consumed by IDS.py + modules)
@@ -342,14 +441,12 @@ if (-not $SkipAgents) {
     }
 }
 
-$readKey = [System.Environment]::GetEnvironmentVariable("IDS_API_KEY", "Process")
 foreach ($svc in $services) {
-    $headers = @{}
-    if ($readKey -and ($svc.url -like "*/graph/*" -or $svc.url -like "*/rl/*")) {
-        $headers["X-API-Key"] = $readKey
-    }
+    # All services in $services are public endpoints: /health on each agent,
+    # /metrics, /graph/summary (now public), and the frontend index. No auth
+    # header is needed here — keep the probe simple.
     try {
-        $r = Invoke-WebRequest -Uri $svc.url -UseBasicParsing -TimeoutSec 5 -Headers $headers -ErrorAction Stop
+        $r = Invoke-WebRequest -Uri $svc.url -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
         $statusStr = "RUNNING"
         $color = "Green"
     }
@@ -415,20 +512,22 @@ if ($RunContractTests) {
 # ---------------------------------------------------------------------------
 # 8.0 Quick reference: endpoints enabled by the extension modules
 # ---------------------------------------------------------------------------
-Write-Host "`n---- Extension module endpoints (require X-API-Key) ----" -ForegroundColor Cyan
-Write-Host "  RL pipeline:"
-Write-Host "    GET  /rl/stats          - buffer totals + per-class FP rates + policy"
-Write-Host "    POST /rl/train          - trigger offline fine-tune (admin)"
-Write-Host "    POST /rl/feedback       - manual allow/deny (admin)"
-Write-Host "    GET  /rl/policy         - adaptive confidence-threshold policy"
-Write-Host "  Incident graph:"
-Write-Host "    GET  /graph/summary     - node/edge counts by kind"
-Write-Host "    GET  /graph/ip/{ip}     - incidents involving this IP"
-Write-Host "    GET  /graph/attack/{t}  - IPs seen for an attack type"
-Write-Host "  Observability:"
-Write-Host "    GET  /metrics           - Prometheus scrape (no auth)"
-Write-Host "    GET  /metrics/drift     - PSI feature drift (if baseline set)"
+Write-Host "`n---- Extension module endpoints ----" -ForegroundColor Cyan
+Write-Host "  Read-scope (no auth — observability/inspection):"
+Write-Host "    GET  /rl/stats            - buffer totals + per-class FP rates + policy"
+Write-Host "    GET  /rl/policy           - adaptive confidence-threshold policy"
+Write-Host "    GET  /graph/summary       - node/edge counts by kind"
+Write-Host "    GET  /graph/ip/{ip}       - incidents involving this IP"
+Write-Host "    GET  /graph/attack/{t}    - IPs seen for an attack type"
+Write-Host "    GET  /metrics             - Prometheus scrape"
+Write-Host "    GET  /metrics/drift       - PSI feature drift (if baseline set)"
 Write-Host "    GET  /metrics/calibration - ECE/Brier (if calibration.json present)"
+Write-Host "  Admin-scope (X-API-Key = IDS_ADMIN_API_KEY):"
+Write-Host "    POST /rl/train            - trigger offline fine-tune"
+Write-Host "    POST /rl/feedback         - manual allow/deny"
+Write-Host "    POST /sandbox/clear       - reset defensive-action sandbox"
+Write-Host "    POST /start-live-capture  - arm CICFlowMeter on a NIC"
+Write-Host "    POST /self-ips/refresh    - re-detect local interface IPs"
 Write-Host "  Useful CLIs:"
 Write-Host "    python -m Implementation.tools.rotate_reports --older-than-days 7"
 Write-Host "    python -m Implementation.tools.pcap_replay --pcap x.pcap --expect-blocked 1.2.3.4"

@@ -274,5 +274,41 @@
     "threat_types": [],
     "total_reports": 0,
     "last_updated": "2026-04-20T17:35:38.867968"
+  },
+  "192.168.1.52": {
+    "ip": "192.168.1.52",
+    "abuse_score": 0.0,
+    "is_vpn": false,
+    "is_proxy": false,
+    "is_tor": false,
+    "country": null,
+    "isp": null,
+    "threat_types": [],
+    "total_reports": 0,
+    "last_updated": "2026-04-22T15:44:55.586626"
+  },
+  "192.168.1.21": {
+    "ip": "192.168.1.21",
+    "abuse_score": 0.0,
+    "is_vpn": false,
+    "is_proxy": false,
+    "is_tor": false,
+    "country": null,
+    "isp": null,
+    "threat_types": [],
+    "total_reports": 6,
+    "last_updated": "2026-04-22T15:46:04.476878"
+  },
+  "192.168.1.78": {
+    "ip": "192.168.1.78",
+    "abuse_score": 0.0,
+    "is_vpn": false,
+    "is_proxy": false,
+    "is_tor": false,
+    "country": null,
+    "isp": null,
+    "threat_types": [],
+    "total_reports": 0,
+    "last_updated": "2026-04-22T15:47:44.065719"
   }
 }
