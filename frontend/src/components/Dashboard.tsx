@@ -22,6 +22,7 @@ import RemediationPanel from './RemediationPanel';
 import BlockedIpsTable from './BlockedIpsTable';
 import SandboxStatePanel from './SandboxStatePanel';
 import DispatchAlert from './DispatchAlert';
+import RLStatsPanel from './RLStatsPanel';
 import { StatCard } from './ui/StatCard';
 
 export default function Dashboard() {
@@ -168,6 +169,9 @@ export default function Dashboard() {
 
           {/* Manual dispatch trigger for /soc/auto-rules */}
           <DispatchAlert />
+
+          {/* RL feedback pipeline — buffer state + per-class FP rates + training trigger */}
+          <RLStatsPanel />
 
           {/* Agent Reasoning Path – shows which tier processed the latest report */}
           <div className="hud-card border-primary/20">

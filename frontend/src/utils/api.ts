@@ -39,6 +39,15 @@ export const idsApi = {
     api.post("/start-live-capture", { interface: interface_, duration_per_cycle }),
   stopLiveCapture: () => api.post("/stop-live-capture"),
   getCaptureStatus: () => api.get("/capture-status"),
+  // ── Reinforcement Learning ────────────────────────────────────────────────
+  getRLStats: () => api.get("/rl/stats"),
+  getRLPolicy: () => api.get("/rl/policy"),
+  triggerRLTrain: (body = { limit: 500, epochs: 3, lr: 1e-4, dry_run: false }) =>
+    api.post("/rl/train", body),
+  // ── Incident Graph ────────────────────────────────────────────────────────
+  getGraphSummary: () => api.get("/graph/summary"),
+  getGraphForIP: (ip: string, limit = 25) =>
+    api.get(`/graph/ip/${encodeURIComponent(ip)}`, { params: { limit } }),
 };
 
 export default api;

@@ -141,6 +141,10 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
+# Optional JSON-structured logs with context vars (alert_id / workflow_id).
+# Opt in via IDS_JSON_LOGS=true. No-op otherwise.
+from Implementation.src.IDS.logging_setup import configure_logging, set_log_context, clear_log_context  # noqa: E402
+configure_logging()
 logger = logging.getLogger(__name__)
 
 # Calculate base directory relative to this file
@@ -312,7 +316,21 @@ class IDSPredictor:
             with torch.no_grad():
                 output = self.model(features_tensor)
                 
-        ann_probs = torch.softmax(output, dim=1).detach().cpu().numpy()[0]
+        # Apply temperature scaling if a calibration file exists.
+        _calib_T = getattr(self, "_calib_T", None)
+        if _calib_T is None:
+            try:
+                cpath = os.path.join(self.artifacts_dir, "calibration.json")
+                if os.path.exists(cpath):
+                    with open(cpath, "r", encoding="utf-8") as _fh:
+                        _calib_T = float(json.load(_fh).get("temperature", 1.0))
+                else:
+                    _calib_T = 1.0
+                self._calib_T = _calib_T  # cache
+            except Exception:
+                self._calib_T = _calib_T = 1.0
+        scaled = output / max(0.05, _calib_T)
+        ann_probs = torch.softmax(scaled, dim=1).detach().cpu().numpy()[0]
         probs = ann_probs
         mode = (self.predict_mode or "ann_only").lower().strip()
 
@@ -333,11 +351,24 @@ class IDSPredictor:
         pred_label = self.label_encoder.inverse_transform([pred_idx])[0]
         confidence = float(probs[pred_idx])
 
+        # Optional: gradient×input attributions for the predicted class.
+        # Skipped on tree-only mode because the tree has its own feature importances.
+        top_features = []
+        if os.getenv("IDS_EXPLAIN", "true").lower() in ("1", "true", "yes") and mode != "tree_only":
+            try:
+                from Implementation.src.IDS.explainability import explain_top_features
+                top_features = explain_top_features(
+                    self.model, features_tensor, list(features.columns), pred_idx, k=5,
+                )
+            except Exception as exc:
+                logger.debug("Explainability failed: %s", exc)
+
         return {
             "predicted_label": pred_label,
             "predicted_index": int(pred_idx),
             "confidence": confidence,
             "predict_mode": mode,
+            "top_features": top_features,
         }
 
 
@@ -740,6 +771,30 @@ if _SLOWAPI_AVAILABLE:
 _BLOCKLIST_SWEEP_INTERVAL = float(os.getenv("IDS_BLOCKLIST_SWEEP_SEC", "60"))
 
 
+# --- RL pipeline wiring ------------------------------------------------------
+_rl_policy_singleton = None
+_rl_policy_lock = Lock()
+
+
+def _rl_policy():
+    """Lazy-init of the adaptive confidence-threshold policy."""
+    global _rl_policy_singleton
+    if _rl_policy_singleton is None:
+        with _rl_policy_lock:
+            if _rl_policy_singleton is None:
+                from Implementation.src.IDS.rl.policy import AdaptiveConfidencePolicy
+                _rl_policy_singleton = AdaptiveConfidencePolicy(
+                    base_threshold=IDSConfig.AUTO_WORKFLOW_CONFIDENCE,
+                    persistence_path=os.path.join(_BASE_DIR, "Reports", "rl_policy.json"),
+                )
+    return _rl_policy_singleton
+
+
+def _make_alert_id(src_ip: str, predicted_label: str) -> str:
+    """Deterministic-ish alert id used to correlate /predict with the finalize hook."""
+    return f"RL-{(src_ip or 'unknown').replace(':','_')}-{(predicted_label or 'UNK')[:24]}-{uuid.uuid4().hex[:8]}"
+
+
 async def _blocklist_sweeper():
     import asyncio
     while True:
@@ -761,9 +816,18 @@ async def _on_startup():
 
 
 # Configure CORS
+# CORS spec violation: allow_origins=["*"] with allow_credentials=True is
+# invalid and browsers reject it. Use an explicit list (override via
+# IDS_CORS_ORIGINS as comma-separated values for production).
+_cors_origins = [
+    o.strip() for o in os.getenv(
+        "IDS_CORS_ORIGINS",
+        "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:4173,http://localhost:4173",
+    ).split(",") if o.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["X-API-Key", "Content-Type", "Authorization", "*"],
@@ -936,13 +1000,21 @@ async def predict_api(request: Request, flow: FlowRecord):
         try:
             if get_ip_blocking_manager().is_ip_blocked(src_ip_early):
                 _quarantine_blocked_flow(src_ip_early, data)
+                try: _prom_blocked.inc()
+                except Exception: pass
                 return {"status": "blocked", "ip": src_ip_early, "reason": "Active firewall rule"}
         except Exception as exc:
             logger.warning("IP block lookup failed for %s: %s", src_ip_early, exc)
 
     predictor = get_predictor()
-    result = predictor.predict(data)
+    with _prom_predict_latency.time():
+        result = predictor.predict(data)
     logger.info(f"Prediction: {result['predicted_label']} (Confidence: {result['confidence']:.4f})")
+    try:
+        _prom_flows.labels(predicted_label=result['predicted_label'], source='predict_api').inc()
+        _prom_confidence.labels(predicted_label=result['predicted_label']).observe(float(result.get('confidence', 0.0)))
+    except Exception:
+        pass
     
     # Dashboard event tracking
     pred_label = result['predicted_label']
@@ -1000,8 +1072,30 @@ async def predict_api(request: Request, flow: FlowRecord):
     # Medium-confidence + RATE_LIMIT reputation -> park for human review
     _maybe_pending_human(src, result['predicted_label'], result.get('confidence', 0.0), data)
 
+    # RL: record this prediction so the agent-analysis feedback loop can label it later
+    alert_id = _make_alert_id(src, result['predicted_label'])
+    try:
+        from Implementation.src.IDS.rl import FeedbackHook
+        FeedbackHook.instance().on_prediction(
+            features=data,
+            predicted_label=result['predicted_label'],
+            predicted_idx=int(result.get('predicted_index', 0) or 0),
+            predicted_confidence=float(result.get('confidence', 0.0) or 0.0),
+            src_ip=src,
+            dst_ip=dst,
+            alert_id=alert_id,
+        )
+    except Exception as exc:
+        logger.debug("RL record_prediction skipped: %s", exc)
+
     # Automated Response under load control: queue workflows and enforce cooldown.
-    if result['predicted_label'] != 'BENIGN' and result['confidence'] > IDSConfig.AUTO_WORKFLOW_CONFIDENCE:
+    # RL adaptive policy: use per-class threshold instead of the global constant.
+    _rl_threshold = IDSConfig.AUTO_WORKFLOW_CONFIDENCE
+    try:
+        _rl_threshold = _rl_policy().threshold_for(result['predicted_label'])
+    except Exception:
+        pass
+    if result['predicted_label'] != 'BENIGN' and result['confidence'] > _rl_threshold:
         now = time.monotonic()
         should_queue = False
         with _auto_workflow_lock:
@@ -1012,15 +1106,21 @@ async def predict_api(request: Request, flow: FlowRecord):
 
         if should_queue:
             # Merge original flow fields with prediction so async worker has IPs / NetFlow keys for DB context & tiers
-            workflow_payload = {**data, **result}
+            workflow_payload = {**data, **result, "rl_alert_id": alert_id}
             queue_result = _queue_workflow(workflow_payload, "Automated API Response")
             if queue_result["queued"]:
                 logger.warning("High-confidence threat detected; workflow queued")
                 result["automated_response"] = "SOC Workflow Queued"
+                try: _prom_wf_queued.labels(result='queued').inc()
+                except Exception: pass
             else:
                 result["automated_response"] = "SOC Workflow Skipped (Queue Full)"
+                try: _prom_wf_queued.labels(result='skipped_queue_full').inc()
+                except Exception: pass
         else:
             result["automated_response"] = "SOC Workflow Deferred (Cooldown)"
+            try: _prom_wf_queued.labels(result='deferred_cooldown').inc()
+            except Exception: pass
         
     # Update Advanced IDS Tracking
     try:
@@ -1132,7 +1232,12 @@ def list_reports():
         reports = []
         with os.scandir(reports_dir) as entries:
             for entry in entries:
+                # Skip archive/ and other subdirs — `rotate_reports` moves
+                # old reports there to keep this scan fast.
                 if not entry.is_file() or not entry.name.endswith(".md"):
+                    continue
+                # Defensive extra filter in case archive dir ever contains loose .md
+                if entry.name.startswith(".") or "archive" in entry.name.lower():
                     continue
                 full_path = os.path.join(reports_dir, entry.name)
                 if not _report_markdown_escalated_to_tier2(full_path):
@@ -1371,6 +1476,41 @@ def get_calibration_metrics():
         raise HTTPException(status_code=500, detail=str(exc))
 
 
+# Prometheus scrape endpoint. No auth — standard ops pattern; firewall as needed.
+from Implementation.src.IDS.metrics.prometheus import (
+    render as _render_prometheus,
+    flows_processed_total as _prom_flows,
+    workflows_queued_total as _prom_wf_queued,
+    predictions_blocked_total as _prom_blocked,
+    rl_feedback_total as _prom_rl_fb,
+    workflow_queue_depth as _prom_queue_depth,
+    live_events_in_window as _prom_live_events,
+    rl_buffer_total as _prom_rl_buf,
+    rl_avg_reward as _prom_rl_reward,
+    prediction_latency_seconds as _prom_predict_latency,
+    classifier_confidence as _prom_confidence,
+)
+
+
+@app.get("/metrics")
+def prometheus_metrics():
+    """Prometheus scrape endpoint (text/plain; version=0.0.4)."""
+    from starlette.responses import Response
+    # Refresh dynamic gauges before rendering
+    try:
+        _prom_queue_depth.set(_workflow_queue.qsize())
+        _prom_live_events.set(len(live_events))
+        from Implementation.src.IDS.rl import FeedbackHook
+        stats = FeedbackHook.instance().stats()
+        for status, n in (stats.get("by_status") or {}).items():
+            _prom_rl_buf.labels(status=status).set(n)
+        _prom_rl_reward.set(float(stats.get("avg_reward") or 0.0))
+    except Exception:
+        pass
+    body, ctype = _render_prometheus()
+    return Response(content=body, media_type=ctype)
+
+
 @app.get("/metrics/class-balance", dependencies=[Depends(verify_api_key)])
 def get_class_balance_metrics():
     """Read the latest class-balance report from Reports/class_balance.json."""
@@ -1381,6 +1521,128 @@ def get_class_balance_metrics():
         with open(path, "r", encoding="utf-8") as fh:
             return json.load(fh)
     except (OSError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# ---------------------------------------------------
+# RL feedback pipeline
+# ---------------------------------------------------
+@app.get("/rl/stats", dependencies=[Depends(verify_api_key)])
+def rl_stats():
+    """Current RL experience-buffer state + per-class FP rates + thresholds."""
+    from Implementation.src.IDS.rl import FeedbackHook
+    hook = FeedbackHook.instance()
+    stats = hook.stats()
+    try:
+        policy = _rl_policy()
+        # Refresh policy from latest stats opportunistically
+        policy.refresh_from_buffer(stats)
+        stats["policy"] = policy.snapshot()
+    except Exception as exc:
+        stats["policy_error"] = str(exc)
+    return stats
+
+
+class _RLFeedbackBody(BaseModel):
+    src_ip: str
+    decision: str            # "allow" | "deny"
+    predicted_label: Optional[str] = ""
+
+
+@app.post("/rl/feedback", dependencies=[Depends(verify_admin_api_key)])
+def rl_manual_feedback(body: _RLFeedbackBody):
+    """
+    Manually inject human feedback for an IP. Useful for CLI / scripted labeling
+    outside the quarantine UI. Mirrors /quarantine/{ip}/{allow|deny} but without
+    touching the firewall state.
+    """
+    if body.decision.lower() not in ("allow", "deny"):
+        raise HTTPException(status_code=400, detail="decision must be allow|deny")
+    from Implementation.src.IDS.rl import FeedbackHook
+    result = FeedbackHook.instance().on_quarantine_decision(
+        src_ip=body.src_ip,
+        decision=body.decision.lower(),
+        predicted_label=body.predicted_label or "",
+    )
+    return {"status": "recorded", "signal": result}
+
+
+class _RLTrainBody(BaseModel):
+    limit: int = 500
+    epochs: int = 3
+    lr: float = 1e-4
+    dry_run: bool = False
+
+
+@app.post("/rl/train", dependencies=[Depends(verify_admin_api_key)])
+def rl_trigger_training(body: _RLTrainBody):
+    """
+    Run the offline fine-tuning loop. Spawns a subprocess so it doesn't block
+    the event loop. Returns the subprocess result as parsed JSON.
+    """
+    import subprocess as _sp
+    cmd = [
+        sys.executable, "-m", "Implementation.src.IDS.rl.trainer",
+        "--limit", str(body.limit),
+        "--epochs", str(body.epochs),
+        "--lr", str(body.lr),
+    ]
+    if body.dry_run:
+        cmd.append("--dry-run")
+    try:
+        proc = _sp.run(
+            cmd, cwd=_BASE_DIR, capture_output=True, text=True, timeout=900,
+        )
+    except _sp.TimeoutExpired:
+        raise HTTPException(status_code=504, detail="RL training subprocess timed out after 15m")
+    stdout = (proc.stdout or "").strip()
+    try:
+        parsed = json.loads(stdout.splitlines()[-1]) if stdout else {}
+    except Exception:
+        parsed = {"raw_stdout": stdout[:4000]}
+    return {
+        "exit": proc.returncode,
+        "result": parsed,
+        "stderr_tail": (proc.stderr or "")[-1500:],
+    }
+
+
+@app.get("/rl/policy", dependencies=[Depends(verify_api_key)])
+def rl_policy_snapshot():
+    """Read-only snapshot of the adaptive confidence-threshold policy."""
+    try:
+        return _rl_policy().snapshot()
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# ---------------------------------------------------
+# Incident graph
+# ---------------------------------------------------
+@app.get("/graph/summary", dependencies=[Depends(verify_api_key)])
+def graph_summary():
+    from Implementation.src.IDS.incident_graph import get_incident_graph
+    try:
+        return get_incident_graph().summary()
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.get("/graph/ip/{ip}", dependencies=[Depends(verify_api_key)])
+def graph_ip(ip: str, limit: int = 25):
+    from Implementation.src.IDS.incident_graph import get_incident_graph
+    try:
+        return {"ip": ip, "incidents": get_incident_graph().incidents_for_ip(ip, limit=limit)}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.get("/graph/attack/{attack_type}", dependencies=[Depends(verify_api_key)])
+def graph_attack(attack_type: str, limit: int = 25):
+    from Implementation.src.IDS.incident_graph import get_incident_graph
+    try:
+        return {"attack": attack_type, "ips": get_incident_graph().ips_for_attack(attack_type, limit=limit)}
+    except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
 
@@ -1694,6 +1956,14 @@ def allow_quarantined_ip(ip: str):
     except Exception as exc:
         logger.error("allow_quarantined_ip whitelist error: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
+    try:
+        from Implementation.src.IDS.rl import FeedbackHook
+        FeedbackHook.instance().on_quarantine_decision(
+            src_ip=ip, decision="allow",
+            predicted_label=(entry or {}).get("threat_label", ""),
+        )
+    except Exception as exc:
+        logger.debug("RL quarantine-allow hook skipped: %s", exc)
     return {"status": "allowed", "ip": ip, "entry": entry}
 
 
@@ -1716,6 +1986,14 @@ def deny_quarantined_ip(ip: str):
     except Exception as exc:
         logger.error("deny_quarantined_ip error: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
+    try:
+        from Implementation.src.IDS.rl import FeedbackHook
+        FeedbackHook.instance().on_quarantine_decision(
+            src_ip=ip, decision="deny",
+            predicted_label=entry.get("threat_label", ""),
+        )
+    except Exception as exc:
+        logger.debug("RL quarantine-deny hook skipped: %s", exc)
     return {"status": "blocked", "ip": ip, "entry": entry, "sandbox_result": sandbox_result}
 
 

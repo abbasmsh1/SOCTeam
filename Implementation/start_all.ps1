@@ -1,6 +1,12 @@
 ﻿<#
 .SYNOPSIS
     SOC System - Unified Startup Script (Robust Version)
+.DESCRIPTION
+    Boots HexStrike, agent microservices, IDS backend, frontend, and auto-arms
+    live capture. Exposes knobs for every extension module added after the
+    base v2 pipeline (structured logs, RL, calibration, explainability,
+    incident graph, report rotation, Prometheus, contract tests).
+
 .PARAMETER SkipAgents
     Skip tier microservices (monolith-only mode).
 .PARAMETER SkipHexstrike
@@ -8,15 +14,45 @@
 .PARAMETER SkipLiveCapture
     Skip auto-starting live-capture on the Wi-Fi adapter.
 .PARAMETER RunFeeder
-    Also launch the CSV flow feeder.
+    Also launch the CSV flow feeder (with --priority ordering).
+
+.PARAMETER JsonLogs
+    Emit structured JSON log lines (IDS_JSON_LOGS=true).
+.PARAMETER DisableRL
+    Turn off the RL experience buffer + feedback hook (IDS_RL_ENABLED=false).
+.PARAMETER DisableExplain
+    Turn off gradient attributions on /predict (IDS_EXPLAIN=false).
+.PARAMETER RotateReports
+    Archive Reports/*.md older than RotateDaysOlderThan before starting.
+.PARAMETER RotateDaysOlderThan
+    Age in days for report rotation (default: 7).
+.PARAMETER RunRLTraining
+    After the backend is up, POST /rl/train to fine-tune the ANN on buffered feedback.
+.PARAMETER RLTrainingEpochs
+    Epochs for the RL trainer invocation (default: 3).
+.PARAMETER RunContractTests
+    After startup, run pytest Implementation/tests/test_contract.py.
+.PARAMETER CorsOrigins
+    Comma-separated origins for IDS_CORS_ORIGINS. Default covers Vite 5173/4173.
 .PARAMETER CaptureInterface
     Scapy NPF interface name to capture on (default: Wi-Fi).
+.PARAMETER CaptureCycleSec
+    Live-capture cycle length in seconds (default: 12).
 #>
 param(
     [switch]$SkipAgents,
     [switch]$SkipHexstrike,
     [switch]$SkipLiveCapture,
     [switch]$RunFeeder,
+    [switch]$JsonLogs,
+    [switch]$DisableRL,
+    [switch]$DisableExplain,
+    [switch]$RotateReports,
+    [int]$RotateDaysOlderThan = 7,
+    [switch]$RunRLTraining,
+    [int]$RLTrainingEpochs = 3,
+    [switch]$RunContractTests,
+    [string]$CorsOrigins = "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:4173,http://localhost:4173",
     [string]$CaptureInterface = '\Device\NPF_{B62790C3-44DC-4D2B-9748-4E5D3472D2D4}',
     [int]$CaptureCycleSec = 12
 )

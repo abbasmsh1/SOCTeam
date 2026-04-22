@@ -15,7 +15,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Ban, Trash2, ArrowLeft, Shield, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Check, Ban, Trash2, ArrowLeft, Shield, AlertTriangle, RefreshCw, Brain } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { idsApi } from '../utils/api';
 
@@ -81,6 +81,7 @@ export default function QuarantinePage() {
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [lastError, setLastError] = useState<string | null>(null);
+  const [rlStats, setRlStats] = useState<{ total?: number; avg_reward?: number; by_status?: Record<string, number> } | null>(null);
 
   const pushToast = useCallback((message: string, tone: Toast['tone'] = 'success') => {
     const id = crypto.randomUUID();
@@ -92,7 +93,11 @@ export default function QuarantinePage() {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [qRes, bRes] = await Promise.all([idsApi.getQuarantine(), idsApi.getBlockedIps()]);
+      const [qRes, bRes, rlRes] = await Promise.all([
+        idsApi.getQuarantine(),
+        idsApi.getBlockedIps(),
+        idsApi.getRLStats().catch(() => ({ data: null })),
+      ]);
       setEntries(Array.isArray(qRes.data) ? qRes.data : []);
       const bPayload = bRes.data as BlockListResponse;
       const blockedIps = bPayload?.blocked_ips ?? {};
@@ -102,6 +107,9 @@ export default function QuarantinePage() {
           ip,
         }))
       );
+      if (rlRes?.data && rlRes.data.enabled !== false) {
+        setRlStats(rlRes.data);
+      }
       setLastError(null);
     } catch (err: any) {
       console.error('[QuarantinePage] fetch failed:', err);
@@ -181,6 +189,33 @@ export default function QuarantinePage() {
       {lastError && (
         <div className="border border-malicious/40 bg-malicious/10 px-3 py-2 text-[11px] font-mono text-malicious">
           Backend error: {lastError}
+        </div>
+      )}
+
+      {rlStats && (
+        <div className="hud-card border-primary/10 bg-primary/5 flex items-center gap-6 py-3 px-4">
+          <div className="flex items-center gap-2">
+            <Brain size={14} className="text-primary" />
+            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">
+              Your decisions train the model
+            </span>
+          </div>
+          <div className="flex items-center gap-4 ml-auto text-[11px] font-mono">
+            <span>
+              <span className="text-slate-500">buffer </span>
+              <span className="text-white font-bold">{rlStats.total ?? 0}</span>
+            </span>
+            <span>
+              <span className="text-slate-500">labeled </span>
+              <span className="text-benign font-bold">{rlStats.by_status?.labeled ?? 0}</span>
+            </span>
+            <span>
+              <span className="text-slate-500">avg reward </span>
+              <span className={`font-bold ${((rlStats.avg_reward ?? 0) > 0.3) ? 'text-benign' : (rlStats.avg_reward ?? 0) < -0.3 ? 'text-malicious' : 'text-warning'}`}>
+                {(rlStats.avg_reward ?? 0).toFixed(3)}
+              </span>
+            </span>
+          </div>
         </div>
       )}
 

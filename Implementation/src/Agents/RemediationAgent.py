@@ -127,22 +127,58 @@ class RemediationAgent:
                 logger.warning("RemediationAgent: add_blocked_ip failed for %s: %s", target, exc)
 
         if action == "ENRICH_TARGET" and self.hexstrike:
-            log_entry["status"] = self._execute_enrichment(target)
+            attack_class = str(threat_info.get("Attack") or threat_info.get("predicted_label") or "UNKNOWN")
+            log_entry["status"] = self._execute_enrichment(target, attack_class=attack_class)
 
         self._save_log(log_entry)
         return log_entry
 
-    def _execute_enrichment(self, target: str) -> str:
-        if self.hexstrike:
+    def _execute_enrichment(self, target: str, attack_class: str = "UNKNOWN") -> str:
+        """
+        Run HexStrike enrichment. Uses a per-attack-class bandit to pick which
+        tool(s) to run — productive tools win more pulls over time.
+        """
+        if not self.hexstrike:
+            return "HEXSTRIKE_UNAVAILABLE"
+        try:
+            from .HexstrikeBandit import get_bandit
+            bandit = get_bandit()
+        except Exception:
+            bandit = None
+
+        any_substantive = False
+        tools_run = []
+        for _ in range(2):  # Two pulls per enrichment pass
+            tool = (
+                bandit.select(attack_class) if bandit
+                else "analyze_target"
+            )
+            if tool in tools_run:  # Avoid re-pulling the same arm inside one pass
+                continue
+            tools_run.append(tool)
             try:
-                logger.info("Running HexStrike enrichment for %s", target)
-                analysis = self.hexstrike.analyze_target(target, "comprehensive")
-                reputation = self.hexstrike.check_ip_reputation(target)
-                return "ENRICHMENT_COMPLETED" if (analysis is not None or reputation is not None) else "ENRICHMENT_EMPTY"
+                if tool == "analyze_target":
+                    result = self.hexstrike.analyze_target(target, "comprehensive")
+                elif tool == "nmap_scan":
+                    result = self.hexstrike.nmap_scan(target)
+                elif tool == "nuclei_scan":
+                    web = target if target.startswith("http") else f"http://{target}"
+                    result = self.hexstrike.nuclei_scan(web, severity="critical,high")
+                elif tool == "check_ip_reputation":
+                    result = self.hexstrike.check_ip_reputation(target)
+                else:
+                    continue
+                if bandit:
+                    r = bandit.reward(attack_class, tool, result)
+                    logger.debug("Bandit %s/%s -> reward=%.2f", attack_class, tool, r)
+                if isinstance(result, dict) and ("analysis" in result or "target_profile" in result
+                                                 or "score" in result or "results" in result):
+                    any_substantive = True
             except Exception as exc:
-                logger.warning("Enrichment failed for %s: %s", target, exc)
-                return "ENRICHMENT_FAILED"
-        return "HEXSTRIKE_UNAVAILABLE"
+                logger.warning("Bandit tool %s failed for %s: %s", tool, target, exc)
+                if bandit:
+                    bandit.reward(attack_class, tool, {"error": str(exc)})
+        return "ENRICHMENT_COMPLETED" if any_substantive else "ENRICHMENT_EMPTY"
 
     def _augment_firewall_rules(self, rules: List[Dict[str, Any]], threat_info: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Inject a FIREWALL_RULE for attack families that require explicit network policy entries."""

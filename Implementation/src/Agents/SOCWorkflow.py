@@ -780,6 +780,46 @@ class SOCWorkflow:
         if escalated and tier2_result and final_result.get("incident_classification") == "Confirmed Incident":
              self.kb_memory.add_incident(final_result)
 
+        # RL feedback — label the experience row keyed by this alert so the
+        # fine-tuner can learn from agent verdicts.
+        try:
+            alert_data = state.get("alert_data") or {}
+            rl_alert_id = alert_data.get("rl_alert_id")
+            predicted_label = alert_data.get("predicted_label") or alert_data.get("Attack") or ""
+            if rl_alert_id:
+                from Implementation.src.IDS.rl import FeedbackHook
+                FeedbackHook.instance().on_workflow_finalize(
+                    alert_id=rl_alert_id,
+                    predicted_label=predicted_label,
+                    tier1=tier1_result,
+                    tier2=tier2_result,
+                )
+        except Exception as exc:
+            logger.debug("RL finalize hook skipped: %s", exc)
+
+        # Incident graph — record IP ↔ attack ↔ rule relationships.
+        try:
+            alert_data = state.get("alert_data") or {}
+            from Implementation.src.IDS.incident_graph import get_incident_graph
+            src_ip = FlowHistoryManager.resolve_src_ip(alert_data)
+            dst_ip = FlowHistoryManager.resolve_dst_ip(alert_data)
+            incident_id = alert_data.get("rl_alert_id") or final_result.get("timestamp") or "INC-anon"
+            rule_ids = [
+                (e.get("rule") or {}).get("id") or (e.get("rule") or {}).get("action")
+                for e in (remediation_result or {}).get("execution_log", [])
+                if isinstance(e, dict)
+            ]
+            get_incident_graph().record_incident(
+                incident_id=incident_id,
+                src_ip=src_ip if src_ip != "Unknown" else None,
+                dst_ip=dst_ip if dst_ip != "Unknown" else None,
+                attack_type=alert_data.get("predicted_label") or alert_data.get("Attack"),
+                severity=final_result.get("final_severity"),
+                rule_ids=[r for r in rule_ids if r],
+            )
+        except Exception as exc:
+            logger.debug("Incident graph ingest skipped: %s", exc)
+
         # Generate Report
         print("DEBUG: Finalizing node - Generating report...")
         report_path = self.reporter.generate_report(final_result)

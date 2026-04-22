@@ -1,0 +1,63 @@
+// Protobuf definition for the tier-agent gRPC handoff.
+//
+// Compile with:
+//   python -m grpc_tools.protoc -I Implementation/src/Agents/grpc \
+//       --python_out=Implementation/src/Agents/grpc \
+//       --grpc_python_out=Implementation/src/Agents/grpc \
+//       Implementation/src/Agents/grpc/tier_agent.proto
+//
+// The existing RemoteAgentClient uses HTTP + 300s read timeouts which caused
+// the "backend hangs forever" bug. gRPC streams offer bidirectional I/O,
+// built-in keepalive, and much lower latency. This proto is the contract —
+// the Python stubs can be generated and the TierAgentServicer filled in on
+// each microservice incrementally.
+
+syntax = "proto3";
+
+package ids.tier_agent;
+
+service TierAgent {
+  // Single-shot alert triage / investigation / response.
+  rpc Process (ProcessRequest) returns (ProcessResponse);
+
+  // Streaming variant for large context payloads or live feedback.
+  rpc ProcessStream (stream ProcessRequest) returns (stream ProcessResponse);
+
+  // Health check — used by the orchestrator's circuit breaker.
+  rpc Health (HealthRequest) returns (HealthResponse);
+}
+
+message ProcessRequest {
+  // Tier this request is addressed to: "tier1" | "tier2" | "tier3"
+  string tier = 1;
+  string alert_id = 2;
+  // JSON-serialised input payload (flow + prior-tier context)
+  string payload_json = 3;
+  // Correlation id for tracing across microservices
+  string request_id = 4;
+  // Optional deadline hint in seconds; the server should abort beyond this
+  double deadline_sec = 5;
+}
+
+message ProcessResponse {
+  string alert_id = 1;
+  string tier = 2;
+  // Primary result as JSON (severity, escalate, triage_response, etc.)
+  string result_json = 3;
+  // Optional chunked output (for progressive results)
+  string partial_chunk = 4;
+  bool is_final = 5;
+  // Populated when the server fell back from remote to local
+  string fallback_reason = 6;
+  int64 elapsed_ms = 7;
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;   // "serving" | "degraded" | "unavailable"
+  string tier = 2;
+  string version = 3;
+  int64 queue_depth = 4;
+  double mean_latency_ms = 5;
+}
