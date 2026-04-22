@@ -310,5 +310,17 @@
     "threat_types": [],
     "total_reports": 0,
     "last_updated": "2026-04-22T15:47:44.065719"
+  },
+  "192.168.1.90": {
+    "ip": "192.168.1.90",
+    "abuse_score": 0.0,
+    "is_vpn": false,
+    "is_proxy": false,
+    "is_tor": false,
+    "country": null,
+    "isp": null,
+    "threat_types": [],
+    "total_reports": 2,
+    "last_updated": "2026-04-22T16:01:00.549103"
   }
 }

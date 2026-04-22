@@ -28357,5 +28357,4912 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-04-22T16:04:12.023070",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Tier recommendation: Investigate source IP",
+    "dry_run": false,
+    "auto_pilot": true,
+    "status": "QUEUED",
+    "effect": "ENRICHMENT_REQUESTED",
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "pending_enrichment": 14,
+      "pending_siem_tuning": 3,
+      "threat_escalations": 0,
+      "history_count": 100,
+      "firewall_rules_count": 12
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:04:12.147547",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+    "dry_run": false,
+    "auto_pilot": true,
+    "status": "QUEUED",
+    "effect": "ENRICHMENT_REQUESTED",
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "pending_enrichment": 15,
+      "pending_siem_tuning": 3,
+      "threat_escalations": 0,
+      "history_count": 100,
+      "firewall_rules_count": 12
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:04:12.310486",
+    "action": "TUNE_SIEM",
+    "target": "IDS_RULESET",
+    "duration": "permanent",
+    "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+    "dry_run": false,
+    "auto_pilot": true,
+    "status": "QUEUED",
+    "effect": "SIEM_TUNING_STAGED",
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "pending_enrichment": 15,
+      "pending_siem_tuning": 4,
+      "threat_escalations": 0,
+      "history_count": 100,
+      "firewall_rules_count": 12
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:08:49.378213",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Generic recommendation for Infilteration",
+    "dry_run": false,
+    "auto_pilot": false,
+    "status": "STAGED",
+    "effect": null,
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "tcp_resets": [],
+      "enrichment_queue": [
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scanning and risk assessment using tools like Nmap, OpenVAS, or Nessus.",
+          "timestamp": "2026-04-20T11:12:22.537224"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities in the target network",
+          "timestamp": "2026-04-20T11:23:34.146921"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-20T12:25:08.945563"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Run additional scans on target IP",
+          "timestamp": "2026-04-20T12:26:11.319287"
+        },
+        {
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "timestamp": "2026-04-20T12:30:48.703965"
+        },
+        {
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-20T12:58:22.237075"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate target system",
+          "timestamp": "2026-04-20T13:52:26.620366"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "timestamp": "2026-04-20T13:52:51.940021"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Use vulnerability scanning tools",
+          "timestamp": "2026-04-20T13:52:52.396818"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP behavior",
+          "timestamp": "2026-04-20T17:16:32.747531"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "timestamp": "2026-04-22T09:11:41.717577"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-22T13:24:48.974551"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "timestamp": "2026-04-22T13:24:49.309794"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-22T16:04:12.026128"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "timestamp": "2026-04-22T16:04:12.153242"
+        }
+      ],
+      "password_resets": [],
+      "siem_tuning": [
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Review firewall rules",
+          "timestamp": "2026-04-20T12:58:36.890980"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "timestamp": "2026-04-21T10:06:47.170818"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "timestamp": "2026-04-22T13:24:50.005148"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "timestamp": "2026-04-22T16:04:12.314743"
+        }
+      ],
+      "threat_escalations": [],
+      "firewall_rules": [
+        {
+          "id": "rule-1",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:06.972623"
+        },
+        {
+          "id": "rule-2",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:12.638311"
+        },
+        {
+          "id": "rule-3",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:22.831705"
+        },
+        {
+          "id": "rule-4",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:48.428551"
+        },
+        {
+          "id": "rule-5",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:54:28.133407"
+        },
+        {
+          "id": "rule-6",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:59:14.323856"
+        },
+        {
+          "id": "rule-7",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.147",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:13:05.962073"
+        },
+        {
+          "id": "rule-8",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:23:34.810873"
+        },
+        {
+          "id": "rule-9",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.148",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T12:26:11.764532"
+        },
+        {
+          "id": "rule-10",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "added_at": "2026-04-20T12:30:48.966067"
+        },
+        {
+          "id": "rule-11",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T09:11:41.991066"
+        },
+        {
+          "id": "rule-12",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T13:24:50.284409"
+        }
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-21T09:13:01.015974",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan on the source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:13.974530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:48.219804",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan on the source IP 192.168.1.35",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:48.627004",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the destination IP 192.168.1.1 for any further suspicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:49.052677",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.874246",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block source IP 175.45.176.3 at firewall level",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.952924",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on TCP port 53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:35.077092",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Perform additional reconnaissance using network scanning and DNS enumeration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:15:25.883639",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.195",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan of the target device to identify potential weaknesses.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:16:27.994126",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Scan for vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:17:29.134428",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Perform a thorough vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:23:29.655029",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Exploits",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:07.950512",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.13",
+          "reason": "Tier recommendation: Investigate and address potential vulnerabilities in Apache HTTP Server, MySQL Database, SSH (Secure Shell), and Microsoft Windows.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:53.525958",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Generic recommendation for xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:27:03.889233",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.39",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:28:09.032702",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Conduct further reconnaissance and scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:08.612521",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct a network scan to identify open ports and services.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:11.572765",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Generic recommendation for Brute Force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.010953",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Analyze firewall rules and security configurations.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.314412",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Perform a vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.881082",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:30.302835",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:41.777257",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate security group configurations for destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:45.518814",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate destination IP 149.171.126.15 for potential vulnerabilities.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:55.656904",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Scan for open ports and services on destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:33:04.855414",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.0",
+          "reason": "Tier recommendation: Monitor source IP 175.45.176.0 for further activity and consider implementing rate limiting or blocking measures.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:09.770566",
+          "action": "BLOCK_IP",
+          "target": "18.218.11.51",
+          "reason": "Tier recommendation: Block the source IP 18.218.11.51",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:10.114840",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Conduct a thorough network scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:26.191077",
+          "action": "FIREWALL_RULE",
+          "target": "18.218.11.51",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:35:59.511579",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Conduct network and system scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:36:02.782250",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Investigate network segmentation",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:07.812177",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:18.433033",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:26.229527",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate Destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:29.925215",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate further to determine the nature of the activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.625185",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.2",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.821866",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:40:31.791544",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate further",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.212891",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.351968",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:13.544978",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:56.431158",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.11",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:20.866584",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Block the source IP 13.58.98.64",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:21.902642",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct thorough network reconnaissance and vulnerability scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:24.914902",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Investigate and contain the attack",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:34.483742",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:45.240309",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:45:32.148539",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block or restrict traffic from source IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:46:48.636962",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate source IP for potential malicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.312635",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration to prevent unauthorized access",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.518036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans for outdated software and plugins on the destination network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.181036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate and contain the incident",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.910534",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:28.418421",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:29.031901",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:48:25.553213",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:49:31.204434",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:55.139181",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:58.199286",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:53:49.718206",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.419846",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.427429",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-21T09:55:27.933941",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Generic recommendation for Shellcode",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:56:18.619084",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.691588",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the source IP and its connection to the network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.910486",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Scan the destination IP for potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:09.140737",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:39.030047",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:43.975430",
+          "action": "ENRICH_TARGET",
+          "target": "176.28.50.165",
+          "reason": "Tier recommendation: Investigate source IP and its activities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:57.485877",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.32",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:02:27.029281",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:29.876955",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:31.017806",
+          "action": "FIREWALL_RULE",
+          "target": "18.219.5.43",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:24.438324",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.752924",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.872487",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on destination IP `149.171.126.15`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.739638",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Implement additional security measures, such as rate limiting and IP blocking, to mitigate the impact of this attack.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.860356",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.430779",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Notify the Network Operations Team to block or restrict access from the source IP.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.674336",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:11:52.979924",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Generic recommendation for Reconnaissance",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:12:49.910494",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:02:38.948875",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.17",
+          "reason": "Tier recommendation: Investigate source IP 66.45.81.53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:08:37.271164",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Tier recommendation: Consider additional security measures to prevent potential brute force or scan attacks",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.712482",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.807247",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block the source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.986003",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-11"
+        },
+        {
+          "timestamp": "2026-04-22T09:16:44.832521",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scan using tools like Nmap, OpenVAS, and Nessus.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:48.963019",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.295344",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.640851",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.988659",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:50.271530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-12"
+        },
+        {
+          "timestamp": "2026-04-22T15:46:05.793201",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.023070",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.147547",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.310486",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:49.378213",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:08:51.100919",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Generic recommendation for Infilteration",
+    "dry_run": false,
+    "auto_pilot": false,
+    "status": "STAGED",
+    "effect": null,
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "tcp_resets": [],
+      "enrichment_queue": [
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scanning and risk assessment using tools like Nmap, OpenVAS, or Nessus.",
+          "timestamp": "2026-04-20T11:12:22.537224"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities in the target network",
+          "timestamp": "2026-04-20T11:23:34.146921"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-20T12:25:08.945563"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Run additional scans on target IP",
+          "timestamp": "2026-04-20T12:26:11.319287"
+        },
+        {
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "timestamp": "2026-04-20T12:30:48.703965"
+        },
+        {
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-20T12:58:22.237075"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate target system",
+          "timestamp": "2026-04-20T13:52:26.620366"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "timestamp": "2026-04-20T13:52:51.940021"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Use vulnerability scanning tools",
+          "timestamp": "2026-04-20T13:52:52.396818"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP behavior",
+          "timestamp": "2026-04-20T17:16:32.747531"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "timestamp": "2026-04-22T09:11:41.717577"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-22T13:24:48.974551"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "timestamp": "2026-04-22T13:24:49.309794"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-22T16:04:12.026128"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "timestamp": "2026-04-22T16:04:12.153242"
+        }
+      ],
+      "password_resets": [],
+      "siem_tuning": [
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Review firewall rules",
+          "timestamp": "2026-04-20T12:58:36.890980"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "timestamp": "2026-04-21T10:06:47.170818"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "timestamp": "2026-04-22T13:24:50.005148"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "timestamp": "2026-04-22T16:04:12.314743"
+        }
+      ],
+      "threat_escalations": [],
+      "firewall_rules": [
+        {
+          "id": "rule-1",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:06.972623"
+        },
+        {
+          "id": "rule-2",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:12.638311"
+        },
+        {
+          "id": "rule-3",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:22.831705"
+        },
+        {
+          "id": "rule-4",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:48.428551"
+        },
+        {
+          "id": "rule-5",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:54:28.133407"
+        },
+        {
+          "id": "rule-6",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:59:14.323856"
+        },
+        {
+          "id": "rule-7",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.147",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:13:05.962073"
+        },
+        {
+          "id": "rule-8",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:23:34.810873"
+        },
+        {
+          "id": "rule-9",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.148",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T12:26:11.764532"
+        },
+        {
+          "id": "rule-10",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "added_at": "2026-04-20T12:30:48.966067"
+        },
+        {
+          "id": "rule-11",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T09:11:41.991066"
+        },
+        {
+          "id": "rule-12",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T13:24:50.284409"
+        }
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-21T09:13:13.974530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:48.219804",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan on the source IP 192.168.1.35",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:48.627004",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the destination IP 192.168.1.1 for any further suspicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:49.052677",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.874246",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block source IP 175.45.176.3 at firewall level",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.952924",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on TCP port 53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:35.077092",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Perform additional reconnaissance using network scanning and DNS enumeration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:15:25.883639",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.195",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan of the target device to identify potential weaknesses.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:16:27.994126",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Scan for vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:17:29.134428",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Perform a thorough vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:23:29.655029",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Exploits",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:07.950512",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.13",
+          "reason": "Tier recommendation: Investigate and address potential vulnerabilities in Apache HTTP Server, MySQL Database, SSH (Secure Shell), and Microsoft Windows.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:53.525958",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Generic recommendation for xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:27:03.889233",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.39",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:28:09.032702",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Conduct further reconnaissance and scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:08.612521",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct a network scan to identify open ports and services.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:11.572765",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Generic recommendation for Brute Force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.010953",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Analyze firewall rules and security configurations.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.314412",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Perform a vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.881082",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:30.302835",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:41.777257",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate security group configurations for destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:45.518814",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate destination IP 149.171.126.15 for potential vulnerabilities.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:55.656904",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Scan for open ports and services on destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:33:04.855414",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.0",
+          "reason": "Tier recommendation: Monitor source IP 175.45.176.0 for further activity and consider implementing rate limiting or blocking measures.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:09.770566",
+          "action": "BLOCK_IP",
+          "target": "18.218.11.51",
+          "reason": "Tier recommendation: Block the source IP 18.218.11.51",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:10.114840",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Conduct a thorough network scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:26.191077",
+          "action": "FIREWALL_RULE",
+          "target": "18.218.11.51",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:35:59.511579",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Conduct network and system scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:36:02.782250",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Investigate network segmentation",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:07.812177",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:18.433033",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:26.229527",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate Destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:29.925215",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate further to determine the nature of the activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.625185",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.2",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.821866",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:40:31.791544",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate further",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.212891",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.351968",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:13.544978",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:56.431158",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.11",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:20.866584",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Block the source IP 13.58.98.64",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:21.902642",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct thorough network reconnaissance and vulnerability scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:24.914902",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Investigate and contain the attack",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:34.483742",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:45.240309",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:45:32.148539",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block or restrict traffic from source IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:46:48.636962",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate source IP for potential malicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.312635",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration to prevent unauthorized access",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.518036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans for outdated software and plugins on the destination network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.181036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate and contain the incident",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.910534",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:28.418421",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:29.031901",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:48:25.553213",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:49:31.204434",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:55.139181",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:58.199286",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:53:49.718206",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.419846",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.427429",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-21T09:55:27.933941",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Generic recommendation for Shellcode",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:56:18.619084",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.691588",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the source IP and its connection to the network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.910486",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Scan the destination IP for potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:09.140737",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:39.030047",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:43.975430",
+          "action": "ENRICH_TARGET",
+          "target": "176.28.50.165",
+          "reason": "Tier recommendation: Investigate source IP and its activities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:57.485877",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.32",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:02:27.029281",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:29.876955",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:31.017806",
+          "action": "FIREWALL_RULE",
+          "target": "18.219.5.43",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:24.438324",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.752924",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.872487",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on destination IP `149.171.126.15`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.739638",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Implement additional security measures, such as rate limiting and IP blocking, to mitigate the impact of this attack.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.860356",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.430779",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Notify the Network Operations Team to block or restrict access from the source IP.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.674336",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:11:52.979924",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Generic recommendation for Reconnaissance",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:12:49.910494",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:02:38.948875",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.17",
+          "reason": "Tier recommendation: Investigate source IP 66.45.81.53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:08:37.271164",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Tier recommendation: Consider additional security measures to prevent potential brute force or scan attacks",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.712482",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.807247",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block the source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.986003",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-11"
+        },
+        {
+          "timestamp": "2026-04-22T09:16:44.832521",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scan using tools like Nmap, OpenVAS, and Nessus.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:48.963019",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.295344",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.640851",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.988659",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:50.271530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-12"
+        },
+        {
+          "timestamp": "2026-04-22T15:46:05.793201",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.023070",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.147547",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.310486",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:49.378213",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:51.100919",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:09:13.936185",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Generic recommendation for Infilteration",
+    "dry_run": false,
+    "auto_pilot": false,
+    "status": "STAGED",
+    "effect": null,
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "tcp_resets": [],
+      "enrichment_queue": [
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scanning and risk assessment using tools like Nmap, OpenVAS, or Nessus.",
+          "timestamp": "2026-04-20T11:12:22.537224"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities in the target network",
+          "timestamp": "2026-04-20T11:23:34.146921"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-20T12:25:08.945563"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Run additional scans on target IP",
+          "timestamp": "2026-04-20T12:26:11.319287"
+        },
+        {
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "timestamp": "2026-04-20T12:30:48.703965"
+        },
+        {
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-20T12:58:22.237075"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate target system",
+          "timestamp": "2026-04-20T13:52:26.620366"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "timestamp": "2026-04-20T13:52:51.940021"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Use vulnerability scanning tools",
+          "timestamp": "2026-04-20T13:52:52.396818"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP behavior",
+          "timestamp": "2026-04-20T17:16:32.747531"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "timestamp": "2026-04-22T09:11:41.717577"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-22T13:24:48.974551"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "timestamp": "2026-04-22T13:24:49.309794"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-22T16:04:12.026128"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "timestamp": "2026-04-22T16:04:12.153242"
+        }
+      ],
+      "password_resets": [],
+      "siem_tuning": [
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Review firewall rules",
+          "timestamp": "2026-04-20T12:58:36.890980"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "timestamp": "2026-04-21T10:06:47.170818"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "timestamp": "2026-04-22T13:24:50.005148"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "timestamp": "2026-04-22T16:04:12.314743"
+        }
+      ],
+      "threat_escalations": [],
+      "firewall_rules": [
+        {
+          "id": "rule-1",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:06.972623"
+        },
+        {
+          "id": "rule-2",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:12.638311"
+        },
+        {
+          "id": "rule-3",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:22.831705"
+        },
+        {
+          "id": "rule-4",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:48.428551"
+        },
+        {
+          "id": "rule-5",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:54:28.133407"
+        },
+        {
+          "id": "rule-6",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:59:14.323856"
+        },
+        {
+          "id": "rule-7",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.147",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:13:05.962073"
+        },
+        {
+          "id": "rule-8",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:23:34.810873"
+        },
+        {
+          "id": "rule-9",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.148",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T12:26:11.764532"
+        },
+        {
+          "id": "rule-10",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "added_at": "2026-04-20T12:30:48.966067"
+        },
+        {
+          "id": "rule-11",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T09:11:41.991066"
+        },
+        {
+          "id": "rule-12",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T13:24:50.284409"
+        }
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-21T09:13:48.219804",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan on the source IP 192.168.1.35",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:48.627004",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the destination IP 192.168.1.1 for any further suspicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:49.052677",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.874246",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block source IP 175.45.176.3 at firewall level",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.952924",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on TCP port 53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:35.077092",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Perform additional reconnaissance using network scanning and DNS enumeration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:15:25.883639",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.195",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan of the target device to identify potential weaknesses.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:16:27.994126",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Scan for vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:17:29.134428",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Perform a thorough vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:23:29.655029",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Exploits",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:07.950512",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.13",
+          "reason": "Tier recommendation: Investigate and address potential vulnerabilities in Apache HTTP Server, MySQL Database, SSH (Secure Shell), and Microsoft Windows.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:53.525958",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Generic recommendation for xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:27:03.889233",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.39",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:28:09.032702",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Conduct further reconnaissance and scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:08.612521",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct a network scan to identify open ports and services.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:11.572765",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Generic recommendation for Brute Force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.010953",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Analyze firewall rules and security configurations.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.314412",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Perform a vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.881082",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:30.302835",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:41.777257",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate security group configurations for destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:45.518814",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate destination IP 149.171.126.15 for potential vulnerabilities.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:55.656904",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Scan for open ports and services on destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:33:04.855414",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.0",
+          "reason": "Tier recommendation: Monitor source IP 175.45.176.0 for further activity and consider implementing rate limiting or blocking measures.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:09.770566",
+          "action": "BLOCK_IP",
+          "target": "18.218.11.51",
+          "reason": "Tier recommendation: Block the source IP 18.218.11.51",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:10.114840",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Conduct a thorough network scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:26.191077",
+          "action": "FIREWALL_RULE",
+          "target": "18.218.11.51",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:35:59.511579",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Conduct network and system scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:36:02.782250",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Investigate network segmentation",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:07.812177",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:18.433033",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:26.229527",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate Destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:29.925215",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate further to determine the nature of the activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.625185",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.2",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.821866",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:40:31.791544",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate further",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.212891",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.351968",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:13.544978",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:56.431158",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.11",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:20.866584",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Block the source IP 13.58.98.64",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:21.902642",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct thorough network reconnaissance and vulnerability scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:24.914902",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Investigate and contain the attack",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:34.483742",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:45.240309",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:45:32.148539",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block or restrict traffic from source IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:46:48.636962",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate source IP for potential malicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.312635",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration to prevent unauthorized access",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.518036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans for outdated software and plugins on the destination network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.181036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate and contain the incident",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.910534",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:28.418421",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:29.031901",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:48:25.553213",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:49:31.204434",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:55.139181",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:58.199286",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:53:49.718206",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.419846",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.427429",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-21T09:55:27.933941",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Generic recommendation for Shellcode",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:56:18.619084",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.691588",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the source IP and its connection to the network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.910486",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Scan the destination IP for potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:09.140737",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:39.030047",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:43.975430",
+          "action": "ENRICH_TARGET",
+          "target": "176.28.50.165",
+          "reason": "Tier recommendation: Investigate source IP and its activities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:57.485877",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.32",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:02:27.029281",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:29.876955",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:31.017806",
+          "action": "FIREWALL_RULE",
+          "target": "18.219.5.43",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:24.438324",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.752924",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.872487",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on destination IP `149.171.126.15`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.739638",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Implement additional security measures, such as rate limiting and IP blocking, to mitigate the impact of this attack.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.860356",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.430779",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Notify the Network Operations Team to block or restrict access from the source IP.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.674336",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:11:52.979924",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Generic recommendation for Reconnaissance",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:12:49.910494",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:02:38.948875",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.17",
+          "reason": "Tier recommendation: Investigate source IP 66.45.81.53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:08:37.271164",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Tier recommendation: Consider additional security measures to prevent potential brute force or scan attacks",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.712482",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.807247",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block the source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.986003",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-11"
+        },
+        {
+          "timestamp": "2026-04-22T09:16:44.832521",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scan using tools like Nmap, OpenVAS, and Nessus.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:48.963019",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.295344",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.640851",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.988659",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:50.271530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-12"
+        },
+        {
+          "timestamp": "2026-04-22T15:46:05.793201",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.023070",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.147547",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.310486",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:49.378213",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:51.100919",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:09:13.936185",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-22T16:09:41.167283",
+    "action": "ENRICH_TARGET",
+    "target": "239.255.255.250",
+    "duration": "permanent",
+    "reason": "Generic recommendation for Infilteration",
+    "dry_run": false,
+    "auto_pilot": false,
+    "status": "STAGED",
+    "effect": null,
+    "sandboxed": true,
+    "state_snapshot": {
+      "blocked_ips": {
+        "198.51.100.55": {
+          "duration": "permanent",
+          "reason": "Analyst DENY decision for unknown",
+          "added_at": "2026-04-20T12:13:14.867026"
+        },
+        "192.168.1.31": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP 192.168.1.31 from accessing the network.",
+          "added_at": "2026-04-20T17:35:38.274407"
+        },
+        "175.45.176.1": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "added_at": "2026-04-21T09:54:54.445258"
+        },
+        "192.168.100.150": {
+          "duration": "1h",
+          "reason": "Tier recommendation: Block source IP",
+          "added_at": "2026-04-22T13:24:49.665896"
+        }
+      },
+      "blocked_subnets": {},
+      "isolation_network": {},
+      "rate_limits": {},
+      "isolated_hosts": {},
+      "tcp_resets": [],
+      "enrichment_queue": [
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scanning and risk assessment using tools like Nmap, OpenVAS, or Nessus.",
+          "timestamp": "2026-04-20T11:12:22.537224"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities in the target network",
+          "timestamp": "2026-04-20T11:23:34.146921"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-20T12:25:08.945563"
+        },
+        {
+          "target": "192.168.100.5",
+          "reason": "Tier recommendation: Run additional scans on target IP",
+          "timestamp": "2026-04-20T12:26:11.319287"
+        },
+        {
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "timestamp": "2026-04-20T12:30:48.703965"
+        },
+        {
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-20T12:58:22.237075"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Investigate target system",
+          "timestamp": "2026-04-20T13:52:26.620366"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "timestamp": "2026-04-20T13:52:51.940021"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Use vulnerability scanning tools",
+          "timestamp": "2026-04-20T13:52:52.396818"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP behavior",
+          "timestamp": "2026-04-20T17:16:32.747531"
+        },
+        {
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "timestamp": "2026-04-22T09:11:41.717577"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "timestamp": "2026-04-22T13:24:48.974551"
+        },
+        {
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "timestamp": "2026-04-22T13:24:49.309794"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "timestamp": "2026-04-22T16:04:12.026128"
+        },
+        {
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "timestamp": "2026-04-22T16:04:12.153242"
+        }
+      ],
+      "password_resets": [],
+      "siem_tuning": [
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Review firewall rules",
+          "timestamp": "2026-04-20T12:58:36.890980"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "timestamp": "2026-04-21T10:06:47.170818"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "timestamp": "2026-04-22T13:24:50.005148"
+        },
+        {
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "timestamp": "2026-04-22T16:04:12.314743"
+        }
+      ],
+      "threat_escalations": [],
+      "firewall_rules": [
+        {
+          "id": "rule-1",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:06.972623"
+        },
+        {
+          "id": "rule-2",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:43:12.638311"
+        },
+        {
+          "id": "rule-3",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:22.831705"
+        },
+        {
+          "id": "rule-4",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "UNKNOWN",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:46:48.428551"
+        },
+        {
+          "id": "rule-5",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:54:28.133407"
+        },
+        {
+          "id": "rule-6",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T10:59:14.323856"
+        },
+        {
+          "id": "rule-7",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.147",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:13:05.962073"
+        },
+        {
+          "id": "rule-8",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T11:23:34.810873"
+        },
+        {
+          "id": "rule-9",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.148",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-20T12:26:11.764532"
+        },
+        {
+          "id": "rule-10",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "13.58.98.64",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "added_at": "2026-04-20T12:30:48.966067"
+        },
+        {
+          "id": "rule-11",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T09:11:41.991066"
+        },
+        {
+          "id": "rule-12",
+          "priority": 10,
+          "action": "DENY",
+          "src_ip": "192.168.100.150",
+          "dst_ip": "ANY",
+          "port": "ANY",
+          "protocol": "ANY",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "added_at": "2026-04-22T13:24:50.284409"
+        }
+      ],
+      "history": [
+        {
+          "timestamp": "2026-04-21T09:13:48.627004",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the destination IP 192.168.1.1 for any further suspicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:13:49.052677",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.874246",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block source IP 175.45.176.3 at firewall level",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:34.952924",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on TCP port 53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:14:35.077092",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Perform additional reconnaissance using network scanning and DNS enumeration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:15:25.883639",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.195",
+          "reason": "Tier recommendation: Conduct a thorough vulnerability scan of the target device to identify potential weaknesses.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:16:27.994126",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Scan for vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:17:29.134428",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.193",
+          "reason": "Tier recommendation: Perform a thorough vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:23:29.655029",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Exploits",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:07.950512",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.13",
+          "reason": "Tier recommendation: Investigate and address potential vulnerabilities in Apache HTTP Server, MySQL Database, SSH (Secure Shell), and Microsoft Windows.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:26:53.525958",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Generic recommendation for xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:27:03.889233",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.39",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:28:09.032702",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Conduct further reconnaissance and scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:08.612521",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct a network scan to identify open ports and services.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:11.572765",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Generic recommendation for Brute Force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.010953",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Analyze firewall rules and security configurations.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.314412",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Perform a vulnerability scan using tools like Nmap, Nessus, or OpenVAS.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:21.881082",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:31:30.302835",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:41.777257",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate security group configurations for destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:45.518814",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate destination IP 149.171.126.15 for potential vulnerabilities.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:32:55.656904",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Scan for open ports and services on destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:33:04.855414",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.0",
+          "reason": "Tier recommendation: Monitor source IP 175.45.176.0 for further activity and consider implementing rate limiting or blocking measures.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:09.770566",
+          "action": "BLOCK_IP",
+          "target": "18.218.11.51",
+          "reason": "Tier recommendation: Block the source IP 18.218.11.51",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:10.114840",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Conduct a thorough network scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:34:26.191077",
+          "action": "FIREWALL_RULE",
+          "target": "18.218.11.51",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:35:59.511579",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Conduct network and system scan",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:36:02.782250",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.10",
+          "reason": "Tier recommendation: Investigate network segmentation",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:07.812177",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:37:18.433033",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:26.229527",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate Destination IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:38:29.925215",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate further to determine the nature of the activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.625185",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.2",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:39:30.821866",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Tier recommendation: Investigate potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:40:31.791544",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate further",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.212891",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:41:56.351968",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:13.544978",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:42:56.431158",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.11",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:20.866584",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Block the source IP 13.58.98.64",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:21.902642",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Conduct thorough network reconnaissance and vulnerability scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:24.914902",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.25",
+          "reason": "Tier recommendation: Investigate and contain the attack",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:34.483742",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:44:45.240309",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:45:32.148539",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block or restrict traffic from source IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:46:48.636962",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate source IP for potential malicious activity",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.312635",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration to prevent unauthorized access",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:16.518036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans for outdated software and plugins on the destination network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.181036",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Investigate and contain the incident",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:27.910534",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Verify firewall rules and configuration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:28.418421",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.19",
+          "reason": "Tier recommendation: Conduct vulnerability scans",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:47:29.031901",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Test IDS detection capabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:48:25.553213",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.14",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:49:31.204434",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Generic recommendation for Worms",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:55.139181",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:52:58.199286",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Generic recommendation for injection",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:53:49.718206",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.152",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.419846",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:54:54.427429",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.1",
+          "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-21T09:55:27.933941",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Generic recommendation for Shellcode",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:56:18.619084",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.691588",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Investigate the source IP and its connection to the network",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:08.910486",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.1.1",
+          "reason": "Tier recommendation: Scan the destination IP for potential vulnerabilities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:09.140737",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.35",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T09:57:39.030047",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.18",
+          "reason": "Generic recommendation for Generic",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:43.975430",
+          "action": "ENRICH_TARGET",
+          "target": "176.28.50.165",
+          "reason": "Tier recommendation: Investigate source IP and its activities",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:00:57.485877",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.1.32",
+          "reason": "Auto firewall policy for attack pattern: xss",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:02:27.029281",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:29.876955",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.28",
+          "reason": "Tier recommendation: Investigate destination IP `172.31.69.28` to determine if it is an internal network or a legitimate host",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:03:31.017806",
+          "action": "FIREWALL_RULE",
+          "target": "18.219.5.43",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:06:47.115998",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Update software and configurations, including firewalls, intrusion detection systems, and network protocols.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:24.438324",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.15",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.752924",
+          "action": "BLOCK_IP",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Block IP `175.45.176.3`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:08:42.872487",
+          "action": "RATE_LIMIT",
+          "target": "175.45.176.3",
+          "reason": "Tier recommendation: Implement rate limiting on destination IP `149.171.126.15`",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.739638",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Implement additional security measures, such as rate limiting and IP blocking, to mitigate the impact of this attack.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:26.860356",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.430779",
+          "action": "BLOCK_IP",
+          "target": "13.58.98.64",
+          "reason": "Tier recommendation: Notify the Network Operations Team to block or restrict access from the source IP.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:10:33.674336",
+          "action": "FIREWALL_RULE",
+          "target": "13.58.98.64",
+          "reason": "Auto firewall policy for attack pattern: brute force",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:11:52.979924",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Generic recommendation for Reconnaissance",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-21T10:12:49.910494",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Perform network scanning",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:02:38.948875",
+          "action": "ENRICH_TARGET",
+          "target": "172.31.69.17",
+          "reason": "Tier recommendation: Investigate source IP 66.45.81.53",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:08:37.271164",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.12",
+          "reason": "Tier recommendation: Consider additional security measures to prevent potential brute force or scan attacks",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.712482",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.3",
+          "reason": "Tier recommendation: Run vulnerability scans for software and network devices",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.807247",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block the source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T09:11:41.986003",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-11"
+        },
+        {
+          "timestamp": "2026-04-22T09:16:44.832521",
+          "action": "ENRICH_TARGET",
+          "target": "149.171.126.17",
+          "reason": "Tier recommendation: Conduct thorough vulnerability scan using tools like Nmap, OpenVAS, and Nessus.",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:48.963019",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Investigate source IP address",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.295344",
+          "action": "ENRICH_TARGET",
+          "target": "192.168.100.6",
+          "reason": "Tier recommendation: Utilize vulnerability scanning tools",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.640851",
+          "action": "BLOCK_IP",
+          "target": "192.168.100.150",
+          "reason": "Tier recommendation: Block source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "IP_BLOCKED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:49.988659",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Increase firewall rules",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T13:24:50.271530",
+          "action": "FIREWALL_RULE",
+          "target": "192.168.100.150",
+          "reason": "Auto firewall policy for attack pattern: ddos",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "ENFORCED",
+          "effect": "FIREWALL_RULE_ADDED",
+          "rule_id": "rule-12"
+        },
+        {
+          "timestamp": "2026-04-22T15:46:05.793201",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.023070",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Investigate source IP",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.147547",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Tier recommendation: Use tools like Nmap, Nessus, or OpenVAS to scan for open ports, services, and vulnerabilities.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "ENRICHMENT_REQUESTED"
+        },
+        {
+          "timestamp": "2026-04-22T16:04:12.310486",
+          "action": "TUNE_SIEM",
+          "target": "IDS_RULESET",
+          "reason": "Tier recommendation: Inspect firewall rules and NAT configurations.",
+          "auto_pilot": true,
+          "sandboxed": true,
+          "status": "QUEUED",
+          "effect": "SIEM_TUNING_STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:49.378213",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:08:51.100919",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:09:13.936185",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        },
+        {
+          "timestamp": "2026-04-22T16:09:41.167283",
+          "action": "ENRICH_TARGET",
+          "target": "239.255.255.250",
+          "reason": "Generic recommendation for Infilteration",
+          "auto_pilot": false,
+          "sandboxed": true,
+          "status": "STAGED"
+        }
+      ]
+    }
   }
 ]

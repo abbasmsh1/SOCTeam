@@ -1,10 +1,2 @@
-2026-04-22 17:44:08 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
-INFO:     127.0.0.1:53031 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50686 - "GET /health HTTP/1.1" 200 OK
-2026-04-22 17:46:06 - AgentServer - INFO - Lazy initializing reporter agent...
-2026-04-22 17:46:08 - AgentServer - INFO - reporter agent initialized.
-2026-04-22 17:46:08 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
-DEBUG: Writing report to E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_174608_676992.md
-2026-04-22 17:46:08 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_174608_676992.md
-DEBUG: Report saved successfully!
-INFO:     127.0.0.1:50285 - "POST /generate_report HTTP/1.1" 200 OK
+2026-04-22 18:07:18 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
+INFO:     127.0.0.1:49717 - "GET /health HTTP/1.1" 200 OK
