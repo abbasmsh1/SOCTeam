@@ -14,15 +14,20 @@
       "duration": "1h",
       "reason": "Tier recommendation: Consider rate limiting or IP blocking on destination IPs",
       "added_at": "2026-04-21T09:54:54.445258"
+    },
+    "192.168.100.150": {
+      "duration": "1h",
+      "reason": "Tier recommendation: Block source IP",
+      "added_at": "2026-04-22T13:24:49.665896"
     }
   },
   "blocked_subnets": {},
   "isolation_network": {},
   "rate_limits": {},
   "isolated_hosts": {},
-  "pending_enrichment": 10,
-  "pending_siem_tuning": 2,
+  "pending_enrichment": 13,
+  "pending_siem_tuning": 3,
   "threat_escalations": 0,
   "history_count": 100,
-  "firewall_rules_count": 10
+  "firewall_rules_count": 12
 }

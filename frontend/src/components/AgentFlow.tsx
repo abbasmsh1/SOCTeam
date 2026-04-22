@@ -1,142 +1,226 @@
-/**
- * AgentFlow.tsx
- * =============
- * Visualizes the SOC agent escalation pipeline as a horizontal node graph:
- *   IDS SENSOR → T1 ANALYST → T2 ANALYST → T3 ANALYST → SECURITY TEAM
- *
- * Active nodes light up based on escalation data from the latest report.
- * Edges pulse when a flow was escalated between two adjacent tiers.
- */
+import { motion } from 'framer-motion';
 
-/** Props for the AgentFlow component. */
 interface AgentFlowProps {
   latestReport: any;
 }
 
-/**
- * Pipeline stages (left-to-right order).
- * `color` is the default (inactive) background; active colors are
- * computed dynamically in `getNodeColor`.
- */
-const AGENTS = [
-  { id: 'ids',     label: 'IDS SENSOR',    color: '#3b82f6' },
-  { id: 'tier1',   label: 'T1 ANALYST',    color: '#1e293b' },
-  { id: 'tier2',   label: 'T2 ANALYST',    color: '#1e293b' },
-  { id: 'tier3',   label: 'T3 ANALYST',    color: '#1e293b' },
-  { id: 'warroom', label: 'SECURITY TEAM', color: '#1e293b' },
+type AgentId = 'ids' | 'tier1' | 'tier2' | 'tier3' | 'warroom';
+
+interface AgentNode {
+  id: AgentId;
+  label: string;
+  sub: string;
+}
+
+const AGENTS: AgentNode[] = [
+  { id: 'ids',     label: 'IDS SENSOR',    sub: 'Ingress' },
+  { id: 'tier1',   label: 'T1 ANALYST',    sub: 'Triage' },
+  { id: 'tier2',   label: 'T2 ANALYST',    sub: 'Correlate' },
+  { id: 'tier3',   label: 'T3 ANALYST',    sub: 'Hunt' },
+  { id: 'warroom', label: 'WAR ROOM',      sub: 'Response' },
 ];
 
-/** Color mapping for each escalation level. */
-const COLOR = {
-  BLUE:    '#3b82f6',  // IDS / Tier 1
-  PURPLE:  '#8b5cf6',  // Tier 2
-  AMBER:   '#f59e0b',  // Tier 3
-  RED:     '#ef4444',  // War Room / Security Team
-  DARK:    '#1e293b',  // Inactive node
-  BORDER:  '#334155',  // Inactive border
-  EDGE_ON: '#60a5fa',  // Active edge
-  EDGE_OFF:'#334155',  // Inactive edge
+/** Palette — all from the design tokens. */
+const C = {
+  paper:    '#eee8dc',
+  fog:      '#8a8690',
+  steel:    '#3d3b44',
+  graphite: '#1d1a20',
+  ember:    '#f97316',
+  phosphor: '#4ade80',
+  warning:  '#facc15',
+  arterial: '#e11d48',
 } as const;
 
+/**
+ * AgentFlow
+ * ---------
+ * Horizontal SVG pipeline with active stage highlighting. The traveling
+ * photon along each active edge is a small animated circle on a straight
+ * path — keeps GPU usage low while still feeling alive.
+ */
 export default function AgentFlow({ latestReport }: AgentFlowProps) {
+  const activeFlags = {
+    ids:     true,
+    tier1:   true,
+    tier2:   !!latestReport?.escalated_to_tier2,
+    tier3:   !!latestReport?.escalated_to_tier3,
+    warroom: !!latestReport?.war_room_triggered,
+  } as Record<AgentId, boolean>;
 
-  /**
-   * Determines the background color for a pipeline node based on
-   * escalation flags in the latest report.
-   */
-  const getNodeColor = (id: string): string => {
-    if (!latestReport) return id === 'ids' ? COLOR.BLUE : COLOR.DARK;
-
-    if (id === 'ids')                                        return COLOR.BLUE;
-    if (id === 'tier1')                                      return COLOR.BLUE;
-    if (id === 'tier2'   && latestReport.escalated_to_tier2) return COLOR.PURPLE;
-    if (id === 'tier3'   && latestReport.escalated_to_tier3) return COLOR.AMBER;
-    if (id === 'warroom' && latestReport.war_room_triggered) return COLOR.RED;
-    return COLOR.DARK;
+  const colorFor = (id: AgentId) => {
+    if (!activeFlags[id]) return { fill: C.graphite, stroke: C.steel, text: C.fog };
+    switch (id) {
+      case 'ids':     return { fill: '#0b1820', stroke: '#3b82f6', text: '#93c5fd' };
+      case 'tier1':   return { fill: '#1a0f02', stroke: C.ember, text: C.paper };
+      case 'tier2':   return { fill: '#1a1406', stroke: C.warning, text: C.paper };
+      case 'tier3':   return { fill: '#1f0a05', stroke: C.ember, text: C.paper };
+      case 'warroom': return { fill: '#1a0710', stroke: C.arterial, text: C.paper };
+    }
   };
 
-  /** Returns the border color – matches the node's active color or falls back to inactive. */
-  const getBorderColor = (id: string): string => {
-    const c = getNodeColor(id);
-    return c !== COLOR.DARK ? c : COLOR.BORDER;
-  };
-
-  /** Adds a glow effect to active nodes; inactive nodes have no glow. */
-  const getGlow = (id: string): string => {
-    const c = getNodeColor(id);
-    return c === COLOR.DARK ? 'none' : `0 0 15px ${c}60`;
-  };
-
-  /** Checks whether the edge between two adjacent nodes should be highlighted. */
-  const isEdgeActive = (from: string, to: string): boolean => {
-    if (!latestReport) return false;
+  const edgeActive = (from: AgentId, to: AgentId): boolean => {
+    if (!latestReport) return from === 'ids' && to === 'tier1';
     if (from === 'ids'   && to === 'tier1')   return true;
-    if (from === 'tier1' && to === 'tier2')   return !!latestReport.escalated_to_tier2;
-    if (from === 'tier2' && to === 'tier3')   return !!latestReport.escalated_to_tier3;
-    if (from === 'tier3' && to === 'warroom') return !!latestReport.war_room_triggered;
+    if (from === 'tier1' && to === 'tier2')   return activeFlags.tier2;
+    if (from === 'tier2' && to === 'tier3')   return activeFlags.tier3;
+    if (from === 'tier3' && to === 'warroom') return activeFlags.warroom;
     return false;
   };
 
+  // Layout constants.
+  const nodeW = 148;
+  const nodeH = 64;
+  const gap   = 56;
+  const padX  = 16;
+  const width = AGENTS.length * nodeW + (AGENTS.length - 1) * gap + padX * 2;
+  const height = 140;
+  const yMid  = height / 2;
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, padding: '2rem 0', overflowX: 'auto' }}>
-      {AGENTS.map((agent, idx) => (
-        <div key={agent.id} style={{ display: 'flex', alignItems: 'center' }}>
+    <div className="w-full overflow-x-auto">
+      <svg viewBox={`0 0 ${width} ${height}`} width="100%" style={{ minWidth: width }} role="img">
+        {/* Edges */}
+        {AGENTS.slice(0, -1).map((a, i) => {
+          const b = AGENTS[i + 1];
+          const active = edgeActive(a.id, b.id);
+          const x1 = padX + (i + 1) * nodeW + i * gap;
+          const x2 = x1 + gap;
+          const stroke = active ? C.ember : C.steel;
+          return (
+            <g key={`edge-${a.id}-${b.id}`}>
+              <line
+                x1={x1} y1={yMid} x2={x2} y2={yMid}
+                stroke={stroke}
+                strokeWidth={active ? 1.5 : 1}
+                strokeDasharray={active ? '0' : '3 4'}
+              />
+              {/* Arrowhead */}
+              <polygon
+                points={`${x2 - 6},${yMid - 4} ${x2},${yMid} ${x2 - 6},${yMid + 4}`}
+                fill={stroke}
+              />
+              {/* Traveling photon */}
+              {active && (
+                <motion.circle
+                  r={3}
+                  cy={yMid}
+                  fill={C.ember}
+                  initial={{ cx: x1 }}
+                  animate={{ cx: [x1, x2 - 6] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ filter: `drop-shadow(0 0 4px ${C.ember})` }}
+                />
+              )}
+            </g>
+          );
+        })}
 
-          {/* Pipeline Node */}
-          <div style={{
-            width: 120,
-            padding: '12px 8px',
-            textAlign: 'center',
-            background: getNodeColor(agent.id),
-            border: `1px solid ${getBorderColor(agent.id)}`,
-            boxShadow: getGlow(agent.id),
-            transition: 'all 0.4s ease',
-            color: '#fff',
-            fontSize: 10,
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            flexShrink: 0,
-          }}>
-            {agent.label}
-          </div>
+        {/* Nodes */}
+        {AGENTS.map((agent, i) => {
+          const x = padX + i * (nodeW + gap);
+          const y = yMid - nodeH / 2;
+          const col = colorFor(agent.id);
+          const active = activeFlags[agent.id];
+          return (
+            <g key={agent.id} transform={`translate(${x}, ${y})`}>
+              {/* Active halo */}
+              {active && (
+                <rect
+                  x={-4} y={-4}
+                  width={nodeW + 8} height={nodeH + 8}
+                  fill="none"
+                  stroke={col.stroke}
+                  strokeOpacity={0.18}
+                  strokeWidth={6}
+                />
+              )}
+              <rect
+                width={nodeW} height={nodeH}
+                fill={col.fill}
+                stroke={col.stroke}
+                strokeWidth={1}
+              />
+              {/* Corner bracket marks */}
+              {(['0,0', `${nodeW},0`, `0,${nodeH}`, `${nodeW},${nodeH}`] as string[]).map((pt, k) => {
+                const [px, py] = pt.split(',').map(Number);
+                const dx = px === 0 ? 6 : -6;
+                const dy = py === 0 ? 6 : -6;
+                return (
+                  <g key={`${agent.id}-c-${k}`} stroke={col.stroke} strokeWidth={1}>
+                    <line x1={px} y1={py} x2={px + dx} y2={py} />
+                    <line x1={px} y1={py} x2={px} y2={py + dy} />
+                  </g>
+                );
+              })}
+              {/* Label */}
+              <text
+                x={nodeW / 2}
+                y={nodeH / 2 - 4}
+                textAnchor="middle"
+                fill={col.text}
+                fontFamily="Chakra Petch, system-ui, sans-serif"
+                fontSize={13}
+                fontWeight={700}
+                letterSpacing={1.4}
+              >
+                {agent.label}
+              </text>
+              <text
+                x={nodeW / 2}
+                y={nodeH / 2 + 14}
+                textAnchor="middle"
+                fill={col.text}
+                opacity={0.55}
+                fontFamily="Instrument Serif, Georgia, serif"
+                fontStyle="italic"
+                fontSize={12}
+              >
+                {agent.sub}
+              </text>
+              {/* Stage index */}
+              <text
+                x={6} y={12}
+                fill={col.text}
+                opacity={0.4}
+                fontFamily="IBM Plex Mono, ui-monospace, monospace"
+                fontSize={9}
+                letterSpacing={1.6}
+              >
+                {`0${i + 1}`}
+              </text>
+            </g>
+          );
+        })}
 
-          {/* Arrow connector between nodes */}
-          {idx < AGENTS.length - 1 && (() => {
-            const nextAgent = AGENTS[idx + 1];
-            const active = isEdgeActive(agent.id, nextAgent.id);
-            return (
-              <div style={{ display: 'flex', alignItems: 'center', width: 40, flexShrink: 0 }}>
-                {/* Horizontal line */}
-                <div style={{
-                  flex: 1,
-                  height: 2,
-                  background: active ? COLOR.EDGE_ON : COLOR.EDGE_OFF,
-                  transition: 'background 0.3s',
-                  animation: active ? 'pulse 1.5s infinite' : 'none',
-                }} />
-                {/* Arrowhead (CSS triangle) */}
-                <div style={{
-                  width: 0,
-                  height: 0,
-                  borderTop: '5px solid transparent',
-                  borderBottom: '5px solid transparent',
-                  borderLeft: `6px solid ${active ? COLOR.EDGE_ON : COLOR.EDGE_OFF}`,
-                  transition: 'border-color 0.3s',
-                }} />
-              </div>
-            );
-          })()}
-        </div>
-      ))}
-
-      {/* Keyframe animation for pulsing active edges */}
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
+        {/* Bottom baseline axis with stage markers */}
+        <line
+          x1={padX} y1={height - 18}
+          x2={width - padX} y2={height - 18}
+          stroke={C.steel}
+          strokeWidth={0.5}
+        />
+        {AGENTS.map((agent, i) => {
+          const x = padX + i * (nodeW + gap) + nodeW / 2;
+          const active = activeFlags[agent.id];
+          return (
+            <g key={`axis-${agent.id}`}>
+              <line x1={x} y1={height - 22} x2={x} y2={height - 14}
+                stroke={active ? C.ember : C.steel} strokeWidth={1} />
+              <text
+                x={x} y={height - 4}
+                textAnchor="middle"
+                fill={active ? C.ember : C.fog}
+                fontFamily="IBM Plex Mono, ui-monospace, monospace"
+                fontSize={9}
+                letterSpacing={1.5}
+              >
+                {active ? 'ACTIVE' : 'IDLE'}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }

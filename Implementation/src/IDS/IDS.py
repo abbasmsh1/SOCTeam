@@ -808,11 +808,42 @@ async def _blocklist_sweeper():
         await asyncio.sleep(_BLOCKLIST_SWEEP_INTERVAL)
 
 
+_OLLAMA_WARMER = None
+
+
 @app.on_event("startup")
 async def _on_startup():
     import asyncio
     _ensure_boot_keys()
     asyncio.create_task(_blocklist_sweeper())
+
+    # Keep the local Ollama model resident so LLM-heavy SOC steps don't eat a
+    # 10-30s cold-reload every time a burst of alerts lands.
+    global _OLLAMA_WARMER
+    try:
+        from Agents.llm_perf import OllamaWarmer  # type: ignore
+    except Exception:
+        try:
+            from src.Agents.llm_perf import OllamaWarmer  # type: ignore
+        except Exception as exc:
+            logger.debug("[warmer] skipped: %s", exc)
+            return
+    try:
+        _OLLAMA_WARMER = OllamaWarmer()
+        _OLLAMA_WARMER.start()
+    except Exception as exc:
+        logger.warning("[warmer] failed to start: %s", exc)
+
+
+@app.on_event("shutdown")
+async def _on_shutdown():
+    global _OLLAMA_WARMER
+    if _OLLAMA_WARMER is not None:
+        try:
+            _OLLAMA_WARMER.stop()
+        except Exception:
+            pass
+        _OLLAMA_WARMER = None
 
 
 # Configure CORS
@@ -1456,6 +1487,92 @@ def get_stats():
         "confirmed_threats": active_threats,
         "active_agents": 5
     }
+
+
+# ---------------------------------------------------------------------------
+# Aggregated dashboard endpoints
+# ---------------------------------------------------------------------------
+# The UI would otherwise fan out to /events/stats + /events + /sandbox/state
+# + /capture-status on every tick; /overview replies with one consolidated
+# snapshot so the dashboard can render from a single round-trip.
+
+def _extract_flow_source_ip(event: Dict[str, Any]) -> Optional[str]:
+    """Pull the source IP from a dashboard event regardless of schema variant."""
+    for key in ("Source IP", "SourceIP", "IPV4_SRC_ADDR", "src_ip"):
+        v = event.get(key)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+
+def _top_threats(window_sec: int, limit: int) -> List[Dict[str, Any]]:
+    """Rank source IPs by malicious-flow count within the requested window."""
+    now = datetime.now()
+    buckets: Dict[str, Dict[str, Any]] = {}
+    for e in live_events:
+        attack = str(e.get("Attack", "Benign") or "Benign")
+        if attack.lower() in ("benign", "normal", ""):
+            continue
+        ts_raw = e.get("timestamp")
+        last_seen_ts = None
+        if ts_raw:
+            try:
+                last_seen_ts = datetime.fromisoformat(ts_raw)
+                if (now - last_seen_ts).total_seconds() > window_sec:
+                    continue
+            except (TypeError, ValueError):
+                pass
+        ip = _extract_flow_source_ip(e) or "unknown"
+        entry = buckets.setdefault(ip, {
+            "ip": ip,
+            "attack": attack,
+            "count": 0,
+            "last_seen": None,
+            "confidence": None,
+        })
+        entry["count"] += 1
+        if last_seen_ts is not None:
+            prev = entry["last_seen"]
+            if prev is None or last_seen_ts > prev:
+                entry["last_seen"] = last_seen_ts
+                # Keep the attack label tagged to the most recent hit so the
+                # leaderboard reflects what the actor is currently doing.
+                entry["attack"] = attack
+        conf = e.get("confidence")
+        if isinstance(conf, (int, float)):
+            entry["confidence"] = max(entry["confidence"] or 0.0, float(conf))
+
+    ranked = sorted(buckets.values(), key=lambda x: x["count"], reverse=True)[:limit]
+    for entry in ranked:
+        ls = entry["last_seen"]
+        entry["last_seen"] = ls.isoformat() if isinstance(ls, datetime) else None
+    return ranked
+
+
+@app.get("/threats/top", dependencies=[Depends(verify_api_key)])
+def get_top_threats(window: int = Query(3600, ge=60, le=86400), limit: int = Query(10, ge=1, le=100)):
+    """Leaderboard of most-active attacking source IPs over the last `window` seconds."""
+    return _top_threats(window, limit)
+
+
+@app.get("/overview", dependencies=[Depends(verify_api_key)])
+def get_overview(threats_window: int = Query(3600, ge=60, le=86400), threats_limit: int = Query(8, ge=1, le=50)):
+    """One-shot snapshot for the dashboard: stats + top threats + sandbox + capture + recent events."""
+    stats = get_stats()
+    try:
+        sandbox_state = get_sandbox_state()  # type: ignore[name-defined]
+    except Exception:  # defensive — /sandbox/state has its own error paths
+        sandbox_state = {"blocked_ips": [], "firewall_rules": [], "rate_limited_hosts": [], "total_actions": 0}
+    capture = dict(_live_capture_state)
+    return {
+        "stats": stats,
+        "top_threats": _top_threats(threats_window, threats_limit),
+        "sandbox": sandbox_state,
+        "capture": capture,
+        "recent_events_count": len(live_events),
+        "generated_at": datetime.now().isoformat(),
+    }
+
 
 @app.get("/metrics/drift", dependencies=[Depends(verify_api_key)])
 def get_drift_metrics():

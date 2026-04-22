@@ -90,6 +90,32 @@ if (Test-Path $envFile) {
 Remove-Item Env:TIER1_URL, Env:TIER2_URL, Env:TIER3_URL, Env:WARROOM_URL, Env:REPORTER_URL, Env:REMEDIATION_URL -ErrorAction SilentlyContinue
 
 # ---------------------------------------------------------------------------
+# Feature toggles (env vars consumed by IDS.py + modules)
+# ---------------------------------------------------------------------------
+$env:IDS_CORS_ORIGINS    = $CorsOrigins
+$env:IDS_JSON_LOGS       = if ($JsonLogs)       { "true" } else { "false" }
+$env:IDS_RL_ENABLED      = if ($DisableRL)      { "false" } else { "true" }
+$env:IDS_EXPLAIN         = if ($DisableExplain) { "false" } else { "true" }
+# Sensible defaults unless the caller already set them in .env
+if (-not $env:IDS_SANDBOX_CACHE_TTL_SEC) { $env:IDS_SANDBOX_CACHE_TTL_SEC = "3" }
+if (-not $env:IDS_SSE_MAX_LIFETIME_SEC)  { $env:IDS_SSE_MAX_LIFETIME_SEC  = "300" }
+if (-not $env:IDS_REPORTS_CACHE_TTL_SEC) { $env:IDS_REPORTS_CACHE_TTL_SEC = "30" }
+
+Write-Host ("[OK] Feature toggles: JsonLogs={0} RL={1} Explain={2} CORS={3}" -f `
+    $env:IDS_JSON_LOGS, $env:IDS_RL_ENABLED, $env:IDS_EXPLAIN, $env:IDS_CORS_ORIGINS) -ForegroundColor DarkGray
+
+# ---------------------------------------------------------------------------
+# Optional: rotate old reports before boot (keeps /reports scan fast)
+# ---------------------------------------------------------------------------
+if ($RotateReports) {
+    Write-Host "`n[+] Rotating Reports/ older than $RotateDaysOlderThan days..." -ForegroundColor Yellow
+    & $PythonExe -m Implementation.tools.rotate_reports --older-than-days $RotateDaysOlderThan
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  [!] rotate_reports exited with $LASTEXITCODE (continuing)" -ForegroundColor Yellow
+    }
+}
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 function Write-Header($title) {
@@ -303,6 +329,8 @@ Write-Header "System Status"
 
 $services = @(
     @{ name = "IDS Backend"; url = "http://127.0.0.1:6050/health" },
+    @{ name = "Prometheus"; url = "http://127.0.0.1:6050/metrics" },
+    @{ name = "Incident Graph"; url = "http://127.0.0.1:6050/graph/summary" },
     @{ name = "Frontend"; url = "http://127.0.0.1:5173/" }
 )
 if (-not $SkipHexstrike) {
@@ -314,9 +342,14 @@ if (-not $SkipAgents) {
     }
 }
 
+$readKey = [System.Environment]::GetEnvironmentVariable("IDS_API_KEY", "Process")
 foreach ($svc in $services) {
+    $headers = @{}
+    if ($readKey -and ($svc.url -like "*/graph/*" -or $svc.url -like "*/rl/*")) {
+        $headers["X-API-Key"] = $readKey
+    }
     try {
-        $r = Invoke-WebRequest -Uri $svc.url -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
+        $r = Invoke-WebRequest -Uri $svc.url -UseBasicParsing -TimeoutSec 5 -Headers $headers -ErrorAction Stop
         $statusStr = "RUNNING"
         $color = "Green"
     }
@@ -324,7 +357,7 @@ foreach ($svc in $services) {
         $statusStr = "OFFLINE"
         $color = "Red"
     }
-    Write-Host ("  {0,-20} {1,-35} {2}" -f $svc.name, $svc.url, $statusStr) -ForegroundColor $color
+    Write-Host ("  {0,-20} {1,-45} {2}" -f $svc.name, $svc.url, $statusStr) -ForegroundColor $color
 }
 
 # ---------------------------------------------------------------------------
@@ -337,6 +370,73 @@ if ($RunFeeder) {
         -WorkingDirectory $ProjectRoot `
         -NoNewWindow
 }
+
+# ---------------------------------------------------------------------------
+# 7.5 Optional RL training run (fine-tune ANN on buffered agent feedback)
+# ---------------------------------------------------------------------------
+if ($RunRLTraining) {
+    Write-Header "Triggering RL Training"
+    $adminKey = [System.Environment]::GetEnvironmentVariable("IDS_ADMIN_API_KEY", "Process")
+    if ($adminKey) {
+        $trainBody = @{ limit = 500; epochs = $RLTrainingEpochs; lr = 1e-4; dry_run = $false } | ConvertTo-Json -Compress
+        try {
+            $r = Invoke-WebRequest `
+                -Uri "http://127.0.0.1:6050/rl/train" `
+                -Method POST `
+                -Headers @{ "X-API-Key" = $adminKey; "Content-Type" = "application/json" } `
+                -Body $trainBody -UseBasicParsing -TimeoutSec 900
+            Write-Host "  [+] RL training subprocess exit=$($r.StatusCode)" -ForegroundColor Green
+            Write-Host "      Response: $($r.Content.Substring(0, [Math]::Min(400, $r.Content.Length)))" -ForegroundColor DarkGray
+            Write-Host "      [!] Restart backend to load the new checkpoint" -ForegroundColor Yellow
+        }
+        catch {
+            Write-Host "  [!] RL training call failed: $_" -ForegroundColor Yellow
+        }
+    }
+    else {
+        Write-Host "  [!] IDS_ADMIN_API_KEY not set; skipping" -ForegroundColor Yellow
+    }
+}
+
+# ---------------------------------------------------------------------------
+# 7.9 Optional contract tests -- boots the app via TestClient against this backend
+# ---------------------------------------------------------------------------
+if ($RunContractTests) {
+    Write-Header "Running Contract Tests"
+    & $PythonExe -m pytest "$ImplRoot\tests\test_contract.py" -x --tb=short
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "  [OK] Contract tests passed" -ForegroundColor Green
+    }
+    else {
+        Write-Host "  [!] Contract tests failed (exit $LASTEXITCODE)" -ForegroundColor Red
+    }
+}
+
+# ---------------------------------------------------------------------------
+# 8.0 Quick reference: endpoints enabled by the extension modules
+# ---------------------------------------------------------------------------
+Write-Host "`n---- Extension module endpoints (require X-API-Key) ----" -ForegroundColor Cyan
+Write-Host "  RL pipeline:"
+Write-Host "    GET  /rl/stats          - buffer totals + per-class FP rates + policy"
+Write-Host "    POST /rl/train          - trigger offline fine-tune (admin)"
+Write-Host "    POST /rl/feedback       - manual allow/deny (admin)"
+Write-Host "    GET  /rl/policy         - adaptive confidence-threshold policy"
+Write-Host "  Incident graph:"
+Write-Host "    GET  /graph/summary     - node/edge counts by kind"
+Write-Host "    GET  /graph/ip/{ip}     - incidents involving this IP"
+Write-Host "    GET  /graph/attack/{t}  - IPs seen for an attack type"
+Write-Host "  Observability:"
+Write-Host "    GET  /metrics           - Prometheus scrape (no auth)"
+Write-Host "    GET  /metrics/drift     - PSI feature drift (if baseline set)"
+Write-Host "    GET  /metrics/calibration - ECE/Brier (if calibration.json present)"
+Write-Host "  Useful CLIs:"
+Write-Host "    python -m Implementation.tools.rotate_reports --older-than-days 7"
+Write-Host "    python -m Implementation.tools.pcap_replay --pcap x.pcap --expect-blocked 1.2.3.4"
+Write-Host "    python -m Implementation.tools.llm_judge --limit 20"
+Write-Host "    python -m Implementation.src.IDS.rl.trainer --dry-run"
+Write-Host "    python -m Implementation.src.IDS.rl.distillation --max-depth 8"
+Write-Host "    python -m Implementation.src.IDS.metrics.adversarial --predictions preds.csv"
+Write-Host "    python -m Implementation.src.IDS.metrics.calibration_tuner --predictions preds.csv"
 
 Write-Host "`n[OK] SOC System is running." -ForegroundColor Green
 Write-Host "Press Ctrl+C to stop." -ForegroundColor DarkGray

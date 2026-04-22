@@ -18,6 +18,12 @@ except (ImportError, ValueError):
     from runtime_compat import StateGraph
 
 try:
+    from .llm_perf import compress_prompt  # type: ignore
+except Exception:  # pragma: no cover
+    def compress_prompt(prompt: str) -> str:  # type: ignore
+        return prompt
+
+try:
     from Implementation.utils.Geolocator import GeoLocator
 except (ImportError, ValueError):
     try:
@@ -272,11 +278,12 @@ class TierAnalystAgent(BaseAgent):
         without the compiled graph; tier analysts must always send tier rules.
         """
         try:
+            compressed = compress_prompt(prompt)
             if self.app:
                 thread_id = str(uuid.uuid4())
                 config = {"configurable": {"thread_id": thread_id}}
                 result = self.app.invoke(
-                    {"messages": [{"role": "user", "content": prompt}]}, config
+                    {"messages": [{"role": "user", "content": compressed}]}, config
                 )
                 messages = result.get("messages", [])
                 if messages:
@@ -294,7 +301,7 @@ class TierAnalystAgent(BaseAgent):
                 response = llm.invoke(
                     [
                         {"role": "system", "content": self._get_system_message()},
-                        {"role": "user", "content": prompt},
+                        {"role": "user", "content": compressed},
                     ]
                 )
                 return response.content if hasattr(response, "content") else str(response)

@@ -23,6 +23,12 @@ except (ImportError, ValueError):
     from DefensiveActionSandbox import DefensiveActionSandbox
     from runtime_compat import AIMessage, ChatOpenAI, MemorySaver, StateGraph
 
+try:
+    from .llm_perf import compress_prompt  # type: ignore
+except Exception:  # pragma: no cover
+    def compress_prompt(prompt: str) -> str:  # type: ignore
+        return prompt
+
 # Local database manager
 try:
     from ..Database.FlowHistoryManager import FlowHistoryManager
@@ -186,6 +192,7 @@ class BaseAgent:
             temperature=temperature,
             api_key=self.api_key,
             callbacks=callbacks,
+            role=self.agent_name,
         )
 
     def _initialize_hexstrike(self, hexstrike_url: Optional[str] = None) -> None:
@@ -227,7 +234,7 @@ class BaseAgent:
             response = self.llm.invoke(
                 [
                     {"role": "system", "content": system_message},
-                    {"role": "user", "content": last_message},
+                    {"role": "user", "content": compress_prompt(last_message)},
                 ]
             )
             content = response.content if hasattr(response, "content") else str(response)
@@ -238,10 +245,11 @@ class BaseAgent:
 
     def _stream_with_config(self, prompt: str, timeout_override: Optional[int] = None) -> Optional[str]:
         try:
+            compressed = compress_prompt(prompt)
             if self.app:
                 thread_id = str(uuid.uuid4())
                 config = {"configurable": {"thread_id": thread_id}}
-                result = self.app.invoke({"messages": [{"role": "user", "content": prompt}]}, config)
+                result = self.app.invoke({"messages": [{"role": "user", "content": compressed}]}, config)
                 messages = result.get("messages", [])
                 if messages:
                     msg = messages[-1]
@@ -251,7 +259,7 @@ class BaseAgent:
                 response = self.llm.invoke(
                     [
                         {"role": "system", "content": "You are a helpful SOC Analyst agent."},
-                        {"role": "user", "content": prompt},
+                        {"role": "user", "content": compressed},
                     ]
                 )
                 return response.content if hasattr(response, "content") else str(response)

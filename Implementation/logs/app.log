@@ -25994,3 +25994,175 @@ AttributeError: 'NoneType' object has no attribute 'get'
 2026-04-21 17:15:29 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052 (Immediate bind enabled)
 2026-04-21 17:15:36 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
 2026-04-21 17:16:16 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 09:58:08 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 09:58:14 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for warroom on port 6054 (Immediate bind enabled)
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
+2026-04-22 09:59:07 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052 (Immediate bind enabled)
+2026-04-22 09:59:23 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 09:59:50 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 10:59:52 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 10:59:52 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-22 10:59:52 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 10:59:52 - AgentServer - INFO - Lazy initializing tier1 agent...
+2026-04-22 10:59:54 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:00:08 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:00:26 - AgentServer - INFO - tier1 agent initialized.
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=Low, Escalate=True
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 66.45.81.53
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 66.45.81.53
+2026-04-22 11:01:22 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:01:23 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 11:01:23 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 11:01:23 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:01:23 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:01:37 - AgentServer - INFO - Lazy initializing tier2 agent...
+2026-04-22 11:01:39 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:01:52 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:01:52 - AgentServer - INFO - tier2 agent initialized.
+2026-04-22 11:02:36 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=False
+2026-04-22 11:02:36 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+2026-04-22 11:02:36 - AgentServer - INFO - Lazy initializing remediation agent...
+2026-04-22 11:02:38 - AgentServer - INFO - remediation agent initialized.
+2026-04-22 11:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 11:02:39 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+2026-04-22 11:02:39 - AgentServer - INFO - Lazy initializing reporter agent...
+2026-04-22 11:02:41 - AgentServer - INFO - reporter agent initialized.
+2026-04-22 11:02:41 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-04-22 11:02:41 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110241_346560.md
+2026-04-22 11:02:41 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110241_346560.md
+2026-04-22 11:02:41 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110241_346560.md
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:03:55 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 11:04:05 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Analysis
+2026-04-22 11:04:05 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 11:04:13 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:05:28 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 11:05:28 - AgentServer - INFO - Lazy initializing tier3 agent...
+2026-04-22 11:05:32 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:05:43 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:05:46 - AgentServer - INFO - tier3 agent initialized.
+2026-04-22 11:06:29 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 175.45.176.1
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:06:50 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 175.45.176.1
+2026-04-22 11:06:55 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 11:06:55 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: DDoS
+2026-04-22 11:06:55 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:06:55 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:07:56 - AgentServer - INFO - Lazy initializing warroom agent...
+2026-04-22 11:08:11 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:23 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:25 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:36 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=False
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+2026-04-22 11:08:37 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+2026-04-22 11:08:37 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-04-22 11:08:37 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110837_629440.md
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110837_629440.md
+2026-04-22 11:08:37 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_110837_629440.md
+2026-04-22 11:08:37 - AgentServer - INFO - warroom agent initialized.
+2026-04-22 11:08:48 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:08:56 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:09:08 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:09:21 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 11:10:54 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 11:10:54 - Implementation.src.Agents.SOCWorkflow - ERROR - Background SOC Tier 2+ pipeline failed
+Traceback (most recent call last):
+  File "E:\IMT\2nd Sem\Project\Implementation\src\Agents\SOCWorkflow.py", line 919, in _background_tier2_pipeline
+    state = self._remediation_node(state)
+  File "E:\IMT\2nd Sem\Project\Implementation\src\Agents\SOCWorkflow.py", line 588, in _remediation_node
+    generated_code = blue_plan.get("generated_defensive_code", {}).get("final_code", "")
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:11:08 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 11:11:10 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Shellcode
+2026-04-22 11:11:10 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 192.168.100.150
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 192.168.100.150
+2026-04-22 11:11:25 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:11:41 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 11:11:42 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 11:11:42 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+2026-04-22 11:11:42 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-04-22 11:11:42 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111142_298432.md
+2026-04-22 11:11:42 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111142_298432.md
+2026-04-22 11:11:42 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111142_298432.md
+2026-04-22 11:12:38 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 11:12:47 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=True
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 175.45.176.2
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 11:13:55 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 175.45.176.2
+2026-04-22 11:13:56 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Generic
+2026-04-22 11:13:56 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 11:16:44 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2 [Investigation]: Severity=High, Escalate=False
+2026-04-22 11:16:44 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+2026-04-22 11:16:45 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 11:16:45 - Implementation.src.Agents.SOCWorkflow - INFO - Executed remediation from report recommendations
+2026-04-22 11:16:45 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-04-22 11:16:45 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111645_672512.md
+2026-04-22 11:16:45 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111645_672512.md
+2026-04-22 11:16:45 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_111645_672512.md
+2026-04-22 15:24:48 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 15:24:50 - Implementation.src.Agents.SOCWorkflow - INFO - Security team handoff written: E:\IMT\2nd Sem\Project\Reports\security_team_sandbox_handoff.json
+2026-04-22 15:24:50 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: finalizing (report + metadata)...
+2026-04-22 15:24:50 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Generating final report...
+2026-04-22 15:24:51 - Implementation.src.Agents.ReportGeneratorAgent - INFO - Report saved successfully at E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_152450_305088.md
+2026-04-22 15:24:51 - Implementation.src.Agents.SOCWorkflow - INFO - Workflow completed. Incident recorded in Metadata DB. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_152450_305088.md
+2026-04-22 15:24:51 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC pipeline complete. Report: E:\IMT\2nd Sem\Project\Reports\SOC_Report_20260422_152450_305088.md
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 1 [Triage]: Severity=High, Escalate=True
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Tier 2+ scheduled on background thread (executor)
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: Tier 2 starting...
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Spawning background forensic thread for 175.45.176.0
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Awaiting HexStrike enrichment before Tier 2 analysis...
+2026-04-22 15:25:24 - Implementation.src.Agents.SOCWorkflow - INFO - Deep forensics started for 175.45.176.0
+2026-04-22 15:25:26 - Implementation.src.Agents.SOCWorkflow - INFO - Background SOC: remediation...
+2026-04-22 15:25:26 - Implementation.src.Agents.SOCWorkflow - ERROR - Background SOC Tier 2+ pipeline failed
+Traceback (most recent call last):
+  File "E:\IMT\2nd Sem\Project\Implementation\src\Agents\SOCWorkflow.py", line 919, in _background_tier2_pipeline
+    state = self._remediation_node(state)
+  File "E:\IMT\2nd Sem\Project\Implementation\src\Agents\SOCWorkflow.py", line 588, in _remediation_node
+    generated_code = blue_plan.get("generated_defensive_code", {}).get("final_code", "")
+AttributeError: 'NoneType' object has no attribute 'get'
+2026-04-22 15:25:27 - Implementation.src.Agents.SOCWorkflow - INFO - Processing alert: Infilteration
+2026-04-22 15:25:27 - Implementation.src.Agents.SOCWorkflow - INFO - SOCWorkflow direct mode: Tier 1 inline; Tier 2+ background=True
+2026-04-22 15:53:30 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for tier1 on port 6051 (Immediate bind enabled)
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for remediation on port 6056 (Immediate bind enabled)
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for reporter on port 6055 (Immediate bind enabled)
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for tier2 on port 6052 (Immediate bind enabled)
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for warroom on port 6054 (Immediate bind enabled)
+2026-04-22 15:54:27 - AgentServer - INFO - Starting uvicorn server for tier3 on port 6053 (Immediate bind enabled)
+2026-04-22 15:54:35 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 15:54:52 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db
+2026-04-22 15:55:36 - Implementation.src.Database.FlowHistoryManager - INFO - FlowHistoryManager initialized at E:\IMT\2nd Sem\Project\Implementation\Data\flow_history.db

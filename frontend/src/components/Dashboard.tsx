@@ -1,18 +1,22 @@
 /**
  * Dashboard.tsx
  * =============
- * Main SOC Mission Control dashboard. Displays:
- *   - System status header with health indicator
- *   - Primary telemetry grid (throughput, backlog, threats, agents)
- *   - Network traffic chart & remediation panel
- *   - Live threat monitor
- *   - Agent reasoning path visualization
- *   - Historical incident ledger (sidebar)
+ * SOC Mission Control — "War Room / Classified Instrument Panel" aesthetic.
+ *
+ *   Header        ── editorial kicker + display headline + status chevrons
+ *   Ticker strip  ── continuously scrolling telemetry marquee
+ *   Stat grid     ── four StatCards with animated count-up
+ *   Ops center    ── two-column layout of live feeds + agent pipeline
+ *   Ledger aside  ── sticky sidebar incident ledger
  */
 
 import { useEffect, useState } from 'react';
-import { Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText, ShieldAlert } from 'lucide-react';
-import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import {
+  Activity, Zap, AlertTriangle, Terminal, ChevronRight, FileText, ShieldAlert,
+} from 'lucide-react';
+import {
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area,
+} from 'recharts';
 import { Link } from 'react-router-dom';
 import { useSocStream, type Report } from '../hooks/useSocStream';
 import { idsApi } from '../utils/api';
@@ -23,231 +27,288 @@ import BlockedIpsTable from './BlockedIpsTable';
 import SandboxStatePanel from './SandboxStatePanel';
 import DispatchAlert from './DispatchAlert';
 import RLStatsPanel from './RLStatsPanel';
+import TopThreatsPanel from './TopThreatsPanel';
 import { StatCard } from './ui/StatCard';
+import { Panel } from './ui/Panel';
+import { Ticker, type TickerItem } from './ui/Ticker';
 
 export default function Dashboard() {
-  const { reports, stats, traffic, sandbox, remediationLogs, latestReport, error, connected } = useSocStream();
+  const {
+    reports, stats, traffic, sandbox, remediationLogs, latestReport,
+    error, connected,
+  } = useSocStream();
   const [pendingCount, setPendingCount] = useState(0);
+  const [clock, setClock] = useState(() => new Date());
 
+  // Pending quarantine count — drives the red "QUARANTINE" chevron top-right.
   useEffect(() => {
     const fetchPending = async () => {
       try {
         const res = await idsApi.getQuarantine();
         const list = Array.isArray(res.data) ? res.data : [];
         setPendingCount(list.filter((e: any) => e.status === 'PENDING_HUMAN').length);
-      } catch {
-        // ignore — the header badge is non-critical
-      }
+      } catch { /* non-critical */ }
     };
     fetchPending();
-    const interval = setInterval(fetchPending, 5000);
-    return () => clearInterval(interval);
+    const id = setInterval(fetchPending, 5000);
+    return () => clearInterval(id);
   }, []);
 
+  // Wall clock — refreshes every second for the station-ID line.
+  useEffect(() => {
+    const id = setInterval(() => setClock(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const linkState =
+    error    ? { text: 'LINK·DEGRADED', tone: 'text-malicious animate-pulse' }
+  : connected? { text: 'LINK·SECURED',  tone: 'text-benign glow-phosphor' }
+  :            { text: 'LINK·PENDING',  tone: 'text-warning animate-pulse' };
+
+  const tickerItems: TickerItem[] = [
+    { label: 'UPLINK',       value: linkState.text, tone: connected ? 'phosphor' : 'radar' },
+    { label: 'THROUGHPUT',   value: `${stats.packets_per_second.toLocaleString()} P/S`, tone: 'default' },
+    { label: 'BACKLOG',      value: stats.pending_alerts, tone: stats.pending_alerts > 0 ? 'radar' : 'default' },
+    { label: 'INCURSIONS',   value: stats.confirmed_threats, tone: stats.confirmed_threats > 0 ? 'arterial' : 'default' },
+    { label: 'NODES',        value: stats.active_agents, tone: 'ember' },
+    { label: 'BLOCKED',      value: sandbox.blocked_ips.length, tone: 'phosphor' },
+    { label: 'RULES',        value: sandbox.firewall_rules.length, tone: 'default' },
+    { label: 'PENDING·HUMAN',value: pendingCount, tone: pendingCount > 0 ? 'arterial' : 'default' },
+    { label: 'UTC',          value: clock.toISOString().slice(11, 19), tone: 'default' },
+  ];
+
   return (
-    <div className="min-h-screen p-6 space-y-8 bg-transparent">
-
-      {/* ── HUD Header ── */}
-      <header className="flex items-center justify-between border-b border-white/10 pb-8">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-1 h-6 bg-primary" />
-            <h1 className="text-3xl font-black text-white tracking-widest uppercase italic">
-              SOC <span className="text-primary">MISSION CONTROL</span>
+    <div className="min-h-screen bg-transparent">
+      {/* ── Editorial Header ───────────────────────────── */}
+      <header className="px-6 pt-10 pb-6">
+        <div className="flex items-start justify-between gap-8 flex-wrap">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-2.5 h-2.5 bg-primary" />
+              <span className="label text-primary glow-ember">MISSION CONTROL // TIER·SIGMA CLEARANCE</span>
+              <span className="label text-fog hidden sm:inline">/ SOC·v2.1</span>
+            </div>
+            <h1 className="font-display font-bold tracking-tight text-paper text-5xl md:text-6xl leading-[0.95]">
+              Autonomous Threat Response
+              <span className="block stamp text-paper/80 font-normal text-3xl md:text-4xl mt-1">
+                <span className="text-primary">in situ</span> — real-time, persistent, accountable.
+              </span>
             </h1>
+            <p className="mt-4 label text-fog max-w-xl">
+              sensor array is continuously assessed by a tiered analyst pipeline;
+              decisions are <span className="text-paper">recorded</span>,
+              <span className="text-paper"> reversible</span>, and
+              <span className="text-paper"> legible</span>.
+            </p>
           </div>
-          <p className="text-slate-500 text-xs font-mono uppercase tracking-tighter">
-            Real-time Autonomous Threat Response System v2.1 // PERSISTENT MEMORY ACTIVE
-          </p>
-        </div>
 
-        {/* System health status indicator */}
-        <div className="flex flex-col items-end gap-2">
-            <div className="flex items-center gap-4 text-[10px] font-mono">
-                <Link
-                    to="/quarantine"
-                    className={`flex items-center gap-1 border px-2 py-1 uppercase tracking-widest font-bold transition-colors ${
-                        pendingCount > 0
-                            ? 'text-warning border-warning/50 bg-warning/10 animate-pulse'
-                            : 'text-slate-500 border-white/10 hover:border-primary/40 hover:text-primary'
-                    }`}
-                >
-                    <ShieldAlert size={11} /> QUARANTINE
-                    <span className={`ml-1 px-1 ${pendingCount > 0 ? 'bg-warning text-black' : 'bg-slate-800 text-slate-400'}`}>
-                        {pendingCount}
-                    </span>
-                </Link>
-                <span className="text-slate-500 uppercase">System Status:</span>
-                <span className={error ? "text-malicious animate-pulse" : connected ? "text-benign" : "text-warning"}>
-                    [{error ? "EXT_ERR" : connected ? "SECURED" : "CONNECTING"}]
+          {/* Right: status chevrons */}
+          <div className="flex flex-col items-end gap-3">
+            <div className="flex items-center gap-2">
+              <Link
+                to="/quarantine"
+                className={`flex items-center gap-1.5 border px-2.5 py-1 label transition-colors ${
+                  pendingCount > 0
+                    ? 'text-malicious border-malicious/60 bg-malicious/10 animate-pulse'
+                    : 'text-fog border-paper/10 hover:border-primary/40 hover:text-primary'
+                }`}
+              >
+                <ShieldAlert size={11} /> QUARANTINE
+                <span className={`ml-1 px-1 num ${pendingCount > 0 ? 'bg-malicious text-ink' : 'bg-graphite text-fog'}`}>
+                  {pendingCount}
                 </span>
+              </Link>
+              <span className={`label border px-2.5 py-1 ${linkState.tone} border-paper/10`}>
+                [{linkState.text}]
+              </span>
             </div>
-            {/* Mini progress bar (decorative health gauge) */}
-            <div className="h-1 w-32 bg-white/5 relative">
-                <div className="absolute top-0 left-0 h-full bg-primary w-2/3" />
+
+            <div className="flex items-center gap-2 label text-fog">
+              <span>STN-A · {clock.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '·')}</span>
+              <span className="num text-paper">{clock.toLocaleTimeString([], { hour12: false })}</span>
             </div>
+
+            <div className="h-1 w-40 bg-paper/5 relative overflow-hidden">
+              <div className="absolute top-0 left-0 h-full bg-primary"
+                   style={{ width: connected ? '100%' : error ? '8%' : '45%', transition: 'width 0.8s ease' }} />
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* ── Primary Telemetry Grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard 
-            title="Throughput (P/S)" 
-            value={stats.packets_per_second.toLocaleString()} 
-            trendIndicator={stats.packets_per_second > 0 ? "LIVE" : "IDLE"} 
-            icon={<Activity className="text-primary" />} 
-        />
-        <StatCard 
-            title="Analysis Backlog" 
-            value={stats.pending_alerts.toString()} 
-            trendIndicator={stats.pending_alerts > 0 ? "PRIORITY" : "NOMINAL"} 
-            icon={<Zap className="text-warning" />} 
-        />
-        <StatCard 
-            title="Confirmed Incursions" 
-            value={stats.confirmed_threats.toString()} 
-            trendIndicator={stats.confirmed_threats > 0 ? "CRITICAL" : "ZERO"} 
-            icon={<AlertTriangle className={stats.confirmed_threats > 0 ? "text-malicious" : "text-slate-400"} />} 
-        />
-        <StatCard 
-            title="Active Node Clusters" 
-            value={stats.active_agents.toString()} 
-            trendIndicator="STABLE" 
-            icon={<Terminal className="text-slate-400" />} 
-        />
-      </div>
+      {/* ── Ticker Strip ───────────────────────────────── */}
+      <Ticker items={tickerItems} />
 
-      {/* ── Operations Center Layout (two-column) ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Left Column: Analytics & Execution */}
-        <div className="lg:col-span-9 space-y-8">
-          
-          {/* Traffic chart + Remediation side-by-side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* ── Body ───────────────────────────────────────── */}
+      <div className="p-6 space-y-8 mt-6">
 
-            {/* Network Traffic Area Chart */}
-            <div className="hud-card">
-               <h3 className="text-xs font-black text-white mb-6 uppercase tracking-widest flex items-center gap-2">
-                <div className="w-1.5 h-3 bg-primary" />
-                Network Traffic Analysis
-               </h3>
-               <div className="h-[250px]">
-                 <ResponsiveContainer width="100%" height="100%">
-                   <AreaChart data={traffic}>
-                     <defs>
-                       <linearGradient id="colorFlows" x1="0" y1="0" x2="0" y2="1">
-                         <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
-                         <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                       </linearGradient>
-                     </defs>
-                     <CartesianGrid strokeDasharray="2 2" stroke="#ffffff05" vertical={false} />
-                     <XAxis dataKey="name" stroke="#333" fontSize={10} fontStyle="italic" />
-                     <YAxis stroke="#333" fontSize={10} />
-                     <Tooltip 
-                       contentStyle={{ backgroundColor: '#000', border: '1px solid #333', borderRadius: '0' }}
-                       itemStyle={{ color: '#fff' }}
-                     />
-                     <Area type="stepBefore" dataKey="flows" stroke="hsl(var(--primary))" strokeWidth={2} fillOpacity={1} fill="url(#colorFlows)" />
-                   </AreaChart>
-                 </ResponsiveContainer>
-               </div>
-            </div>
-
-            {/* Active remediation actions panel */}
-            <RemediationPanel />
-          </div>
-
-          {/* Real-time threat monitor feed */}
-          <LiveMonitor />
-
-          {/* Full remediation action log table */}
-          <BlockedIpsTable logs={remediationLogs} />
-
-          {/* Autonomous SOC – live sandbox state */}
-          <SandboxStatePanel sandbox={sandbox} />
-
-          {/* Manual dispatch trigger for /soc/auto-rules */}
-          <DispatchAlert />
-
-          {/* RL feedback pipeline — buffer state + per-class FP rates + training trigger */}
-          <RLStatsPanel />
-
-          {/* Agent Reasoning Path – shows which tier processed the latest report */}
-          <div className="hud-card border-primary/20">
-             <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                 <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
-                    <div className="w-1.5 h-3 bg-primary" />
-                    Agent Reasoning Path
-                 </h3>
-                 {latestReport && (
-                    <div className="text-[10px] font-mono text-slate-500 uppercase">
-                        Current Frame: <span className="text-white italic">{latestReport.name}</span>
-                    </div>
-                 )}
-             </div>
-             <AgentFlow latestReport={latestReport} />
-          </div>
+        {/* ── Primary Telemetry Grid ─────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <StatCard
+            title="Throughput"
+            value={stats.packets_per_second.toLocaleString()}
+            trendIndicator={stats.packets_per_second > 0 ? 'LIVE' : 'IDLE'}
+            icon={<Activity size={18} />}
+            serialCode="T-001·P/S"
+          />
+          <StatCard
+            title="Analysis Backlog"
+            value={stats.pending_alerts.toString()}
+            trendIndicator={stats.pending_alerts > 0 ? 'PRIORITY' : 'NOMINAL'}
+            icon={<Zap size={18} />}
+            serialCode="T-002·QUE"
+          />
+          <StatCard
+            title="Confirmed Incursions"
+            value={stats.confirmed_threats.toString()}
+            trendIndicator={stats.confirmed_threats > 0 ? 'CRITICAL' : 'ZERO'}
+            icon={<AlertTriangle size={18} />}
+            serialCode="T-003·HIT"
+          />
+          <StatCard
+            title="Active Node Clusters"
+            value={stats.active_agents.toString()}
+            trendIndicator="STABLE"
+            icon={<Terminal size={18} />}
+            serialCode="T-004·NOD"
+          />
         </div>
 
-        {/* Right Column: Historical Incident Ledger (sticky sidebar) */}
-        <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-6">
-            <div className="hud-card bg-primary/5 border-primary/20">
-                <h3 className="text-xs font-black text-white mb-6 uppercase tracking-widest flex items-center gap-2">
-                    <FileText className="text-primary" size={14} />
-                    Incident Ledger
-                </h3>
-                <div className="space-y-3">
-                    {reports.length > 0 ? (
-                    reports.map((report) => (
-                        <ReportLink key={report.id} report={report} />
-                    ))
-                    ) : (
-                    <div className="text-center py-12 border border-dashed border-white/10 opacity-30 italic text-[10px]">
-                        SCANNING FOR INCIDENTS...
-                    </div>
-                    )}
+        {/* ── Ops Center ─────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+          {/* Left: live feeds & agent pipeline */}
+          <div className="lg:col-span-9 space-y-6">
+
+            {/* Traffic + Remediation */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Panel label="Network Traffic Analysis" icon={<Activity size={14} />} meta={<span>60m</span>}>
+                <div className="h-[240px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={traffic} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorFlows" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%"  stopColor="#f97316" stopOpacity={0.35} />
+                          <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="2 3" stroke="#ffffff08" vertical={false} />
+                      <XAxis dataKey="name" stroke="#8a869077" fontSize={10}
+                             tickLine={false} axisLine={{ stroke: '#3d3b44' }} />
+                      <YAxis stroke="#8a869077" fontSize={10}
+                             tickLine={false} axisLine={false} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#08070aF2',
+                          border: '1px solid #f97316',
+                          borderRadius: 0,
+                          color: '#eee8dc',
+                          fontFamily: 'IBM Plex Mono, monospace',
+                          fontSize: 11,
+                        }}
+                        cursor={{ stroke: '#f9731655', strokeWidth: 1 }}
+                        itemStyle={{ color: '#eee8dc' }}
+                        labelStyle={{ color: '#8a8690' }}
+                      />
+                      <Area
+                        type="stepBefore"
+                        dataKey="flows"
+                        stroke="#f97316"
+                        strokeWidth={1.5}
+                        fill="url(#colorFlows)"
+                        animationDuration={600}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
+              </Panel>
+              <RemediationPanel />
             </div>
 
-            {/* Decorative system metadata footer */}
-            <div className="opacity-20 text-[9px] font-mono leading-tight uppercase tracking-tighter">
-                [SYSTEM_ID: REDACTED]<br/>
-                [LOC: SERVER_NODE_A]<br/>
-                [TIME_ELAPSED: 12.44S]
-            </div>
-        </aside>
+            <LiveMonitor />
+            <TopThreatsPanel />
+            <BlockedIpsTable logs={remediationLogs} />
+            <SandboxStatePanel sandbox={sandbox} />
+            <DispatchAlert />
+            <RLStatsPanel />
 
+            {/* Agent Reasoning Path */}
+            <Panel
+              accent="ember"
+              label="Agent Reasoning Path"
+              icon={<ChevronRight size={14} />}
+              meta={
+                latestReport ? (
+                  <span>
+                    frame: <span className="stamp text-paper">{latestReport.name}</span>
+                  </span>
+                ) : <span>idle</span>
+              }
+            >
+              <AgentFlow latestReport={latestReport} />
+            </Panel>
+          </div>
+
+          {/* Right: sticky incident ledger */}
+          <aside className="lg:col-span-3 lg:sticky lg:top-8 h-fit space-y-5">
+            <Panel
+              accent="ember"
+              label="Incident Ledger"
+              icon={<FileText size={13} />}
+              meta={<span className="num">{reports.length.toString().padStart(3, '0')}</span>}
+            >
+              <div className="space-y-2.5 max-h-[70vh] overflow-y-auto pr-1">
+                {reports.length > 0 ? (
+                  reports.map((report) => <ReportLink key={report.id} report={report} />)
+                ) : (
+                  <div className="text-center py-10 border border-dashed border-paper/8 label text-fog/40 tracking-[0.3em]">
+                    scanning for incidents…
+                  </div>
+                )}
+              </div>
+            </Panel>
+
+            <div className="px-1 stamp text-paper/30 text-[12px] leading-relaxed">
+              <span className="label text-fog/50 block mb-2">station metadata</span>
+              this terminal is a <span className="text-paper/60">read-write</span> operator console.
+              every intervention you authorize is appended to the immutable
+              incident ledger and, where reversible, can be revoked from the
+              quarantine page.
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
 }
 
-/**
- * ReportLink
- * ----------
- * Renders a single incident report entry in the sidebar ledger.
- * Highlights critical reports with a red badge.
- */
+/** Single incident row in the sticky ledger sidebar. */
 function ReportLink({ report }: { report: Report }) {
-  const isCritical = report.final_severity === 'CRITICAL' || (report.name && report.name.includes('Report'));
-  
+  const isCritical =
+    report.final_severity === 'CRITICAL' ||
+    (report.name && report.name.includes('Report'));
+
   return (
-    <Link to={`/report/${report.id}`} className="block border border-white/5 bg-white/5 hover:border-primary/40 p-3 group transition-all">
-      <div className="flex items-center justify-between mb-2">
-        <span className={`text-[9px] font-bold px-1 ${isCritical ? 'bg-malicious text-white' : 'bg-slate-800 text-slate-400'}`}>
-          {isCritical ? 'THREAT_MATCH' : 'SCAN_PASS'}
+    <Link
+      to={`/report/${report.id}`}
+      className="block border border-paper/5 bg-paper/[0.015] hover:border-primary/50 hover:bg-paper/[0.04] p-3 group transition-all"
+    >
+      <div className="flex items-center justify-between mb-1.5">
+        <span className={`label px-1 py-0.5 ${
+          isCritical ? 'bg-malicious text-paper' : 'bg-graphite text-fog'
+        }`}>
+          {isCritical ? 'THREAT·MATCH' : 'SCAN·PASS'}
         </span>
-        <span className="text-[9px] font-mono text-slate-600">
-            {new Date(report.created_at).toLocaleTimeString([], { hour12: false })}
+        <span className="num text-[10px] text-fog/60">
+          {new Date(report.created_at).toLocaleTimeString([], { hour12: false })}
         </span>
       </div>
-      <h5 className="text-[11px] font-bold text-slate-300 group-hover:text-primary transition-colors truncate">
-        {report.name || "UNIDENTIFIED_ALERT"}
+      <h5 className="stamp text-[13px] text-paper/85 group-hover:text-primary transition-colors truncate leading-snug">
+        {report.name || 'unidentified alert'}
       </h5>
-      <div className="mt-3 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <span className="text-[8px] font-bold text-primary italic uppercase tracking-widest">Open Record</span>
-          <ChevronRight size={10} className="text-primary" />
+      <div className="mt-2 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <span className="label text-primary">open record</span>
+        <ChevronRight size={11} className="text-primary" />
       </div>
     </Link>
   );

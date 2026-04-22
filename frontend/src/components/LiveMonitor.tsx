@@ -1,19 +1,7 @@
-/**
- * LiveMonitor.tsx
- * ===============
- * Displays the most recent ingress flows from the IDS event stream.
- * Polls GET /events every second for live telemetry.
- *
- * Auto-SOC Integration:
- *   Whenever a new *malicious* flow appears that hasn't been seen before,
- *   POST /soc/auto-rules is fired in the background so the
- *   DefensiveActionSandbox is updated automatically. The SandboxStatePanel
- *   will pick up the resulting state on its next 5 s poll.
- */
-
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Activity, Wifi, HardDrive, BotMessageSquare } from 'lucide-react';
+import { Activity, BotMessageSquare, Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Panel } from './ui/Panel';
 import { idsApi } from '../utils/api';
 
 interface Flow {
@@ -22,56 +10,50 @@ interface Flow {
   DestinationIP?: string;
   ['Source IP']?: string;
   ['Destination IP']?: string;
-  /** NetFlow / dataset_subset.csv column names from /predict payloads */
   IPV4_SRC_ADDR?: string;
   IPV4_DST_ADDR?: string;
   Protocol: string;
   Attack?: string;
   timestamp: string;
   severity?: string;
+  /** optional — backend may attach confidence for enrichment */
+  confidence?: number;
 }
 
-function displayEndpoint(
-  flow: Flow,
-  kind: 'src' | 'dst'
-): string {
-  const empty = (s: string | undefined) =>
-    s && s.trim() !== '' ? s.trim() : undefined;
+function displayEndpoint(flow: Flow, kind: 'src' | 'dst'): string {
+  const get = (s: string | undefined) => (s && s.trim() !== '' ? s.trim() : undefined);
   if (kind === 'src') {
     return (
-      empty(flow.SourceIP) ??
-      empty(flow['Source IP']) ??
-      empty(flow.IPV4_SRC_ADDR) ??
-      'Unknown'
+      get(flow.SourceIP) ??
+      get(flow['Source IP']) ??
+      get(flow.IPV4_SRC_ADDR) ??
+      '—'
     );
   }
   return (
-    empty(flow.DestinationIP) ??
-    empty(flow['Destination IP']) ??
-    empty(flow.IPV4_DST_ADDR) ??
-    'Unknown'
+    get(flow.DestinationIP) ??
+    get(flow['Destination IP']) ??
+    get(flow.IPV4_DST_ADDR) ??
+    '—'
   );
 }
 
-/** How many recently-processed flow IDs to remember (prevent duplicate rule generation). */
 const PROCESSED_CACHE_SIZE = 200;
 
+/**
+ * LiveMonitor
+ * -----------
+ * Real-time flow feed. Radar dish at top-right sweeps continuously, pulsing
+ * on new malicious flows. Scanline overlay reinforces the surveillance feel.
+ * Also fires /soc/auto-rules in the background for each new malicious flow.
+ */
 export default function LiveMonitor() {
   const [flows, setFlows] = useState<Flow[]>([]);
-  /** Running count of autonomous rule-generation calls fired this session. */
   const [autoRulesCount, setAutoRulesCount] = useState(0);
+  const [newHitAt, setNewHitAt] = useState<number>(0);
 
-  /**
-   * Cache of flow IDs for which we've already triggered auto-rule generation.
-   * Stored in a ref so it doesn't cause re-renders and survives poll cycles.
-   */
   const processedIds = useRef<Set<string>>(new Set());
 
-  /**
-   * Fire-and-forget: ask the SOC engine to generate defensive rules for a
-   * malicious flow. Does not throw — failures are logged silently so the
-   * monitor table remains stable.
-   */
   const triggerAutoRules = useCallback(async (flow: Flow) => {
     try {
       await idsApi.generateAutoRules({
@@ -95,28 +77,23 @@ export default function LiveMonitor() {
       try {
         const res = await idsApi.getEvents();
         const raw: Flow[] = Array.isArray(res.data) ? res.data : [];
-        setFlows(raw.slice(0, 8)); // Top 8 most recent flows in the table
+        setFlows(raw.slice(0, 10));
 
-        // ── Auto-SOC: process any new malicious flows ──────────────────────
         for (const flow of raw) {
           const isMalicious =
             flow.Attack &&
             flow.Attack.toLowerCase() !== 'benign' &&
             flow.Attack.toLowerCase() !== 'normal';
-
           if (isMalicious && !processedIds.current.has(flow.id)) {
             processedIds.current.add(flow.id);
-
-            // Trim the cache if it grows too large
+            setNewHitAt(Date.now());
             if (processedIds.current.size > PROCESSED_CACHE_SIZE) {
               const oldest = [...processedIds.current].slice(
                 0,
-                processedIds.current.size - PROCESSED_CACHE_SIZE
+                processedIds.current.size - PROCESSED_CACHE_SIZE,
               );
               oldest.forEach((id) => processedIds.current.delete(id));
             }
-
-            // Fire in background — don't await to keep the poll fast
             triggerAutoRules(flow);
           }
         }
@@ -124,80 +101,104 @@ export default function LiveMonitor() {
         console.error('[LiveMonitor] Failed to fetch flows:', error);
       }
     };
-
     fetchFlows();
     const interval = setInterval(fetchFlows, 1000);
     return () => clearInterval(interval);
   }, [triggerAutoRules]);
 
   return (
-    <div className="hud-card border-white/5 relative bg-black/60">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-        <h3 className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
-          <Activity className="text-primary animate-pulse" size={14} />
-          Live Ingress Telemetry
-        </h3>
-        <div className="flex gap-4 items-center">
-          <div className="flex items-center gap-2 opacity-50">
-            <Wifi size={10} className="text-benign" />
-            <span className="text-[8px] font-mono tracking-tighter uppercase">Link 01: UP</span>
-          </div>
-          <div className="flex items-center gap-2 opacity-50 text-slate-500">
-            <HardDrive size={10} />
-            <span className="text-[8px] font-mono tracking-tighter uppercase">Buffer: 4.2%</span>
-          </div>
-          {/* Auto-SOC rule counter badge */}
+    <Panel
+      className="relative"
+      label="Live Ingress Telemetry"
+      icon={<Activity className="text-primary animate-pulse" size={14} />}
+      meta={
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1 text-benign">
+            <Wifi size={10} /> LINK·01
+          </span>
           {autoRulesCount > 0 && (
-            <div
-              className="flex items-center gap-1 text-[9px] font-mono text-primary border border-primary/30 bg-primary/5 px-2 py-0.5"
-              title="Number of autonomous SOC rule sets generated this session"
+            <span
+              className="flex items-center gap-1 text-primary border border-primary/30 bg-primary/5 px-1.5 py-0.5"
+              title="Autonomous SOC rule sets generated this session"
             >
               <BotMessageSquare size={10} />
-              <span>AUTO-SOC: {autoRulesCount}</span>
-            </div>
+              AUTO-SOC {autoRulesCount}
+            </span>
+          )}
+        </div>
+      }
+    >
+      <div className="scanlines" aria-hidden />
+
+      {/* Radar dish — top right */}
+      <div className="absolute top-4 right-4 opacity-80 pointer-events-none">
+        <div className="radar">
+          <div className="radar__sweep" />
+          <div className="radar__dot" />
+        </div>
+        <div className="mt-1 label text-center text-fog">
+          {newHitAt && Date.now() - newHitAt < 1500 ? (
+            <span className="text-malicious glow-arterial">CONTACT</span>
+          ) : (
+            <span>SCANNING</span>
           )}
         </div>
       </div>
 
-      {/* Flow table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left font-mono text-[10px]">
+      <div className="overflow-x-auto relative">
+        <table className="w-full text-left num text-[11px]">
           <thead>
-            <tr className="text-slate-600 border-b border-white/5 uppercase tracking-tighter">
-              <th className="pb-3 px-2">SOURCE_ADDR</th>
-              <th className="pb-3 px-2">DEST_ADDR</th>
-              <th className="pb-3 px-2">PROTO</th>
-              <th className="pb-3 px-2 text-right">VECTOR_MATCH</th>
+            <tr className="text-fog/70 border-b border-paper/5">
+              <th className="label pb-3 pr-3 w-8">#</th>
+              <th className="label pb-3 pr-3">SOURCE</th>
+              <th className="label pb-3 pr-3">DESTINATION</th>
+              <th className="label pb-3 pr-3">PROTO</th>
+              <th className="label pb-3 pr-3 text-right">VECTOR</th>
+              <th className="label pb-3 w-12 text-right">·</th>
             </tr>
           </thead>
           <tbody>
             <AnimatePresence initial={false}>
-              {flows.map((flow) => {
+              {flows.map((flow, idx) => {
                 const attack = (flow.Attack ?? 'Benign').toString();
                 const isBenign = attack.toLowerCase() === 'benign';
                 return (
                   <motion.tr
                     key={flow.id}
-                    initial={{ opacity: 0, backgroundColor: 'rgba(255,255,255,0.05)' }}
-                    animate={{ opacity: 1, backgroundColor: 'rgba(255,255,255,0)' }}
-                    className="group hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+                    layout
+                    initial={{ opacity: 0, x: -10, backgroundColor: 'rgba(249,115,22,0.15)' }}
+                    animate={{ opacity: 1, x: 0, backgroundColor: 'rgba(0,0,0,0)' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.45, backgroundColor: { duration: 1.1 } }}
+                    className="group border-b border-paper/5 last:border-0 hover:bg-paper/[0.03]"
                   >
-                    <td className="py-3 px-2 text-slate-300 group-hover:text-white">
+                    <td className="py-2.5 pr-3 text-fog/60">{String(idx + 1).padStart(2, '0')}</td>
+                    <td className="py-2.5 pr-3 text-paper font-semibold">
                       {displayEndpoint(flow, 'src')}
                     </td>
-                    <td className="py-3 px-2 text-slate-500">{displayEndpoint(flow, 'dst')}</td>
-                    <td className="py-3 px-2 font-bold text-slate-400 opacity-50">
-                      {flow.Protocol ?? 'N/A'}
+                    <td className="py-2.5 pr-3 text-fog">
+                      {displayEndpoint(flow, 'dst')}
                     </td>
-                    <td className="py-3 px-2 text-right">
+                    <td className="py-2.5 pr-3 text-paper/70">
+                      <span className="border border-paper/10 px-1.5 py-0.5 text-[10px]">
+                        {flow.Protocol ?? 'N/A'}
+                      </span>
+                    </td>
+                    <td className="py-2.5 pr-3 text-right">
                       <span
-                        className={`px-1 font-bold ${
-                          isBenign ? 'text-benign/40' : 'text-malicious bg-malicious/10'
+                        className={`px-1.5 py-0.5 font-bold text-[10px] uppercase ${
+                          isBenign
+                            ? 'text-benign/60 border border-benign/20'
+                            : 'text-malicious bg-malicious/10 border border-malicious/40 glow-arterial'
                         }`}
                       >
-                        {attack.toUpperCase()}
+                        {attack}
                       </span>
+                    </td>
+                    <td className="py-2.5 text-right">
+                      {!isBenign && (
+                        <span className="inline-block w-1.5 h-1.5 bg-malicious animate-pulse" />
+                      )}
                     </td>
                   </motion.tr>
                 );
@@ -208,10 +209,10 @@ export default function LiveMonitor() {
       </div>
 
       {flows.length === 0 && (
-        <div className="py-20 text-center opacity-10 font-mono text-[9px] uppercase tracking-[0.2em] animate-pulse">
-          Establishing Link to Sensor Array...
+        <div className="py-20 text-center label text-fog/30 tracking-[0.3em] animate-pulse">
+          establishing link to sensor array…
         </div>
       )}
-    </div>
+    </Panel>
   );
 }

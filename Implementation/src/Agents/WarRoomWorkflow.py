@@ -10,9 +10,15 @@ Flow:  Red Team  →  Blue Team  →  Purple Team (analysis)
 from .runtime_compat import StateGraph
 from typing import Dict, Any, TypedDict, Optional
 import logging
+import os
 
 from .LegacyCompat import BlueTeamAgent, PurpleTeamAgent, RedTeamAgent
 from .HexstrikeClient import HexstrikeClient
+
+try:
+    from .llm_perf import run_concurrent  # type: ignore
+except Exception:  # pragma: no cover
+    run_concurrent = None  # type: ignore
 
 logger = logging.getLogger(__name__)
 
@@ -247,7 +253,32 @@ class WarRoomWorkflow:
 
         result: Dict[str, Any] = {}
         error_note: str = ""
-        if self.app is None:
+
+        parallel_enabled = (
+            os.getenv("IDS_WARROOM_PARALLEL", "true").lower() in ("1", "true", "yes")
+            and run_concurrent is not None
+        )
+
+        if parallel_enabled:
+            # Red and Blue analyse the same incident from opposite perspectives.
+            # They're independent enough to run concurrently — Blue no longer
+            # reads Red's attack plan up-front; Purple does all the synthesis.
+            try:
+                red_state, blue_state = run_concurrent([
+                    lambda: self._red_node(initial_state),
+                    lambda: self._blue_node(initial_state),
+                ])
+                merged: WarRoomState = {
+                    **initial_state,
+                    "red_output": red_state.get("red_output", {}),
+                    "blue_output": blue_state.get("blue_output", {}),
+                }
+                result = self._purple_node(merged)
+            except Exception as exc:
+                error_note = f"{type(exc).__name__}: {exc}"
+                logger.error("War Room parallel simulation failed: %s", error_note)
+                result = {}
+        elif self.app is None:
             error_note = "WarRoom LangGraph not compiled (no API key or init failure)."
             logger.warning(error_note)
         else:

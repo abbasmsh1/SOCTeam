@@ -1,81 +1,330 @@
 @import "tailwindcss";
 
-/* ─── Custom Design Tokens ─────────────────────────────── */
+/* ─── Design Tokens ────────────────────────────────────── */
+/* "War Room — Classified Instrument Panel"
+   warm amber-phosphor palette, no cyber-blue, no purple gradients. */
 @theme {
+  --color-ink:       #08070a;   /* deepest substrate */
+  --color-vellum:    #121014;   /* panel fill */
+  --color-graphite:  #1d1a20;   /* inset fill */
+  --color-steel:     #3d3b44;   /* dividers */
+  --color-paper:     #eee8dc;   /* warm off-white text */
+  --color-fog:       #8a8690;   /* secondary text */
+  --color-ember:     #f97316;   /* primary amber */
+  --color-ember-dim: #9a4a0e;   /* primary dim */
+  --color-phosphor:  #4ade80;   /* safe / benign green */
+  --color-radar:     #facc15;   /* warning amber */
+  --color-arterial: #e11d48;    /* critical red */
+
   --color-primary:   #f97316;
-  --color-benign:    #22c55e;
-  --color-malicious: #ef4444;
-  --color-warning:   #f59e0b;
-  --color-black:     #000000;
+  --color-benign:    #4ade80;
+  --color-malicious: #e11d48;
+  --color-warning:   #facc15;
+  --color-black:     #08070a;
+
+  --font-display: "Chakra Petch", system-ui, sans-serif;
+  --font-sans:    "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif:   "Instrument Serif", Georgia, serif;
 }
 
-/* ─── Base Styles ──────────────────────────────────────── */
+/* ─── Base ──────────────────────────────────────────────── */
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #000;
-  color: #fff;
-  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #08070a;
+  color: #eee8dc;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv05";
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 
-  /* Grain texture background */
   background-image:
-    radial-gradient(circle at 50% 50%, rgba(38, 38, 38, 0.4) 0%, transparent 100%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-size: cover, 150px 150px;
-  background-repeat: no-repeat, repeat;
+    /* warm amber vignette, upper-left light source */
+    radial-gradient(60rem 40rem at 0% -10%, rgba(249, 115, 22, 0.08), transparent 60%),
+    /* cool depth at bottom-right */
+    radial-gradient(50rem 50rem at 110% 110%, rgba(14, 10, 20, 0.9), transparent 70%),
+    /* grain */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    /* fine horizontal scanlines */
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.014) 0 1px, transparent 1px 3px);
+  background-size: cover, cover, 180px 180px, 100% 100%;
   background-attachment: fixed;
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
 }
 
-* {
+*, *::before, *::after {
   border-radius: 0 !important;
   box-sizing: border-box;
 }
 
-/* ─── HUD Components ───────────────────────────────────── */
+/* ─── Typography Utilities ─────────────────────────────── */
+.font-display { font-family: "Chakra Petch", system-ui, sans-serif; }
+.font-sans    { font-family: "IBM Plex Sans", system-ui, sans-serif; }
+.font-mono    { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.font-serif   { font-family: "Instrument Serif", Georgia, serif; }
+
+/* Editorial italic callout — the "CLASSIFIED" stamp feel */
+.stamp {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: #eee8dc;
+}
+
+/* Raised caps / surveillance label */
+.label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #8a8690;
+}
+
+/* Monospaced data — tabular figures so digits line up in telemetry */
+.num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-feature-settings: "tnum", "zero";
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+/* ─── Instrument Panel ─────────────────────────────────── */
+/* A panel carries real drawn corner brackets — this is the project's
+   signature motif. The brackets are absolute-positioned lines, not
+   pseudo-content tricks, so they scale precisely. */
+.panel {
+  position: relative;
+  border: 1px solid rgba(238, 232, 220, 0.06);
+  background:
+    linear-gradient(180deg, rgba(238, 232, 220, 0.01) 0%, transparent 40%),
+    rgba(18, 16, 20, 0.72);
+  backdrop-filter: blur(12px) saturate(120%);
+  padding: 1.5rem;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.panel::before,
+.panel::after,
+.panel > .bracket-tr,
+.panel > .bracket-br {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(238, 232, 220, 0.35);
+  pointer-events: none;
+  transition: border-color 0.4s ease, width 0.4s ease, height 0.4s ease;
+}
+.panel::before { /* top-left */
+  top: -1px; left: -1px;
+  border-top: 1px solid; border-left: 1px solid;
+}
+.panel::after { /* bottom-left */
+  bottom: -1px; left: -1px;
+  border-bottom: 1px solid; border-left: 1px solid;
+}
+.panel:hover {
+  border-color: rgba(249, 115, 22, 0.25);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.08),
+              0 24px 60px -20px rgba(0, 0, 0, 0.8);
+}
+.panel:hover::before,
+.panel:hover::after {
+  border-color: rgba(249, 115, 22, 0.9);
+  width: 22px;
+  height: 22px;
+}
+
+/* Right-side brackets must be real elements (can't have 4 pseudos). */
+.bracket-tr {
+  top: -1px; right: -1px;
+  border-top: 1px solid rgba(238, 232, 220, 0.35); border-right: 1px solid rgba(238, 232, 220, 0.35);
+}
+.bracket-br {
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid rgba(238, 232, 220, 0.35); border-right: 1px solid rgba(238, 232, 220, 0.35);
+}
+.panel:hover .bracket-tr,
+.panel:hover .bracket-br {
+  border-color: rgba(249, 115, 22, 0.9);
+  width: 22px;
+  height: 22px;
+}
+
+/* Accent variants — simply shift bracket color */
+.panel--ember:hover { border-color: rgba(249, 115, 22, 0.35); }
+.panel--phosphor::before,
+.panel--phosphor::after,
+.panel--phosphor > .bracket-tr,
+.panel--phosphor > .bracket-br { border-color: rgba(74, 222, 128, 0.35); }
+.panel--arterial::before,
+.panel--arterial::after,
+.panel--arterial > .bracket-tr,
+.panel--arterial > .bracket-br { border-color: rgba(225, 29, 72, 0.35); }
+
+/* Legacy .hud-card kept for back-compat with unmigrated components */
 .hud-card {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(238, 232, 220, 0.06);
+  background-color: rgba(18, 16, 20, 0.72);
   backdrop-filter: blur(10px);
   padding: 1.5rem;
   overflow: hidden;
   transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
 }
-
 .hud-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background-color: rgba(5, 5, 5, 0.8);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+  border-color: rgba(249, 115, 22, 0.2);
+  background-color: rgba(18, 16, 20, 0.88);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
-
 .glass {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(238, 232, 220, 0.08);
+  background-color: rgba(18, 16, 20, 0.5);
   backdrop-filter: blur(15px);
 }
 
-/* ─── Explicit Color Overrides (required by Tailwind v4 @theme) */
+/* ─── Radar sweep — used by LiveMonitor ─────────────── */
+@keyframes radar-sweep {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes radar-ping {
+  0%   { transform: scale(0.2); opacity: 1; }
+  80%  { opacity: 0.3; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+.radar {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  background: radial-gradient(circle at center, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+}
+.radar::before,
+.radar::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid rgba(249, 115, 22, 0.18);
+}
+.radar::after { inset: 34%; }
+.radar__sweep {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    rgba(249, 115, 22, 0) 0deg,
+    rgba(249, 115, 22, 0) 300deg,
+    rgba(249, 115, 22, 0.55) 358deg,
+    rgba(249, 115, 22, 0) 360deg
+  );
+  animation: radar-sweep 3.2s linear infinite;
+  mix-blend-mode: screen;
+}
+.radar__dot {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 6px; height: 6px;
+  background: #f97316;
+  box-shadow: 0 0 10px #f97316;
+  transform: translate(-50%, -50%);
+}
+.radar__dot::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 1px solid #f97316;
+  animation: radar-ping 1.4s ease-out infinite;
+}
+
+/* ─── Scanlines overlay for live-feed panels ─────────── */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(74, 222, 128, 0.03) 0 1px,
+    transparent 1px 4px
+  );
+  mix-blend-mode: screen;
+}
+
+/* ─── Ticker strip — marquee of status chips ─────────── */
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker {
+  display: flex;
+  overflow: hidden;
+  border-top: 1px solid rgba(238, 232, 220, 0.06);
+  border-bottom: 1px solid rgba(238, 232, 220, 0.06);
+  background: rgba(18, 16, 20, 0.6);
+}
+.ticker__track {
+  display: flex;
+  gap: 3rem;
+  padding: 0.6rem 0;
+  flex-shrink: 0;
+  animation: ticker 60s linear infinite;
+  white-space: nowrap;
+  min-width: 200%;
+}
+.ticker:hover .ticker__track { animation-play-state: paused; }
+
+/* ─── Count-up shimmer for stat numbers ─────────────── */
+@keyframes digit-in {
+  0%   { transform: translateY(8px); opacity: 0; filter: blur(2px); }
+  100% { transform: translateY(0);   opacity: 1; filter: blur(0); }
+}
+.digit-in { animation: digit-in 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) both; }
+
+/* ─── Soft phosphor glow for benign badges ─────────── */
+.glow-phosphor { text-shadow: 0 0 14px rgba(74, 222, 128, 0.55); }
+.glow-ember    { text-shadow: 0 0 14px rgba(249, 115, 22, 0.55); }
+.glow-arterial { text-shadow: 0 0 14px rgba(225, 29, 72, 0.6);  }
+
+/* ─── Explicit Tailwind token overrides (v4 @theme gap) ─── */
 .text-primary    { color: #f97316 !important; }
-.text-benign     { color: #22c55e !important; }
-.text-malicious  { color: #ef4444 !important; }
-.text-warning    { color: #f59e0b !important; }
+.text-benign     { color: #4ade80 !important; }
+.text-malicious  { color: #e11d48 !important; }
+.text-warning    { color: #facc15 !important; }
+.text-paper      { color: #eee8dc !important; }
+.text-fog        { color: #8a8690 !important; }
 .bg-primary      { background-color: #f97316 !important; }
-.bg-benign       { background-color: #22c55e !important; }
-.bg-malicious    { background-color: #ef4444 !important; }
-.bg-warning      { background-color: #f59e0b !important; }
-.bg-black        { background-color: #000000 !important; }
+.bg-benign       { background-color: #4ade80 !important; }
+.bg-malicious    { background-color: #e11d48 !important; }
+.bg-warning      { background-color: #facc15 !important; }
+.bg-ink          { background-color: #08070a !important; }
+.bg-vellum       { background-color: #121014 !important; }
+.bg-graphite     { background-color: #1d1a20 !important; }
 .border-primary  { border-color: #f97316 !important; }
-.border-benign   { border-color: #22c55e !important; }
-.border-malicious { border-color: #ef4444 !important; }
+.border-benign   { border-color: #4ade80 !important; }
+.border-malicious { border-color: #e11d48 !important; }
+.border-paper    { border-color: #eee8dc !important; }
 
 /* ─── Scrollbar ────────────────────────────────────────── */
-::-webkit-scrollbar              { width: 3px; }
+::-webkit-scrollbar              { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track        { background: transparent; }
-::-webkit-scrollbar-thumb        { background: #222; }
+::-webkit-scrollbar-thumb        {
+  background: linear-gradient(180deg, #3d3b44, #1d1a20);
+  border: 1px solid rgba(238, 232, 220, 0.04);
+}
 ::-webkit-scrollbar-thumb:hover  { background: #f97316; }
 
-::selection {
-  background: rgba(249, 115, 22, 0.3);
-  color: white;
+::selection { background: rgba(249, 115, 22, 0.35); color: #fff; }
+
+/* ─── Focus ring — keep keyboard users happy ─────────── */
+:focus-visible {
+  outline: 1px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* ─── Print safety ─────────────────────────────────── */
+@media print {
+  html, body { background: #fff; color: #000; }
+  .panel, .hud-card { backdrop-filter: none; background: #fff; color: #000; }
 }
